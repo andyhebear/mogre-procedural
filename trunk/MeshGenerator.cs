@@ -1,0 +1,264 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+using Mogre;
+using Math = Mogre.Math;
+
+namespace Mogre_Procedural
+{
+
+//C++ TO C# CONVERTER TODO TASK: The original C++ template specifier was replaced with a C# generic specifier, which may not produce the same behavior:
+//ORIGINAL LINE: template <typename T>
+//*
+//\defgroup objgengrp Object generators
+//Elements for procedural mesh generation of various objects.
+//@{
+//@}
+//
+
+//*
+//\ingroup objgengrp
+//Superclass of everything that builds meshes
+// 
+public abstract class MeshGenerator <T>
+{
+	/// A pointer to the default scene manager
+	//Ogre::SceneManager* mSceneMgr;
+
+	/// U tile for texture coords generation
+	protected float mUTile = 0f;
+
+	/// V tile for texture coords generation
+	protected float mVTile = 0f;
+
+	/// Whether to produces normals or not
+	protected bool mEnableNormals;
+
+	/// The number of texture coordinate sets to include
+	protected byte mNumTexCoordSet;
+
+	/// Rectangle in which the texture coordinates will be placed
+	protected Vector2 mUVOrigin = new Vector2();
+
+	/// If set to true, the UV coordinates coming from the mesh generator will be switched.
+	/// It can be used, for example, if your texture doesn't fit the mesh generator's assumptions about UV.
+	/// If UV were to fit in a given rectangle, they still fit in it after the switch.
+	protected bool mSwitchUV;
+
+	/// Orientation to apply the mesh
+	protected Quaternion mOrientation = new Quaternion();
+
+	/// Scale to apply the mesh
+	protected Vector3 mScale = new Vector3();
+
+	/// Position to apply to the mesh
+	protected Vector3 mPosition = new Vector3();
+
+	// Whether a transform has been defined or not
+	protected bool mTransform;
+
+	/// Default constructor
+	/// \exception Ogre::InvalidStateException Scene Manager is not set in OGRE root object
+	public MeshGenerator()
+	{
+		mUTile = 1.0f;
+		mVTile = 1.0f;
+		mEnableNormals = true;
+		mNumTexCoordSet = 1;
+		mUVOrigin = new Vector2(0,0);
+		mSwitchUV = false;
+		mOrientation = Quaternion.IDENTITY;
+		mScale = new Vector3(1,1,1);
+		mPosition = new Vector3(0,0,0);
+		mTransform = false;
+	}
+
+//    *
+//	 * Builds a mesh.
+//	 * @param name of the mesh for the MeshManager
+//	 * @param group ressource group in which the mesh will be created
+//	 
+	public  MeshPtr realizeMesh(string name)
+	{
+		return realizeMesh(name, "General");
+	}
+	public  MeshPtr realizeMesh()
+	{
+		return realizeMesh("", "General");
+	}
+//C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+//ORIGINAL LINE: Ogre::MeshPtr realizeMesh(const string& name = "", const Ogre::String& group = "General")
+	public  MeshPtr realizeMesh(string name,  String group)
+	{
+		TriangleBuffer tbuffer = new TriangleBuffer();
+		addToTriangleBuffer(ref tbuffer);
+		 MeshPtr mesh = new  MeshPtr();
+		if (name == "")
+			mesh = tbuffer.transformToMesh(Utils.getName(), group);
+		else
+			mesh = tbuffer.transformToMesh(name, group);
+		return mesh;
+	}
+
+//    *
+//	 * Outputs a triangleBuffer
+//	 
+//C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+//ORIGINAL LINE: TriangleBuffer buildTriangleBuffer() const
+	public TriangleBuffer buildTriangleBuffer()
+	{
+		TriangleBuffer tbuffer = new TriangleBuffer();
+		addToTriangleBuffer(ref tbuffer);
+		return tbuffer;
+	}
+
+//    *
+//	 * Overloaded by each generator to implement the specifics
+//	 
+	public abstract void addToTriangleBuffer(ref TriangleBuffer buffer) ;
+
+//    *
+//	 * Sets U Tile, ie the number by which u texture coordinates are multiplied (default=1)
+//	 
+	public void setUTile( float uTile)
+	{
+		mUTile = uTile;
+		//return( this);
+	}
+
+//    *
+//	 * Sets V Tile, ie the number by which v texture coordinates are multiplied (default=1)
+//	 
+	public void setVTile( float vTile)
+	{
+		mVTile = vTile;
+		//return (T)( this);
+	}
+
+//    *
+//	 * Sets the texture rectangle
+//	 
+	public void setTextureRectangle( RealRect textureRectangle)
+	{
+		mUVOrigin = new Vector2(textureRectangle.top, textureRectangle.left);
+		mUTile = textureRectangle.right-textureRectangle.left;
+		mVTile = textureRectangle.bottom-textureRectangle.top;
+		//return (T)( this);
+	}
+
+//    *
+//	 * Sets whether normals are enabled or not (default=true)
+//	 
+	public void setEnableNormals(bool enableNormals)
+	{
+		mEnableNormals = enableNormals;
+		//return (T)( this);
+	}
+
+//    *
+//	 * Sets the number of texture coordintate sets (default=1)
+//	 
+	public void setNumTexCoordSet(byte numTexCoordSet)
+	{
+		mNumTexCoordSet = numTexCoordSet;
+		//return (T)( this);
+	}
+
+	/// Sets whether to switch U and V texture coordinates
+	public void setSwitchUV(bool switchUV)
+	{
+		mSwitchUV = switchUV;
+		//return (T)( this);
+	}
+
+	/// Sets an orientation to give when building the mesh
+	public void setOrientation( Quaternion orientation)
+	{
+		mOrientation = orientation;
+		mTransform = true;
+		//return (T)( this);
+	}
+
+	/// Sets a translation baked into the resulting mesh
+	public void setPosition( Vector3 position)
+	{
+		mPosition = position;
+		mTransform = true;
+		//return (T)( this);
+	}
+
+	/// Sets a translation baked into the resulting mesh
+	public void setPosition( float x,  float y,  float z)
+	{
+		mPosition =new  Vector3(x, y, z);
+		mTransform = true;
+		//return (T)( this);
+	}
+
+
+	/// Sets a scale baked into the resulting mesh
+	public void setScale( Vector3 scale)
+	{
+		mScale = scale;
+		mTransform = true;
+		//return (T)( this);
+	}
+
+	/// Sets a uniform scale baked into the resulting mesh
+	public void setScale( float scale)
+	{
+		mScale =new  Vector3(scale);
+		mTransform = true;
+		//return (T)( this);
+	}
+
+	/// Sets a scale baked into the resulting mesh
+	public void setScale( float x,  float y,  float z)
+	{
+		mScale = new Vector3(x, y, z);
+		mTransform = true;
+		//return (T)( this);
+	}
+
+	/// Resets all transforms (orientation, position and scale) that would have been applied to the mesh to their default values
+	public void resetTransforms()
+	{
+		mTransform = false;
+		mPosition =  Vector3.ZERO;
+		mOrientation =  Quaternion.IDENTITY;
+		mScale =new  Vector3(1f);
+		//return (T)( this);
+	}
+
+	/// Adds a new point to a triangle buffer, using the format defined for that MeshGenerator
+	/// @param buffer the triangle buffer to update
+	/// @param position the position of the new point
+	/// @param normal the normal of the new point
+	/// @param uv the uv texcoord of the new point
+//C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+//ORIGINAL LINE: inline void addPoint(TriangleBuffer& buffer, const Ogre::Vector3& position, const Ogre::Vector3& normal, const Ogre::Vector2& uv) const
+	protected void addPoint(ref TriangleBuffer buffer,  Vector3 position,  Vector3 normal,  Vector2 uv)
+	{
+		if (mTransform)
+			buffer.position(mPosition + mOrientation * (mScale * position));
+		else
+			buffer.position(position);
+		if (mEnableNormals)
+		{
+			if (mTransform)
+				buffer.normal(mOrientation * normal);
+			else
+				buffer.normal(normal);
+		}
+		if (mSwitchUV)
+			for (byte i =0; i<mNumTexCoordSet; i++)
+				buffer.textureCoord(mUVOrigin.x + uv.y *mUTile, mUVOrigin.y+uv.x *mVTile);
+		else
+			for (byte i =0; i<mNumTexCoordSet; i++)
+				buffer.textureCoord(mUVOrigin.x + uv.x *mUTile, mUVOrigin.y+uv.y *mVTile);
+	}
+
+}
+//
+}
