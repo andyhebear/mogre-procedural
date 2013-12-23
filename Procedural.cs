@@ -9,8 +9,8 @@ namespace Mogre_Procedural
 {
     /*
  -----------------------------------------------------------------------------
- This source file is part of Mogre-procedural
- For the latest info, see http://code.google.com/p/Mogre-procedural/
+ This source file is part of mogre-procedural
+ For the latest info, see http://code.google.com/p/mogre-procedural/
  
  this is overwrite  ogre-procedural c++ project using c#, look  ogre-procedural c++ source http://code.google.com/p/ogre-procedural/
    
