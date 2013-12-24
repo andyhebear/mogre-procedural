@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MeshGenerator.cs" />
+    <Compile Include="OgreMeshData.cs" />
     <Compile Include="Procedural.cs" />
     <Compile Include="ProceduralBoolean.cs" />
     <Compile Include="ProceduralBoxGenerator.cs" />
