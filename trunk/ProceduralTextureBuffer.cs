@@ -670,10 +670,10 @@ public abstract class TextureProcessing
 	{
 	}
 
-	protected void logMsg(Mogre.String msg)
+	protected void logMsg(string msg)
 	{
 		if (mLog)
-			GlobalMembersProceduralTextureBuffer.Procedural.Utils.log(msg);
+			Utils.log(msg);
 	}
 }
 }
