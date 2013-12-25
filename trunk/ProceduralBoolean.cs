@@ -87,29 +87,38 @@ namespace Mogre_Procedural
 	
 		// Find all intersections between mMesh1 and mMesh2
 		int idx1 = 0;
-		for (List<int>.Enumerator it = ind1.GetEnumerator(); it.MoveNext(); idx1++)
-		{
-			Triangle3D[] t1 = new Triangle3D[it.Current++](vec1.mPosition, vec1[it.Current++].mPosition, vec1[it.Current++].mPosition);
-	
-			int idx2 = 0;
-			for (List<int>.Enumerator it2 = ind2.GetEnumerator(); it2.MoveNext(); idx2++)
-			{
-				Triangle3D[] t2 = new Triangle3D[it2.Current++](vec2.mPosition, vec2[it2.Current++].mPosition, vec2[it2.Current++].mPosition);
-	
-				if (t1.findIntersect(t2, ref intersectionResult))
-				{
-					Intersect GlobalMembersProceduralBoolean.intersect = new Intersect(intersectionResult, idx1, idx2);
-					intersectionList.Add(GlobalMembersProceduralBoolean.intersect);
-				}
-			}
+		//for (List<int>.Enumerator it = ind1.GetEnumerator(); it.MoveNext(); idx1++)
+		foreach(var it in ind1){
+            if (idx1 % 3 == 0) {
+                //Triangle3D t1(vec1[*it++].mPosition, vec1[*it++].mPosition, vec1[*it++].mPosition);
+                Triangle3D t1 = new Triangle3D(vec1[it].mPosition, vec1[it + 1].mPosition, vec1[it + 2].mPosition);
+                int idx2 = 0;
+                foreach (var it2 in ind2) {
+                    if (idx2 % 3 == 0) {
+                        //Triangle3D t2(vec2[*it2++].mPosition, vec2[*it2++].mPosition, vec2[*it2++].mPosition);
+                        Triangle3D t2 = new Triangle3D(vec2[it2].mPosition, vec2[it2 + 1].mPosition, vec2[it2 + 2].mPosition);
+                        if (t1.findIntersect(t2, ref intersectionResult)) {
+                            Intersect intersect = new Intersect(intersectionResult, idx1/3, idx2/3);
+                            intersectionList.Add(intersect);
+                        }
+                    }
+                    idx2++;
+                }                
+            }
+            idx1++;
 		}
 		// Remove all intersection segments too small to be relevant
-		for (List<Intersect>.Enumerator it = intersectionList.GetEnumerator(); it.MoveNext();)
-			if ((it.mSeg.mB - it.mSeg.mA).squaredLength() < 1e-8)
-//C++ TO C# CONVERTER TODO TASK: There is no direct equivalent to the STL vector 'erase' method in C#:
-				it = intersectionList.erase(it);
-			else
-	
+        //for (std::vector<Intersect>::iterator it = intersectionList.begin(); it != intersectionList.end();)
+        for(int i=intersectionList.Count-1;i>=0;i--){
+        //    if ((it->mSeg.mB - it->mSeg.mA).squaredLength() < 1e-8)
+        //    it = intersectionList.erase(it);
+        //else
+        //    ++it;
+            Intersect it=intersectionList[i];
+            if ((it.mSeg.mB - it.mSeg.mA).SquaredLength < 1e-8) {
+                intersectionList.RemoveAt(i);
+            }
+        }
 		// Retriangulate
 		TriangleBuffer newMesh1 = new TriangleBuffer();
 		TriangleBuffer newMesh2 = new TriangleBuffer();
@@ -123,9 +132,10 @@ namespace Mogre_Procedural
 		// Trace contours
 		List<Path> contours = new List<Path>();
 		List<Segment3D> segmentSoup = new List<Segment3D>();
-		for (List<Intersect>.Enumerator it = intersectionList.GetEnumerator(); it.MoveNext(); ++it)
+		foreach (var it in intersectionList){
 			segmentSoup.Add(it.mSeg);
-		Path().buildFromSegmentSoup(segmentSoup, ref contours);
+        }
+	 	new Path().buildFromSegmentSoup(segmentSoup, ref contours);
 	
 		// Build a lookup from segment to triangle
 		std.multimap<Segment3D, int, Seg3Comparator> triLookup1 = new std.multimap<Segment3D, int, Seg3Comparator>();
@@ -191,8 +201,8 @@ namespace Mogre_Procedural
 					}
 				}
 	
-				bool M2S1InsideM1 = (nMesh1.dotProduct(vMesh2-firstSeg.mA) < 0);
-				bool M1S1InsideM2 = (nMesh2.dotProduct(vMesh1-firstSeg.mA) < 0);
+				bool M2S1InsideM1 = (nMesh1.DotProduct(vMesh2-firstSeg.mA) < 0);
+				bool M1S1InsideM2 = (nMesh2.DotProduct(vMesh1-firstSeg.mA) < 0);
 	
 				GlobalMembersProceduralBoolean._removeFromTriLookup(mesh1seed1, ref triLookup1);
 				GlobalMembersProceduralBoolean._removeFromTriLookup(mesh2seed1, ref triLookup2);
@@ -454,7 +464,7 @@ namespace Mogre_Procedural
         //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
         //ORIGINAL LINE: bool operator ()(const Segment3D& one, const Segment3D& two) const
         //C++ TO C# CONVERTER TODO TASK: The () operator cannot be overloaded in C#:
-        public static bool operator ==(Segment3D one, Segment3D two) {
+        public static bool Operator(Segment3D one, Segment3D two) {
             if (one.epsilonEquivalent(two))
                 return false;
 

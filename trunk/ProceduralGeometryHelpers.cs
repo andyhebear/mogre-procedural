@@ -593,7 +593,7 @@ namespace Mogre_Procedural
     // Compares 2 Vector2, with some tolerance
     //C++ TO C# CONVERTER WARNING: The original type declaration contained unconverted modifiers:
     //ORIGINAL LINE: struct _ProceduralExport Vector2Comparator
-    public class Vector2Comparator
+    public class Vector2Comparator:IComparable<Vector2>
     {
         //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
         //ORIGINAL LINE: bool operator ()(const Ogre::Vector2& one, const Ogre::Vector2& two) const
@@ -611,12 +611,20 @@ namespace Mogre_Procedural
                 return one.x < two.x;
             return one.y < two.y;
         }
+
+        #region IComparable<Vector2> 成员
+
+        public int CompareTo(Vector2 other) {            
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
     //-----------------------------------------------------------------------
     // Compares 2 Vector3, with some tolerance
     //C++ TO C# CONVERTER WARNING: The original type declaration contained unconverted modifiers:
     //ORIGINAL LINE: struct _ProceduralExport Vector3Comparator
-    public class Vector3Comparator
+    public class Vector3Comparator:IComparable<Vector3>
     {
         //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
         //ORIGINAL LINE: bool operator ()(const Ogre::Vector3& one, const Ogre::Vector3& two) const
@@ -637,6 +645,14 @@ namespace Mogre_Procedural
                 return one.y < two.y;
             return one.z < two.z;
         }
+
+        #region IComparable<Vector3> 成员
+
+        public int CompareTo(Vector3 other) {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
     //-----------------------------------------------------------------------
     /// Represents a 3D segment

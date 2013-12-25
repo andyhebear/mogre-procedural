@@ -308,7 +308,10 @@ public static class GlobalMembersProceduralExtruder
 // 
 //C++ TO C# CONVERTER WARNING: The original type declaration contained unconverted modifiers:
 //ORIGINAL LINE: class _ProceduralExport Extruder : public MeshGenerator<Extruder>
-public class Extruder : MeshGenerator<Extruder>
+    /// <summary>
+/// 挤出机 挤压机 压出机 
+    /// </summary>
+    public class Extruder : MeshGenerator<Extruder>
 {
 	private MultiShape mMultiShapeToExtrude = new MultiShape();
 	private MultiPath mMultiExtrusionPath = new MultiPath();
