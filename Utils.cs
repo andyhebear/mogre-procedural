@@ -60,6 +60,9 @@ namespace Mogre_Procedural
         }
 
         //-----------------------------------------------------------------------
+        public static Quaternion _computeQuaternion(Vector3 directionr) {
+            return _computeQuaternion(directionr, Vector3.UNIT_Y);
+        }
         public static Quaternion _computeQuaternion(Vector3 direction, Vector3 upVector) {
             Quaternion q = new Quaternion();
             Vector3 zVec = direction;

@@ -142,101 +142,126 @@ namespace Mogre_Procedural
         //    *
         //	 * Sets U Tile, ie the number by which u texture coordinates are multiplied (default=1)
         //	 
-        public void setUTile(float uTile) {
+        public MeshGenerator<T> setUTile(float uTile) {
             mUTile = uTile;
             //return( this);
+            return this;
+        }
+        protected float cosf(float a) {
+            return Math.Cos(a);
+        }
+        protected float sinf(float a) {
+            return Math.Sin(a);
+        }
+        protected float atan2f(float p, float p_2) {
+            return Math.ATan2(p, p_2).ValueRadians;
         }
 
+        protected float sqrtf(float p) {
+            return Math.Sqrt(p);
+        }
         //    *
         //	 * Sets V Tile, ie the number by which v texture coordinates are multiplied (default=1)
         //	 
-        public void setVTile(float vTile) {
+        public MeshGenerator<T> setVTile(float vTile) {
             mVTile = vTile;
             //return (T)( this);
+            return this;
         }
 
         //    *
         //	 * Sets the texture rectangle
         //	 
-        public void setTextureRectangle(RealRect textureRectangle) {
+        public MeshGenerator<T> setTextureRectangle(RealRect textureRectangle) {
             mUVOrigin = new Vector2(textureRectangle.top, textureRectangle.left);
             mUTile = textureRectangle.right - textureRectangle.left;
             mVTile = textureRectangle.bottom - textureRectangle.top;
             //return  (T)this;
+            return this;
         }
 
         //    *
         //	 * Sets whether normals are enabled or not (default=true)
         //	 
-        public void setEnableNormals(bool enableNormals) {
+        public MeshGenerator<T> setEnableNormals(bool enableNormals) {
             mEnableNormals = enableNormals;
             //return (T)( this);
+            return this;
         }
 
         //    *
         //	 * Sets the number of texture coordintate sets (default=1)
         //	 
-        public void setNumTexCoordSet(byte numTexCoordSet) {
+        public MeshGenerator<T> setNumTexCoordSet(byte numTexCoordSet) {
             mNumTexCoordSet = numTexCoordSet;
             //return (T)( this);
+            return this;
         }
 
         /// Sets whether to switch U and V texture coordinates
-        public void setSwitchUV(bool switchUV) {
+        public MeshGenerator<T> setSwitchUV(bool switchUV) {
             mSwitchUV = switchUV;
             //return (T)( this);
+            return this;
         }
 
         /// Sets an orientation to give when building the mesh
-        public void setOrientation(Quaternion orientation) {
+        public MeshGenerator<T> setOrientation(Quaternion orientation) {
             mOrientation = orientation;
             mTransform = true;
             //return (T)( this);
+            return this;
         }
 
         /// Sets a translation baked into the resulting mesh
-        public void setPosition(Vector3 position) {
+        public MeshGenerator<T> setPosition(Vector3 position) {
             mPosition = position;
             mTransform = true;
             //return (T)( this);
+            return this;
         }
 
         /// Sets a translation baked into the resulting mesh
-        public void setPosition(float x, float y, float z) {
+        public MeshGenerator<T> setPosition(float x, float y, float z) {
             mPosition = new Vector3(x, y, z);
             mTransform = true;
             //return (T)( this);
+            return this;
         }
 
 
         /// Sets a scale baked into the resulting mesh
-        public void setScale(Vector3 scale) {
+        public MeshGenerator<T> setScale(Vector3 scale) {
             mScale = scale;
             mTransform = true;
             //return (T)( this);
+            return this;
         }
 
         /// Sets a uniform scale baked into the resulting mesh
-        public void setScale(float scale) {
+        public MeshGenerator<T> setScale(float scale) {
             mScale = new Vector3(scale);
             mTransform = true;
             //return (T)( this);
+            return this;
         }
 
         /// Sets a scale baked into the resulting mesh
-        public void setScale(float x, float y, float z) {
+        public MeshGenerator<T> setScale(float x, float y, float z) {
             mScale = new Vector3(x, y, z);
             mTransform = true;
             //return (T)( this);
+            return this;
         }
 
         /// Resets all transforms (orientation, position and scale) that would have been applied to the mesh to their default values
-        public void resetTransforms() {
+        public MeshGenerator<T> resetTransforms() {
             mTransform = false;
             mPosition = Vector3.ZERO;
             mOrientation = Quaternion.IDENTITY;
             mScale = new Vector3(1f);
             //return (T)( this);
+            return this;
         }
 
         /// Adds a new point to a triangle buffer, using the format defined for that MeshGenerator
