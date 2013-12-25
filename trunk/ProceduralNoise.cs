@@ -1,17 +1,49 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
+/*
+-----------------------------------------------------------------------------
+This source file is part of mogre-procedural
+For the latest info, see http://code.google.com/p/mogre-procedural/
+my blog:http://hi.baidu.com/rainssoft
+this is overwrite  ogre-procedural c++ project using c#, look  ogre-procedural c++ source http://code.google.com/p/ogre-procedural/
+   
+Copyright (c) 2013-2020 rains soft
 
-using Mogre;
-using Math=Mogre.Math;
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+-----------------------------------------------------------------------------
+*/
 
 namespace Mogre_Procedural
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
+    using Mogre;
+    using Math = Mogre.Math;
 
     //C++ TO C# CONVERTER WARNING: The original type declaration contained unconverted modifiers:
     //ORIGINAL LINE: class _ProceduralExport NoiseBase
     public abstract class NoiseBase
     {
+        //RAND_MAX是C中stdlib.h中宏定义的一个字符常量：
+        //#define RAND_MAX Ox7FFF
+        //其值最小为32767,最大为2147483647
+        public const int RAND_MAX = 0x7fff;
         public abstract float function1D(int x);
         public abstract float function2D(int x, int y);
 
@@ -65,13 +97,14 @@ namespace Mogre_Procedural
     //ORIGINAL LINE: class _ProceduralExport WhiteNoise : public NoiseBase
     public class WhiteNoise : NoiseBase
     {
+
         public WhiteNoise()
             : this(5120) {
         }
         //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
         //ORIGINAL LINE: WhiteNoise(Ogre::uint seed = 5120)
         public WhiteNoise(uint seed) {
-            RandomNumbers.Seed(seed);
+            RandomNumbers.Seed((int)seed);
         }
 
         public override float function1D(int x) {

@@ -5931,30 +5931,30 @@ public class TextTexture : TextureProcessing
     //	'randomize' converts to the parameterless overload of Seed
     //	'srand' converts to the single-parameter overload of Seed
     //----------------------------------------------------------------------------------------
-    internal static class RandomNumbers
-    {
-        private static System.Random r;
+    //internal static class RandomNumbers
+    //{
+    //    private static System.Random r;
 
-        internal static int NextNumber() {
-            if (r == null)
-                Seed();
+    //    internal static int NextNumber() {
+    //        if (r == null)
+    //            Seed();
 
-            return r.Next();
-        }
+    //        return r.Next();
+    //    }
 
-        internal static int NextNumber(int ceiling) {
-            if (r == null)
-                Seed();
+    //    internal static int NextNumber(int ceiling) {
+    //        if (r == null)
+    //            Seed();
 
-            return r.Next(ceiling);
-        }
+    //        return r.Next(ceiling);
+    //    }
 
-        internal static void Seed() {
-            r = new System.Random();
-        }
+    //    internal static void Seed() {
+    //        r = new System.Random();
+    //    }
 
-        internal static void Seed(int seed) {
-            r = new System.Random(seed);
-        }
-    }
+    //    internal static void Seed(int seed) {
+    //        r = new System.Random(seed);
+    //    }
+    //}
 }

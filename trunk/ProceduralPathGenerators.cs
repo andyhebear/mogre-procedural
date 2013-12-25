@@ -30,9 +30,9 @@ public class CatmullRomSpline3 : BaseSpline3<CatmullRomSpline3>
 	/// Copy constructor from an Ogre simplespline
 	public CatmullRomSpline3(Mogre.SimpleSpline input)
 	{
-		mPoints.resize(input.getNumPoints());
-		for (ushort i =0; i<input.getNumPoints(); i++)
-			mPoints.Add(input.getPoint(i));
+		//mPoints.resize(input.getNumPoints());
+		for (ushort i =0; i<input.NumPoints; i++)
+			mPoints.Add(input.GetPoint(i));
 	}
 
 	/// Outputs current spline to an Ogre spline
@@ -42,7 +42,7 @@ public class CatmullRomSpline3 : BaseSpline3<CatmullRomSpline3>
 	{
 		Mogre.SimpleSpline spline = new SimpleSpline();
 		for (ushort i =0; i<mPoints.Count; i++)
-			spline.addPoint(mPoints[i]);
+			spline.AddPoint(mPoints[i]);
 		return spline;
 	}
 
@@ -56,7 +56,7 @@ public class CatmullRomSpline3 : BaseSpline3<CatmullRomSpline3>
 	/// Adds a control point
 	public CatmullRomSpline3 addPoint(float x, float y, float z)
 	{
-		mPoints.Add(Vector3(x, y, z));
+		mPoints.Add(new Vector3(x, y, z));
 		return this;
 	}
 
@@ -66,8 +66,8 @@ public class CatmullRomSpline3 : BaseSpline3<CatmullRomSpline3>
 	public Vector3 safeGetPoint(uint i)
 	{
 		if (mClosed)
-			return mPoints[Utils.modulo(i, mPoints.Count)];
-		return mPoints[Utils.cap(i, 0, mPoints.Count-1)];
+			return mPoints[Utils.modulo((int)i, mPoints.Count)];
+		return mPoints[Utils.cap((int)i, 0, mPoints.Count-1)];
 	}
 
 //    *
@@ -78,7 +78,7 @@ public class CatmullRomSpline3 : BaseSpline3<CatmullRomSpline3>
 	{
 		Path path = new Path();
 	
-		uint numPoints = mClosed?mPoints.Count:mPoints.Count-1;
+		int numPoints = mClosed?mPoints.Count:mPoints.Count-1;
 		for (uint i =0; i < numPoints; ++i)
 		{
 			 Vector3 P1 = safeGetPoint(i-1);
