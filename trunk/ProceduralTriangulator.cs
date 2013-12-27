@@ -39,12 +39,12 @@ public class Triangulator : MeshGenerator<Triangulator>
 		}
 //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: bool operator <(const DelaunaySegment& STLAllocator<U, AllocPolicy>) const
-		public static bool operator <(DelaunaySegment STLAllocator<U, AllocPolicy>)
+		public static bool operator <(DelaunaySegment This,DelaunaySegment Other)
 		{
-			if (i1!=STLAllocator<U, AllocPolicy>.i1)
-				return i1<STLAllocator<U, AllocPolicy>.i1;
+			if (This.i1!=Other.i1)
+				return This.i1<Other.i1;
 			else
-				return i2<STLAllocator<U, AllocPolicy>.i2;
+				return This.i2<Other.i2;
 		}
 		public DelaunaySegment inverse()
 		{
@@ -71,9 +71,9 @@ public class Triangulator : MeshGenerator<Triangulator>
 
 //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: bool operator ==(const Triangle& STLAllocator<U, AllocPolicy>) const
-		public static bool operator ==(Triangle STLAllocator<U, AllocPolicy>)
+		public static bool operator ==(Triangle This,Triangle Other)
 		{
-			return i[0] ==STLAllocator<U, AllocPolicy>.i[0] && i[1] ==STLAllocator<U, AllocPolicy>.i[1] && i[2] ==STLAllocator<U, AllocPolicy>.i[2];
+			return This.i[0] ==Other.i[0] && This.i[1] ==Other.i[1] && This.i[2] ==Other.i[2];
 		}
 
 //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
@@ -132,23 +132,40 @@ public class Triangulator : MeshGenerator<Triangulator>
 
 		public void makeDirectIfNeeded()
 		{
-			if ((p(1)-p(0)).crossProduct(p(2)-p(0))<0)
+			if ((p(1)-p(0)).CrossProduct(p(2)-p(0))<0f)
 			{
-				std.swap(i[0], i[1]);
+				std_swap<int>(i,0, 1);
 			}
 		}
 
+private void std_swap<T>(T[]array,int index1,int index2)
+{
+ 	T temp=array[index1];
+    array[index1]=array[index2];
+    array[index2]=temp;
+}
+
 		public bool isDegenerate()
 		{
-			if (Math.Abs((p(1)-p(0)).crossProduct(p(2)-p(0)))<1e-4)
+			if (Math.Abs((p(1)-p(0)).CrossProduct(p(2)-p(0)))<1e-4)
 				return true;
 			return false;
 		}
 
 		public string debugDescription()
 		{
-			return "("+StringConverter.toString(i[0])+"," +StringConverter.toString(i[1])+","+StringConverter.toString(i[2])+") <" + "("+StringConverter.toString(p(0))+"," +StringConverter.toString(p(1))+","+StringConverter.toString(p(2))+">";
+			return "("+StringConverter_toString(i[0])+"," +StringConverter_toString(i[1])+","+StringConverter_toString(i[2])+") <" + "("+StringConverter_toString(p(0))+"," +StringConverter_toString(p(1))+","+StringConverter_toString(p(2))+">";
 		}
+
+private string StringConverter_toString(Vector2 vector2)
+{
+ 	return string.Format("['{0}','{1}']",vector2.x,vector2.y);
+}
+
+private string StringConverter_toString(int p)
+{
+ 	return p.ToString();
+}
 	}
 	//-----------------------------------------------------------------------
 	private class TouchSuperTriangle
@@ -163,7 +180,7 @@ public class Triangulator : MeshGenerator<Triangulator>
 			i2 = k;
 		}
 //C++ TO C# CONVERTER TODO TASK: The () operator cannot be overloaded in C#:
-		public static bool operator ()(Triangulator.Triangle tri)
+		public  bool Operator(Triangulator.Triangle tri)
 		{
 			for (int k =0; k<3; k++)
 				if (tri.i[k] ==i0 || tri.i[k] ==i1 ||tri.i[k] ==i2)
