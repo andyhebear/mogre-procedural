@@ -4,7 +4,7 @@ using System.Text;
 
 using Mogre;
 using Math=Mogre.Math;
-
+using TRect = Mogre.RealRect;
 namespace Mogre_Procedural
 {
 //*
@@ -23,7 +23,7 @@ public class SpherifyModifier
 	{
 		mInputTriangleBuffer = null;
 		mCenter = Vector3.ZERO;
-		mRadius = 1;
+		mRadius = 1f;
 	}
 
 	/// \exception Ogre::InvalidParametersException Input triangle buffer must not be null
@@ -55,7 +55,7 @@ public class SpherifyModifier
 	{
 //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
 //ORIGINAL LINE: mCenter = center;
-		mCenter.CopyFrom(center);
+		mCenter=(center);
 		return this;
 	}
 
@@ -69,9 +69,10 @@ public class SpherifyModifier
 			 throw new Exception("Input triangle buffer must be set!");
             ;
 	
-		for (List<TriangleBuffer.Vertex>.Enumerator it = mInputTriangleBuffer.getVertices().begin(); it != mInputTriangleBuffer.getVertices().end(); ++it)
-		{
-			float l = (it.mPosition - mCenter).length();
+		//for (List<TriangleBuffer.Vertex>.Enumerator it = mInputTriangleBuffer.getVertices().begin(); it != mInputTriangleBuffer.getVertices().end(); ++it)
+		foreach(var it in  mInputTriangleBuffer.getVertices())
+        {
+			float l = (it.mPosition - mCenter).Length;
 			if (l > 1e-6)
 			{
 				it.mNormal = (it.mPosition - mCenter) / l;
@@ -142,51 +143,51 @@ public class CalculateNormalsModifier
 		if (mComputeMode == NormalComputeMode.NCM_TRIANGLE)
 		{
 			if (mMustWeldUnweldFirst)
-				UnweldVerticesModifier().setInputTriangleBuffer(mInputTriangleBuffer).modify();
+				new UnweldVerticesModifier().setInputTriangleBuffer(mInputTriangleBuffer).modify();
 	
-			const List<int> indices = mInputTriangleBuffer.getIndices();
+			List<int> indices = mInputTriangleBuffer.getIndices();
 			List<TriangleBuffer.Vertex> vertices = mInputTriangleBuffer.getVertices();
 			for (int i = 0; i<indices.Count; i+=3)
 			{
 				Vector3 v1 = vertices[indices[i]].mPosition;
 				Vector3 v2 = vertices[indices[i+1]].mPosition;
 				Vector3 v3 = vertices[indices[i+2]].mPosition;
-				Vector3 n = (v2-v1).crossProduct(v3-v1).normalisedCopy();
+				Vector3 n = (v2-v1).CrossProduct(v3-v1).NormalisedCopy;
 //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
 //ORIGINAL LINE: vertices[indices[i]].mNormal = n;
-				vertices[indices[i]].mNormal.CopyFrom(n);
+				vertices[indices[i]].mNormal=(n);
 //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
 //ORIGINAL LINE: vertices[indices[i+1]].mNormal = n;
-				vertices[indices[i+1]].mNormal.CopyFrom(n);
+				vertices[indices[i+1]].mNormal=(n);
 //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
 //ORIGINAL LINE: vertices[indices[i+2]].mNormal = n;
-				vertices[indices[i+2]].mNormal.CopyFrom(n);
+				vertices[indices[i+2]].mNormal=(n);
 			}
 		}
 		else
 		{
 			if (mMustWeldUnweldFirst)
-				WeldVerticesModifier().setInputTriangleBuffer(mInputTriangleBuffer).modify();
-			const List<int> indices = mInputTriangleBuffer.getIndices();
+				new WeldVerticesModifier().setInputTriangleBuffer(mInputTriangleBuffer).modify();
+			List<int> indices = mInputTriangleBuffer.getIndices();
 			List<TriangleBuffer.Vertex> vertices = mInputTriangleBuffer.getVertices();
 			List<List<Vector3> > tmpNormals = new List<List<Vector3> >();
-			tmpNormals.resize(vertices.Count);
+			//tmpNormals.resize(vertices.Count);
 			for (int i = 0; i<indices.Count; i+=3)
 			{
 				Vector3 v1 = vertices[indices[i]].mPosition;
 				Vector3 v2 = vertices[indices[i+1]].mPosition;
 				Vector3 v3 = vertices[indices[i+2]].mPosition;
-				Vector3 n = (v2-v1).crossProduct(v3-v1);
-				tmpNormals[indices[i]].push_back(n);
-				tmpNormals[indices[i+1]].push_back(n);
-				tmpNormals[indices[i+2]].push_back(n);
+				Vector3 n = (v2-v1).CrossProduct(v3-v1);
+				tmpNormals[indices[i]].Add(n);
+				tmpNormals[indices[i+1]].Add(n);
+				tmpNormals[indices[i+2]].Add(n);
 			}
 			for (int i = 0; i<vertices.Count; i++)
 			{
-				Vector3 n = new Vector3(Vector3.ZERO);
-				for (int j = 0; j<tmpNormals[i].size(); j++)
+				Vector3 n = (Vector3.ZERO);
+				for (int j = 0; j<tmpNormals[i].Count; j++)
 					n += tmpNormals[i][j];
-				vertices[i].mNormal = n.normalisedCopy();
+				vertices[i].mNormal = n.NormalisedCopy;
 			}
 		}
 	}
@@ -232,44 +233,76 @@ public class WeldVerticesModifier
 			//throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALID_STATE>(), "Input triangle buffer must be set", __FUNC__, __FILE__, __LINE__);
 			 throw new Exception("Input triangle buffer must be set!");
             ;
-		std.map<Vector3, int, Vector3Comparator> mapExistingVertices = new std.map<Vector3, int, Vector3Comparator>();
-		List<TriangleBuffer.Vertex> vertices = mInputTriangleBuffer.getVertices();
+		//std.map<Vector3, int, Vector3Comparator> mapExistingVertices = new std.map<Vector3, int, Vector3Comparator>();
+        List<KeyValuePair<Vector3, int>> mapExistingVertices = new  List<KeyValuePair<Vector3,int>>();
+        List<TriangleBuffer.Vertex> vertices = mInputTriangleBuffer.getVertices();
 		List<int> indices = mInputTriangleBuffer.getIndices();
-	
+	    
 		int newSize = vertices.Count;
-		for (List<TriangleBuffer.Vertex>.Enumerator it = vertices.GetEnumerator(); it.MoveNext(); ++it)
-		{
-			int currentIndex = it - vertices.GetEnumerator();
+		//for (List<TriangleBuffer.Vertex>.Enumerator it = vertices.GetEnumerator(); it.MoveNext(); ++it)
+		//int it_index=0;
+        Vector3 mapExistingVertices_end = new Vector3();
+        
+        //foreach(var it in vertices)
+        for(int i=0;i<vertices.Count;i++)
+        {
+            TriangleBuffer.Vertex it=vertices[i];
+            //it_index++;
+            //	size_t currentIndex = it - vertices.begin();
+            int currentIndex = i;//it - vertices.GetEnumerator();
 			if (currentIndex>=newSize)
 				break;
-			if (mapExistingVertices.find(it.mPosition) == mapExistingVertices.end())
-				mapExistingVertices[it.mPosition] = currentIndex;
+			//		if (mapExistingVertices.find(it->mPosition) == mapExistingVertices.end())
+			//mapExistingVertices[it->mPosition] = currentIndex;
+            if(mapExistingVertices_find(mapExistingVertices,it.mPosition)==(mapExistingVertices.Count-1)){
+				mapExistingVertices[mapExistingVertices.Count-1] =new KeyValuePair<Vector3,int>(it.mPosition,currentIndex);
+            }
 			else
 			{
-				int existingIndex = mapExistingVertices[it.mPosition];
+				//int existingIndex = mapExistingVertices[it.mPosition];
+                int existingIndex = mapExistingVertices_find(mapExistingVertices,it.mPosition);
 				--newSize;
 				if (currentIndex == newSize)
 				{
-					for (List<int>.Enumerator it2 = indices.GetEnumerator(); it2.MoveNext(); ++it2)
-						if (it2.Current == currentIndex)
-							it2.Current = existingIndex;
+                    //for (List<int>.Enumerator it2 = indices.GetEnumerator(); it2.MoveNext(); ++it2)
+                    //    if (it2.Current == currentIndex)
+                    //        it2.Current = existingIndex;
+                    for (int it2 = 0; it2 < indices.Count;it2++ ) {
+                        if (indices[it2] == currentIndex) {
+                            indices[it2] = existingIndex;
+                        }
+                    }
 				}
 				else
 				{
 					int lastIndex = newSize;
-					it.Current = vertices[lastIndex];
-					for (List<int>.Enumerator it2 = indices.GetEnumerator(); it2.MoveNext(); ++it2)
-					{
-						if (it2.Current == currentIndex)
-							it2.Current = existingIndex;
-						else if (it2.Current == lastIndex)
-							it2.Current = currentIndex;
+					//it.Current = vertices[lastIndex];
+                    it=vertices[lastIndex];
+					//for (List<int>.Enumerator it2 = indices.GetEnumerator(); it2.MoveNext(); ++it2)
+					for (int it2 = 0; it2 < indices.Count;it2++ ) {
+                    {
+                        //if (it2.Current == currentIndex)
+                        //    it2.Current = existingIndex;
+                        //else if (it2.Current == lastIndex)
+                        //    it2.Current = currentIndex;
+                        if(indices[it2]==currentIndex){
+                            indices[it2]=existingIndex;
+                        }
+                        else if(indices[it2]==lastIndex){
+                            indices[it2]=currentIndex;
+                        }
 					}
 				}
 			}
 		}
-		vertices.resize(newSize);
+		//vertices.resize(newSize);
 	}
+}
+
+private int mapExistingVertices_find(List<KeyValuePair<Vector3,int>> mapExistingVertices,Vector3 vector3)
+{
+    //≤È’“–Ú∫≈
+ 	throw new NotImplementedException();
 }
 //--------------------------------------------------------------
 //*
@@ -303,22 +336,25 @@ public class UnweldVerticesModifier
 			 throw new Exception("Input triangle buffer must be set!");
             ;
 		List<TriangleBuffer.Vertex> newVertices = new List<TriangleBuffer.Vertex>();
-		const List<TriangleBuffer.Vertex> originVertices = mInputTriangleBuffer.getVertices();
-		const List<int> originIndices = mInputTriangleBuffer.getIndices();
+		 List<TriangleBuffer.Vertex> originVertices = mInputTriangleBuffer.getVertices();
+		 List<int> originIndices = mInputTriangleBuffer.getIndices();
 		for (int i =0; i<originIndices.Count; i+=3)
 		{
 			newVertices.Add(originVertices[originIndices[i]]);
 			newVertices.Add(originVertices[originIndices[i+1]]);
 			newVertices.Add(originVertices[originIndices[i+2]]);
 		}
-		mInputTriangleBuffer.getVertices().clear();
-		mInputTriangleBuffer.getVertices().reserve(newVertices.Count);
-		for (List<TriangleBuffer.Vertex>.Enumerator it = newVertices.GetEnumerator(); it.MoveNext(); ++it)
-			mInputTriangleBuffer.getVertices().push_back(it.Current);
-		mInputTriangleBuffer.getIndices().clear();
-		mInputTriangleBuffer.getIndices().reserve(newVertices.Count);
+		mInputTriangleBuffer.getVertices().Clear();
+		//mInputTriangleBuffer.getVertices().reserve(newVertices.Count);
+		//for (List<TriangleBuffer.Vertex>.Enumerator it = newVertices.GetEnumerator(); it.MoveNext(); ++it)
+		//	mInputTriangleBuffer.getVertices().push_back(it.Current);
+        foreach (var it in newVertices) {
+            mInputTriangleBuffer.getVertices().Add(it);
+        }
+		mInputTriangleBuffer.getIndices().Clear();
+		//mInputTriangleBuffer.getIndices().reserve(newVertices.Count);
 		for (int i =0; i<newVertices.Count; i++)
-			mInputTriangleBuffer.getIndices().push_back(i);
+			mInputTriangleBuffer.getIndices().Add(i);
 	}
 }
 //--------------------------------------------------------------
@@ -346,7 +382,7 @@ public class PlaneUVModifier
 	{
 //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
 //ORIGINAL LINE: mPlaneNormal = planeNormal;
-		mPlaneNormal.CopyFrom(planeNormal);
+		mPlaneNormal=(planeNormal);
 		return this;
 	}
 
@@ -360,7 +396,7 @@ public class PlaneUVModifier
 	{
 //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
 //ORIGINAL LINE: mPlaneCenter = planeCenter;
-		mPlaneCenter.CopyFrom(planeCenter);
+		mPlaneCenter=(planeCenter);
 		return this;
 	}
 
@@ -368,7 +404,7 @@ public class PlaneUVModifier
 	{
 //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
 //ORIGINAL LINE: mPlaneSize = planeSize;
-		mPlaneSize.CopyFrom(planeSize);
+		mPlaneSize=(planeSize);
 		return this;
 	}
 
@@ -382,13 +418,15 @@ public class PlaneUVModifier
 			//throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALID_STATE>(), "Input triangle buffer must be set", __FUNC__, __FILE__, __LINE__);
 			 throw new Exception("Input triangle buffer must be set!");
             ;
-		Vector3 xvec = mPlaneNormal.perpendicular();
-		Vector3 yvec = mPlaneNormal.crossProduct(xvec);
-		for (List<TriangleBuffer.Vertex>.Enumerator it = mInputTriangleBuffer.getVertices().begin(); it != mInputTriangleBuffer.getVertices().end(); ++it)
-		{
+		Vector3 xvec = mPlaneNormal.Perpendicular;
+		Vector3 yvec = mPlaneNormal.CrossProduct(xvec);
+		//for (List<TriangleBuffer.Vertex>.Enumerator it = mInputTriangleBuffer.getVertices().begin(); it != mInputTriangleBuffer.getVertices().end(); ++it)
+        foreach (var it in mInputTriangleBuffer.getVertices())
+        {
 			Vector3 v = it.mPosition - mPlaneCenter;
-			it.mUV.x = v.dotProduct(xvec);
-			it.mUV.y = v.dotProduct(yvec);
+			float it_mUV_x = v.DotProduct(xvec);
+			float it_mUV_y = v.DotProduct(yvec);
+            it.mUV = new Vector2(it_mUV_x,it_mUV_y);
 		}
 	}
 }
@@ -408,12 +446,13 @@ public class SphereUVModifier
 			//throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALID_STATE>(), "Input triangle buffer must be set", __FUNC__, __FILE__, __LINE__);
 			 throw new Exception("Input triangle buffer must be set!");
             ;
-		for (List<TriangleBuffer.Vertex>.Enumerator it = mInputTriangleBuffer.getVertices().begin(); it != mInputTriangleBuffer.getVertices().end(); ++it)
-		{
-			Vector3 v = it.mPosition.normalisedCopy();
+		//for (List<TriangleBuffer.Vertex>.Enumerator it = mInputTriangleBuffer.getVertices().begin(); it != mInputTriangleBuffer.getVertices().end(); ++it)
+		foreach(var it in mInputTriangleBuffer.getVertices())
+        {
+			Vector3 v = it.mPosition.NormalisedCopy;
 			Vector2 vxz = new Vector2(v.x, v.z);
-			it.mUV.x = Vector2.UNIT_X.angleTo(vxz).valueRadians() / Math.TWO_PI;
-			it.mUV.y = (Math.ATan(v.y / vxz.length()).valueRadians() + Math.HALF_PI) / Math.PI;
+			it.mUV.x = Utils.angleTo(Vector2.UNIT_X,vxz).ValueRadians / Math.TWO_PI;
+			it.mUV.y = (Math.ATan(v.y / vxz.Length).ValueRadians + Math.HALF_PI) / Math.PI;
 		}
 	}
 
@@ -434,8 +473,10 @@ public class SphereUVModifier
 public class HemisphereUVModifier
 {
 	private TriangleBuffer mInputTriangleBuffer;
-	private TRect<float> mTextureRectangleTop = new TRect<float>();
-	private TRect<float> mTextureRectangleBottom = new TRect<float>();
+	//private TRect<float> mTextureRectangleTop = new TRect<float>();
+	//private TRect<float> mTextureRectangleBottom = new TRect<float>();
+    private TRect mTextureRectangleTop = new TRect();
+    private TRect mTextureRectangleBottom = new TRect();
 	//--------------------------------------------------------------
 	public void modify()
 	{
@@ -445,18 +486,19 @@ public class HemisphereUVModifier
 			//throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALID_STATE>(), "Input triangle buffer must be set", __FUNC__, __FILE__, __LINE__);
 			 throw new Exception("input triangle buffer must be set!");
             ;
-		for (List<TriangleBuffer.Vertex>.Enumerator it = mInputTriangleBuffer.getVertices().begin(); it != mInputTriangleBuffer.getVertices().end(); ++it)
-		{
-			Vector3 input = it.mPosition.normalisedCopy();
+		//for (List<TriangleBuffer.Vertex>.Enumerator it = mInputTriangleBuffer.getVertices().begin(); it != mInputTriangleBuffer.getVertices().end(); ++it)
+		foreach(var it in  mInputTriangleBuffer.getVertices())
+        {
+			Vector3 input = it.mPosition.NormalisedCopy;
 			Vector3 v = new Vector3();
 			Radian r = new Radian();
 			if (input.y > 0)
-				Vector3.UNIT_Y.getRotationTo(input).ToAngleAxis(ref r, ref v);
+				Vector3.UNIT_Y.GetRotationTo(input).ToAngleAxis(out r, out v);
 			else
-				Vector3.NEGATIVE_UNIT_Y.getRotationTo(input).ToAngleAxis(ref r, ref v);
+				Vector3.NEGATIVE_UNIT_Y.GetRotationTo(input).ToAngleAxis(out r, out v);
 			Vector2 v2 = new Vector2(input.x, input.z);
-			v2.normalise();
-			Vector2 uv = new Vector2(.5, .5) + .5f * (r / Math.HALF_PI).valueRadians() * v2;
+			v2.Normalise();
+			Vector2 uv = new Vector2(0.5f, 0.5f) + 0.5f * (r / Math.HALF_PI).ValueRadians * v2;
 	
 			if (input.y > 0)
 				it.mUV = Utils.reframe(mTextureRectangleTop, uv);
@@ -482,7 +524,7 @@ public class HemisphereUVModifier
 	{
 //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
 //ORIGINAL LINE: mTextureRectangleTop = textureRectangleTop;
-		mTextureRectangleTop.CopyFrom(textureRectangleTop);
+		mTextureRectangleTop=(textureRectangleTop);
 		return this;
 	}
 
@@ -490,7 +532,7 @@ public class HemisphereUVModifier
 	{
 //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
 //ORIGINAL LINE: mTextureRectangleBottom = textureRectangleBottom;
-		mTextureRectangleBottom.CopyFrom(textureRectangleBottom);
+		mTextureRectangleBottom=(textureRectangleBottom);
 		return this;
 	}
 
@@ -525,11 +567,12 @@ public class CylinderUVModifier
 			 throw new Exception("Radius must be larger than 0!");
             ;
 	
-		float angleThreshold = Math.ATan(mHeight / mRadius).valueRadians();
-		for (List<TriangleBuffer.Vertex>.Enumerator it = mInputTriangleBuffer.getVertices().begin(); it != mInputTriangleBuffer.getVertices().end(); ++it)
-		{
+		float angleThreshold = Math.ATan(mHeight / mRadius).ValueRadians;
+		//for (List<TriangleBuffer.Vertex>.Enumerator it = mInputTriangleBuffer.getVertices().begin(); it != mInputTriangleBuffer.getVertices().end(); ++it)
+		foreach(var it in mInputTriangleBuffer.getVertices())
+        {
 			Vector2 nxz = new Vector2(it.mNormal.x, it.mNormal.z);
-			float alpha = (Math.ATan(it.mNormal.y / nxz.length()).valueRadians() + Math.HALF_PI);
+			float alpha = (Math.ATan(it.mNormal.y / nxz.Length).valueRadians() + Math.HALF_PI);
 			if (Math.Abs(alpha) > angleThreshold)
 			{
 				Vector2 vxz = new Vector2(it.mPosition.x, it.mPosition.z);
@@ -538,7 +581,7 @@ public class CylinderUVModifier
 			else
 			{
 				Vector2 vxz = new Vector2(it.mPosition.x, it.mPosition.z);
-				it.mUV.x = Vector2.UNIT_X.angleTo(vxz).valueRadians()/Math.TWO_PI;
+				it.mUV.x = Utils.angleTo(Vector2.UNIT_X,vxz).ValueRadians/Math.TWO_PI;
 				it.mUV.y = it.mPosition.y/mHeight - 0.5f;
 			}
 		}
@@ -546,7 +589,7 @@ public class CylinderUVModifier
 
 	public CylinderUVModifier()
 	{
-		mInputTriangleBuffer = 0;
+		mInputTriangleBuffer = null;
 		mRadius = 1.0f;
 		mHeight = 1.0f;
 	}
@@ -596,12 +639,13 @@ public class BoxUVModifier
 			 throw new Exception("input triangle buffer must be set!");
             ;
 	
-		Vector3[] directions = { Vector3.UNIT_X, Vector3.UNIT_Y, Vector3.UNIT_Z,Vector3.NEGATIVE_UNIT_X, Vector3.NEGATIVE_UNIT_Y, Vector3.NEGATIVE_UNIT_Z };
+		Vector3[] directions =new  Vector3[] { Vector3.UNIT_X, Vector3.UNIT_Y, Vector3.UNIT_Z,Vector3.NEGATIVE_UNIT_X, Vector3.NEGATIVE_UNIT_Y, Vector3.NEGATIVE_UNIT_Z };
 	
-		for (List<TriangleBuffer.Vertex>.Enumerator it = mInputTriangleBuffer.getVertices().begin(); it != mInputTriangleBuffer.getVertices().end(); ++it)
-		{
+		//for (List<TriangleBuffer.Vertex>.Enumerator it = mInputTriangleBuffer.getVertices().begin(); it != mInputTriangleBuffer.getVertices().end(); ++it)
+		foreach(var it in mInputTriangleBuffer.getVertices())
+        {
 			Vector3 v = it.mPosition - mBoxCenter;
-			if (v.isZeroLength())
+			if (v.IsZeroLength)
 				continue;
 			//v.normalise();
 			v.x/=mBoxSize.x;
@@ -609,14 +653,14 @@ public class BoxUVModifier
 			v.z/=mBoxSize.z;
 //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
 //ORIGINAL LINE: Vector3 n = it->mNormal;
-			Vector3 n = new Vector3(it.mNormal);
+			Vector3 n = (it.mNormal);
 			float maxAxis = 0;
 			int principalAxis = 0;
 			for (byte i = 0; i < 6; i++)
 			{
-				if (directions[i].dotProduct(n) > maxAxis)
+				if (directions[i].DotProduct(n) > maxAxis)
 				{
-					maxAxis = directions[i].dotProduct(n);
+					maxAxis = directions[i].DotProduct(n);
 					principalAxis = i;
 				}
 			}
@@ -627,9 +671,9 @@ public class BoxUVModifier
 				vY = Vector3.UNIT_X;
 			else
 				vY = Vector3.UNIT_Y;
-			vX = directions[principalAxis].crossProduct(vY);
+			vX = directions[principalAxis].CrossProduct(vY);
 	
-			Vector2 uv = new Vector2(0.5-vX.dotProduct(v), 0.5-vY.dotProduct(v));
+			Vector2 uv = new Vector2(0.5f-vX.DotProduct(v), 0.5f-vY.DotProduct(v));
 			if (mMappingType == MappingType.MT_FULL)
 				it.mUV = uv;
 			else if (mMappingType == MappingType.MT_CROSS)
@@ -642,7 +686,7 @@ public class BoxUVModifier
 
 	public BoxUVModifier()
 	{
-		mInputTriangleBuffer = 0;
+		mInputTriangleBuffer = null;
 		mMappingType = MappingType.MT_FULL;
 		mBoxSize = Vector3.UNIT_SCALE;
 		mBoxCenter = Vector3.ZERO;
@@ -658,7 +702,7 @@ public class BoxUVModifier
 	{
 //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
 //ORIGINAL LINE: mBoxSize = boxSize;
-		mBoxSize.CopyFrom(boxSize);
+		mBoxSize=(boxSize);
 		return this;
 	}
 
@@ -666,7 +710,7 @@ public class BoxUVModifier
 	{
 //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
 //ORIGINAL LINE: mBoxCenter = boxCenter;
-		mBoxCenter.CopyFrom(boxCenter);
+		mBoxCenter=(boxCenter);
 		return this;
 	}
 

@@ -248,11 +248,11 @@ public class SpringGenerator : MeshGenerator<SpringGenerator>
 //ORIGINAL LINE: void addToTriangleBuffer(TriangleBuffer& buffer) const
 	public void addToTriangleBuffer(ref TriangleBuffer buffer)
 	{
-		Path p = new HelixPath().setHeight(mHeight).setNumRound(mNumRound).setNumSegPath(mNumSegPath).setRadius(mRadiusHelix).realizePath();
+		Path p = new HelixPath().setHeight(mHeight).setNumRound(mNumRound).setNumSegPath((int)mNumSegPath).setRadius(mRadiusHelix).realizePath();
 	
-		Shape s = new CircleShape().setRadius(mRadiusCircle).setNumSeg(mNumSegCircle).realizeShape();
+		Shape s = new CircleShape().setRadius(mRadiusCircle).setNumSeg((int)mNumSegCircle).realizeShape();
 	
-		Extruder().setExtrusionPath(p).setShapeToExtrude(s).addToTriangleBuffer(ref buffer);
+	   new	Extruder().setExtrusionPath(p).setShapeToExtrude(s).addToTriangleBuffer(ref buffer);
 	}
 }
 

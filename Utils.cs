@@ -163,6 +163,29 @@ namespace Mogre_Procedural
             f = Math_Clamp(f, -1.0f, 1.0f);
             return Math.ACos(f);
         }
+        public static Radian angleBetween(Vector3 v1, Vector3 dest) {
+            float lenProduct = v1.Length * dest.Length;
+
+            // Divide by zero check
+            if (lenProduct < 1e-6f)
+                lenProduct = 1e-6f;
+
+            float f = v1.DotProduct(dest) / lenProduct;
+
+            f = Clamp(f, (float)-1.0f, 1.0f);
+            return Math.ACos(f);
+        }
+        /// <summary>
+        /// 取中间值
+        /// </summary>
+        /// <param name="val"></param>
+        /// <param name="minval"></param>
+        /// <param name="maxval"></param>
+        /// <returns></returns>
+        public static float Clamp(float val, float minval, float maxval) {
+            //assert (minval <= maxval && "Invalid clamp range");
+            return (float)System.Math.Max(System.Math.Min(val, maxval), minval);
+        }
         /// <summary>
         /// 返回3个值得中间值
         /// </summary>
@@ -193,7 +216,7 @@ namespace Mogre_Procedural
 
             return angle;
         }
-
+ 
         //    *
         //	 * Gives the oriented angle from v1 to v2 in the ]-PI;PI] range
         //	 

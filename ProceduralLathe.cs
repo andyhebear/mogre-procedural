@@ -42,7 +42,7 @@ public class Lathe : MeshGenerator<Lathe>
 		{
 //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
 //ORIGINAL LINE: shapeCopy = *mShapeToExtrude;
-			shapeCopy.CopyFrom(mShapeToExtrude);
+			shapeCopy=(mShapeToExtrude);
 			shapeCopy.close();
 			t.setShapeToTriangulate(shapeCopy);
 		}
@@ -50,7 +50,7 @@ public class Lathe : MeshGenerator<Lathe>
 		{
 //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
 //ORIGINAL LINE: multishapeCopy = *mMultiShapeToExtrude;
-			multishapeCopy.CopyFrom(mMultiShapeToExtrude);
+			multishapeCopy=(mMultiShapeToExtrude);
 			multishapeCopy.close();
 			t.setMultiShapeToTriangulate(mMultiShapeToExtrude);
 		}
@@ -68,7 +68,7 @@ public class Lathe : MeshGenerator<Lathe>
 			Vector3 vp = new Vector3(vp2.x, vp2.y, 0);
 //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
 //ORIGINAL LINE: Vector3 normal = Vector3::UNIT_Z;
-			Vector3 normal = new Vector3(Vector3.UNIT_Z);
+			Vector3 normal = (Vector3.UNIT_Z);
 	
 			addPoint(buffer, q *vp, q *normal, vp2);
 		}
@@ -103,21 +103,23 @@ public class Lathe : MeshGenerator<Lathe>
 //ORIGINAL LINE: void _latheBodyImpl(TriangleBuffer& buffer, const Shape* shapeToExtrude) const
 	private void _latheBodyImpl(ref TriangleBuffer buffer, Shape shapeToExtrude)
 	{
-		if (shapeToExtrude == null)
-	//C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-	//C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-			throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALID_STATE>(), "Shape must not be null!", "Procedural::Lathe::_latheBodyImpl(Procedural::TriangleBuffer&, const Procedural::Shape*)", __FILE__, __LINE__);
-			;
+        if (shapeToExtrude == null)
+            //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
+            //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
+            //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALID_STATE>(), "Shape must not be null!", "Procedural::Lathe::_latheBodyImpl(Procedural::TriangleBuffer&, const Procedural::Shape*)", __FILE__, __LINE__);
+            throw new Exception("Shape must not be null!");
+            ;
 		int numSegShape = shapeToExtrude.getSegCount();
-		if (numSegShape < 2)
-	//C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-	//C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-			throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALID_STATE>(), "Shape must contain at least two points", "Procedural::Lathe::_latheBodyImpl(Procedural::TriangleBuffer&, const Procedural::Shape*)", __FILE__, __LINE__);
-			;
+        if (numSegShape < 2)
+            //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
+            //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
+            //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALID_STATE>(), "Shape must contain at least two points", "Procedural::Lathe::_latheBodyImpl(Procedural::TriangleBuffer&, const Procedural::Shape*)", __FILE__, __LINE__);
+            throw new Exception("Shape must contain at least two points");
+            ;
 		int offset =0;
 	
 		//int numSeg = mClosed?mNumSeg+1:mNumSeg;
-		int numSeg = mNumSeg+1;
+		int numSeg = (int)mNumSeg+1;
 		buffer.rebaseOffset();
 		buffer.estimateIndexCount(numSeg *numSegShape *6);
 		buffer.estimateVertexCount((numSegShape+1)*(numSeg+1));
@@ -138,9 +140,9 @@ public class Lathe : MeshGenerator<Lathe>
 	
 			for (int j =0; j<=numSegShape; j++)
 			{
-				const Vector2 v0 = shapeToExtrude.getPoint(j);
+				 Vector2 v0 = shapeToExtrude.getPoint(j);
 				Vector3 vp = new Vector3(v0.x, v0.y, 0);
-				const Vector2 vp2direction = shapeToExtrude.getAvgDirection(j);
+				 Vector2 vp2direction = shapeToExtrude.getAvgDirection(j);
 				Vector2 vp2normal = vp2direction.perpendicular();
 				Vector3 normal = new Vector3(vp2normal.x, vp2normal.y, 0);
 				normal.normalise();
@@ -179,9 +181,9 @@ public class Lathe : MeshGenerator<Lathe>
 	public Lathe(Shape shapeToExtrude, uint numSeg)
 	{
 		mShapeToExtrude = shapeToExtrude;
-		mMultiShapeToExtrude = 0;
+		mMultiShapeToExtrude = null;
 		mNumSeg = numSeg;
-		mAngleBegin = 0;
+		mAngleBegin = 0f;
 		mAngleEnd = (Mogre.Radian)Math.TWO_PI;
 		mClosed = true;
 		mCapped = true;
@@ -209,7 +211,7 @@ public class Lathe : MeshGenerator<Lathe>
 	{
 //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
 //ORIGINAL LINE: mAngleBegin = angleBegin;
-		mAngleBegin.CopyFrom(angleBegin);
+		mAngleBegin=(angleBegin);
 		mClosed = false;
 		return this;
 	}
@@ -220,7 +222,7 @@ public class Lathe : MeshGenerator<Lathe>
 	{
 //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
 //ORIGINAL LINE: mAngleEnd = angleEnd;
-		mAngleEnd.CopyFrom(angleEnd);
+		mAngleEnd=(angleEnd);
 		mClosed = false;
 		return this;
 	}
@@ -247,7 +249,7 @@ public class Lathe : MeshGenerator<Lathe>
 	public Lathe setShapeToExtrude(Shape shapeToExtrude)
 	{
 		mShapeToExtrude = shapeToExtrude;
-		mMultiShapeToExtrude = 0;
+		mMultiShapeToExtrude = null;
 		return this;
 	}
 
