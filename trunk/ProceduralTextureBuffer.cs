@@ -22,7 +22,7 @@ namespace Mogre_Procedural
 //ORIGINAL LINE: class _ProceduralExport TextureBuffer
 public class TextureBuffer
 {
-	private byte mPixels;
+	private byte[] mPixels;
 	private uint mWidth = 0;
 	private uint mHeight = 0;
 
@@ -254,7 +254,7 @@ public class TextureBuffer
 		if (width != mWidth || height != mHeight)
 			return;
 //C++ TO C# CONVERTER TODO TASK: The memory management function 'memcpy' has no equivalent in C#:
-		memcpy(mPixels, data, mWidth * mHeight * 4 * sizeof(byte));
+		memcpy(mPixels, data, mWidth * mHeight * 4 * Sizeof("byte"));
 	}
 
 //    *
@@ -268,10 +268,15 @@ public class TextureBuffer
 		if (buffer.getWidth() != mWidth || buffer.getHeight() != mHeight)
 			return;
 //C++ TO C# CONVERTER TODO TASK: The memory management function 'memcpy' has no equivalent in C#:
-		memcpy(mPixels, buffer.mPixels, mWidth * mHeight * 4 * sizeof(byte));
+		memcpy(mPixels, buffer.mPixels, (mWidth * mHeight * 4 * Sizeof("byte")));
 	}
 
-private void memcpy(byte mPixels,byte p,uint p_3)
+    private uint Sizeof(string p) {
+        throw new NotImplementedException();
+        return 8;
+    }
+
+private void memcpy(byte[] mPixels,byte[] p,uint p_3)
 {
  	throw new NotImplementedException();
 }
@@ -475,7 +480,7 @@ private void memcpy(byte mPixels,byte p,uint p_3)
 	{
 		TextureBuffer clon = new TextureBuffer(mWidth);
 //C++ TO C# CONVERTER TODO TASK: The memory management function 'memcpy' has no equivalent in C#:
-		memcpy(clon.mPixels, mPixels, mWidth * mHeight * 4 * sizeof(byte));
+		memcpy(clon.mPixels, mPixels, mWidth * mHeight * 4 * Sizeof("byte"));
 		return clon;
 	}
 
@@ -497,7 +502,7 @@ private void memcpy(byte mPixels,byte p,uint p_3)
 	
 		mPixels = new byte[mWidth * mHeight * 4];
 //C++ TO C# CONVERTER TODO TASK: The memory management function 'memcpy' has no equivalent in C#:
-		memcpy(mPixels, tocopy.mPixels, mWidth * mHeight * 4 * sizeof(byte));
+		memcpy(mPixels, tocopy.mPixels, mWidth * mHeight * 4 * Sizeof("byte"));
 	}
 
 //    *
@@ -517,7 +522,7 @@ private void memcpy(byte mPixels,byte p,uint p_3)
             ;
 		mPixels = new byte[mWidth * mHeight * 4];
 //C++ TO C# CONVERTER TODO TASK: The memory management function 'memset' has no equivalent in C#:
-		memset(mPixels, 0, mWidth * mHeight * 4 * sizeof(byte));
+		memset(mPixels, 0, mWidth * mHeight * 4 * Sizeof("byte"));
 		for (int y = 0; y < mHeight; y++)
 		{
 			for (int x = 0; x < mWidth; x++)

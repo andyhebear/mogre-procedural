@@ -29,7 +29,7 @@ public static class GlobalMembersProceduralExtruder
 			buffer.rebaseOffset();
 			Vector3 newPoint = position+orientation*(scale *vp);
 			if (j>0)
-				lineicShapePos += (vp2 - shape.getPoint(j-1)).length();
+				lineicShapePos += (vp2 - shape.getPoint(j-1)).length;
 			float vTexCoord = 0f;
 			if (shapeTextureTrack != null)
 				vTexCoord = shapeTextureTrack.getValue(lineicShapePos, lineicShapePos / totalShapeLength, j);
@@ -63,8 +63,8 @@ public static class GlobalMembersProceduralExtruder
 			 throw new Exception("Shape and Path must not be null!");
             ;
 
-		uint numSegPath = pathEndIndex - pathBeginIndex;
-		uint numSegShape = shapeToExtrude.getSegCount();
+		int numSegPath = (pathEndIndex - pathBeginIndex);
+		int numSegShape = shapeToExtrude.getSegCount();
 
 		if (numSegPath == 0 || numSegShape == 0)
 	//C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
@@ -79,7 +79,7 @@ public static class GlobalMembersProceduralExtruder
 		// Merge shape and path with tracks
 		float lineicPos = pathToExtrude.getLengthAtPoint(pathBeginIndex);
 		Path path = pathToExtrude;
-		numSegPath = pathEndIndex - pathBeginIndex;
+		numSegPath = (pathEndIndex - pathBeginIndex);
 		numSegShape = shapeToExtrude.getSegCount();
 
 		// Estimate vertex and index count
@@ -88,32 +88,32 @@ public static class GlobalMembersProceduralExtruder
 		buffer.estimateVertexCount((numSegShape+1)*(numSegPath+1));
 
 		Vector3 oldup = new Vector3();
-		for (uint i = pathBeginIndex; i <= pathEndIndex; ++i)
+		for (int i = pathBeginIndex; i <= pathEndIndex; ++i)
 		{
 			Vector3 v0 = path.getPoint(i);
 			Vector3 direction = path.getAvgDirection(i);
 
 			Quaternion q = Utils._computeQuaternion(direction);
 
-			Radian angle = (q *Vector3.UNIT_Y).angleBetween(oldup);
+			Radian angle = Utils.angleBetween ((q *Vector3.UNIT_Y),(oldup));
 			if (i>pathBeginIndex && angle>(Radian)Math.HALF_PI/2.)
 			{
 				q = Utils._computeQuaternion(direction, oldup);
 			}
 			oldup = q * Vector3.UNIT_Y;
 
-			float scale =1.;
+			float scale =1.0f;
 
 			if (i>pathBeginIndex)
-				lineicPos += (v0-path.getPoint(i-1)).length();
+				lineicPos += (v0-path.getPoint(i-1)).Length;
 
 			// Get the values of angle and scale
 			if (rotationTrack != null)
 			{
-				float angle = 0f;
-				angle = rotationTrack.getValue(lineicPos, lineicPos / totalPathLength, i);
+				float angle_2 = 0f;
+				angle_2 = rotationTrack.getValue(lineicPos, lineicPos / totalPathLength, i);
 
-				q = q *new Quaternion((Radian)angle, Vector3.UNIT_Z);
+				q = q *new Quaternion((Radian)angle_2, Vector3.UNIT_Z);
 			}
 			if (scaleTrack != null)
 			{
@@ -141,8 +141,8 @@ public static class GlobalMembersProceduralExtruder
 		for (uint i =0; i<extrusionMultiPath.getPathCount(); ++i)
 		{
 			Path extrusionPath = extrusionMultiPath.getPath(i);
-			const Track scaleTrack = 0;
-			const Track rotationTrack = 0;
+			 Track scaleTrack = null;
+			 Track rotationTrack = null;
 			if (scaleTracks.find(i) != scaleTracks.end())
 				scaleTrack = scaleTracks.find(i).second;
 			if (rotationTracks.find(i) != rotationTracks.end())
@@ -195,7 +195,7 @@ public static class GlobalMembersProceduralExtruder
 					float angle = rotationTrack.getLastValue();
 					qEnd = qEnd *new Quaternion((Radian)angle, Vector3.UNIT_Z);
 				}
-				float scaleEnd =1.;
+				float scaleEnd =1.0f;
 				if (scaleTrack != null)
 					scaleEnd = scaleTrack.getLastValue();
 
@@ -205,16 +205,16 @@ public static class GlobalMembersProceduralExtruder
 					Vector3 vp = new Vector3(vp2.x, vp2.y, 0);
 //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy constructor call - this should be verified and a copy constructor should be created if it does not yet exist:
 //ORIGINAL LINE: Vector3 normal = Vector3::UNIT_Z;
-					Vector3 normal = new Vector3(Vector3.UNIT_Z);
+					Vector3 normal =(Vector3.UNIT_Z);
 
 					Vector3 newPoint = extrusionPath.getPoint(extrusionPath.getSegCount())+qEnd*(scaleEnd *vp);
 					buffer.vertex(newPoint, qEnd *normal, vp2);
 				}
-				for (int i =0; i<indexBuffer.Count/3; i++)
+				for (int ii =0; ii<indexBuffer.Count/3; ii++)
 				{
-					buffer.index(indexBuffer[i *3]);
-					buffer.index(indexBuffer[i *3+1]);
-					buffer.index(indexBuffer[i *3+2]);
+					buffer.index(indexBuffer[ii *3]);
+					buffer.index(indexBuffer[ii *3+1]);
+					buffer.index(indexBuffer[ii *3+2]);
 				}
 			}
 		}
@@ -238,7 +238,7 @@ public static class GlobalMembersProceduralExtruder
 			if (pointIndex>0 || path.isClosed())
 			{
 				Vector3 vb = path.getDirectionBefore(pointIndex);
-				Vector2 vb2 = new Vector2(vb.dotProduct(refX), vb.dotProduct(refZ));
+				Vector2 vb2 = new Vector2(vb.DotProduct(refX), vb.DotProduct(refZ));
 				v2s.Add(vb2);
 				coords.Add(intersection[i]);
 				direction.Add(1);
@@ -246,7 +246,7 @@ public static class GlobalMembersProceduralExtruder
 			if (pointIndex<path.getSegCount() || path.isClosed())
 			{
 				Vector3 va = -path.getDirectionAfter(pointIndex);
-				Vector2 va2 = new Vector2(va.dotProduct(refX), va.dotProduct(refZ));
+				Vector2 va2 = new Vector2(va.DotProduct(refX), va.DotProduct(refZ));
 				v2s.Add(va2);
 				coords.Add(intersection[i]);
 				direction.Add(-1);
@@ -339,11 +339,12 @@ public static class GlobalMembersProceduralExtruder
 //ORIGINAL LINE: void addToTriangleBuffer(TriangleBuffer& buffer) const
 	public void addToTriangleBuffer(ref TriangleBuffer buffer)
 	{
-		if (mMultiShapeToExtrude.getShapeCount() == 0)
-	//C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-	//C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-			throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALID_STATE>(), "At least one shape must be defined!", "Procedural::Extruder::addToTriangleBuffer(Procedural::TriangleBuffer)", __FILE__, __LINE__);
-			;
+        if (mMultiShapeToExtrude.getShapeCount() == 0)
+            //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
+            //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
+            //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALID_STATE>(), "At least one shape must be defined!", "Procedural::Extruder::addToTriangleBuffer(Procedural::TriangleBuffer)", __FILE__, __LINE__);
+            throw new Exception("At least one shape must be defined!");
+            ;
 	
 		// Triangulate the begin and end caps
 		if (mCapped && mMultiShapeToExtrude.isClosed())
@@ -355,19 +356,19 @@ public static class GlobalMembersProceduralExtruder
 		for (uint j =0; j<mMultiExtrusionPath.getPathCount(); ++j)
 		{
 			Path extrusionPath = mMultiExtrusionPath.getPath(j);
-			const Track rotationTrack = 0;
+			 Track rotationTrack = null;
 			if (mRotationTracks.find(j) != mRotationTracks.end())
 			{
 				rotationTrack = mRotationTracks.find(j).second;
 				extrusionPath = extrusionPath.mergeKeysWithTrack(*mRotationTracks.find(j).second);
 			}
-			const Track scaleTrack = 0;
+			 Track scaleTrack = null;
 			if (mScaleTracks.find(j) != mScaleTracks.end())
 			{
 				rotationTrack = mScaleTracks.find(j).second;
 				extrusionPath = extrusionPath.mergeKeysWithTrack(*mScaleTracks.find(j).second);
 			}
-			const Track pathTextureTrack = 0;
+			 Track pathTextureTrack = null;
 			if (mPathTextureTracks.find(j) != mPathTextureTracks.end())
 			{
 				pathTextureTrack = mPathTextureTracks.find(j).second;

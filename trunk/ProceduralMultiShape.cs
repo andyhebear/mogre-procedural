@@ -7,67 +7,67 @@ using Math=Mogre.Math;
 
 namespace Mogre_Procedural
 {
-public static class GlobalMembersProceduralMultiShape
-{
-	//-----------------------------------------------------------------------
+//public static class GlobalMembersProceduralMultiShape
+//{
+//    //-----------------------------------------------------------------------
 
-//C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
-//ORIGINAL LINE: bool MultiShape::isPointInside(const Vector2& point) const
-	public static bool MultiShape.isPointInside(Vector2 point)
-	{
-		// Draw a horizontal lines that goes through "point"
-		// Using the closest intersection, find whether the point is actually inside
-		int closestSegmentIndex = -1;
-		float closestSegmentDistance = std.numeric_limits<float>.max();
-		Vector2 closestSegmentIntersection = new Vector2();
-		 Shape closestSegmentShape = 0;
+////C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+////ORIGINAL LINE: bool MultiShape::isPointInside(const Vector2& point) const
+//    public static bool MultiShape.isPointInside(Vector2 point)
+//    {
+//        // Draw a horizontal lines that goes through "point"
+//        // Using the closest intersection, find whether the point is actually inside
+//        int closestSegmentIndex = -1;
+//        float closestSegmentDistance =float.MaxValue; //std.numeric_limits<float>.max();
+//        Vector2 closestSegmentIntersection = new Vector2();
+//         Shape closestSegmentShape = null;
 
-		for (int k = 0; k < mShapes.size(); k++)
-		{
-			const Shape shape = mShapes[k];
-			for (int i = 0; i < shape.getSegCount(); i++)
-			{
-				Vector2 A = shape.getPoint(i);
-				Vector2 B = shape.getPoint(i + 1);
-				if (A.y != B.y && (A.y - point.y)*(B.y - point.y) <= 0.)
-				{
-					Vector2 intersect = new Vector2(A.x + (point.y - A.y)*(B.x - A.x) / (B.y - A.y), point.y);
-					float dist = Math.Abs(point.x - intersect.x);
-					if (dist < closestSegmentDistance)
-					{
-						closestSegmentIndex = i;
-						closestSegmentDistance = dist;
-//C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
-//ORIGINAL LINE: closestSegmentIntersection = intersect;
-						closestSegmentIntersection.CopyFrom(intersect);
-						closestSegmentShape = shape;
-					}
-				}
-			}
-		}
-		if (closestSegmentIndex != -1)
-		{
-			int edgePoint = -1;
-			if (closestSegmentIntersection.squaredDistance(closestSegmentShape.getPoint(closestSegmentIndex)) < 1e-8)
-				edgePoint = closestSegmentIndex;
-			else if (closestSegmentIntersection.squaredDistance(closestSegmentShape.getPoint(closestSegmentIndex + 1)) < 1e-8)
-				edgePoint = closestSegmentIndex + 1;
-			if (edgePoint>-1)
-			{
-				Mogre.Radian alpha1 = Utils.angleBetween(point - closestSegmentShape.getPoint(edgePoint), closestSegmentShape.getDirectionAfter(edgePoint));
-				Mogre.Radian alpha2 = Utils.angleBetween(point - closestSegmentShape.getPoint(edgePoint), -closestSegmentShape.getDirectionBefore(edgePoint));
-				if (alpha1 < alpha2)
-					closestSegmentIndex = edgePoint;
-				else
-					closestSegmentIndex = edgePoint - 1;
-			}
-			return (closestSegmentShape.getNormalAfter(closestSegmentIndex).x * (point.x - closestSegmentIntersection.x) < 0);
-		}
-		// We're in the case where the point is on the "float outside" of the multishape
-		// So, if the float outside == user defined outside, then the point is "user-defined outside"
-		return !isOutsideRealOutside();
-	}
-}
+//        for (int k = 0; k < mShapes.size(); k++)
+//        {
+//            const Shape shape = mShapes[k];
+//            for (int i = 0; i < shape.getSegCount(); i++)
+//            {
+//                Vector2 A = shape.getPoint(i);
+//                Vector2 B = shape.getPoint(i + 1);
+//                if (A.y != B.y && (A.y - point.y)*(B.y - point.y) <= 0.)
+//                {
+//                    Vector2 intersect = new Vector2(A.x + (point.y - A.y)*(B.x - A.x) / (B.y - A.y), point.y);
+//                    float dist = Math.Abs(point.x - intersect.x);
+//                    if (dist < closestSegmentDistance)
+//                    {
+//                        closestSegmentIndex = i;
+//                        closestSegmentDistance = dist;
+////C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+////ORIGINAL LINE: closestSegmentIntersection = intersect;
+//                        closestSegmentIntersection.CopyFrom(intersect);
+//                        closestSegmentShape = shape;
+//                    }
+//                }
+//            }
+//        }
+//        if (closestSegmentIndex != -1)
+//        {
+//            int edgePoint = -1;
+//            if (closestSegmentIntersection.squaredDistance(closestSegmentShape.getPoint(closestSegmentIndex)) < 1e-8)
+//                edgePoint = closestSegmentIndex;
+//            else if (closestSegmentIntersection.squaredDistance(closestSegmentShape.getPoint(closestSegmentIndex + 1)) < 1e-8)
+//                edgePoint = closestSegmentIndex + 1;
+//            if (edgePoint>-1)
+//            {
+//                Mogre.Radian alpha1 = Utils.angleBetween(point - closestSegmentShape.getPoint(edgePoint), closestSegmentShape.getDirectionAfter(edgePoint));
+//                Mogre.Radian alpha2 = Utils.angleBetween(point - closestSegmentShape.getPoint(edgePoint), -closestSegmentShape.getDirectionBefore(edgePoint));
+//                if (alpha1 < alpha2)
+//                    closestSegmentIndex = edgePoint;
+//                else
+//                    closestSegmentIndex = edgePoint - 1;
+//            }
+//            return (closestSegmentShape.getNormalAfter(closestSegmentIndex).x * (point.x - closestSegmentIntersection.x) < 0);
+//        }
+//        // We're in the case where the point is on the "float outside" of the multishape
+//        // So, if the float outside == user defined outside, then the point is "user-defined outside"
+//        return !isOutsideRealOutside();
+//    }
+//}
 
 //C++ TO C# CONVERTER NOTE: C# has no need of forward class declarations:
 //class Shape;
@@ -101,7 +101,7 @@ public class MultiShape
 	/// @param ... pointer to the shapes to add
 	//-----------------------------------------------------------------------
 	
-	public MultiShape(int count, params object[] ParamArray)
+	public MultiShape(int count,  Shape[] ParamArray)
 	{
 //		va_list shapes;
 		int ParamCount = -1;
@@ -109,7 +109,8 @@ public class MultiShape
 		for (int i = 0; i < count; i++)
 		{
 			ParamCount++;
-			mShapes.Add(*ParamArray[ParamCount]);
+			//mShapes.Add(*ParamArray[ParamCount]);
+            mShapes.Add(ParamArray[ParamCount]);
 		}
 	
 //		va_end(shapes);
@@ -133,13 +134,13 @@ public class MultiShape
 //ORIGINAL LINE: const Shape& getShape(uint i) const
 	public Shape getShape(uint i)
 	{
-		return mShapes[i];
+		return mShapes[(int)i];
 	}
 
 	/// Returns the i-th shape
 	public Shape getShape(uint i)
 	{
-		return mShapes[i];
+		return mShapes[(int)i];
 	}
 
 	/// Builds an aggregated list of all points contained in all shapes
@@ -154,7 +155,8 @@ public class MultiShape
 		{
 			List<Vector2> points = mShapes[i].getPoints();
 //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent to the STL vector 'insert' method in C#:
-			result.insert(result.end(), points.GetEnumerator(), points.end());
+			//result.insert(result.end(), points.GetEnumerator(), points.end());
+            result.AddRange(points);
 		}
 		return result;
 	}
@@ -162,17 +164,17 @@ public class MultiShape
 	/// Returns the number of shapes in that MultiShape
 //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: uint getShapeCount() const
-	public uint getShapeCount()
+	public int getShapeCount()
 	{
 		return mShapes.Count;
 	}
 
 	/// Append every shape of an other multishape to the current multiShape
-	public void addMultiShape(MultiShape STLAllocator<U, AllocPolicy>)
+	public void addMultiShape(MultiShape other)
 	{
-		for (List<Shape>.Enumerator it = STLAllocator<U, AllocPolicy>.mShapes.GetEnumerator(); it!=STLAllocator<U, AllocPolicy>.mShapes.end(); ++it)
-		{
-			mShapes.Add(it.Current);
+		//for (List<Shape>.Enumerator it = STLAllocator<U, AllocPolicy>.mShapes.GetEnumerator(); it!=STLAllocator<U, AllocPolicy>.mShapes.end(); ++it)
+		foreach(var it in other.mShapes){
+			mShapes.Add(it);
 		}
 	}
 
@@ -187,22 +189,23 @@ public class MultiShape
 //ORIGINAL LINE: MeshPtr realizeMesh(const string& name ="")
 	public MeshPtr realizeMesh(string name)
 	{
-		Mogre.SceneManager smgr = Root.getSingleton().getSceneManagerIterator().begin().second;
-		ManualObject manual = smgr.createManualObject(name);
+		Mogre.SceneManager smgr = Root.Singleton.GetSceneManagerIterator().Current;
+		ManualObject manual = smgr.CreateManualObject(name);
 	
-		for (List<Shape>.Enumerator it = mShapes.GetEnumerator(); it.MoveNext(); ++it)
+		//for (List<Shape>.Enumerator it = mShapes.GetEnumerator(); it.MoveNext(); ++it)
+        foreach(var it in mShapes)
 		{
-			manual.begin("BaseWhiteNoLighting", RenderOperation.OperationType.OT_LINE_STRIP);
-			it._appendToManualObject(manual);
-			manual.end();
+			manual.Begin("BaseWhiteNoLighting", RenderOperation.OperationTypes.OT_LINE_STRIP);
+			it.appendToManualObject(manual);
+			manual.End();
 		}
-	
-		MeshPtr mesh = new MeshPtr();
+
+        MeshPtr mesh = null;// MeshManager.Singleton.CreateManual(Guid.NewGuid().ToString("N"), "General"); //new MeshPtr();
 		if (name == "")
-			mesh = manual.convertToMesh(Utils.getName());
+			mesh = manual.ConvertToMesh(Utils.getName("mutishape_procedural_"));
 		else
-			mesh = manual.convertToMesh(name);
-		smgr.destroyManualObject(manual);
+			mesh = manual.ConvertToMesh(name);
+		smgr.DestroyManualObject(manual);
 		return mesh;
 	}
 
@@ -225,7 +228,8 @@ public class MultiShape
 //ORIGINAL LINE: bool isClosed() const
 	public bool isClosed()
 	{
-		for (List<Shape>.Enumerator it = mShapes.GetEnumerator(); it.MoveNext(); ++it)
+		//for (List<Shape>.Enumerator it = mShapes.GetEnumerator(); it.MoveNext(); ++it)
+        foreach(var it in mShapes)
 		{
 			if (!it.isClosed())
 				return false;
@@ -240,7 +244,8 @@ public class MultiShape
 	
 	public void close()
 	{
-		for (List<Shape>.Enumerator it = mShapes.GetEnumerator(); it.MoveNext(); ++it)
+		//for (List<Shape>.Enumerator it = mShapes.GetEnumerator(); it.MoveNext(); ++it)
+        foreach(var it in mShapes)
 		{
 			it.close();
 		}
@@ -249,20 +254,73 @@ public class MultiShape
 //    *
 //	 * Determines whether the outside as defined by user equals "real" outside
 //	 
+    public  bool isPointInside(Vector2 point)
+	{
+		// Draw a horizontal lines that goes through "point"
+		// Using the closest intersection, find whether the point is actually inside
+		int closestSegmentIndex = -1;
+		float closestSegmentDistance =float.MaxValue; //std.numeric_limits<float>.max();
+		Vector2 closestSegmentIntersection = new Vector2();
+		 Shape closestSegmentShape = null;
 
+		for (int k = 0; k < mShapes.Count; k++)
+		{
+			 Shape shape = mShapes[k];
+			for (int i = 0; i < shape.getSegCount(); i++)
+			{
+				Vector2 A = shape.getPoint(i);
+				Vector2 B = shape.getPoint(i + 1);
+				if (A.y != B.y && (A.y - point.y)*(B.y - point.y) <= 0.)
+				{
+					Vector2 intersect = new Vector2(A.x + (point.y - A.y)*(B.x - A.x) / (B.y - A.y), point.y);
+					float dist = Math.Abs(point.x - intersect.x);
+					if (dist < closestSegmentDistance)
+					{
+						closestSegmentIndex = i;
+						closestSegmentDistance = dist;
+//C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+//ORIGINAL LINE: closestSegmentIntersection = intersect;
+						closestSegmentIntersection=(intersect);
+						closestSegmentShape = shape;
+					}
+				}
+			}
+		}
+		if (closestSegmentIndex != -1)
+		{
+			int edgePoint = -1;
+			if ((closestSegmentIntersection,closestSegmentShape.getPoint(closestSegmentIndex)).SquaredDistance < 1e-8)
+				edgePoint = closestSegmentIndex;
+			else if ((closestSegmentIntersection,closestSegmentShape.getPoint(closestSegmentIndex + 1)).squaredDistance < 1e-8)
+				edgePoint = closestSegmentIndex + 1;
+			if (edgePoint>-1)
+			{
+				Mogre.Radian alpha1 = Utils.angleBetween(point - closestSegmentShape.getPoint(edgePoint), closestSegmentShape.getDirectionAfter(edgePoint));
+				Mogre.Radian alpha2 = Utils.angleBetween(point - closestSegmentShape.getPoint(edgePoint), -closestSegmentShape.getDirectionBefore(edgePoint));
+				if (alpha1 < alpha2)
+					closestSegmentIndex = edgePoint;
+				else
+					closestSegmentIndex = edgePoint - 1;
+			}
+			return (closestSegmentShape.getNormalAfter(closestSegmentIndex).x * (point.x - closestSegmentIntersection.x) < 0);
+		}
+		// We're in the case where the point is on the "float outside" of the multishape
+		// So, if the float outside == user defined outside, then the point is "user-defined outside"
+		return !isOutsideRealOutside();
+	}
 	//-----------------------------------------------------------------------
 	
 //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: bool isOutsideRealOutside() const
 	public bool isOutsideRealOutside()
 	{
-		float x = std.numeric_limits<float>.min();
+        float x = float.MinValue;//std.numeric_limits<float>.min();
 		int index = 0;
 		int shapeIndex = 0;
 		for (int j = 0; j < mShapes.Count; j++)
 		{
-			const Shape s = mShapes[j];
-			const List<Vector2> points = s.getPointsReference();
+			 Shape s = mShapes[j];
+			 List<Vector2> points = s.getPointsReference();
 			for (int i = 0; i < points.Count; i++)
 			{
 				if (x < points[i].x)
@@ -277,9 +335,9 @@ public class MultiShape
 		Radian alpha2 = Utils.angleTo(Vector2.UNIT_Y, -mShapes[shapeIndex].getDirectionBefore(index));
 		Side shapeSide;
 		if (alpha1 < alpha2)
-			shapeSide = SIDE_RIGHT;
+			shapeSide =  Side.SIDE_RIGHT;
 		else
-			shapeSide = SIDE_LEFT;
+			shapeSide = Side.SIDE_LEFT;
 		return shapeSide == mShapes[shapeIndex].getOutSide();
 	}
 
