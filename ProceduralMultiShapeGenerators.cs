@@ -1,3 +1,5 @@
+#define PROCEDURAL_USE_FREETYPE
+
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -21,8 +23,8 @@ namespace Mogre_Procedural
 //ORIGINAL LINE: class _ProceduralExport TextShape
 public class TextShape
 {
-	private String mText = new String();
-	private String mFontName = new String();
+	private String mText = "";
+	private String mFontName = "";
 	private byte mFontSize = 0;
 
 //    *
@@ -40,7 +42,7 @@ public class TextShape
 //	\param text New text for processing (default "OgreProcedural")
 //	\exception Ogre::InvalidParametersException Empty text
 //	
-	public TextShape setText(Mogre.String text)
+	public TextShape setText(string text)
 	{
 		if (text.empty())
 //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
@@ -60,7 +62,7 @@ public class TextShape
 //	\exception Ogre::InvalidParametersException Font size is below 4
 //	\todo Add search for font names on non windows systems.
 //	
-	public TextShape setFont(Mogre.String fontName, byte fontSize)
+	public TextShape setFont(string fontName, byte fontSize)
 	{
 		if (fontName.empty())
 //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
@@ -212,7 +214,7 @@ public class TextShape
 									if (nextIsConnic)
 //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
 //ORIGINAL LINE: lastPoint = nextPoint;
-										lastPoint.CopyFrom(nextPoint);
+										lastPoint=(nextPoint);
 								}
 							}
 						}
@@ -242,8 +244,8 @@ public class TextShape
 
 	private String getFontFileByName()
 	{
-		Mogre.String ff = new String();
-		Mogre.String tmp = new String();
+		string ff = "";
+		string tmp = "";
 	
 	//C++ TO C# CONVERTER TODO TASK: C# does not allow setting or comparing #define constants:
 #if PROCEDURAL_PLATFORM == PROCEDURAL_PLATFORM_WIN32
@@ -264,7 +266,7 @@ public class TextShape
 
 //C++ TO C# CONVERTER TODO TASK: C# does not allow setting or comparing #define constants:
 #if PROCEDURAL_PLATFORM == PROCEDURAL_PLATFORM_WIN32
-	private bool getFontFile(Mogre.String fontName, ref String displayName, ref String filePath)
+	private bool getFontFile(string fontName, ref String displayName, ref String filePath)
 	{
 		if (fontName.empty())
 			return false;

@@ -184,7 +184,7 @@ public class Lathe : MeshGenerator<Lathe>
 		mMultiShapeToExtrude = null;
 		mNumSeg = numSeg;
 		mAngleBegin = 0f;
-		mAngleEnd = (Mogre.Radian)Math.TWO_PI;
+		mAngleEnd = (Radian)Math.TWO_PI;
 		mClosed = true;
 		mCapped = true;
 	}
