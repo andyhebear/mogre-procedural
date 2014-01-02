@@ -410,7 +410,7 @@ public static class GlobalMembersProceduralSVG
 				return;
 			Shape ss = sp.getSvgShape();
 			Vector2 line = ss.getPoint(1) - ss.getPoint(0);
-			float deg = line.angleBetween(ss.getPoint(2) - ss.getPoint(0)).valueDegrees();
+			float deg = line.angleBetween(ss.getPoint(2) - ss.getPoint(0)).ValueDegrees;
 			if ((0 <= deg && deg <= 180.0f) || (-180.0f <= deg && deg <= 0))
 				ss.setOutSide(Side.SIDE_LEFT);
 			else

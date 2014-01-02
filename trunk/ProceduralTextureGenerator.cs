@@ -1,13 +1,40 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
+/*
+    -----------------------------------------------------------------------------
+    This source file is part of mogre-procedural
+    For the latest info, see http://code.google.com/p/mogre-procedural/
+    my blog:http://hi.baidu.com/rainssoft
+    this is overwrite  ogre-procedural c++ project using c#, look  ogre-procedural c++ source http://code.google.com/p/ogre-procedural/
+   
+    Copyright (c) 2013-2020 rains soft
 
-using Mogre;
-using Math=Mogre.Math;
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in
+    all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+    THE SOFTWARE.
+    -----------------------------------------------------------------------------
+    */
 
 namespace Mogre_Procedural
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
 
+    using Mogre;
+    using Math = Mogre.Math;
     //* \addtogroup texturegrp Textures
     //Elements for procedural texture creation.
     //@{
@@ -85,10 +112,10 @@ namespace Mogre_Procedural
         //	Set the colour of the cell top.
         //	\param colour New colour of the cell top (default Ogre::ColourValue::White)
         //	
-        public Cell setColour(Mogre.ColourValue colour) {
+        public Cell setColour(ColourValue colour) {
             //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
             //ORIGINAL LINE: mColour = colour;
-            mColour.CopyFrom(colour);
+            mColour = (colour);
             return this;
         }
 
@@ -146,7 +173,7 @@ namespace Mogre_Procedural
         //	Set the cell mode of texture.
         //	\param mode New mode for cell ground (default MODE_GRID)
         //	
-        public Cell setMode(Cell.CELL_MODE mode) {
+        public Cell setMode(CELL_MODE mode) {
             mMode = mode;
             return this;
         }
@@ -155,7 +182,7 @@ namespace Mogre_Procedural
         //	Set the cell pattern of texture.
         //	\param pattern New base of cell construction (default PATTERN_BOTH)
         //	
-        public Cell setPattern(Cell.CELL_PATTERN pattern) {
+        public Cell setPattern(CELL_PATTERN pattern) {
             mPattern = pattern;
             return this;
         }
@@ -164,122 +191,112 @@ namespace Mogre_Procedural
         //	Run image generation
         //	\return Pointer to image buffer which has been set in the constructor.
         //	
-        public new TextureBuffer process()
-	{
-		bool cfc;
-		float coeff = 0f;
-	
-		RandomNumbers.Seed(mSeed);
-		 float regularity = mRegularity / 255.0f;
-//C++ TO C# CONVERTER TODO TASK: The memory management function 'malloc' has no equivalent in C#:
-		Vector3[] cellPoints = (Vector3)malloc(sizeof(Vector3) * mDensity * mDensity);
-	
-		for (int y = 0; y < mDensity; ++y)
-		{
-			for (int x = 0; x < mDensity; ++x)
-			{
-				float rand1 = (float)RandomNumbers.NextNumber() / 65536.0f;
-				float rand2 = (float)RandomNumbers.NextNumber() / 65536.0f;
-				cellPoints[x + y * mDensity].x = (x + 0.5f + (rand1 - 0.5f) * (1 - regularity)) / mDensity - 1.0f / mBuffer.getWidth();
-				cellPoints[x + y * mDensity].y = (y + 0.5f + (rand2 - 0.5f) * (1 - regularity)) / mDensity - 1.0f / mBuffer.getHeight();
-				cellPoints[x + y * mDensity].z = 0;
-			}
-		}
-	
-		for (int y = 0; y < mBuffer.getHeight(); ++y)
-		{
-			for (int x = 0; x < mBuffer.getWidth(); ++x)
-			{
-				Vector3 pixelPos = new Vector3();
-				pixelPos.x = (float)x / (float)mBuffer.getWidth(), pixelPos.y = (float)y / (float)mBuffer.getHeight();
-				pixelPos.z = 0.0f;
-	
-				float minDist = 10;
-				float nextMinDist = minDist;
-				int xo = x * mDensity / mBuffer.getWidth();
-				int yo = y * mDensity / mBuffer.getHeight();
-				for (int v = -1; v < 2; ++v)
-				{
-					int vo = ((yo + mDensity + v) % mDensity) * mDensity;
-					for (int u = -1; u < 2; ++u)
-					{
-						Vector3 cellPos = cellPoints[((xo + mDensity + u) % mDensity) + vo];
-						if (u == -1 && x * mDensity < mBuffer.getWidth())
-							cellPos.x -= 1;
-						if (v == -1 && y * mDensity < mBuffer.getHeight())
-							cellPos.y -= 1;
-						if (u == 1 && x * mDensity >= mBuffer.getWidth() * (mDensity - 1))
-							cellPos.x += 1;
-						if (v == 1 && y * mDensity >= mBuffer.getHeight() * (mDensity - 1))
-							cellPos.y += 1;
-	
-						float norm = pixelPos.distance(cellPos);
-						if (norm < minDist)
-						{
-							nextMinDist = minDist;
-							minDist = norm;
-						}
-						else if (norm < nextMinDist)
-						{
-							nextMinDist = norm;
-						}
-					}
-				}
-	
-				switch (mPattern)
-				{
-				default:
-//C++ TO C# CONVERTER TODO TASK: C# does not allow fall-through from a non-empty 'case':
-				case CELL_PATTERN.PATTERN_BOTH:
-					minDist = (nextMinDist - minDist) * mDensity;
-					break;
-	
-				case CELL_PATTERN.PATTERN_CROSS:
-					minDist = 2 * nextMinDist * mDensity - 1;
-					break;
-	
-				case CELL_PATTERN.PATTERN_CONE:
-					minDist = 1 - minDist * mDensity;
-					break;
-				}
-	
-				if (minDist < 0)
-					minDist = 0;
-				if (minDist > 1)
-					minDist = 1;
-	
-				switch (mMode)
-				{
-				case CELL_MODE.MODE_CHESSBOARD:
-					cfc = ((xo & 1) ^ (yo & 1)) != 0;
-                    int cfc_int=cfc?1:0;
-					coeff = (1 - 2 * cfc_int) / 2.5f;
-					mBuffer.setRed(x, y, (byte)((cfc_int + coeff * minDist) * mColour.r * 255.0f));
-					mBuffer.setGreen(x, y, (byte)((cfc_int + coeff * minDist) * mColour.g * 255.0f));
-					mBuffer.setBlue(x, y, (byte)((cfc_int + coeff * minDist) * mColour.b * 255.0f));
-					break;
-	
-				default:
-//C++ TO C# CONVERTER TODO TASK: C# does not allow fall-through from a non-empty 'case':
-				case CELL_MODE.MODE_GRID:
-					mBuffer.setRed(x, y, (byte)(minDist * mColour.r * 255.0f));
-					mBuffer.setGreen(x, y, (byte)(minDist * mColour.g * 255.0f));
-					mBuffer.setBlue(x, y, (byte)(minDist * mColour.b * 255.0f));
-					break;
-				}
-				mBuffer.setAlpha(x, y, mColour.a);
-			}
-		}
-	
-		logMsg("Create cell texture : " + StringConverter.ToString(mDensity) + "x" + StringConverter.ToString(mDensity));
-		return mBuffer;
-	}
+        public override TextureBuffer process() {
+            bool cfc;
+            float coeff = 0f;
 
+            RandomNumbers.Seed((int)mSeed);
+            float regularity = mRegularity / 255.0f;
+            //C++ TO C# CONVERTER TODO TASK: The memory management function 'malloc' has no equivalent in C#:
+            Vector3[] cellPoints = new Vector3[mDensity * mDensity]; //(Vector3)malloc(sizeof(Vector3) * mDensity * mDensity);
 
+            for (int y = 0; y < mDensity; ++y) {
+                for (int x = 0; x < mDensity; ++x) {
+                    float rand1 = (float)RandomNumbers.NextNumber() / 65536.0f;
+                    float rand2 = (float)RandomNumbers.NextNumber() / 65536.0f;
+                    cellPoints[x + y * mDensity].x = (x + 0.5f + (rand1 - 0.5f) * (1 - regularity)) / mDensity - 1.0f / mBuffer.getWidth();
+                    cellPoints[x + y * mDensity].y = (y + 0.5f + (rand2 - 0.5f) * (1 - regularity)) / mDensity - 1.0f / mBuffer.getHeight();
+                    cellPoints[x + y * mDensity].z = 0;
+                }
+            }
 
-        private Vector3 malloc(long p) {
-            throw new NotImplementedException();
+            for (int y = 0; y < mBuffer.getHeight(); ++y) {
+                for (int x = 0; x < mBuffer.getWidth(); ++x) {
+                    Vector3 pixelPos = new Vector3();
+                    pixelPos.x = (float)x / (float)mBuffer.getWidth();
+                    pixelPos.y = (float)y / (float)mBuffer.getHeight();
+                    pixelPos.z = 0.0f;
+
+                    float minDist = 10;
+                    float nextMinDist = minDist;
+                    int xo = x * (int)mDensity / (int)mBuffer.getWidth();
+                    int yo = y * (int)mDensity / (int)mBuffer.getHeight();
+                    for (int v = -1; v < 2; ++v) {
+                        int vo = ((yo + (int)mDensity + v) % (int)mDensity) * (int)mDensity;
+                        for (int u = -1; u < 2; ++u) {
+                            Vector3 cellPos = cellPoints[((xo + mDensity + u) % mDensity) + vo];
+                            if (u == -1 && x * mDensity < mBuffer.getWidth())
+                                cellPos.x -= 1;
+                            if (v == -1 && y * mDensity < mBuffer.getHeight())
+                                cellPos.y -= 1;
+                            if (u == 1 && x * mDensity >= mBuffer.getWidth() * (mDensity - 1))
+                                cellPos.x += 1;
+                            if (v == 1 && y * mDensity >= mBuffer.getHeight() * (mDensity - 1))
+                                cellPos.y += 1;
+
+                            float norm = (pixelPos - cellPos).Length;//pixelPos.distance(cellPos);
+                            if (norm < minDist) {
+                                nextMinDist = minDist;
+                                minDist = norm;
+                            }
+                            else if (norm < nextMinDist) {
+                                nextMinDist = norm;
+                            }
+                        }
+                    }
+
+                    switch (mPattern) {
+                        default:
+                        //C++ TO C# CONVERTER TODO TASK: C# does not allow fall-through from a non-empty 'case':
+                        case CELL_PATTERN.PATTERN_BOTH:
+                            minDist = (nextMinDist - minDist) * mDensity;
+                            break;
+
+                        case CELL_PATTERN.PATTERN_CROSS:
+                            minDist = 2 * nextMinDist * mDensity - 1;
+                            break;
+
+                        case CELL_PATTERN.PATTERN_CONE:
+                            minDist = 1 - minDist * mDensity;
+                            break;
+                    }
+
+                    if (minDist < 0)
+                        minDist = 0;
+                    if (minDist > 1)
+                        minDist = 1;
+
+                    switch (mMode) {
+                        case CELL_MODE.MODE_CHESSBOARD:
+                            cfc = ((xo & 1) ^ (yo & 1)) != 0;
+                            int cfc_int = cfc ? 1 : 0;
+                            coeff = (1 - 2 * cfc_int) / 2.5f;
+                            mBuffer.setRed(x, y, (byte)((cfc_int + coeff * minDist) * mColour.r * 255.0f));
+                            mBuffer.setGreen(x, y, (byte)((cfc_int + coeff * minDist) * mColour.g * 255.0f));
+                            mBuffer.setBlue(x, y, (byte)((cfc_int + coeff * minDist) * mColour.b * 255.0f));
+                            break;
+
+                        default:
+                        //C++ TO C# CONVERTER TODO TASK: C# does not allow fall-through from a non-empty 'case':
+                        case CELL_MODE.MODE_GRID:
+                            mBuffer.setRed(x, y, (byte)(minDist * mColour.r * 255.0f));
+                            mBuffer.setGreen(x, y, (byte)(minDist * mColour.g * 255.0f));
+                            mBuffer.setBlue(x, y, (byte)(minDist * mColour.b * 255.0f));
+                            break;
+                    }
+                    mBuffer.setAlpha(x, y, mColour.a);
+                }
+            }
+
+            logMsg("Create cell texture : " + (mDensity).ToString() + "x" + (mDensity).ToString());
+            return mBuffer;
         }
+
+
+
+        //private Vector3 malloc(long p) {
+        //    throw new NotImplementedException();
+        //}
     }
 
     //*
@@ -317,10 +334,10 @@ namespace Mogre_Procedural
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        public Cloud setColour(Mogre.ColourValue colour) {
+        public Cloud setColour(ColourValue colour) {
             //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
             //ORIGINAL LINE: mColour = colour;
-            mColour.CopyFrom(colour);
+            mColour = (colour);
             return this;
         }
 
@@ -354,10 +371,10 @@ namespace Mogre_Procedural
         //	Run image generation
         //	\return Pointer to image buffer which has been set in the constructor.
         //	
-        public new TextureBuffer process() {
-            RandomNumbers.Seed(mSeed);
+        public override TextureBuffer process() {
+            RandomNumbers.Seed((int)mSeed);
             int r = RandomNumbers.NextNumber();
-            PerlinNoise noise = new PerlinNoise(8, 0.5, 1.0 / 32.0, 1.0);
+            PerlinNoise noise = new PerlinNoise(8, 0.5f, 1.0f / 32.0f, 1.0f);
             float filterLevel = 0.7f;
             float preserveLevel = 0.3f;
 
@@ -415,10 +432,10 @@ namespace Mogre_Procedural
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        public Gradient setColourA(Mogre.ColourValue colour) {
+        public Gradient setColourA(ColourValue colour) {
             //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
             //ORIGINAL LINE: mColourA = colour;
-            mColourA.CopyFrom(colour);
+            mColourA = (colour);
             return this;
         }
 
@@ -443,10 +460,10 @@ namespace Mogre_Procedural
         //	Set the colour in the top right corner of the image.
         //	\param colour New colour in the top right corner for processing (default Ogre::ColourValue::Green)
         //	
-        public Gradient setColourB(Mogre.ColourValue colour) {
+        public Gradient setColourB(ColourValue colour) {
             //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
             //ORIGINAL LINE: mColourB = colour;
-            mColourB.CopyFrom(colour);
+            mColourB = (colour);
             return this;
         }
 
@@ -471,10 +488,10 @@ namespace Mogre_Procedural
         //	Set the colour in the bottom left corner of the image.
         //	\param colour New colour in the bottom left corner for processing (default Ogre::ColourValue::Red)
         //	
-        public Gradient setColourC(Mogre.ColourValue colour) {
+        public Gradient setColourC(ColourValue colour) {
             //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
             //ORIGINAL LINE: mColourC = colour;
-            mColourC.CopyFrom(colour);
+            mColourC = (colour);
             return this;
         }
 
@@ -499,10 +516,10 @@ namespace Mogre_Procedural
         //	Set the colour in the bottom right corner of the image.
         //	\param colour New colour in the bottom right corner for processing (default Ogre::ColourValue(0.0f, 1.0f, 1.0f))
         //	
-        public Gradient setColourD(Mogre.ColourValue colour) {
+        public Gradient setColourD(ColourValue colour) {
             //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
             //ORIGINAL LINE: mColourD = colour;
-            mColourD.CopyFrom(colour);
+            mColourD = (colour);
             return this;
         }
 
@@ -530,19 +547,19 @@ namespace Mogre_Procedural
         //	\param colourC New colour in the bottom left corner (default Ogre::ColourValue::Red)
         //	\param colourD New colour in the bottom right corner (default Ogre::ColourValue(0.0f, 1.0f, 1.0f))
         //	
-        public Gradient setColours(Mogre.ColourValue colourA, ColourValue colourB, ColourValue colourC, ColourValue colourD) {
+        public Gradient setColours(ColourValue colourA, ColourValue colourB, ColourValue colourC, ColourValue colourD) {
             //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
             //ORIGINAL LINE: mColourA = colourA;
-            mColourA.CopyFrom(colourA);
+            mColourA = (colourA);
             //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
             //ORIGINAL LINE: mColourB = colourB;
-            mColourB.CopyFrom(colourB);
+            mColourB = (colourB);
             //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
             //ORIGINAL LINE: mColourC = colourC;
-            mColourC.CopyFrom(colourC);
+            mColourC = (colourC);
             //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
             //ORIGINAL LINE: mColourD = colourD;
-            mColourD.CopyFrom(colourD);
+            mColourD = (colourD);
             return this;
         }
 
@@ -550,7 +567,7 @@ namespace Mogre_Procedural
         //	Run image generation
         //	\return Pointer to image buffer which has been set in the constructor.
         //	
-        public new TextureBuffer process() {
+        public override TextureBuffer process() {
             float finv_WH = 1.0f / (float)(mBuffer.getWidth() * mBuffer.getHeight());
             for (int y = 0; y < mBuffer.getHeight(); y++) {
                 for (int x = 0; x < mBuffer.getWidth(); x++) {
@@ -605,12 +622,12 @@ namespace Mogre_Procedural
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        public Image setFile(Mogre.String filename) {
+        public Image setFile(string filename) {
             return setFile(filename, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
         }
         //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
         //ORIGINAL LINE: Image& setFile(Ogre::String filename, Ogre::String groupname = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME)
-        public Image setFile(Mogre.String filename, String groupname) {
+        public Image setFile(string filename, string groupname) {
             mFile = filename;
             mGroup = groupname;
             return this;
@@ -620,15 +637,15 @@ namespace Mogre_Procedural
         //	Run image generation
         //	\return Pointer to image buffer which has been set in the constructor.
         //	
-        public TextureBuffer process() {
+        public override TextureBuffer process() {
             Mogre.Image img = new Mogre.Image();
-            img.Load(ref mFile, mGroup);
-            if (img.getHeight() < mBuffer.getHeight() || img.getWidth() < mBuffer.getWidth())
+            img.Load(mFile, mGroup);
+            if (img.Height < mBuffer.getHeight() || img.Width < mBuffer.getWidth())
                 return mBuffer;
 
             for (int y = 0; y < mBuffer.getHeight(); y++) {
                 for (int x = 0; x < mBuffer.getWidth(); x++) {
-                    mBuffer.setPixel(x, y, img.getColourAt(x, y, 0));
+                    mBuffer.setPixel(x, y, img.GetColourAt(x, y, 0));
                 }
             }
 
@@ -672,10 +689,10 @@ namespace Mogre_Procedural
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        public Labyrinth setColour(Mogre.ColourValue colour) {
+        public Labyrinth setColour(ColourValue colour) {
             //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
             //ORIGINAL LINE: mColour = colour;
-            mColour.CopyFrom(colour);
+            mColour = (colour);
             return this;
         }
 
@@ -709,8 +726,8 @@ namespace Mogre_Procedural
         //	Run image generation
         //	\return Pointer to image buffer which has been set in the constructor.
         //	
-        public new TextureBuffer process() {
-            RandomNumbers.Seed(mSeed);
+        public override TextureBuffer process() {
+            RandomNumbers.Seed((int)mSeed);
             int r = RandomNumbers.NextNumber();
             PerlinNoise noise = new PerlinNoise(1, 0.65f, 1.0f / 16.0f, 1.0f);
             float filterLevel = 0.7f;
@@ -766,10 +783,10 @@ namespace Mogre_Procedural
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        public Marble setColour(Mogre.ColourValue colour) {
+        public Marble setColour(ColourValue colour) {
             //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
             //ORIGINAL LINE: mColour = colour;
-            mColour.CopyFrom(colour);
+            mColour = (colour);
             return this;
         }
 
@@ -803,8 +820,8 @@ namespace Mogre_Procedural
         //	Run image generation
         //	\return Pointer to image buffer which has been set in the constructor.
         //	
-        public new TextureBuffer process() {
-            RandomNumbers.Seed(mSeed);
+        public override TextureBuffer process() {
+            RandomNumbers.Seed((int)mSeed);
             int r = RandomNumbers.NextNumber();
             PerlinNoise noise = new PerlinNoise(2, 0.65f, 1.0f / 32.0f, 1.0f);
             float xFact = 1.0f / 96.0f;
@@ -879,10 +896,10 @@ namespace Mogre_Procedural
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        public Noise setColour(Mogre.ColourValue colour) {
+        public Noise setColour(ColourValue colour) {
             //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
             //ORIGINAL LINE: mColour = colour;
-            mColour.CopyFrom(colour);
+            mColour = (colour);
             return this;
         }
 
@@ -925,7 +942,7 @@ namespace Mogre_Procedural
         //	Run image generation
         //	\return Pointer to image buffer which has been set in the constructor.
         //	
-        public new TextureBuffer process() {
+        public override TextureBuffer process() {
             NoiseBase noiseGen;
             switch (mType) {
                 case NOISE_TYPE.NOISE_PERLIN:
@@ -990,10 +1007,10 @@ namespace Mogre_Procedural
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        public Solid setColour(Mogre.ColourValue colour) {
+        public Solid setColour(ColourValue colour) {
             //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
             //ORIGINAL LINE: mColour = colour;
-            mColour.CopyFrom(colour);
+            mColour = (colour);
             return this;
         }
 
@@ -1018,14 +1035,14 @@ namespace Mogre_Procedural
         //	Run image generation
         //	\return Pointer to image buffer which has been set in the constructor.
         //	
-        public new TextureBuffer process() {
+        public override TextureBuffer process() {
             for (int y = 0; y < mBuffer.getHeight(); y++) {
                 for (int x = 0; x < mBuffer.getWidth(); x++) {
                     mBuffer.setPixel(x, y, mColour);
                 }
             }
 
-            Utils.log("Create solid colour texture : " + StringConverter.toString((int)(mColour.r * 255.0f)) + ", " + StringConverter.toString((int)(mColour.g * 255.0f)) + ", " + StringConverter.toString((int)(mColour.b * 255.0f)));
+            Utils.log("Create solid colour texture : " + ((int)(mColour.r * 255.0f)).ToString() + ", " + ((int)(mColour.g * 255.0f)).ToString() + ", " + ((int)(mColour.b * 255.0f)).ToString());
             return mBuffer;
         }
     }
@@ -1065,10 +1082,10 @@ namespace Mogre_Procedural
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        public Textile setColour(Mogre.ColourValue colour) {
+        public Textile setColour(ColourValue colour) {
             //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
             //ORIGINAL LINE: mColour = colour;
-            mColour.CopyFrom(colour);
+            mColour = (colour);
             return this;
         }
 
@@ -1102,8 +1119,8 @@ namespace Mogre_Procedural
         //	Run image generation
         //	\return Pointer to image buffer which has been set in the constructor.
         //	
-        public new TextureBuffer process() {
-            RandomNumbers.Seed(mSeed);
+        public override TextureBuffer process() {
+            RandomNumbers.Seed((int)mSeed);
             int r = RandomNumbers.NextNumber();
             PerlinNoise noise = new PerlinNoise(3, 0.65f, 1.0f / 8.0f, 1.0f);
             float filterLevel = 0.7f;
@@ -1161,10 +1178,10 @@ namespace Mogre_Procedural
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        public Wood setColour(Mogre.ColourValue colour) {
+        public Wood setColour(ColourValue colour) {
             //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
             //ORIGINAL LINE: mColour = colour;
-            mColour.CopyFrom(colour);
+            mColour = (colour);
             return this;
         }
 
@@ -1209,8 +1226,8 @@ namespace Mogre_Procedural
         //	Run image generation
         //	\return Pointer to image buffer which has been set in the constructor.
         //	
-        public new TextureBuffer process() {
-            RandomNumbers.Seed(mSeed);
+        public override TextureBuffer process() {
+            RandomNumbers.Seed((int)mSeed);
             int r = RandomNumbers.NextNumber();
             float filterLevel = 0.7f;
             float preserveLevel = 0.3f;
@@ -1240,42 +1257,6 @@ namespace Mogre_Procedural
 
 
 
-    //----------------------------------------------------------------------------------------
-    //	Copyright ? 2006 - 2009 Tangible Software Solutions Inc.
-    //	This class can be used by anyone provided that the copyright notice remains intact.
-    //
-    //	This class provides the ability to simulate the behavior of the C/C++ functions for 
-    //	generating random numbers, using the .NET Framework System.Random class.
-    //	'rand' converts to the parameterless overload of NextNumber
-    //	'random' converts to the single-parameter overload of NextNumber
-    //	'randomize' converts to the parameterless overload of Seed
-    //	'srand' converts to the single-parameter overload of Seed
-    //----------------------------------------------------------------------------------------
-    //internal static class RandomNumbers
-    //{
-    //    private static System.Random r;
 
-    //    internal static int NextNumber() {
-    //        if (r == null)
-    //            Seed();
-
-    //        return r.Next();
-    //    }
-
-    //    internal static int NextNumber(int ceiling) {
-    //        if (r == null)
-    //            Seed();
-
-    //        return r.Next(ceiling);
-    //    }
-
-    //    internal static void Seed() {
-    //        r = new System.Random();
-    //    }
-
-    //    internal static void Seed(int seed) {
-    //        r = new System.Random(seed);
-    //    }
-    //}
 
 }

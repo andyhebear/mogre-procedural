@@ -46,7 +46,7 @@ public class CubicHermiteSpline2 : BaseSpline2<CubicHermiteSpline2>
 		CubicHermiteSplineControlPoint<Vector2> cp = new CubicHermiteSplineControlPoint<Vector2>();
 //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
 //ORIGINAL LINE: cp.position = p;
-		cp.position.CopyFrom(p);
+		cp.position=(p);
 		cp.autoTangentBefore = autoTangentMode;
 		cp.autoTangentAfter = autoTangentMode;
 		mPoints.Add(cp);

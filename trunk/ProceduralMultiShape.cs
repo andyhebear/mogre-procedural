@@ -39,7 +39,7 @@ namespace Mogre_Procedural
 //                        closestSegmentDistance = dist;
 ////C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
 ////ORIGINAL LINE: closestSegmentIntersection = intersect;
-//                        closestSegmentIntersection.CopyFrom(intersect);
+//                        closestSegmentIntersection=(intersect);
 //                        closestSegmentShape = shape;
 //                    }
 //                }
@@ -54,8 +54,8 @@ namespace Mogre_Procedural
 //                edgePoint = closestSegmentIndex + 1;
 //            if (edgePoint>-1)
 //            {
-//                Mogre.Radian alpha1 = Utils.angleBetween(point - closestSegmentShape.getPoint(edgePoint), closestSegmentShape.getDirectionAfter(edgePoint));
-//                Mogre.Radian alpha2 = Utils.angleBetween(point - closestSegmentShape.getPoint(edgePoint), -closestSegmentShape.getDirectionBefore(edgePoint));
+//                Radian alpha1 = Utils.angleBetween(point - closestSegmentShape.getPoint(edgePoint), closestSegmentShape.getDirectionAfter(edgePoint));
+//                Radian alpha2 = Utils.angleBetween(point - closestSegmentShape.getPoint(edgePoint), -closestSegmentShape.getDirectionBefore(edgePoint));
 //                if (alpha1 < alpha2)
 //                    closestSegmentIndex = edgePoint;
 //                else
@@ -295,8 +295,8 @@ public class MultiShape
 				edgePoint = closestSegmentIndex + 1;
 			if (edgePoint>-1)
 			{
-				Mogre.Radian alpha1 = Utils.angleBetween(point - closestSegmentShape.getPoint(edgePoint), closestSegmentShape.getDirectionAfter(edgePoint));
-				Mogre.Radian alpha2 = Utils.angleBetween(point - closestSegmentShape.getPoint(edgePoint), -closestSegmentShape.getDirectionBefore(edgePoint));
+				Radian alpha1 = Utils.angleBetween(point - closestSegmentShape.getPoint(edgePoint), closestSegmentShape.getDirectionAfter(edgePoint));
+				Radian alpha2 = Utils.angleBetween(point - closestSegmentShape.getPoint(edgePoint), -closestSegmentShape.getDirectionBefore(edgePoint));
 				if (alpha1 < alpha2)
 					closestSegmentIndex = edgePoint;
 				else

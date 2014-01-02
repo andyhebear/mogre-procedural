@@ -186,6 +186,10 @@ namespace Mogre_Procedural
             //assert (minval <= maxval && "Invalid clamp range");
             return (float)System.Math.Max(System.Math.Min(val, maxval), minval);
         }
+        public static int Clamp(int val, int minval, int maxval) {
+            //assert (minval <= maxval && "Invalid clamp range");
+            return (int)System.Math.Max(System.Math.Min(val, maxval), minval);
+        }
         /// <summary>
         /// 返回3个值得中间值
         /// </summary>

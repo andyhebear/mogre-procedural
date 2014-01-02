@@ -224,7 +224,7 @@ public class LinePath
 	{
 //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
 //ORIGINAL LINE: mPoint1 = point1;
-		mPoint1.CopyFrom(point1);
+		mPoint1=(point1);
 		return this;
 	}
 
@@ -233,7 +233,7 @@ public class LinePath
 	{
 //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
 //ORIGINAL LINE: mPoint2 = point2;
-		mPoint2.CopyFrom(point2);
+		mPoint2=(point2);
 		return this;
 	}
 
@@ -256,10 +256,10 @@ public class LinePath
 	{
 //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
 //ORIGINAL LINE: mPoint1 = point1;
-		mPoint1.CopyFrom(point1);
+		mPoint1=(point1);
 //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
 //ORIGINAL LINE: mPoint2 = point2;
-		mPoint2.CopyFrom(point2);
+		mPoint2=(point2);
 		return this;
 	}
 

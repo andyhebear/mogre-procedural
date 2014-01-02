@@ -1,3 +1,6 @@
+
+#define PROCEDURAL_SHAPE_INCLUDED
+
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -39,7 +42,7 @@ public static class GlobalMembersProceduralShape
 					closestSegmentDistance = dist;
 //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
 //ORIGINAL LINE: closestSegmentIntersection = intersect;
-					closestSegmentIntersection.CopyFrom(intersect);
+					closestSegmentIntersection=(intersect);
 				}
 			}
 		}
@@ -74,6 +77,11 @@ public enum Side: int
 //ORIGINAL LINE: class _ProceduralExport Shape
 public class Shape
 {
+    public	enum BooleanOperationType { 
+    BOT_UNION,
+    BOT_INTERSECTION,
+    BOT_DIFFERENCE
+    }
 	private List<Vector2> mPoints = new List<Vector2>();
 	private bool mClosed;
 	private Side mOutSide;
@@ -82,7 +90,7 @@ public class Shape
 	public Shape()
 	{
 		mClosed = false;
-		mOutSide = SIDE_RIGHT;
+		mOutSide =  Side.SIDE_RIGHT;
 	}
 
 	/// Adds a point to the shape
@@ -106,7 +114,8 @@ public class Shape
 	public Shape insertPoint(int index, float x, float y)
 	{
 //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent to the STL vector 'insert' method in C#:
-		mPoints.insert(mPoints.GetEnumerator()+index, Vector2(x, y));
+		//mPoints.Insert(mPoints.GetEnumerator()+index, Vector2(x, y));
+        mPoints.Insert(index,new Vector2(x,y));
 		return this;
 	}
 
@@ -116,17 +125,21 @@ public class Shape
 	public Shape insertPoint(int index, Vector2 pt)
 	{
 //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent to the STL vector 'insert' method in C#:
-		mPoints.insert(mPoints.GetEnumerator()+index, pt);
+		//mPoints.insert(mPoints.GetEnumerator()+index, pt);
+        mPoints.Insert(index,pt);
 		return this;
 	}
 
 	/// Adds a point to the shape, relative to the last point added
 	public Shape addPointRel(Vector2 pt)
 	{
-		if (mPoints.Count == 0)
+		if (mPoints.Count == 0){
 			mPoints.Add(pt);
-		else
-			mPoints.Add(pt + *(mPoints.end()-1));
+        }
+		else{
+            Vector2 end=mPoints[mPoints.Count-1];
+			mPoints.Add(pt +end);
+        }       
 		return this;
 	}
 
@@ -135,32 +148,51 @@ public class Shape
 	{
 		if (mPoints.Count == 0)
 			mPoints.Add(new Vector2(x, y));
-		else
-			mPoints.Add(new Vector2(x, y) + *(mPoints.end()-1));
+		else{
+            Vector2 end=mPoints[mPoints.Count-1];
+			mPoints.Add(new Vector2(x, y) + end);
+        }
 		return this;
 	}
-
+    public Shape addPointRel(List<Vector2>pointList){
+        if (mPoints.Count == 0){
+			mPoints.AddRange(pointList.ToArray());
+        }
+		else
+		{
+			Vector2 refVector =mPoints[mPoints.Count-1];
+	            foreach(var it in pointList){
+                addPoint(it+refVector);
+            }
+		}
+		return this;
+    }
 	/// Appends another shape at the end of this one
-	public Shape appendShape(Shape STLAllocator<U, AllocPolicy>)
+	public Shape appendShape(Shape other)
 	{
 //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent to the STL vector 'insert' method in C#:
-		mPoints.insert(mPoints.end(), STLAllocator<U, AllocPolicy>.mPoints.GetEnumerator(), STLAllocator<U, AllocPolicy>.mPoints.end());
-		return this;
+		//mPoints.insert(mPoints.end(), STLAllocator<U, AllocPolicy>.mPoints.GetEnumerator(), STLAllocator<U, AllocPolicy>.mPoints.end());
+		mPoints.AddRange(other.mPoints.ToArray());
+        return this;
 	}
 
 	/// Appends another shape at the end of this one, relative to the last point of this shape
-	public Shape appendShapeRel(Shape STLAllocator<U, AllocPolicy>)
+	public Shape appendShapeRel(Shape other)
 	{
+        return addPointRel(other.mPoints);
 		if (mPoints.Count == 0)
-			appendShape(STLAllocator<U, AllocPolicy>);
+			appendShape(other);
 		else
 		{
-			Vector2 refVector = *(mPoints.end()-1);
-			List<Vector2> pointList = new List<Vector2>(STLAllocator<U, AllocPolicy>.mPoints.GetEnumerator(), STLAllocator<U, AllocPolicy>.mPoints.end());
-			for (List<Vector2>.Enumerator it = pointList.GetEnumerator(); it.MoveNext(); ++it)
-				it.Current +=refVector;
-//C++ TO C# CONVERTER TODO TASK: There is no direct equivalent to the STL vector 'insert' method in C#:
-			mPoints.insert(mPoints.end(), pointList.GetEnumerator(), pointList.end());
+			Vector2 refVector =mPoints[mPoints.Count-1];// *(mPoints.end()-1);
+			List<Vector2> pointList = other.mPoints;//new List<Vector2>(STLAllocator<U, AllocPolicy>.mPoints.GetEnumerator(), STLAllocator<U, AllocPolicy>.mPoints.end());
+//            for (List<Vector2>.Enumerator it = pointList.GetEnumerator(); it.MoveNext(); ++it)
+//                it.Current +=refVector;
+////C++ TO C# CONVERTER TODO TASK: There is no direct equivalent to the STL vector 'insert' method in C#:
+//            mPoints.insert(mPoints.end(), pointList.GetEnumerator(), pointList.end());
+            foreach(var it in pointList){
+                addPoint(it+refVector);
+            }
 		}
 		return this;
 	}
@@ -171,7 +203,7 @@ public class Shape
 	public Shape extractSubShape(uint first, uint last)
 	{
 		Shape s = new Shape();
-		for (uint i =first; i<=last; i++)
+		for (int i =(int)first; i<=last; i++)
 			s.addPoint(mPoints[i]);
 		s.setOutSide(mOutSide);
 		if (mClosed)
@@ -183,12 +215,14 @@ public class Shape
 	/// The outside is preserved
 	public Shape reverse()
 	{
-		std.reverse(mPoints.GetEnumerator(), mPoints.end());
+		//std.reverse(mPoints.GetEnumerator(), mPoints.end());
+        mPoints.Reverse();
 		switchSide();
 		return this;
 	}
-
-	/// Clears the content of the shape
+    ///<summary>
+    ///Clears the content of the shape
+    ///</summary>
 	public Shape reset()
 	{
 		mPoints.Clear();
@@ -202,7 +236,8 @@ public class Shape
 	public Path convertToPath()
 	{
 		Path p = new Path();
-		for (List<Vector2>.Enumerator it = mPoints.GetEnumerator(); it.MoveNext(); ++it)
+		//for (List<Vector2>.Enumerator it = mPoints.GetEnumerator(); it.MoveNext(); ++it)
+        foreach(var it in mPoints)
 		{
 			p.addPoint(it.x, 0, it.y);
 		}
@@ -216,7 +251,7 @@ public class Shape
 	//-----------------------------------------------------------------------
 	public Track convertToTrack()
 	{
-		return convertToTrack(Track.AM_RELATIVE_LINEIC);
+		return convertToTrack(Track.AddressingMode.AM_RELATIVE_LINEIC);
 	}
 //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: Track convertToTrack(Track::AddressingMode addressingMode =Track::AM_RELATIVE_LINEIC) const
@@ -224,7 +259,8 @@ public class Shape
 	public Track convertToTrack(Track.AddressingMode addressingMode)
 	{
 		Track t = new Track(addressingMode);
-		for (List<Vector2>.Enumerator it = mPoints.GetEnumerator(); it.MoveNext(); ++it)
+		//for (List<Vector2>.Enumerator it = mPoints.GetEnumerator(); it.MoveNext(); ++it)
+        foreach(var it in mPoints)
 		{
 			t.addKeyFrame(it.x, it.y);
 		}
@@ -234,16 +270,16 @@ public class Shape
 	/// Gets a copy of raw vector data of this shape
 //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: inline List<Ogre::Vector2> getPoints() const
-	public List<Vector2> getPoints()
+	public Vector2[] getPoints()
 	{
-		return mPoints;
+		return mPoints.ToArray();
 	}
 
 	/// Gets raw vector data of this shape as a non-const reference
-	public List<Vector2> getPointsReference()
-	{
-		return mPoints;
-	}
+    //public List<Vector2> getPointsReference()
+    //{
+    //    return mPoints;
+    //}
 
 	/// Gets raw vector data of this shape as a non-const reference
 //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
@@ -265,7 +301,7 @@ public class Shape
 
 //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: inline uint getBoundedIndex(int i) const
-	public uint getBoundedIndex(int i)
+	public int getBoundedIndex(int i)
 	{
 		if (mClosed)
 			return Utils.modulo(i, mPoints.Count);
@@ -275,7 +311,7 @@ public class Shape
 	/// Gets number of points in current point list
 //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: inline const List<Ogre::Vector2>::size_type getPointCount() const
-	public List<Vector2>.size_type getPointCount()
+	public int getPointCount()
 	{
 		return mPoints.Count;
 	}
@@ -312,7 +348,7 @@ public class Shape
 	/// Switches the inside and the outside
 	public Shape switchSide()
 	{
-		mOutSide = (mOutSide == SIDE_LEFT)? SIDE_RIGHT: SIDE_LEFT;
+		mOutSide = (mOutSide ==  Side.SIDE_LEFT)?  Side.SIDE_RIGHT: Side.SIDE_LEFT;
 		return this;
 	}
 
@@ -337,14 +373,15 @@ public class Shape
 //	 
 //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: inline Ogre::Vector2 getDirectionAfter(uint i) const
-	public Vector2 getDirectionAfter(uint i)
+	public Vector2 getDirectionAfter(uint index)
 	{
+        int i=(int)index;
 		// If the path isn't closed, we get a different calculation at the end, because
 		// the tangent shall not be null
 		if (! mClosed && i == mPoints.Count - 1 && i > 0)
-			return (mPoints[i] - mPoints[i-1]).normalisedCopy();
+			return (mPoints[i] - mPoints[i-1]).NormalisedCopy;
 		else
-			return (getPoint(i+1) - getPoint(i)).normalisedCopy();
+			return (getPoint(i+1) - getPoint(i)).NormalisedCopy;
 	}
 
 //    *
@@ -352,14 +389,15 @@ public class Shape
 //	 
 //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: inline Ogre::Vector2 getDirectionBefore(uint i) const
-	public Vector2 getDirectionBefore(uint i)
+	public Vector2 getDirectionBefore(uint index)
 	{
+        int i=(int)index;
 		// If the path isn't closed, we get a different calculation at the end, because
 		// the tangent shall not be null
 		if (!mClosed && i == 1)
-			return (mPoints[1] - mPoints[0]).normalisedCopy();
+			return (mPoints[1] - mPoints[0]).NormalisedCopy;
 		else
-			return (getPoint(i) - getPoint(i-1)).normalisedCopy();
+			return (getPoint(i) - getPoint(i-1)).NormalisedCopy;
 	}
 
 	/// Gets the average between before direction and after direction
@@ -367,7 +405,7 @@ public class Shape
 //ORIGINAL LINE: inline Ogre::Vector2 getAvgDirection(uint i) const
 	public Vector2 getAvgDirection(uint i)
 	{
-		return (getDirectionAfter(i) + getDirectionBefore(i)).normalisedCopy();
+		return (getDirectionAfter(i) + getDirectionBefore(i)).NormalisedCopy;
 	}
 
 	/// Gets the shape normal just after that point
@@ -375,9 +413,9 @@ public class Shape
 //ORIGINAL LINE: inline Ogre::Vector2 getNormalAfter(uint i) const
 	public Vector2 getNormalAfter(uint i)
 	{
-		if (mOutSide ==SIDE_RIGHT)
-			return -getDirectionAfter(i).perpendicular();
-		return getDirectionAfter(i).perpendicular();
+		if (mOutSide ==Side.SIDE_RIGHT)
+			return -getDirectionAfter(i).Perpendicular;
+		return getDirectionAfter(i).Perpendicular;
 	}
 
 	/// Gets the shape normal just before that point
@@ -385,9 +423,9 @@ public class Shape
 //ORIGINAL LINE: inline Ogre::Vector2 getNormalBefore(uint i) const
 	public Vector2 getNormalBefore(uint i)
 	{
-		if (mOutSide ==SIDE_RIGHT)
-			return -getDirectionBefore(i).perpendicular();
-		return getDirectionBefore(i).perpendicular();
+		if (mOutSide ==Side.SIDE_RIGHT)
+			return -getDirectionBefore(i).Perpendicular;
+		return getDirectionBefore(i).Perpendicular;
 	}
 
 	/// Gets the "normal" of that point ie an average between before and after normals
@@ -395,9 +433,9 @@ public class Shape
 //ORIGINAL LINE: inline Ogre::Vector2 getAvgNormal(uint i) const
 	public Vector2 getAvgNormal(uint i)
 	{
-		if (mOutSide ==SIDE_RIGHT)
-			return -getAvgDirection(i).perpendicular();
-		return getAvgDirection(i).perpendicular();
+		if (mOutSide ==Side.SIDE_RIGHT)
+			return -getAvgDirection(i).Perpendicular;
+		return getAvgDirection(i).Perpendicular;
 	}
 
 //    *
@@ -414,19 +452,22 @@ public class Shape
 //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
 	public MeshPtr realizeMesh(string name)
 	{
-		Mogre.SceneManager smgr = Root.getSingleton().getSceneManagerIterator().begin().second;
-		ManualObject manual = smgr.createManualObject();
-		manual.begin("BaseWhiteNoLighting", RenderOperation.OperationType.OT_LINE_STRIP);
+        if(string.IsNullOrEmpty(name)){
+            name=Guid.NewGuid().ToString("N");
+        }
+		Mogre.SceneManager smgr = Root.Singleton.GetSceneManagerIterator().Current;
+		ManualObject manual = smgr.CreateManualObject(name);
+		manual.Begin("BaseWhiteNoLighting", RenderOperation.OperationTypes.OT_LINE_STRIP);
 	
 		_appendToManualObject(manual);
 	
-		manual.end();
-		MeshPtr mesh = new MeshPtr();
+		manual.End();
+		MeshPtr mesh = null;//new MeshPtr();
 		if (name =="")
-			mesh = manual.convertToMesh(Utils.getName());
+			mesh = manual.ConvertToMesh(Utils.getName("Procedural_Shape_"));
 		else
-			mesh = manual.convertToMesh(name);
-		smgr.destroyManualObject(manual);
+			mesh = manual.ConvertToMesh(name);
+		smgr.DestroyManualObject(manual);
 		return mesh;
 	}
 
@@ -438,10 +479,14 @@ public class Shape
 //ORIGINAL LINE: void _appendToManualObject(ManualObject* manual) const
 	public void _appendToManualObject(ManualObject manual)
 	{
-		for (List<Vector2>.Enumerator itPos = mPoints.GetEnumerator(); itPos.MoveNext(); itPos++)
-			manual.position(new Vector3(itPos.x, itPos.y, 0.0f));
-		if (mClosed)
-			manual.position(new Vector3(mPoints.GetEnumerator().x, mPoints.GetEnumerator().y, 0.0f));
+		//for (List<Vector2>.Enumerator itPos = mPoints.GetEnumerator(); itPos.MoveNext(); itPos++)
+        foreach(var itPos in mPoints){
+			manual.Position(new Vector3(itPos.x, itPos.y, 0.0f));
+        }
+		if (mClosed){
+			//manual.Position(new Vector3(mPoints.GetEnumerator().x, mPoints.GetEnumerator().y, 0.0f));
+            manual.Position(new Vector3(mPoints[0].x,mPoints[0].y,0f));
+        }
 	}
 
 //    *
@@ -466,9 +511,9 @@ public class Shape
 	//-----------------------------------------------------------------------
 //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: MultiShape booleanIntersect(const Shape& STLAllocator<U, AllocPolicy>) const
-	public MultiShape booleanIntersect(Shape STLAllocator<U, AllocPolicy>)
+	public MultiShape booleanIntersect(Shape other)
 	{
-		return _booleanOperation(STLAllocator<U, AllocPolicy>, BOT_INTERSECTION);
+		return _booleanOperation(other, BooleanOperationType.BOT_INTERSECTION);
 	}
 
 //    *
@@ -483,9 +528,9 @@ public class Shape
 	//-----------------------------------------------------------------------
 //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: MultiShape booleanUnion(const Shape& STLAllocator<U, AllocPolicy>) const
-	public MultiShape booleanUnion(Shape STLAllocator<U, AllocPolicy>)
+	public MultiShape booleanUnion(Shape other)
 	{
-		return _booleanOperation(STLAllocator<U, AllocPolicy>, BOT_UNION);
+		return _booleanOperation(other, BooleanOperationType.BOT_UNION);
 	}
 
 //    *
@@ -500,9 +545,9 @@ public class Shape
 	//-----------------------------------------------------------------------
 //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: MultiShape booleanDifference(const Shape& STLAllocator<U, AllocPolicy>) const
-	public MultiShape booleanDifference(Shape STLAllocator<U, AllocPolicy>)
+	public MultiShape booleanDifference(Shape other)
 	{
-		return _booleanOperation(STLAllocator<U, AllocPolicy>, BOT_DIFFERENCE);
+		return _booleanOperation(other, BooleanOperationType.BOT_DIFFERENCE);
 	}
 
 //    *
@@ -517,7 +562,7 @@ public class Shape
 	public Side findRealOutSide()
 	{
 		float x = mPoints[0].x;
-		int index =0;
+		uint index =0;
 		for (ushort i =1; i<mPoints.Count; i++)
 		{
 			if (x < mPoints[i].x)
@@ -529,9 +574,9 @@ public class Shape
 		Radian alpha1 = Utils.angleTo(Vector2.UNIT_Y, getDirectionAfter(index));
 		Radian alpha2 = Utils.angleTo(Vector2.UNIT_Y, -getDirectionBefore(index));
 		if (alpha1<alpha2)
-			return SIDE_RIGHT;
+			return Side.SIDE_RIGHT;
 		else
-			return SIDE_LEFT;
+			return Side.SIDE_LEFT;
 	}
 
 //    *
@@ -553,7 +598,7 @@ public class Shape
 //ORIGINAL LINE: Shape mergeKeysWithTrack(const Track& track) const
 	public Shape mergeKeysWithTrack(Track track)
 	{
-		if (!track.isInsertPoint() || track.getAddressingMode() == Track.AM_POINT)
+		if (!track.isInsertPoint() || track.getAddressingMode() == Track.AddressingMode.AM_POINT)
 			return this;
 		float totalLength =getTotalLength();
 	
@@ -570,7 +615,7 @@ public class Shape
 			std.map<Real,Real>.Enumerator it = track._getKeyValueAfter(lineicPos, lineicPos/totalLength, i-1);
 	
 			float nextTrackPos = it.first;
-			if (track.getAddressingMode() == Track.AM_RELATIVE_LINEIC)
+			if (track.getAddressingMode() == Track.AddressingMode.AM_RELATIVE_LINEIC)
 				nextTrackPos *= totalLength;
 	
 			// Adds the closest point to the curve, being either from the shape or the track
@@ -618,7 +663,7 @@ public class Shape
 //	 * Has strictly no effect on the points defined after that
 //	 * @param angle angle of rotation
 //	 
-	public Shape rotate(Mogre.Radian angle)
+	public Shape rotate(Radian angle)
 	{
 		float c = Math.Cos(angle.valueRadians());
 		float s = Math.Sin(angle.valueRadians());
@@ -901,7 +946,7 @@ public class Shape
 	//-----------------------------------------------------------------------
 //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
 //ORIGINAL LINE: MultiShape _booleanOperation(const Shape& STLAllocator<U, AllocPolicy>, BooleanOperationType opType) const
-	private MultiShape _booleanOperation(Shape STLAllocator<U, AllocPolicy>, BooleanOperationType opType)
+	private MultiShape _booleanOperation(Shape other, BooleanOperationType opType)
 	{
 		if (!mClosed || mPoints.Count < 2)
 	//C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
@@ -909,7 +954,7 @@ public class Shape
 			//throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALID_STATE>(), "Current shapes must be closed and has to contain at least 2 points!", "Procedural::Shape::_booleanOperation(const Procedural::Shape&, Procedural::BooleanOperationType)", __FILE__, __LINE__);
             throw new Exception("shape must at least contain 2 points");				
 ;
-		if (!STLAllocator<U, AllocPolicy>.mClosed || STLAllocator<U, AllocPolicy>.mPoints.Count < 2)
+		if (!other.mClosed || other.mPoints.Count < 2)
 	//C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
 	//C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
 			//throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Other shapes must be closed and has to contain at least 2 points!", "Procedural::Shape::_booleanOperation(const Procedural::Shape&, Procedural::BooleanOperationType)", __FILE__, __LINE__);
@@ -918,56 +963,56 @@ public class Shape
 	
 		// Compute the intersection between the 2 shapes
 		List<IntersectionInShape> intersections = new List<IntersectionInShape>();
-		_findAllIntersections(STLAllocator<U, AllocPolicy>, intersections);
+		_findAllIntersections(other, intersections);
 	
 		// Build the resulting shape
 		if (intersections.Count == 0)
 		{
-			if (isPointInside(STLAllocator<U, AllocPolicy>.getPoint(0)))
+			if (isPointInside(other.getPoint(0)))
 			{
 				// Shape B is completely inside shape A
-				if (opType == BOT_UNION)
+				if (opType == BooleanOperationType.BOT_UNION)
 					return this;
-				else if (opType == BOT_INTERSECTION)
-					return STLAllocator<U, AllocPolicy>;
-				else if (opType == BOT_DIFFERENCE)
+				else if (opType == BooleanOperationType.BOT_INTERSECTION)
+					return other;
+				else if (opType == BooleanOperationType.BOT_DIFFERENCE)
 				{
 					MultiShape ms = new MultiShape();
 					ms.addShape(this);
-					ms.addShape(STLAllocator<U, AllocPolicy>);
+					ms.addShape(other);
 					ms.getShape(1).switchSide();
 					return ms;
 				}
 	
 			}
-			else if (STLAllocator<U, AllocPolicy>.isPointInside(getPoint(0)))
+			else if (other.isPointInside(getPoint(0)))
 			{
 				// Shape A is completely inside shape B
-				if (opType == BOT_UNION)
-					return STLAllocator<U, AllocPolicy>;
-				else if (opType == BOT_INTERSECTION)
+				if (opType == BooleanOperationType.BOT_UNION)
+					return other;
+				else if (opType == BooleanOperationType.BOT_INTERSECTION)
 					return this;
-				else if (opType == BOT_DIFFERENCE)
+				else if (opType == BooleanOperationType.BOT_DIFFERENCE)
 				{
 					MultiShape ms = new MultiShape();
 					ms.addShape(this);
-					ms.addShape(STLAllocator<U, AllocPolicy>);
+					ms.addShape(other);
 					ms.getShape(0).switchSide();
 					return ms;
 				}
 			}
 			else
 			{
-				if (opType == BOT_UNION)
+				if (opType == BooleanOperationType.BOT_UNION)
 				{
 					MultiShape ms = new MultiShape();
 					ms.addShape(this);
-					ms.addShape(STLAllocator<U, AllocPolicy>);
+					ms.addShape(other);
 					return ms;
 				}
-				else if (opType == BOT_INTERSECTION)
+				else if (opType == BooleanOperationType.BOT_INTERSECTION)
 					return new Shape(); //empty result
-				else if (opType == BOT_DIFFERENCE)
+				else if (opType == BooleanOperationType.BOT_DIFFERENCE)
 					return new Shape(); //empty result
 			}
 		}

@@ -38,12 +38,12 @@ namespace Mogre_Procedural
 
     //C++ TO C# CONVERTER WARNING: The original type declaration contained unconverted modifiers:
     //ORIGINAL LINE: class _ProceduralExport NoiseBase
-    public abstract class NoiseBase
+    public abstract class NoiseBase:IDisposable
     {
         //RAND_MAX是C中stdlib.h中宏定义的一个字符常量：
         //#define RAND_MAX Ox7FFF
         //其值最小为32767,最大为2147483647
-        public const int RAND_MAX = 0x7fff;
+        public static int RAND_MAX = RandomNumbers.RAND_MAX;
         public abstract float function1D(int x);
         public abstract float function2D(int x, int y);
 
@@ -90,6 +90,14 @@ namespace Mogre_Procedural
             field = null;
             return retval;
         }
+
+        #region IDisposable 成员
+
+        public void Dispose() {
+            
+        }
+
+        #endregion
     }
 
 
@@ -247,6 +255,10 @@ namespace Mogre_Procedural
     //----------------------------------------------------------------------------------------
     internal static class RandomNumbers
     {
+        //RAND_MAX是C中stdlib.h中宏定义的一个字符常量：
+        //#define RAND_MAX Ox7FFF
+        //其值最小为32767,最大为2147483647
+        public const int RAND_MAX = 0x7fff;
         private static System.Random r;
 
         internal static int NextNumber() {

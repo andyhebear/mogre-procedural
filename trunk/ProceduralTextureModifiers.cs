@@ -1,13 +1,40 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
+/*
+    -----------------------------------------------------------------------------
+    This source file is part of mogre-procedural
+    For the latest info, see http://code.google.com/p/mogre-procedural/
+    my blog:http://hi.baidu.com/rainssoft
+    this is overwrite  ogre-procedural c++ project using c#, look  ogre-procedural c++ source http://code.google.com/p/ogre-procedural/
+   
+    Copyright (c) 2013-2020 rains soft
 
-using Mogre;
-using Math=Mogre.Math;
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
 
+    The above copyright notice and this permission notice shall be included in
+    all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+    THE SOFTWARE.
+    -----------------------------------------------------------------------------
+    */
+//#define PROCEDURAL_USE_FREETYPE
 namespace Mogre_Procedural
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
 
+    using Mogre;
+    using Math = Mogre.Math;
     //* \addtogroup texturegrp Textures
     //Elements for procedural texture creation.
     //@{
@@ -113,10 +140,10 @@ namespace Mogre_Procedural
         //	Set rotation angle.
         //	\param rotation New rotation angle [0.0, Ogre::Math::TWO_PI] rad \(default 0.0)
         //	
-        public Abnormals setRotation(Mogre.Radian rotation) {
+        public Abnormals setRotation(Radian rotation) {
             //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
             //ORIGINAL LINE: mW = rotation;
-            mW.CopyFrom(rotation);
+            mW = (rotation);
             return this;
         }
 
@@ -136,7 +163,7 @@ namespace Mogre_Procedural
         public Abnormals setAxis(Vector3 axis) {
             //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
             //ORIGINAL LINE: mAxis = axis;
-            mAxis.CopyFrom(axis);
+            mAxis = (axis);
             return this;
         }
 
@@ -169,7 +196,7 @@ namespace Mogre_Procedural
         //	Set compensation method.
         //	\param compensation Compensation method to use (default COMPENSATION_NORMAL)
         //	
-        public Abnormals setCompensation(Abnormals.ABNORMALS_COMPENSATION compensation) {
+        public Abnormals setCompensation(ABNORMALS_COMPENSATION compensation) {
             mCompensation = compensation;
             return this;
         }
@@ -178,7 +205,7 @@ namespace Mogre_Procedural
         //	Set mirror method.
         //	\param mirror Compensation method to use (default MIRROR_NONE)
         //	
-        public Abnormals setMirror(Abnormals.ABNORMALS_MIRROR mirror) {
+        public Abnormals setMirror(ABNORMALS_MIRROR mirror) {
             mMirror = mirror;
             return this;
         }
@@ -187,13 +214,13 @@ namespace Mogre_Procedural
         //	Run image manipulation
         //	\return Pointer to image buffer which has been set in the constructor.
         //	
-        public new TextureBuffer process() {
+        public override TextureBuffer process() {
             Quaternion qion = new Quaternion();
             float sum = 0f;
             Vector3 q = new Vector3();
 
-            int w = mBuffer.getWidth();
-            int h = mBuffer.getHeight();
+            int w = (int)mBuffer.getWidth();
+            int h = (int)mBuffer.getHeight();
             Quaternion rotation = new Quaternion(mW, mAxis);
 
             if (mParam != null && (mParam.getWidth() < w || mParam.getHeight() < h))
@@ -215,20 +242,20 @@ namespace Mogre_Procedural
 
                             case ABNORMALS_COMPENSATION.COMPENSATION_HEIGHT:
                                 sum = ((pixel.r + pixel.g + pixel.b) / 3.0f) * 255.0f;
-                                qion = new Quaternion(new Mogre.Radian(Math.TWO_PI * sum / 765.0f * mSensitivity), new Vector3(0.0f, 1.0f, 0.0f));
+                                qion = new Quaternion(new Radian(Math.TWO_PI * sum / 765.0f * mSensitivity), new Vector3(0.0f, 1.0f, 0.0f));
                                 rotation = rotation * qion;
                                 break;
 
                             case ABNORMALS_COMPENSATION.COMPENSATION_QUATERNION:
                                 q = new Vector3((pixel.r * 255.0f) - 127.5f, (pixel.b * 255.0f) - 127.5f, (pixel.g * 255.0f) - 127.5f);
-                                qion = new Quaternion(new Mogre.Radian(2.0f / 255.0f * Math.PI * pixel.a * mSensitivity), q);
+                                qion = new Quaternion(new Radian(2.0f / 255.0f * Math.PI * pixel.a * mSensitivity), q);
                                 rotation = rotation * qion;
                                 break;
                         }
                     }
 
                     v = rotation * v * rotation.Inverse();
-                    float norm = v.normalise();
+                    float norm = v.Normalise();
 
                     if (mMirror == ABNORMALS_MIRROR.MIRROR_X_YZ || mMirror == ABNORMALS_MIRROR.MIRROR_X_Y_Z)
                         mBuffer.setRed(x, y, (1.0f - v.x * 0.5f + 0.5f));
@@ -281,10 +308,10 @@ namespace Mogre_Procedural
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        public Alpha setExtractColour(Mogre.ColourValue colour) {
+        public Alpha setExtractColour(ColourValue colour) {
             //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
             //ORIGINAL LINE: mExtractColour = colour;
-            mExtractColour.CopyFrom(colour);
+            mExtractColour = (colour);
             return this;
         }
 
@@ -309,9 +336,9 @@ namespace Mogre_Procedural
         //	Run image manipulation
         //	\return Pointer to image buffer which has been set in the constructor.
         //	
-        public new TextureBuffer process() {
-            int w = mBuffer.getWidth();
-            int h = mBuffer.getHeight();
+        public override TextureBuffer process() {
+            int w = (int)mBuffer.getWidth();
+            int h = (int)mBuffer.getHeight();
 
             for (int y = 0; y < h; y++) {
                 for (int x = 0; x < w; x++) {
@@ -387,9 +414,9 @@ namespace Mogre_Procedural
         //	Run image manipulation
         //	\return Pointer to image buffer which has been set in the constructor.
         //	
-        public new TextureBuffer process() {
-            int w = mBuffer.getWidth();
-            int h = mBuffer.getHeight();
+        public override TextureBuffer process() {
+            int w = (int)mBuffer.getWidth();
+            int h = (int)mBuffer.getHeight();
 
             if (mParam != null && (mParam.getWidth() < w || mParam.getHeight() < h))
                 return mBuffer;
@@ -398,13 +425,13 @@ namespace Mogre_Procedural
                 for (int x = 0; x < w; x++) {
                     if (mParam != null) {
                         if (mColourMask) {
-                            Mogre.ColourValue pixelA = mBuffer.getPixel(x, y);
-                            Mogre.ColourValue pixelB = mParam.getPixel(x, y);
+                            ColourValue pixelA = mBuffer.getPixel(x, y);
+                            ColourValue pixelB = mParam.getPixel(x, y);
                             Vector3 c1 = new Vector3(pixelA.r * 255.0f, pixelA.g * 255.0f, pixelA.b * 255.0f);
                             Vector3 c2 = new Vector3(pixelB.r * 255.0f, pixelB.g * 255.0f, pixelB.b * 255.0f);
 
-                            float c1norm = c1.normalise();
-                            float c2norm = c2.normalise();
+                            float c1norm = c1.Normalise();
+                            float c2norm = c2.Normalise();
 
                             float correctness = 0;
 
@@ -414,7 +441,7 @@ namespace Mogre_Procedural
                             mBuffer.setAlpha(x, y, (byte)(pixelA.a * correctness));
                         }
                         else {
-                            Mogre.ColourValue pixel = mParam.getPixel(x, y);
+                            ColourValue pixel = mParam.getPixel(x, y);
                             float alpha = (pixel.r + pixel.g + pixel.b) / 3.0f;
                             mBuffer.setAlpha(x, y, mBuffer.getPixelAlphaReal(x, y) * alpha);
                         }
@@ -491,12 +518,12 @@ namespace Mogre_Procedural
         //	\param rect Full rectangle description (default: left=0.0, top=0.0, right=1.0, bottom=1.0)
         //	\param relative If this is set to true (default) the rectangle data are relative [0.0, 1.0]; else absolut [px]
         //	
-        public Blit setInputRect(TRect<Real> rect) {
+        public Blit setInputRect(RealRect rect) {
             return setInputRect(rect, true);
         }
         //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
-        //ORIGINAL LINE: Blit& setInputRect(TRect<Real> rect, bool relative = true)
-        public Blit setInputRect(TRect<Real> rect, bool relative) {
+        //ORIGINAL LINE: Blit& setInputRect(RealRect rect, bool relative = true)
+        public Blit setInputRect(RealRect rect, bool relative) {
             if (mInputBuffer == null)
                 return this;
             if (relative) {
@@ -518,7 +545,7 @@ namespace Mogre_Procedural
         //	Set the full rectangle coordinates of the input buffer to copy.
         //	\param rect Full absolute rectangle description (default: left=0, top=0, right=image width, bottom=image height)
         //	
-        public Blit setInputRect(Mogre.Rect rect) {
+        public Blit setInputRect(Rect rect) {
             if (mInputBuffer == null)
                 return this;
             mInputRect.left = (int)System.Math.Min(rect.left, mInputBuffer.getWidth());
@@ -596,12 +623,12 @@ namespace Mogre_Procedural
         //	\param rect Full rectangle description (default: left=0.0, top=0.0, right=1.0, bottom=1.0)
         //	\param relative If this is set to true (default) the rectangle data are relative [0.0, 1.0]; else absolut [px]
         //	
-        public Blit setOutputRect(TRect<Real> rect) {
+        public Blit setOutputRect(RealRect rect) {
             return setOutputRect(rect, true);
         }
         //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
-        //ORIGINAL LINE: Blit& setOutputRect(TRect<Real> rect, bool relative = true)
-        public Blit setOutputRect(TRect<Real> rect, bool relative) {
+        //ORIGINAL LINE: Blit& setOutputRect(RealRect rect, bool relative = true)
+        public Blit setOutputRect(RealRect rect, bool relative) {
             if (relative) {
                 mOutputRect.left = (int)((float)mBuffer.getWidth() * System.Math.Min(rect.left, 1.0f));
                 mOutputRect.top = (int)((float)mBuffer.getHeight() * System.Math.Min(rect.top, 1.0f));
@@ -621,7 +648,7 @@ namespace Mogre_Procedural
         //	Set the full rectangle coordinates of the output buffer where the input is copied to.
         //	\param rect Full absolute rectangle description (default: left=0, top=0, right=image width, bottom=image height)
         //	
-        public Blit setOutputRect(Mogre.Rect rect) {
+        public Blit setOutputRect(Rect rect) {
             mOutputRect.left = (int)System.Math.Min(rect.left, mBuffer.getWidth());
             mOutputRect.top = (int)System.Math.Min(rect.top, mBuffer.getHeight());
             mOutputRect.right = (int)System.Math.Min(rect.right, mBuffer.getWidth());
@@ -690,13 +717,13 @@ namespace Mogre_Procedural
         //	Run image manipulation
         //	\return Pointer to image buffer which has been set in the constructor.
         //	
-        public new TextureBuffer process() {
+        public override TextureBuffer process() {
             if (mInputBuffer == null)
                 return mBuffer;
             for (int y = mOutputRect.top; y < mOutputRect.bottom; y++) {
                 for (int x = mOutputRect.left; x < mOutputRect.right; x++) {
-                    int x0 = (int)((float)(x - mOutputRect.left) / (float)(mOutputRect.width()) * (float)(mInputRect.width()) + (float)(mInputRect.left));
-                    int y0 = (int)((float)(y - mOutputRect.top) / (float)(mOutputRect.height()) * (float)(mInputRect.height()) + (float)(mInputRect.top));
+                    int x0 = (int)((float)(x - mOutputRect.left) / (float)(mOutputRect.Width) * (float)(mInputRect.Width) + (float)(mInputRect.left));
+                    int y0 = (int)((float)(y - mOutputRect.top) / (float)(mOutputRect.Height) * (float)(mInputRect.Height) + (float)(mInputRect.top));
                     mBuffer.setPixel(x, y, mInputBuffer.getPixel(x0, y0));
                 }
             }
@@ -782,7 +809,7 @@ namespace Mogre_Procedural
         //	Set the algorithm to blur.
         //	\param type New algorithm to blur (default BLUR_BOX)
         //	
-        public Blur setType(Blur.BLUR_TYPE type) {
+        public Blur setType(BLUR_TYPE type) {
             mType = type;
             return this;
         }
@@ -791,43 +818,43 @@ namespace Mogre_Procedural
         //	Run image manipulation
         //	\return Pointer to image buffer which has been set in the constructor.
         //	
-        public new TextureBuffer process() {
+        public override TextureBuffer process() {
             float[] blurKernel = { 1, 2, 3, 2, 1, 2, 4, 5, 4, 2, 3, 5, 6, 5, 3, 2, 4, 5, 4, 2, 1, 2, 3, 2, 1 };
             Convolution filter = new Convolution(mBuffer);
             switch (mType) {
                 default:
                 //C++ TO C# CONVERTER TODO TASK: C# does not allow fall-through from a non-empty 'case':
                 case BLUR_TYPE.BLUR_BOX:
-                    filter.setKernel(5, ref blurKernel);
+                    filter.setKernel(5, blurKernel);
                     break;
 
                 case BLUR_TYPE.BLUR_MEAN:
-                    filter.setKernel(new Mogre.Matrix3(1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f)).calculateDivisor();
+                    filter.setKernel(new Matrix3(1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f)).calculateDivisor();
                     break;
 
                 case BLUR_TYPE.BLUR_GAUSSIAN:
                     float fSigma = 0.5f + ((3.0f - 0.5f) / 255.0f) * (float)mSigma;
                     int r = (int)mSize / 2;
-                    double min = Math.Exp((float)(2 * r * r) / (-2.0f * fSigma * fSigma)) / (Math.TWO_PI * fSigma * fSigma);
+                    double min = System.Math.Exp((float)(2 * r * r) / (-2.0f * fSigma * fSigma)) / (Math.TWO_PI * fSigma * fSigma);
                     int[] kernel = new int[mSize * mSize];
                     int divisor = 0;
                     int y = -r;
                     int x = -r;
                     for (int i = 0; i < mSize; i++) {
                         for (int j = 0; j < mSize; j++) {
-                            kernel[i * mSize + j] = (int)((Math.Exp((float)(x * x + y * y) / (-2.0f * fSigma * fSigma)) / (Math.TWO_PI * fSigma * fSigma)) / min);
+                            kernel[i * mSize + j] = (int)((System.Math.Exp((float)(x * x + y * y) / (-2.0f * fSigma * fSigma)) / (Math.TWO_PI * fSigma * fSigma)) / min);
                             divisor += kernel[i * mSize + j];
                             x++;
                         }
                         y++;
                     }
-                    filter.setKernel(mSize, ref kernel).setDivisor((float)divisor);
+                    filter.setKernel(mSize, kernel).setDivisor((float)divisor);
                     kernel = null;
                     break;
             }
             filter.setIncludeAlphaChannel(true).process();
 
-            Utils.log("Modify texture with blur filter : " + StringConverter.toString(mType));
+            Utils.log("Modify texture with blur filter : " + (mType).ToString());
             return mBuffer;
         }
     }
@@ -893,11 +920,11 @@ namespace Mogre_Procedural
         //	Run image manipulation
         //	\return Pointer to image buffer which has been set in the constructor.
         //	
-        public new TextureBuffer process() {
+        public override TextureBuffer process() {
             for (int y = 0; y < mBuffer.getHeight(); y++) {
                 for (int x = 0; x < mBuffer.getWidth(); x++) {
                     if (mSelection == CANNEL_SELECTION.SELECT_GRAY) {
-                        Mogre.ColourValue pixel = mBuffer.getPixel(x, y);
+                        ColourValue pixel = mBuffer.getPixel(x, y);
                         float gray = (pixel.r + pixel.g + pixel.b) / 3.0f;
                         mBuffer.setPixel(x, y, gray, gray, gray, pixel.a);
                     }
@@ -914,7 +941,7 @@ namespace Mogre_Procedural
                 }
             }
 
-            Utils.log("Modify texture with channel filter : " + StringConverter.toString(mSelection));
+            Utils.log("Modify texture with channel filter : " + (mSelection).ToString());
             return mBuffer;
         }
     }
@@ -959,10 +986,10 @@ namespace Mogre_Procedural
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        public CircleTexture setColour(Mogre.ColourValue colour) {
+        public CircleTexture setColour(ColourValue colour) {
             //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
             //ORIGINAL LINE: mColour = colour;
-            mColour.CopyFrom(colour);
+            mColour = (colour);
             return this;
         }
 
@@ -1090,7 +1117,7 @@ namespace Mogre_Procedural
         //	Run image manipulation
         //	\return Pointer to image buffer which has been set in the constructor.
         //	
-        public new TextureBuffer process() {
+        public override TextureBuffer process() {
             int x = 0;
             int y = mRadius;
             int p = 3 - 2 * mRadius;
@@ -1104,11 +1131,11 @@ namespace Mogre_Procedural
                     _putpixel(-y, dx);
                 }
                 if (p < 0)
-                    p += 4 * x + ++6;
+                    p += 4 * x++ + 6;
                 else
                     p += 4 * (x++ - y--) + 10;
             }
-            Utils.log("Modify texture with circle filter : x = " + StringConverter.toString(mX) + ", y = " + StringConverter.toString(mY) + ", Radius = " + StringConverter.toString(mRadius));
+            Utils.log("Modify texture with circle filter : x = " + (mX).ToString() + ", y = " + (mY).ToString() + ", Radius = " + (mRadius).ToString());
             return mBuffer;
         }
 
@@ -1165,10 +1192,10 @@ namespace Mogre_Procedural
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        public Colours setColourBase(Mogre.ColourValue colour) {
+        public Colours setColourBase(ColourValue colour) {
             //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
             //ORIGINAL LINE: mColourBase = colour;
-            mColourBase.CopyFrom(colour);
+            mColourBase = (colour);
             return this;
         }
 
@@ -1193,10 +1220,10 @@ namespace Mogre_Procedural
         //	Set the percent colour to add on image.
         //	\param colour New colour to add (default Ogre::ColourValue::White)
         //	
-        public Colours setColourPercent(Mogre.ColourValue colour) {
+        public Colours setColourPercent(ColourValue colour) {
             //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
             //ORIGINAL LINE: mColourPercent = colour;
-            mColourPercent.CopyFrom(colour);
+            mColourPercent = (colour);
             return this;
         }
 
@@ -1257,20 +1284,20 @@ namespace Mogre_Procedural
         //	Run image manipulation
         //	\return Pointer to image buffer which has been set in the constructor.
         //	
-        public new TextureBuffer process() {
-            int w = mBuffer.getWidth();
-            int h = mBuffer.getHeight();
+        public override TextureBuffer process() {
+            int w = (int)mBuffer.getWidth();
+            int h = (int)mBuffer.getHeight();
             int brightness = (((int)mBrightness) * 2) - 256;
             int contrast = (((int)mContrast));
             float fconstrast = (float)mContrast / 128.0f;
             fconstrast = fconstrast * fconstrast * fconstrast;
             contrast = (int)(fconstrast * 256.0f);
-            byte minalpha = (mAlpha >= 127) ? (byte)((mAlpha - 127) * 2.0f - (mAlpha - 127) / 128.0f) : 0;
-            byte maxalpha = (mAlpha <= 127) ? (byte)(mAlpha * 2.0f + mAlpha / 127.0f) : 255;
+            byte minalpha = (mAlpha >= 127) ? (byte)((mAlpha - 127) * 2.0f - (mAlpha - 127) / 128.0f) : (byte)0;
+            byte maxalpha = (mAlpha <= 127) ? (byte)(mAlpha * 2.0f + mAlpha / 127.0f) : (byte)255;
             float alphamult = (float)(maxalpha - minalpha) / 255.0f;
 
-            for (uint y = 0; y < h; y++) {
-                for (uint x = 0; x < w; x++) {
+            for (int y = 0; y < h; y++) {
+                for (int x = 0; x < w; x++) {
                     int r = (int)(mColourBase.r * 255.0f) + (((int)mBuffer.getPixelRedByte(x, y) * (int)(mColourPercent.r * 255.0f)) >> 8) + brightness;
                     int g = (int)(mColourBase.g * 255.0f) + (((int)mBuffer.getPixelGreenByte(x, y) * (int)(mColourPercent.g * 255.0f)) >> 8) + brightness;
                     int b = (int)(mColourBase.b * 255.0f) + (((int)mBuffer.getPixelBlueByte(x, y) * (int)(mColourPercent.b * 255.0f)) >> 8) + brightness;
@@ -1387,10 +1414,10 @@ namespace Mogre_Procedural
         //	Set the percent colour to add on image.
         //	\param colour New colour for drawing (default Ogre::ColourValue::White)
         //	
-        public Combine setColour(Mogre.ColourValue colour) {
+        public Combine setColour(ColourValue colour) {
             //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
             //ORIGINAL LINE: mColour = colour;
-            mColour.CopyFrom(colour);
+            mColour = (colour);
             return this;
         }
 
@@ -1415,22 +1442,22 @@ namespace Mogre_Procedural
         //	Run image manipulation
         //	\return Pointer to image buffer which has been set in the constructor.
         //	
-        public new TextureBuffer process() {
+        public override TextureBuffer process() {
             int i = 0;
             while (mQueue.Count > 0) {
                 LAYER l = mQueue.Peek();
                 _process(l.image, l.action);
                 mQueue.Dequeue();
                 i++;
-                Utils.log("Combine textures : " + StringConverter.toString(l.action));
+                Utils.log("Combine textures : " + (l.action).ToString());
             }
 
             return mBuffer;
         }
 
         private void _process(TextureBuffer image, COMBINE_METHOD method) {
-            int w = mBuffer.getWidth();
-            int h = mBuffer.getHeight();
+            int w = (int)mBuffer.getWidth();
+            int h = (int)mBuffer.getHeight();
             uint rcolPercent = (uint)(mColour.r * 255.0f);
             uint gcolPercent = (uint)(mColour.g * 255.0f);
             uint bcolPercent = (uint)(mColour.b * 255.0f);
@@ -1439,8 +1466,8 @@ namespace Mogre_Procedural
                 case COMBINE_METHOD.METHOD_ADD_CLAMP:
                     for (int y = 0; y < h; y++) {
                         for (int x = 0; x < w; x++) {
-                            Mogre.ColourValue pxSrc = image.getPixel(x, y);
-                            Mogre.ColourValue pxDst = mBuffer.getPixel(x, y);
+                            ColourValue pxSrc = image.getPixel(x, y);
+                            ColourValue pxDst = mBuffer.getPixel(x, y);
                             uint r = (uint)(pxDst.r * 255.0f) + (((uint)(pxSrc.r * 255.0f) * rcolPercent) >> 8);
                             uint g = (uint)(pxDst.g * 255.0f) + (((uint)(pxSrc.g * 255.0f) * gcolPercent) >> 8);
                             uint b = (uint)(pxDst.b * 255.0f) + (((uint)(pxSrc.b * 255.0f) * bcolPercent) >> 8);
@@ -1452,8 +1479,8 @@ namespace Mogre_Procedural
                 case COMBINE_METHOD.METHOD_ADD_WRAP:
                     for (int y = 0; y < h; y++) {
                         for (int x = 0; x < w; x++) {
-                            Mogre.ColourValue pxSrc = image.getPixel(x, y);
-                            Mogre.ColourValue pxDst = mBuffer.getPixel(x, y);
+                            ColourValue pxSrc = image.getPixel(x, y);
+                            ColourValue pxDst = mBuffer.getPixel(x, y);
                             uint r = (uint)(pxDst.r * 255.0f) + (((uint)(pxSrc.r * 255.0f) * rcolPercent) >> 8);
                             uint g = (uint)(pxDst.g * 255.0f) + (((uint)(pxSrc.g * 255.0f) * gcolPercent) >> 8);
                             uint b = (uint)(pxDst.b * 255.0f) + (((uint)(pxSrc.b * 255.0f) * bcolPercent) >> 8);
@@ -1465,11 +1492,11 @@ namespace Mogre_Procedural
                 case COMBINE_METHOD.METHOD_SUB_CLAMP:
                     for (int y = 0; y < h; y++) {
                         for (int x = 0; x < w; x++) {
-                            Mogre.ColourValue pxSrc = image.getPixel(x, y);
-                            Mogre.ColourValue pxDst = mBuffer.getPixel(x, y);
-                            int r = (int)(pxDst.r * 255.0f) - (((int)(pxSrc.r * 255.0f) * rcolPercent) >> 8);
-                            int g = (int)(pxDst.g * 255.0f) - (((int)(pxSrc.g * 255.0f) * gcolPercent) >> 8);
-                            int b = (int)(pxDst.b * 255.0f) - (((int)(pxSrc.b * 255.0f) * bcolPercent) >> 8);
+                            ColourValue pxSrc = image.getPixel(x, y);
+                            ColourValue pxDst = mBuffer.getPixel(x, y);
+                            int r = (int)(pxDst.r * 255.0f) - (((int)(pxSrc.r * 255.0f) * (int)rcolPercent) >> 8);
+                            int g = (int)(pxDst.g * 255.0f) - (((int)(pxSrc.g * 255.0f) * (int)gcolPercent) >> 8);
+                            int b = (int)(pxDst.b * 255.0f) - (((int)(pxSrc.b * 255.0f) * (int)bcolPercent) >> 8);
                             mBuffer.setPixel(x, y, (byte)((r > 0) ? r : 0), (byte)((g > 0) ? g : 0), (byte)((b > 0) ? b : 0), (byte)(pxDst.a * 255.0f));
                         }
                     }
@@ -1478,11 +1505,11 @@ namespace Mogre_Procedural
                 case COMBINE_METHOD.METHOD_SUB_WRAP:
                     for (int y = 0; y < h; y++) {
                         for (int x = 0; x < w; x++) {
-                            Mogre.ColourValue pxSrc = image.getPixel(x, y);
-                            Mogre.ColourValue pxDst = mBuffer.getPixel(x, y);
-                            int r = (int)(pxDst.r * 255.0f) - (((int)(pxSrc.r * 255.0f) * rcolPercent) >> 8);
-                            int g = (int)(pxDst.g * 255.0f) - (((int)(pxSrc.g * 255.0f) * gcolPercent) >> 8);
-                            int b = (int)(pxDst.b * 255.0f) - (((int)(pxSrc.b * 255.0f) * bcolPercent) >> 8);
+                            ColourValue pxSrc = image.getPixel(x, y);
+                            ColourValue pxDst = mBuffer.getPixel(x, y);
+                            int r = (int)(pxDst.r * 255.0f) - (((int)(pxSrc.r * 255.0f) * (int)rcolPercent) >> 8);
+                            int g = (int)(pxDst.g * 255.0f) - (((int)(pxSrc.g * 255.0f) * (int)gcolPercent) >> 8);
+                            int b = (int)(pxDst.b * 255.0f) - (((int)(pxSrc.b * 255.0f) * (int)bcolPercent) >> 8);
                             mBuffer.setPixel(x, y, (byte)(r % 255), (byte)(g % 255), (byte)(b % 255), (byte)(pxDst.a * 255.0f));
                         }
                     }
@@ -1491,8 +1518,8 @@ namespace Mogre_Procedural
                 case COMBINE_METHOD.METHOD_MULTIPLY:
                     for (int y = 0; y < h; y++) {
                         for (int x = 0; x < w; x++) {
-                            Mogre.ColourValue pxSrc = image.getPixel(x, y);
-                            Mogre.ColourValue pxDst = mBuffer.getPixel(x, y);
+                            ColourValue pxSrc = image.getPixel(x, y);
+                            ColourValue pxDst = mBuffer.getPixel(x, y);
                             uint r = (uint)(pxDst.r * 255.0f) * (((uint)(pxSrc.r * 255.0f) * rcolPercent) >> 8);
                             uint g = (uint)(pxDst.g * 255.0f) * (((uint)(pxSrc.g * 255.0f) * gcolPercent) >> 8);
                             uint b = (uint)(pxDst.b * 255.0f) * (((uint)(pxSrc.b * 255.0f) * bcolPercent) >> 8);
@@ -1504,8 +1531,8 @@ namespace Mogre_Procedural
                 case COMBINE_METHOD.METHOD_MULTIPLY2:
                     for (int y = 0; y < h; y++) {
                         for (int x = 0; x < w; x++) {
-                            Mogre.ColourValue pxSrc = image.getPixel(x, y);
-                            Mogre.ColourValue pxDst = mBuffer.getPixel(x, y);
+                            ColourValue pxSrc = image.getPixel(x, y);
+                            ColourValue pxDst = mBuffer.getPixel(x, y);
                             uint r = (uint)(pxDst.r * 255.0f) * (((uint)(pxSrc.r * 255.0f) * rcolPercent) >> 8);
                             r >>= 7;
                             uint g = (uint)(pxDst.g * 255.0f) * (((uint)(pxSrc.g * 255.0f) * gcolPercent) >> 8);
@@ -1520,8 +1547,8 @@ namespace Mogre_Procedural
                 case COMBINE_METHOD.METHOD_BLEND:
                     for (int y = 0; y < h; y++) {
                         for (int x = 0; x < w; x++) {
-                            Mogre.ColourValue pxSrc = image.getPixel(x, y);
-                            Mogre.ColourValue pxDst = mBuffer.getPixel(x, y);
+                            ColourValue pxSrc = image.getPixel(x, y);
+                            ColourValue pxDst = mBuffer.getPixel(x, y);
                             uint r = (uint)(pxDst.r * 255.0f) + (((uint)(pxSrc.r * 255.0f) * rcolPercent) >> 8);
                             uint g = (uint)(pxDst.g * 255.0f) + (((uint)(pxSrc.g * 255.0f) * gcolPercent) >> 8);
                             uint b = (uint)(pxDst.b * 255.0f) + (((uint)(pxSrc.b * 255.0f) * bcolPercent) >> 8);
@@ -1533,8 +1560,8 @@ namespace Mogre_Procedural
                 case COMBINE_METHOD.METHOD_ALPHA:
                     for (int y = 0; y < h; y++) {
                         for (int x = 0; x < w; x++) {
-                            Mogre.ColourValue pxSrc = image.getPixel(x, y);
-                            Mogre.ColourValue pxDst = mBuffer.getPixel(x, y);
+                            ColourValue pxSrc = image.getPixel(x, y);
+                            ColourValue pxDst = mBuffer.getPixel(x, y);
                             uint a = (uint)(pxDst.a * 255.0f) + (((uint)(pxSrc.a * 255.0f) * bcolPercent) >> 8);
                             mBuffer.setAlpha(x, y, (byte)(a >> 1));
                         }
@@ -1546,8 +1573,8 @@ namespace Mogre_Procedural
                 case COMBINE_METHOD.METHOD_LAYER:
                     for (int y = 0; y < h; y++) {
                         for (int x = 0; x < w; x++) {
-                            Mogre.ColourValue pxSrc = image.getPixel(x, y);
-                            Mogre.ColourValue pxDst = mBuffer.getPixel(x, y);
+                            ColourValue pxSrc = image.getPixel(x, y);
+                            ColourValue pxDst = mBuffer.getPixel(x, y);
                             mBuffer.setPixel(x, y, (byte)(pxSrc.r * pxSrc.a * 255.0f + pxDst.r * 255.0f * (1.0f - pxSrc.a)), (byte)(pxSrc.g * pxSrc.a * 255.0f + pxDst.g * 255.0f * (1.0f - pxSrc.a)), (byte)(pxSrc.b * pxSrc.a * 255.0f + pxDst.b * 255.0f * (1.0f - pxSrc.a)), (byte)((pxDst.a - pxDst.a * pxSrc.a) * 255.0f + pxSrc.a * 255.0f));
                         }
                     }
@@ -1576,10 +1603,12 @@ namespace Mogre_Procedural
     //ORIGINAL LINE: class _ProceduralExport Convolution : public TextureProcessing
     public class Convolution : TextureProcessing
     {
-        private byte mKernelSize = 0;
+        //private byte mKernelSize = 0;
+        private int mKernelSize = 0;
         private float[] mKernelData;
         private float mDivisor = 0f;
-        private byte mThreshold = 0;
+        //private byte mThreshold = 0;
+        private int mThreshold = 0;
         private bool mCalculateEdgeDivisor;
         private bool mIncludeAlphaChannel;
 
@@ -1601,7 +1630,7 @@ namespace Mogre_Procedural
                 mid = (mKernelSize - 1) / 2 + 1;
             mKernelData = new float[mKernelSize * mKernelSize];
             //C++ TO C# CONVERTER TODO TASK: The memory management function 'memset' has no equivalent in C#:
-            memset(mKernelData, 0, mKernelSize * mKernelSize * sizeof(float));
+            memset<float>(mKernelData, 0f, (uint)mKernelSize * (uint)mKernelSize * sizeof(float));
             mKernelData[mKernelSize * mid + mid] = 1.0f;
         }
 
@@ -1627,7 +1656,7 @@ namespace Mogre_Procedural
                 return this;
             mKernelData = null;
             mKernelSize = size;
-            mKernelData = new float[mKernelSize * mKernelSize];
+            mKernelData = new float[(int)mKernelSize * mKernelSize];
             for (int y = 0; y < mKernelSize; y++) {
                 for (int x = 0; x < mKernelSize; x++) {
                     mKernelData[y * mKernelSize + x] = data[y * mKernelSize + x];
@@ -1648,7 +1677,7 @@ namespace Mogre_Procedural
                 return this;
             mKernelData = null;
             mKernelSize = size;
-            mKernelData = new float[mKernelSize * mKernelSize];
+            mKernelData = new float[(int)mKernelSize * mKernelSize];
             for (int y = 0; y < mKernelSize; y++) {
                 for (int x = 0; x < mKernelSize; x++) {
                     mKernelData[y * mKernelSize + x] = (float)data[y * mKernelSize + x];
@@ -1662,13 +1691,14 @@ namespace Mogre_Procedural
         //	\param data Matrix with data for new kernel
         //	\remark setKernel calls calculateDivisor after changeing the kernel memory! If you like to set a user defined devisor call setDivisor always after setKernel!
         //	
-        public Convolution setKernel(Mogre.Matrix3 data) {
+        public Convolution setKernel(Matrix3 data) {
             mKernelData = null;
             mKernelSize = 3;
-            mKernelData = new float[mKernelSize * mKernelSize];
+            mKernelData = new float[(int)mKernelSize * mKernelSize];
             for (int y = 0; y < mKernelSize; y++) {
                 for (int x = 0; x < mKernelSize; x++) {
-                    mKernelData[y * mKernelSize + x] = data[y][x];
+                    //mKernelData[y * mKernelSize + x] = data[y][x];
+                    mKernelData[y * mKernelSize + x] = data[y, x];
                 }
             }
             return this;
@@ -1734,7 +1764,7 @@ namespace Mogre_Procedural
         //	Run image manipulation
         //	\return Pointer to image buffer which has been set in the constructor.
         //	
-        public new TextureBuffer process() {
+        public override TextureBuffer process() {
             int radius = ((int)mKernelSize) >> 1;
             TextureBuffer tmpBuffer = mBuffer.clone();
 
@@ -1762,7 +1792,7 @@ namespace Mogre_Procedural
                                 continue;
                             if ((x + jr) < (int)mBuffer.getWidth()) {
                                 float k = mKernelData[i * mKernelSize + j];
-                                Mogre.ColourValue pixel = mBuffer.getPixel(y + ir, x + jr);
+                                ColourValue pixel = mBuffer.getPixel(y + ir, x + jr);
                                 div += (int)k;
                                 k *= 255.0f;
                                 r += (int)(k * pixel.r);
@@ -1775,7 +1805,7 @@ namespace Mogre_Procedural
                         }
                     }
 
-                    if (processedKernelSize == (mKernelSize * mKernelSize))
+                    if (processedKernelSize == ((int)mKernelSize * mKernelSize))
                         div = (int)mDivisor;
                     else {
                         if (!mCalculateEdgeDivisor)
@@ -1809,7 +1839,7 @@ namespace Mogre_Procedural
                 for (int i = 0; i < mKernelSize; i++) {
                     strKernel.AppendLine("\t");
                     for (int j = 0; j < mKernelSize; j++) {
-                        strKernel.AppendLine(StringConverter.toString(mKernelData[i * mKernelSize + j]));
+                        strKernel.AppendLine((mKernelData[i * mKernelSize + j]).ToString());
                         if (j < (mKernelSize - 1))
                             strKernel.AppendLine("\t");
                     }
@@ -1904,10 +1934,10 @@ namespace Mogre_Procedural
         //	Set the colour to draw.
         //	\param colour New colour for drawing (default Ogre::ColourValue::White)
         //	
-        public Crack setColour(Mogre.ColourValue colour) {
+        public Crack setColour(ColourValue colour) {
             //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
             //ORIGINAL LINE: mColour = colour;
-            mColour.CopyFrom(colour);
+            mColour = (colour);
             return this;
         }
 
@@ -1986,11 +2016,11 @@ namespace Mogre_Procedural
         //	Run image manipulation
         //	\return Pointer to image buffer which has been set in the constructor.
         //	
-        public new TextureBuffer process() {
-            Mogre.ColourValue x1 = new ColourValue();
-            Mogre.ColourValue y1 = new ColourValue();
-            Mogre.ColourValue x2 = new ColourValue();
-            Mogre.ColourValue y2 = new ColourValue();
+        public override TextureBuffer process() {
+            ColourValue x1 = new ColourValue();
+            ColourValue y1 = new ColourValue();
+            ColourValue x2 = new ColourValue();
+            ColourValue y2 = new ColourValue();
             double cy2;
             double cy1;
             double cx2;
@@ -1998,13 +2028,13 @@ namespace Mogre_Procedural
             int oxn = new int();
             int oyn = new int();
 
-            RandomNumbers.Seed(mSeed);
+            RandomNumbers.Seed((int)mSeed);
 
             if (mParam == null)
                 return mBuffer;
 
-            int w = mBuffer.getWidth();
-            int h = mBuffer.getHeight();
+            int w = (int)mBuffer.getWidth();
+            int h = (int)mBuffer.getHeight();
 
             if (mParam.getWidth() < w || mParam.getHeight() < h)
                 return mBuffer;
@@ -2016,7 +2046,7 @@ namespace Mogre_Procedural
                 double y = ((double)RandomNumbers.NextNumber() / RAND_MAX) * (double)h;
                 double a = Math.TWO_PI * ((double)RandomNumbers.NextNumber() / RAND_MAX);
                 int count = (int)mLength;
-                Mogre.ColourValue pixel = mParam.getPixel((int)x, (int)y);
+                ColourValue pixel = mParam.getPixel((int)x, (int)y);
 
                 if (mParam.getWidth() != null && mLengthDecision == CRACK_LENGTH_DECISION.LENGTH_DECISION_NORMAL_BASED) {
                     Vector3 normal = new Vector3(pixel.r * 255.0f - 127.0f, pixel.g * 255.0f - 127.0f, 0.0f);
@@ -2045,11 +2075,11 @@ namespace Mogre_Procedural
                                 a = Math.TWO_PI;
                         }
                         else if (normal.x < 0)
-                            a = Math.ATan(normal.y / normal.x).valueRadians() + 1.5f * Math.PI;
+                            a = Math.ATan(normal.y / normal.x).ValueRadians + 1.5f * Math.PI;
                         else if (normal.y < 0)
-                            a = Math.ATan(normal.y / normal.x).valueRadians() + 2.5f * Math.PI;
+                            a = Math.ATan(normal.y / normal.x).ValueRadians + 2.5f * Math.PI;
                         else
-                            a = Math.ATan(normal.y / normal.x).valueRadians() + Math.HALF_PI;
+                            a = Math.ATan(normal.y / normal.x).ValueRadians + Math.HALF_PI;
                         float norm = normal.x * normal.x + normal.y * normal.y;
                         norm = (norm > 0) ? Math.Sqrt(norm) : 0;
                         if (norm < (255.0f - pixel.a * 255.0f) / 4.0f)
@@ -2058,9 +2088,9 @@ namespace Mogre_Procedural
 
                     switch (mQuality) {
                         case CRACK_QUALITY.QUALITY_SUBPIXEL:
-                            cy2 = (x - Math.Floor(x)) * (y - Math.Floor(y));
-                            cy1 = (y - Math.Floor(y)) * (Math.Ceiling(x) - x);
-                            cx2 = (x - Math.Floor(x)) * (Math.Ceiling(y) - y);
+                            cy2 = (x - System.Math.Floor(x)) * (y - System.Math.Floor(y));
+                            cy1 = (y - System.Math.Floor(y)) * (System.Math.Ceiling(x) - x);
+                            cx2 = (x - System.Math.Floor(x)) * (System.Math.Ceiling(y) - y);
                             cx1 = 1 - (cx2 + cy1 + cy2);
                             oxn = System.Math.Min((int)x + 1, w);
                             oyn = System.Math.Min((int)x + 1, h);
@@ -2196,7 +2226,7 @@ namespace Mogre_Procedural
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        public Cycloid setType(Cycloid.CYCLOID_TYPE type) {
+        public Cycloid setType(CYCLOID_TYPE type) {
             mType = type;
             float size = (float)System.Math.Min(mBuffer.getHeight(), mBuffer.getWidth());
             switch (mType) {
@@ -2246,10 +2276,10 @@ namespace Mogre_Procedural
         //	Set the drawing colour for cycloid structure.
         //	\param colour New colour for drawing (default Ogre::ColourValue::White)
         //	
-        public Cycloid setColour(Mogre.ColourValue colour) {
+        public Cycloid setColour(ColourValue colour) {
             //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
             //ORIGINAL LINE: mColour = colour;
-            mColour.CopyFrom(colour);
+            mColour = (colour);
             return this;
         }
 
@@ -2295,7 +2325,7 @@ namespace Mogre_Procedural
         //	\see \ref cycloiddefaultparameter "Default parameters" for default values
         //	\note Unsused paramerters will be ignored. Setting <em>k</em> parameter calculates the first used parameter. For example <tt>k = R / r</tt> will calculate <em>R</em> by <tt>R = k * r</tt> (also <em>r</em> from <tt>r = k * d</tt>).
         //	
-        public Cycloid setParameter(Cycloid.CYCLOID_PARAMETER paramType, float @value) {
+        public Cycloid setParameter(CYCLOID_PARAMETER paramType, float @value) {
             switch (paramType) {
                 case CYCLOID_PARAMETER.PARAMETER_R:
                     mParam_R = @value;
@@ -2344,7 +2374,7 @@ namespace Mogre_Procedural
         //	Run image manipulation
         //	\return Pointer to image buffer which has been set in the constructor.
         //	
-        public new TextureBuffer process() {
+        public override TextureBuffer process() {
             if (mPenSize == 0)
                 return mBuffer;
             int xpos = (int)((float)mBuffer.getWidth() * mCenterX);
@@ -2380,14 +2410,14 @@ namespace Mogre_Procedural
             int py = 0;
             float phi = 0;
 
-            int sx = x + (int)Math.Floor(mParam_R + 0.5f);
+            int sx = x + (int)System.Math.Floor(mParam_R + 0.5f);
             int sy = y;
             do {
                 float dx = (mParam_R - mParam_r) * Math.Cos(phi) + mParam_r * Math.Cos(((mParam_R - mParam_r) / mParam_r) * phi);
                 float dy = (mParam_R - mParam_r) * Math.Sin(phi) - mParam_r * Math.Sin(((mParam_R - mParam_r) / mParam_r) * phi);
 
-                px = x + (int)Math.Floor(dx + 0.5f);
-                py = y - (int)Math.Floor(dy + 0.5f);
+                px = x + (int)System.Math.Floor(dx + 0.5f);
+                py = y - (int)System.Math.Floor(dy + 0.5f);
                 _process_paint(px, py, step);
 
                 phi += step;
@@ -2400,14 +2430,14 @@ namespace Mogre_Procedural
             int py = 0;
             float phi = 0;
 
-            int sx = x + (int)Math.Floor((mParam_R - mParam_r) + mParam_d + 0.5f);
+            int sx = x + (int)System.Math.Floor((mParam_R - mParam_r) + mParam_d + 0.5f);
             int sy = y;
             do {
                 float dx = (mParam_R - mParam_r) * Math.Cos(phi) + mParam_d * Math.Cos(((mParam_R - mParam_r) / mParam_r) * phi);
                 float dy = (mParam_R - mParam_r) * Math.Sin(phi) - mParam_d * Math.Sin(((mParam_R - mParam_r) / mParam_r) * phi);
 
-                px = x + (int)Math.Floor(dx + 0.5f);
-                py = y - (int)Math.Floor(dy + 0.5f);
+                px = x + (int)System.Math.Floor(dx + 0.5f);
+                py = y - (int)System.Math.Floor(dy + 0.5f);
                 _process_paint(px, py, step);
 
                 phi += step;
@@ -2420,14 +2450,14 @@ namespace Mogre_Procedural
             int py = 0;
             float phi = 0;
 
-            int sx = x + (int)Math.Floor((mParam_R + mParam_r) - mParam_r + 0.5f);
+            int sx = x + (int)System.Math.Floor((mParam_R + mParam_r) - mParam_r + 0.5f);
             int sy = y;
             do {
                 float dx = (mParam_R + mParam_r) * Math.Cos(phi) - mParam_r * Math.Cos(((mParam_R + mParam_r) / mParam_r) * phi);
                 float dy = (mParam_R + mParam_r) * Math.Sin(phi) - mParam_r * Math.Sin(((mParam_R + mParam_r) / mParam_r) * phi);
 
-                px = x + (int)Math.Floor(dx + 0.5f);
-                py = y - (int)Math.Floor(dy + 0.5f);
+                px = x + (int)System.Math.Floor(dx + 0.5f);
+                py = y - (int)System.Math.Floor(dy + 0.5f);
                 _process_paint(px, py, step);
 
                 phi += step;
@@ -2440,14 +2470,14 @@ namespace Mogre_Procedural
             int py = 0;
             float phi = 0;
 
-            int sx = x + (int)Math.Floor((mParam_R + mParam_r) - mParam_d + 0.5f);
+            int sx = x + (int)System.Math.Floor((mParam_R + mParam_r) - mParam_d + 0.5f);
             int sy = y;
             do {
                 float dx = (mParam_R + mParam_r) * Math.Cos(phi) - mParam_d * Math.Cos(((mParam_R + mParam_r) / mParam_r) * phi);
                 float dy = (mParam_R + mParam_r) * Math.Sin(phi) - mParam_d * Math.Sin(((mParam_R + mParam_r) / mParam_r) * phi);
 
-                px = x + (int)Math.Floor(dx + 0.5f);
-                py = y - (int)Math.Floor(dy + 0.5f);
+                px = x + (int)System.Math.Floor(dx + 0.5f);
+                py = y - (int)System.Math.Floor(dy + 0.5f);
                 _process_paint(px, py, step);
 
                 phi += step;
@@ -2469,8 +2499,8 @@ namespace Mogre_Procedural
                 float dx = mParam_R * Math.Cos(k * t) * Math.Sin(t);
                 float dy = mParam_R * Math.Cos(k * t) * Math.Cos(t);
 
-                px = x + (int)Math.Floor(dx + 0.5f);
-                py = y - (int)Math.Floor(dy + 0.5f);
+                px = x + (int)System.Math.Floor(dx + 0.5f);
+                py = y - (int)System.Math.Floor(dy + 0.5f);
                 _process_paint(px, py, step);
 
                 t += step;
@@ -2491,8 +2521,8 @@ namespace Mogre_Procedural
                 float dx = mParam_R * Math.Sin(mParam_r * t + mParam_e);
                 float dy = mParam_R * Math.Cos(mParam_d * t + mParam_e);
 
-                px = x + (int)Math.Floor(dx + 0.5f);
-                py = y - (int)Math.Floor(dy + 0.5f);
+                px = x + (int)System.Math.Floor(dx + 0.5f);
+                py = y - (int)System.Math.Floor(dy + 0.5f);
                 _process_paint(px, py, step);
 
                 t += step;
@@ -2511,8 +2541,8 @@ namespace Mogre_Procedural
                     float dx = Math.Cos(phi);
                     float dy = Math.Sin(phi);
                     for (uint r = 0; r < mPenSize; r++) {
-                        int px = x + (int)Math.Floor((float)r * dx + 0.5f);
-                        int py = y - (int)Math.Floor((float)r * dy + 0.5f);
+                        int px = x + (int)System.Math.Floor((float)r * dx + 0.5f);
+                        int py = y - (int)System.Math.Floor((float)r * dy + 0.5f);
                         if (px >= 0 && py >= 0 && px < (int)mBuffer.getWidth() && py < (int)mBuffer.getHeight())
                             mBuffer.setPixel(px, py, mColour);
                     }
@@ -2566,7 +2596,7 @@ namespace Mogre_Procedural
         //	Run image manipulation
         //	\return Pointer to image buffer which has been set in the constructor.
         //	
-        public new TextureBuffer process() {
+        public override TextureBuffer process() {
             int w = (int)mBuffer.getWidth();
             int h = (int)mBuffer.getHeight();
             TextureBuffer intBuffer = mBuffer.clone();
@@ -2590,7 +2620,7 @@ namespace Mogre_Procedural
 
                         for (int v = -1; v < 2; v++) {
                             for (int u = -1; u < 2; u++) {
-                                Mogre.ColourValue pixel = pSrc.getPixel((x + w + u) % w, (y + h + v) % h);
+                                ColourValue pixel = pSrc.getPixel((x + w + u) % w, (y + h + v) % h);
                                 if ((pixel.r + pixel.g + pixel.b) * 255.0f > sum) {
                                     sum = (int)((pixel.r + pixel.g + pixel.b) * 255.0f);
                                     pDst.setPixel(x, y, pixel);
@@ -2670,12 +2700,12 @@ namespace Mogre_Procedural
         //	Run image manipulation
         //	\return Pointer to image buffer which has been set in the constructor.
         //	
-        public new TextureBuffer process() {
+        public override TextureBuffer process() {
             if (mParam == null)
                 return mBuffer;
 
-            int w = mBuffer.getWidth();
-            int h = mBuffer.getHeight();
+            int w = (int)mBuffer.getWidth();
+            int h = (int)mBuffer.getHeight();
             TextureBuffer tmpBuffer = mBuffer.clone();
 
             if (mParam.getWidth() < w || mParam.getHeight() < h)
@@ -2685,19 +2715,20 @@ namespace Mogre_Procedural
 
             for (int y = 0; y < h; ++y) {
                 for (int x = 0; x < w; ++x) {
-                    Mogre.ColourValue pixel = mParam.getPixel(x, y);
+                    ColourValue pixel = mParam.getPixel(x, y);
                     Vector3 n = new Vector3(pixel.r * 255.0f - 127.0f, pixel.g * 255.0f - 127.0f, pixel.b * 255.0f - 127.0f);
-                    n.normalise();
-                    float u = Math.IEEERemainder((float)(x + (n.x * fPower)), (float)w);
-                    float v = Math.IEEERemainder((float)(y + (n.y * fPower)), (float)h);
+                    //n.Normalise();
+                    n = n.NormalisedCopy;
+                    float u = (float)System.Math.IEEERemainder((float)(x + (n.x * fPower)), (float)w);
+                    float v = (float)System.Math.IEEERemainder((float)(y + (n.y * fPower)), (float)h);
                     float uf = (u >= 0) ? (u - (int)u) : 1 + (u - (int)u);
                     float vf = (v >= 0) ? (v - (int)v) : 1 + (v - (int)v);
                     uint ut = (u >= 0) ? (uint)u : (uint)u - 1;
                     uint vt = (v >= 0) ? (uint)v : (uint)v - 1;
-                    Mogre.ColourValue texel = mBuffer.getPixel(vt % h, ut % w) * (1.0f - uf) * (1.0f - vf);
-                    texel += mBuffer.getPixel(vt % h, (ut + 1) % w) * uf * (1.0f - vf);
-                    texel += mBuffer.getPixel((vt + 1) % h, ut % w) * (1.0f - uf) * vf;
-                    texel += mBuffer.getPixel((vt + 1) % h, (ut + 1) % w) * uf * vf;
+                    ColourValue texel = mBuffer.getPixel((int)vt % h, (int)ut % w) * (1.0f - uf) * (1.0f - vf);
+                    texel += mBuffer.getPixel((int)vt % h, ((int)ut + 1) % w) * uf * (1.0f - vf);
+                    texel += mBuffer.getPixel(((int)vt + 1) % h, (int)ut % w) * (1.0f - uf) * vf;
+                    texel += mBuffer.getPixel(((int)vt + 1) % h, ((int)ut + 1) % w) * uf * vf;
                     tmpBuffer.setPixel(x, y, texel);
                 }
             }
@@ -2787,7 +2818,7 @@ namespace Mogre_Procedural
         //	\param type New algorithm to sharp (default SHARP_BASIC)
         //	
         public EdgeDetection setType(DETECTION_TYPE type) {
-            mType = (int)type;
+            mType = type;
             return this;
         }
 
@@ -2795,8 +2826,8 @@ namespace Mogre_Procedural
         //	Run image manipulation
         //	\return Pointer to image buffer which has been set in the constructor.
         //	
-        public new TextureBuffer process() {
-            Mogre.ColourValue pixel = new ColourValue();
+        public override TextureBuffer process() {
+            ColourValue pixel = new ColourValue();
             Vector3[] block;
             Vector3 d = new Vector3();
             Vector3 v = new Vector3();
@@ -2807,7 +2838,7 @@ namespace Mogre_Procedural
             float div = 0f;
 
             TextureBuffer tmpBuffer = mBuffer.clone();
-            Solid(tmpBuffer).setColour(Mogre.ColourValue.Black).process();
+            (new Solid(tmpBuffer)).setColour(ColourValue.Black).process();
 
             int w = (int)mBuffer.getWidth();
             int h = (int)mBuffer.getHeight();
@@ -2822,14 +2853,15 @@ namespace Mogre_Procedural
                             pixel = mBuffer.getPixel((int)x, (int)y);
                             block = getBlock(x, y);
                             d = block[0] + 2.0f * block[1] + block[2] - block[6] - 2.0f * block[7] - block[8];
-                            d = Vector3(Math.Abs(d.x), Math.Abs(d.y), Math.Abs(d.z));
+                            d = new Vector3(Math.Abs(d.x), Math.Abs(d.y), Math.Abs(d.z));
                             v = block[2] + 2.0f * block[5] + block[8] - block[0] - 2.0f * block[3] - block[6];
-                            v = Vector3(Math.Abs(v.x), Math.Abs(v.y), Math.Abs(v.z));
+                            v = new Vector3(Math.Abs(v.x), Math.Abs(v.y), Math.Abs(v.z));
                             d = d + v;
                             //                if(d.x > n.x) n.x = d.x;
                             //				if(d.y > n.y) n.y = d.y;
                             //				if(d.z > n.z) n.z = d.z;
-                            block.Dispose();
+
+                            //block.Dispose();//没有dispose
 
                             tmpBuffer.setPixel((int)x, (int)y, d.x, d.y, d.z, pixel.a);
                         }
@@ -2858,7 +2890,7 @@ namespace Mogre_Procedural
                                 n.y = Math.Abs(d.y);
                             if (Math.Abs(d.z) > n.z)
                                 n.z = Math.Abs(d.z);
-                            block.Dispose();
+                            // block.Dispose();//没有dispose
 
                             tmpBuffer.setPixel((int)x, (int)y, n.x, n.y, n.z, pixel.a);
                         }
@@ -2885,7 +2917,7 @@ namespace Mogre_Procedural
                                         n.z = Math.Abs(d.z);
                                 }
                             }
-                            block.Dispose();
+                            //block.Dispose();//没有dispose
                             tmpBuffer.setPixel((int)x, (int)y, n.x, n.y, n.z, pixel.a);
                         }
                     }
@@ -2893,26 +2925,27 @@ namespace Mogre_Procedural
 
                 case DETECTION_TYPE.DETECTION_CANNY:
                     // STEP 1 - blur image
-                    Blur(mBuffer).setSigma(mSigma).setType(Procedural._ProceduralExport.BLUR_TYPE.BLUR_GAUSSIAN).process();
+                    new Blur(mBuffer).setSigma(mSigma).setType(Blur.BLUR_TYPE.BLUR_GAUSSIAN).process();
 
                     // STEP 2 - calculate magnitude and edge orientation
                     orientation = new Vector3[(int)w * h];
                     gradients = new Vector3[(int)w * h];
-                    n = Vector3(-std.numeric_limits<float>.infinity(), -std.numeric_limits<float>.infinity(), -std.numeric_limits<float>.infinity());
+                    //n =new Vector3(-std.numeric_limits<float>.infinity(), -std.numeric_limits<float>.infinity(), -std.numeric_limits<float>.infinity());
+                    n = new Vector3(float.NegativeInfinity, float.NegativeInfinity, float.NegativeInfinity);//溢出数
                     for (int y = 0; y < h; y++) {
                         for (int x = 0; x < w; x++) {
                             pixel = mBuffer.getPixel((int)x, (int)y);
                             block = getBlock(x, y);
                             d = block[2] + block[8] - block[0] - block[6] + 2.0f * (block[5] - block[3]);
                             v = block[0] + block[2] - block[6] - block[8] + 2.0f * (block[1] - block[7]);
-                            gradients[y * w + x] = Vector3(Math.Sqrt(d.x * d.x + v.x * v.x), Math.Sqrt(d.y * d.y + v.y * v.y), Math.Sqrt(d.z * d.z + v.z * v.z));
+                            gradients[y * w + x] = new Vector3(Math.Sqrt(d.x * d.x + v.x * v.x), Math.Sqrt(d.y * d.y + v.y * v.y), Math.Sqrt(d.z * d.z + v.z * v.z));
                             if (gradients[y * w + x].x > n.x)
                                 n.x = gradients[y * w + x].x;
                             if (gradients[y * w + x].y > n.y)
                                 n.y = gradients[y * w + x].y;
                             if (gradients[y * w + x].z > n.z)
                                 n.z = gradients[y * w + x].z;
-                            block.Dispose();
+                            //block.Dispose();
                             orientation[y * w + x] = Vector3.ZERO;
                             if (d.x == 0.0f) {
                                 orientation[y * w + x].x = (v.x == 0.0f) ? 0.0f : 90.0f;
@@ -2920,9 +2953,9 @@ namespace Mogre_Procedural
                             else {
                                 div = v.x / d.x;
                                 if (div < 0.0f)
-                                    orientation[y * w + x].x = 180.0f - Math.ATan(-div).valueDegrees();
+                                    orientation[y * w + x].x = 180.0f - Math.ATan(-div).ValueDegrees;
                                 else
-                                    orientation[y * w + x].x = Math.ATan(div).valueDegrees();
+                                    orientation[y * w + x].x = Math.ATan(div).ValueDegrees;
 
                                 if (orientation[y * w + x].x < 22.5f)
                                     orientation[y * w + x].x = 0.0f;
@@ -2941,9 +2974,9 @@ namespace Mogre_Procedural
                             else {
                                 div = v.y / d.y;
                                 if (div < 0.0f)
-                                    orientation[y * w + x].y = 180.0f - Math.ATan(-div).valueDegrees();
+                                    orientation[y * w + x].y = 180.0f - Math.ATan(-div).ValueDegrees;
                                 else
-                                    orientation[y * w + x].y = Math.ATan(div).valueDegrees();
+                                    orientation[y * w + x].y = Math.ATan(div).ValueDegrees;
 
                                 if (orientation[y * w + x].y < 22.5f)
                                     orientation[y * w + x].y = 0.0f;
@@ -2962,9 +2995,9 @@ namespace Mogre_Procedural
                             else {
                                 div = v.z / d.z;
                                 if (div < 0.0f)
-                                    orientation[y * w + x].z = 180.0f - Math.ATan(-div).valueDegrees();
+                                    orientation[y * w + x].z = 180.0f - Math.ATan(-div).ValueDegrees;
                                 else
-                                    orientation[y * w + x].z = Math.ATan(div).valueDegrees();
+                                    orientation[y * w + x].z = Math.ATan(div).ValueDegrees;
 
                                 if (orientation[y * w + x].z < 22.5f)
                                     orientation[y * w + x].z = 0.0f;
@@ -3088,31 +3121,31 @@ namespace Mogre_Procedural
                         }
                     }
 
-                    orientation.Dispose();
-                    gradients.Dispose();
+                    //orientation.Dispose();
+                    //gradients.Dispose();
                     break;
             }
 
             mBuffer.setData(tmpBuffer);
             tmpBuffer.Dispose();
 
-            Utils.log("Modify texture with edgedetection filter : " + StringConverter.toString(mType));
+            Utils.log("Modify texture with edgedetection filter : " + (mType).ToString());
             return mBuffer;
         }
 
-        private Vector3 getBlock(int x, int y) {
-            Mogre.ColourValue pixel = mBuffer.getPixel((int)x, (int)y);
+        private Vector3[] getBlock(int x, int y) {
+            ColourValue pixel = mBuffer.getPixel((int)x, (int)y);
             Vector3[] block = new Vector3[9];
             for (int j = -1; j < 2; j++) {
                 for (int i = -1; i < 2; i++) {
-                    block[(j + 1) * 3 + (i + 1)] = Vector3(pixel.r, pixel.g, pixel.b);
+                    block[(j + 1) * 3 + (i + 1)] = new Vector3(pixel.r, pixel.g, pixel.b);
                     if (j == 0 && i == 0)
                         continue;
                     if ((x + i) < 0 || (x + i) >= (int)mBuffer.getWidth())
                         continue;
                     if ((y + j) < 0 || (y + j) >= (int)mBuffer.getHeight())
                         continue;
-                    block[(j + 1) * 3 + (i + 1)] = Vector3((float)mBuffer.getPixelRedReal((int)(x + i), (int)(y + j)), (float)mBuffer.getPixelGreenReal((int)(x + i), (int)(y + j)), (float)mBuffer.getPixelBlueReal((int)(x + i), (int)(y + j)));
+                    block[(j + 1) * 3 + (i + 1)] = new Vector3((float)mBuffer.getPixelRedReal((int)(x + i), (int)(y + j)), (float)mBuffer.getPixelGreenReal((int)(x + i), (int)(y + j)), (float)mBuffer.getPixelBlueReal((int)(x + i), (int)(y + j)));
                 }
             }
             return block;
@@ -3148,9 +3181,9 @@ namespace Mogre_Procedural
         public EllipseTexture(TextureBuffer pBuffer)
             : base(pBuffer, "EllipseTexture") {
             mColour = ColourValue.White;
-            mRadiusX = pBuffer.getWidth() / 2;
+            mRadiusX = (int)pBuffer.getWidth() / 2;
             mX = mRadiusX;
-            mRadiusY = pBuffer.getHeight() / 2;
+            mRadiusY = (int)pBuffer.getHeight() / 2;
             mY = mRadiusY;
         }
 
@@ -3161,10 +3194,10 @@ namespace Mogre_Procedural
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        public EllipseTexture setColour(Mogre.ColourValue colour) {
+        public EllipseTexture setColour(ColourValue colour) {
             //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
             //ORIGINAL LINE: mColour = colour;
-            mColour.CopyFrom(colour);
+            mColour = (colour);
             return this;
         }
 
@@ -3181,7 +3214,7 @@ namespace Mogre_Procedural
         //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
         //ORIGINAL LINE: EllipseTexture& setColour(Ogre::float red, Ogre::float green, Ogre::float blue, Ogre::float alpha = 1.0f)
         public EllipseTexture setColour(float red, float green, float blue, float alpha) {
-            mColour = ColourValue(red, green, blue, alpha);
+            mColour = new ColourValue(red, green, blue, alpha);
             return this;
         }
 
@@ -3248,7 +3281,7 @@ namespace Mogre_Procedural
         //	\param x New absolute x position of ellipse center (default 1/2 * image width)
         //	
         public EllipseTexture setCenterX(int x) {
-            mX = System.Math.Min(x, mBuffer.getWidth() - 1);
+            mX = System.Math.Min(x, (int)mBuffer.getWidth() - 1);
             return this;
         }
 
@@ -3257,7 +3290,7 @@ namespace Mogre_Procedural
         //	\param x New relative x position of ellipse center [0.0, 1.0] \(default 0.5)
         //	
         public EllipseTexture setCenterX(float x) {
-            mX = System.Math.Min((int)(x * (float)mBuffer.getWidth()), mBuffer.getWidth() - 1);
+            mX = System.Math.Min((int)(x * (float)mBuffer.getWidth()), (int)mBuffer.getWidth() - 1);
             return this;
         }
 
@@ -3266,7 +3299,7 @@ namespace Mogre_Procedural
         //	\param y New absolute y position of ellipse center (default 1/2 * image width)
         //	
         public EllipseTexture setCenterY(int y) {
-            mY = System.Math.Min(y, mBuffer.getHeight() - 1);
+            mY = System.Math.Min(y, (int)mBuffer.getHeight() - 1);
             return this;
         }
 
@@ -3275,7 +3308,7 @@ namespace Mogre_Procedural
         //	\param y New relative y position of ellipse center [0.0, 1.0] \(default 0.5)
         //	
         public EllipseTexture setCenterY(float y) {
-            mY = System.Math.Min((int)(y * (float)mBuffer.getHeight()), mBuffer.getHeight() - 1);
+            mY = System.Math.Min((int)(y * (float)mBuffer.getHeight()), (int)mBuffer.getHeight() - 1);
             return this;
         }
 
@@ -3332,7 +3365,7 @@ namespace Mogre_Procedural
         //	Run image manipulation
         //	\return Pointer to image buffer which has been set in the constructor.
         //	
-        public new TextureBuffer process() {
+        public override TextureBuffer process() {
             int dx = 0;
             int dy = mRadiusY;
             int rx2 = mRadiusX * mRadiusX;
@@ -3363,7 +3396,7 @@ namespace Mogre_Procedural
                 _putpixel(-dx, 0);
             }
 
-            Utils.log("Modify texture with ellipse filter : x = " + StringConverter.toString(mX) + ", y = " + StringConverter.toString(mY) + ", Radius x = " + StringConverter.toString(mRadiusX) + ", Radius y = " + StringConverter.toString(mRadiusY));
+            Utils.log("Modify texture with ellipse filter : x = " + (mX).ToString() + ", y = " + (mY).ToString() + ", Radius x = " + (mRadiusX).ToString() + ", Radius y = " + (mRadiusY).ToString());
             return mBuffer;
         }
 
@@ -3444,13 +3477,13 @@ namespace Mogre_Procedural
         //	Run image manipulation
         //	\return Pointer to image buffer which has been set in the constructor.
         //	
-        public new TextureBuffer process() {
+        public override TextureBuffer process() {
             TextureBuffer tmpBuffer = mBuffer.clone();
             for (int y = 0; y < mBuffer.getHeight(); y++) {
                 for (int x = 0; x < mBuffer.getWidth(); x++) {
                     switch (mAxis) {
                         case FLIP_AXIS.FLIP_HORIZONTAL:
-                            tmpBuffer.setPixel(x, mBuffer.getHeight() - 1 - y, mBuffer.getPixel(x, y));
+                            tmpBuffer.setPixel(x, (int)mBuffer.getHeight() - 1 - y, mBuffer.getPixel(x, y));
                             break;
 
                         default:
@@ -3468,7 +3501,7 @@ namespace Mogre_Procedural
             mBuffer.setData(tmpBuffer);
             tmpBuffer.Dispose();
 
-            Utils.log("Modify texture with flip filter : " + StringConverter.toString(mAxis));
+            Utils.log("Modify texture with flip filter : " + (mAxis).ToString());
             return mBuffer;
         }
     }
@@ -3519,10 +3552,10 @@ namespace Mogre_Procedural
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        public Glow setColour(Mogre.ColourValue colour) {
+        public Glow setColour(ColourValue colour) {
             //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
             //ORIGINAL LINE: mColour = colour;
-            mColour.CopyFrom(colour);
+            mColour = (colour);
             return this;
         }
 
@@ -3539,7 +3572,7 @@ namespace Mogre_Procedural
         //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
         //ORIGINAL LINE: Glow& setColour(Ogre::float red, Ogre::float green, Ogre::float blue, Ogre::float alpha = 1.0f)
         public Glow setColour(float red, float green, float blue, float alpha) {
-            mColour = ColourValue(red, green, blue, alpha);
+            mColour = new ColourValue(red, green, blue, alpha);
             return this;
         }
 
@@ -3601,7 +3634,7 @@ namespace Mogre_Procedural
         //	Run image manipulation
         //	\return Pointer to image buffer which has been set in the constructor.
         //	
-        public new TextureBuffer process() {
+        public override TextureBuffer process() {
             int w = (int)mBuffer.getWidth();
             int h = (int)mBuffer.getHeight();
             int dwCenterX = (int)(mCenterX * (float)w);
@@ -3669,13 +3702,13 @@ namespace Mogre_Procedural
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        public new TextureBuffer process() {
+        public override TextureBuffer process() {
             int w = mBuffer.getWidth();
             int h = mBuffer.getHeight();
 
             for (int y = 0; y < h; y++) {
                 for (int x = 0; x < w; x++) {
-                    Mogre.ColourValue pixel = mBuffer.getPixel(x, y);
+                    ColourValue pixel = mBuffer.getPixel(x, y);
                     mBuffer.setPixel(x, y, 1.0f - pixel.r, 1.0f - pixel.g, 1.0f - pixel.b, pixel.a);
                 }
             }
@@ -3739,9 +3772,9 @@ namespace Mogre_Procedural
         //	Run image manipulation
         //	\return Pointer to image buffer which has been set in the constructor.
         //	
-        public new TextureBuffer process() {
+        public override TextureBuffer process() {
             TextureBuffer tmpBuffer = mBuffer.clone();
-            RandomNumbers.Seed(mSeed);
+            RandomNumbers.Seed((int)mSeed);
             int radius = (int)(1.0f + (9.0f / 255.0f) * ((float)mRadius - 1.0f));
             int max = radius * 2 + 1;
             for (int y = 0; y < (int)mBuffer.getHeight(); y++) {
@@ -3756,7 +3789,7 @@ namespace Mogre_Procedural
             mBuffer.setData(tmpBuffer);
             tmpBuffer.Dispose();
 
-            Utils.log("Modify texture with jitter filter : " + StringConverter.toString(mRadius));
+            Utils.log("Modify texture with jitter filter : " + (mRadius).ToString());
             return mBuffer;
         }
     }
@@ -3827,12 +3860,12 @@ namespace Mogre_Procedural
         //	Run image manipulation
         //	\return Pointer to image buffer which has been set in the constructor.
         //	
-        public new TextureBuffer process() {
+        public override TextureBuffer process() {
             for (int y = 0; y < mBuffer.getHeight(); y++) {
                 for (int x = 0; x < mBuffer.getWidth(); x++) {
-                    Mogre.ColourValue pixelA = mBufferA.getPixel(x, y);
-                    Mogre.ColourValue pixelB = mBufferB.getPixel(x, y);
-                    Mogre.ColourValue pixelC = mBuffer.getPixel(x, y);
+                    ColourValue pixelA = mBufferA.getPixel(x, y);
+                    ColourValue pixelB = mBufferB.getPixel(x, y);
+                    ColourValue pixelC = mBuffer.getPixel(x, y);
 
                     mBuffer.setPixel(x, y, pixelA.r * (1.0f - pixelC.r) + pixelB.r * pixelC.r, pixelA.g * (1.0f - pixelC.g) + pixelB.g * pixelC.g, pixelA.b * (1.0f - pixelC.b) + pixelB.b * pixelC.b, pixelA.a * (1.0f - pixelC.a) + pixelB.a * pixelC.a);
                 }
@@ -3883,7 +3916,7 @@ namespace Mogre_Procedural
             : base(pBuffer, "Light") {
             mNormal = null;
             mColourAmbient = ColourValue.Black;
-            mColourDiffuse = ColourValue(0.5f, 0.5f, 0.5f, 1.0f);
+            mColourDiffuse = new ColourValue(0.5f, 0.5f, 0.5f, 1.0f);
             mColourSpecular = ColourValue.White;
             mPosition = new Vector3(255.0f, 255.0f, 127.0f);
             mSpecularPower = 0;
@@ -3907,10 +3940,10 @@ namespace Mogre_Procedural
         //	Set the ambient light colour.
         //	\param colour New ambient light colour (default Ogre::ColourValue::Black)
         //	
-        public TextureLightBaker setColourAmbient(Mogre.ColourValue colour) {
+        public TextureLightBaker setColourAmbient(ColourValue colour) {
             //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
             //ORIGINAL LINE: mColourAmbient = colour;
-            mColourAmbient.CopyFrom(colour);
+            mColourAmbient = (colour);
             return this;
         }
 
@@ -3935,10 +3968,10 @@ namespace Mogre_Procedural
         //	Set the diffuse light colour.
         //	\param colour New diffuse light colour (default Ogre::ColourValue(0.5f, 0.5f, 0.5f, 1.0f))
         //	
-        public TextureLightBaker setColourDiffuse(Mogre.ColourValue colour) {
+        public TextureLightBaker setColourDiffuse(ColourValue colour) {
             //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
             //ORIGINAL LINE: mColourDiffuse = colour;
-            mColourDiffuse.CopyFrom(colour);
+            mColourDiffuse = (colour);
             return this;
         }
 
@@ -3963,10 +3996,10 @@ namespace Mogre_Procedural
         //	Set the specular light colour.
         //	\param colour New specular light colour (default Ogre::ColourValue::White)
         //	
-        public TextureLightBaker setColourSpecular(Mogre.ColourValue colour) {
+        public TextureLightBaker setColourSpecular(ColourValue colour) {
             //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
             //ORIGINAL LINE: mColourSpecular = colour;
-            mColourSpecular.CopyFrom(colour);
+            mColourSpecular = (colour);
             return this;
         }
 
@@ -3993,16 +4026,16 @@ namespace Mogre_Procedural
         //	\param diffuse New diffuse light colour (default Ogre::ColourValue(0.5f, 0.5f, 0.5f, 1.0f))
         //	\param specular New specular light colour (default Ogre::ColourValue::White)
         //	
-        public TextureLightBaker setColours(Mogre.ColourValue ambient, ColourValue diffuse, ColourValue specular) {
+        public TextureLightBaker setColours(ColourValue ambient, ColourValue diffuse, ColourValue specular) {
             //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
             //ORIGINAL LINE: mColourAmbient = ambient;
-            mColourAmbient.CopyFrom(ambient);
+            mColourAmbient = (ambient);
             //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
             //ORIGINAL LINE: mColourDiffuse = diffuse;
-            mColourDiffuse.CopyFrom(diffuse);
+            mColourDiffuse = (diffuse);
             //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
             //ORIGINAL LINE: mColourSpecular = specular;
-            mColourSpecular.CopyFrom(specular);
+            mColourSpecular = (specular);
             return this;
         }
 
@@ -4047,11 +4080,12 @@ namespace Mogre_Procedural
         //	Run image manipulation
         //	\return Pointer to image buffer which has been set in the constructor.
         //	
-        public new TextureBuffer process() {
+        public override TextureBuffer process() {
             int w = mBuffer.getWidth();
             int h = mBuffer.getHeight();
             Vector3 light = new Vector3(mPosition.x - 127.0f, -(mPosition.y - 127.0f), -(127.0f - mPosition.z));
-            light.normalise();
+            //light.Normalise();
+            light = light.NormalisedCopy;
             float fSpecularPower = ((float)mSpecularPower) / 32.0f;
             float fBumpPower = ((float)mBumpPower) / 32.0f;
 
@@ -4063,14 +4097,15 @@ namespace Mogre_Procedural
                 normalMap = mNormal.clone();
             else {
                 normalMap = mBuffer.clone();
-                Normals(normalMap).process();
+                new Normals(normalMap).process();
             }
 
             for (int y = 0; y < h; y++) {
                 for (int x = 0; x < w; x++) {
-                    Mogre.ColourValue pixel = normalMap.getPixel(x, y);
+                    ColourValue pixel = normalMap.getPixel(x, y);
                     Vector3 n = new Vector3(pixel.r * 255.0f - 127.0f, pixel.g * 255.0f - 127.0f, pixel.b * 255.0f - 127.0f);
-                    n.normalise();
+                    //n.Normalise();
+                    n = n.NormalisedCopy;
 
                     float fdot = n.x * light.x + n.y * light.y + n.z * light.z;
                     if (fdot < 0.0f)
@@ -4147,7 +4182,7 @@ namespace Mogre_Procedural
         //	Run image manipulation
         //	\return Pointer to image buffer which has been set in the constructor.
         //	
-        public new TextureBuffer process() {
+        public override TextureBuffer process() {
             if (mParam == null)
                 return mBuffer;
 
@@ -4165,11 +4200,11 @@ namespace Mogre_Procedural
 
             for (int y = 0; y < h; ++y) {
                 for (int x = 0; x < w; ++x) {
-                    Mogre.ColourValue pixel = mParam.getPixel(x, y);
+                    ColourValue pixel = mParam.getPixel(x, y);
                     int u = (int)(pixel.r * (float)w);
                     int v = (int)(pixel.g * (float)h);
-                    u = Math.Clamp<int>(u, 0, w - 1);
-                    v = Math.Clamp<int>(v, 0, h - 1);
+                    u = Utils.Clamp(u, 0, w - 1);
+                    v = Utils.Clamp(v, 0, h - 1);
                     tmpBuffer.setPixel(x, y, mBuffer.getPixel(v, u));
                 }
             }
@@ -4241,7 +4276,7 @@ namespace Mogre_Procedural
         //	Run image manipulation
         //	\return Pointer to image buffer which has been set in the constructor.
         //	
-        public new TextureBuffer process() {
+        public override TextureBuffer process() {
             int w = (int)mBuffer.getWidth();
             int h = (int)mBuffer.getHeight();
             float fAmp = (float)mAmplify * 4.0f / 255.0f;
@@ -4361,7 +4396,7 @@ namespace Mogre_Procedural
         //	Run image manipulation
         //	\return Pointer to image buffer which has been set in the constructor.
         //	
-        public new TextureBuffer process() {
+        public override TextureBuffer process() {
             TextureBuffer tmpBuffer = mBuffer.clone();
 
             int[] intensities = new int[256];
@@ -4372,13 +4407,13 @@ namespace Mogre_Procedural
             for (int y = mRadius; y < (int)(mBuffer.getHeight() - mRadius); y++) {
                 for (int x = mRadius; x < (int)(mBuffer.getWidth() - mRadius); x++) {
                     //C++ TO C# CONVERTER TODO TASK: The memory management function 'memset' has no equivalent in C#:
-                    memset(intensities, 0, 256 * sizeof(int));
+                    memset<int>(intensities, 0, 256 * sizeof(int));
                     //C++ TO C# CONVERTER TODO TASK: The memory management function 'memset' has no equivalent in C#:
-                    memset(red, 0, sizeof(red));
+                    memset<int>(red, 0, (uint)red.Length);
                     //C++ TO C# CONVERTER TODO TASK: The memory management function 'memset' has no equivalent in C#:
-                    memset(green, 0, sizeof(green));
+                    memset<int>(green, 0, (uint)green.Length);
                     //C++ TO C# CONVERTER TODO TASK: The memory management function 'memset' has no equivalent in C#:
-                    memset(blue, 0, sizeof(blue));
+                    memset<int>(blue, 0, (uint)(blue.Length));
 
                     for (int j = -mRadius; j <= mRadius; j++) {
                         for (int i = -mRadius; i <= mRadius; i++) {
@@ -4456,10 +4491,10 @@ namespace Mogre_Procedural
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        public RandomPixels setColour(Mogre.ColourValue colour) {
+        public RandomPixels setColour(ColourValue colour) {
             //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
             //ORIGINAL LINE: mColour = colour;
-            mColour.CopyFrom(colour);
+            mColour = (colour);
             return this;
         }
 
@@ -4497,7 +4532,7 @@ namespace Mogre_Procedural
             mCount = count;
             int area = mBuffer.getWidth() * mBuffer.getHeight();
             if (mCount > area)
-                mCount = (int)(0.9f * (float)area);
+                mCount = (uint)(0.9f * (float)area);
             return this;
         }
 
@@ -4505,26 +4540,27 @@ namespace Mogre_Procedural
         //	Run image manipulation
         //	\return Pointer to image buffer which has been set in the constructor.
         //	
-        public new TextureBuffer process() {
+        public override TextureBuffer process() {
             IntVector2 pt = new IntVector2();
             List<IntVector2> list = new List<IntVector2>();
 
-            RandomNumbers.Seed(mSeed);
+            RandomNumbers.Seed((int)mSeed);
             int area = mBuffer.getWidth() * mBuffer.getHeight();
             if (mCount == area)
-                RectangleTexture(mBuffer).setColour(mColour).process();
+                new RectangleTexture(mBuffer).setColour(mColour).process();
             else {
                 while (list.Count != mCount) {
                     pt.x = RandomNumbers.NextNumber() % mBuffer.getWidth();
                     pt.y = RandomNumbers.NextNumber() % mBuffer.getHeight();
 
                     bool bInList = false;
-                    for (List<IntVector2>.Enumerator iter = list.GetEnumerator(); iter.MoveNext(); iter++)
+                    //for (List<IntVector2>.Enumerator iter = list.GetEnumerator(); iter.MoveNext(); iter++)
+                    foreach (var iter in list) {
                         if (iter.x == pt.x && iter.y == pt.y) {
                             bInList = true;
                             break;
                         }
-
+                    }
                     if (!bInList) {
                         list.Add(pt);
                         mBuffer.setPixel(pt.x, pt.y, mColour);
@@ -4579,10 +4615,10 @@ namespace Mogre_Procedural
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        public RectangleTexture setColour(Mogre.ColourValue colour) {
+        public RectangleTexture setColour(ColourValue colour) {
             //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
             //ORIGINAL LINE: mColour = colour;
-            mColour.CopyFrom(colour);
+            mColour = (colour);
             return this;
         }
 
@@ -4680,12 +4716,12 @@ namespace Mogre_Procedural
         //	\param rect Full rectangle description (default: left=0.0, top=0.0, right=1.0, bottom=1.0)
         //	\param relative If this is set to true (default) the rectangle data are relative [0.0, 1.0]; else absolut [px]
         //	
-        public RectangleTexture setRectangle(TRect<Real> rect) {
+        public RectangleTexture setRectangle(RealRect rect) {
             return setRectangle(rect, true);
         }
         //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
-        //ORIGINAL LINE: RectangleTexture& setRectangle(TRect<Real> rect, bool relative = true)
-        public RectangleTexture setRectangle(TRect<Real> rect, bool relative) {
+        //ORIGINAL LINE: RectangleTexture& setRectangle(RealRect rect, bool relative = true)
+        public RectangleTexture setRectangle(RealRect rect, bool relative) {
             if (relative) {
                 mX1 = (int)((float)mBuffer.getWidth() * System.Math.Min(rect.left, 1.0f));
                 mY1 = (int)((float)mBuffer.getHeight() * System.Math.Min(rect.top, 1.0f));
@@ -4774,7 +4810,7 @@ namespace Mogre_Procedural
         //	Run image manipulation
         //	\return Pointer to image buffer which has been set in the constructor.
         //	
-        public new TextureBuffer process() {
+        public override TextureBuffer process() {
             int xStart = System.Math.Min(mX1, mX2);
             int yStart = System.Math.Min(mY1, mY2);
             int xEnd = System.Math.Max(mX1, mX2);
@@ -4880,10 +4916,10 @@ namespace Mogre_Procedural
         //	Set the rotation angle.
         //	\param rotation New rotation angle [0.0, Ogre::Math::TWO_PI] rad (default 0.0)
         //	
-        public RotationZoom setRotation(Mogre.Radian rotation) {
+        public RotationZoom setRotation(Radian rotation) {
             //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
             //ORIGINAL LINE: mRotation = rotation;
-            mRotation.CopyFrom(rotation);
+            mRotation = (rotation);
             return this;
         }
 
@@ -4891,8 +4927,8 @@ namespace Mogre_Procedural
         //	Set the rotation angle.
         //	\param rotation New rotation angle [0, 360] degree (default 0)
         //	
-        public RotationZoom setRotation(Mogre.Degree rotation) {
-            mRotation = (Radian)(rotation.valueRadians());
+        public RotationZoom setRotation(Degree rotation) {
+            mRotation = (Radian)(rotation.ValueRadians);
             return this;
         }
 
@@ -4909,30 +4945,30 @@ namespace Mogre_Procedural
         //	Run image manipulation
         //	\return Pointer to image buffer which has been set in the constructor.
         //	
-        public new TextureBuffer process() {
-            uint tw = mBuffer.getWidth();
-            uint th = mBuffer.getHeight();
+        public override TextureBuffer process() {
+            int tw = mBuffer.getWidth();
+            int th = mBuffer.getHeight();
             TextureBuffer tmpBuffer = mBuffer.clone();
 
-            float fZoomX = Math.Pow(0.5f, mZoomX - 1);
-            float fZoomY = Math.Pow(0.5f, mZoomY - 1);
-            float c = Math.Cos(mRotation.valueRadians());
-            float s = Math.Sin(mRotation.valueRadians());
+            float fZoomX = (float)System.Math.Pow(0.5f, mZoomX - 1);
+            float fZoomY = (float)System.Math.Pow(0.5f, mZoomY - 1);
+            float c = Math.Cos(mRotation.ValueRadians);
+            float s = Math.Sin(mRotation.ValueRadians);
             float tw2 = (float)tw / 2.0f;
             float th2 = (float)th / 2.0f;
             float ys = s * -th2;
             float yc = c * -th2;
 
-            for (uint y = 0; y < mBuffer.getHeight(); y++) {
+            for (int y = 0; y < mBuffer.getHeight(); y++) {
                 float u = (((c * -tw2) - ys) * fZoomX) + (mCenterX * (float)tw);
                 float v = (((s * -tw2) + yc) * fZoomY) + (mCenterY * (float)th);
-                for (uint x = 0; x < mBuffer.getWidth(); x++) {
+                for (int x = 0; x < mBuffer.getWidth(); x++) {
                     float uf = (u >= 0) ? (u - (int)u) : 1 + (u - (int)u);
                     float vf = (v >= 0) ? (v - (int)v) : 1 + (v - (int)v);
-                    uint ut = (u >= 0) ? (uint)u : (uint)u - 1;
-                    uint vt = (v >= 0) ? (uint)v : (uint)v - 1;
+                    int ut = (u >= 0) ? (int)u : (int)u - 1;
+                    int vt = (v >= 0) ? (int)v : (int)v - 1;
 
-                    Mogre.ColourValue texel = mBuffer.getPixel(vt % th, ut % tw) * (1.0f - uf) * (1.0f - vf);
+                    ColourValue texel = mBuffer.getPixel(vt % th, ut % tw) * (1.0f - uf) * (1.0f - vf);
                     texel += mBuffer.getPixel(vt % th, (ut + 1) % tw) * uf * (1.0f - vf);
                     texel += mBuffer.getPixel((vt + 1) % th, ut % tw) * (1.0f - uf) * vf;
                     texel += mBuffer.getPixel((vt + 1) % th, (ut + 1) % tw) * uf * vf;
@@ -5013,7 +5049,7 @@ namespace Mogre_Procedural
         //	Run image manipulation
         //	\return Pointer to image buffer which has been set in the constructor.
         //	
-        public new TextureBuffer process() {
+        public override TextureBuffer process() {
             if (mColourSource == null)
                 return mBuffer;
 
@@ -5023,17 +5059,17 @@ namespace Mogre_Procedural
             if (mColourSource.getWidth() < w || mColourSource.getHeight() < h)
                 return mBuffer;
 
-            byte[] pCoverage = new uchar[(int)w * h];
+            byte[] pCoverage = new byte[(int)w * h];
             //C++ TO C# CONVERTER TODO TASK: The memory management function 'memset' has no equivalent in C#:
-            memset(pCoverage, 0, w * h);
+            memset<byte>(pCoverage, 0, (uint)(w * h));
             IntVector2[] pStack = new IntVector2[(int)w * h * 4];
             TextureBuffer tmpBuffer = mBuffer.clone();
 
             int stackPtr = 0;
             for (int y = 0; y < h; y++) {
                 for (int x = 0; x < w; x++) {
-                    Mogre.ColourValue pixelA = mBuffer.getPixel(x, y);
-                    Mogre.ColourValue pixelB = mColourSource.getPixel(x, y);
+                    ColourValue pixelA = mBuffer.getPixel(x, y);
+                    ColourValue pixelB = mColourSource.getPixel(x, y);
 
                     if ((pixelA.r + pixelA.g + pixelA.b) * 255.0f > (float)mThreshold * 3.0f) {
                         pStack[stackPtr].x = x;
@@ -5074,7 +5110,8 @@ namespace Mogre_Procedural
             mBuffer.setData(tmpBuffer);
             tmpBuffer.Dispose();
             pCoverage = null;
-            pStack.Dispose();
+            //pStack.Dispose();
+            pStack = null;
 
             Utils.log("Modify texture with segment filter");
             return mBuffer;
@@ -5157,7 +5194,7 @@ namespace Mogre_Procedural
         //	Set the algorithm to sharp.
         //	\param type New algorithm to sharp (default SHARP_BASIC)
         //	
-        public Sharpen setType(Sharpen.SHARP_TYPE type) {
+        public Sharpen setType(SHARP_TYPE type) {
             mType = type;
             return this;
         }
@@ -5166,26 +5203,26 @@ namespace Mogre_Procedural
         //	Run image manipulation
         //	\return Pointer to image buffer which has been set in the constructor.
         //	
-        public new TextureBuffer process() {
+        public override TextureBuffer process() {
             Convolution filter = new Convolution(mBuffer);
             switch (mType) {
                 default:
                 //C++ TO C# CONVERTER TODO TASK: C# does not allow fall-through from a non-empty 'case':
                 case SHARP_TYPE.SHARP_BASIC:
-                    filter.setKernel(Mogre.Matrix3(0.0f, -1.0f, 0.0f, -1.0f, 5.0f, -1.0f, 0.0f, -1.0f, 0.0f)).calculateDivisor();
+                    filter.setKernel(new Matrix3(0.0f, -1.0f, 0.0f, -1.0f, 5.0f, -1.0f, 0.0f, -1.0f, 0.0f)).calculateDivisor();
                     break;
 
                 case SHARP_TYPE.SHARP_GAUSSIAN:
                     float fSigma = 0.5f + ((5.0f - 0.5f) / 255.0f) * (float)mSigma;
                     int r = (int)mSize / 2;
-                    double min = Math.Exp((float)(2 * r * r) / (-2.0f * fSigma * fSigma)) / (Math.TWO_PI * fSigma * fSigma);
+                    double min = System.Math.Exp((float)(2 * r * r) / (-2.0f * fSigma * fSigma)) / (Math.TWO_PI * fSigma * fSigma);
                     int[] kernel = new int[mSize * mSize];
                     int sum = 0;
                     int y = -r;
                     int x = -r;
                     for (int i = 0; i < mSize; i++) {
                         for (int j = 0; j < mSize; j++) {
-                            kernel[i * mSize + j] = (int)((Math.Exp((float)(x * x + y * y) / (-2.0f * fSigma * fSigma)) / (Math.TWO_PI * fSigma * fSigma)) / min);
+                            kernel[i * mSize + j] = (int)((System.Math.Exp((float)(x * x + y * y) / (-2.0f * fSigma * fSigma)) / (Math.TWO_PI * fSigma * fSigma)) / min);
                             sum += kernel[i * mSize + j];
                             x++;
                         }
@@ -5203,13 +5240,13 @@ namespace Mogre_Procedural
                             divisor += kernel[i * mSize + j];
                         }
                     }
-                    filter.setKernel(mSize, ref kernel).setDivisor((float)divisor);
+                    filter.setKernel(mSize, kernel).setDivisor((float)divisor);
                     kernel = null;
                     break;
             }
             filter.setIncludeAlphaChannel(true).process();
 
-            Utils.log("Modify texture with sharpen filter : " + StringConverter.toString(mType));
+            Utils.log("Modify texture with sharpen filter : " + (mType).ToString());
             return mBuffer;
         }
 
@@ -5245,8 +5282,8 @@ namespace Mogre_Procedural
 //ORIGINAL LINE: class _ProceduralExport TextTexture : public TextureProcessing
 public class TextTexture : TextureProcessing
 {
-	private String mText = new String();
-	private String mFontName = new String();
+	private string mText = "";
+	private string mFontName ="";
 	private byte mFontSize = 0;
 	private ColourValue mColour = new ColourValue();
 	private int mX = new int();
@@ -5256,7 +5293,7 @@ public class TextTexture : TextureProcessing
 //	Default constructor.
 //	\param pBuffer Image buffer where to modify the image.
 //	
-	public TextTexture(TextureBuffer pBuffer) : base(pBuffer, "TextTexture") : base()
+	public TextTexture(TextureBuffer pBuffer) : base(pBuffer, "TextTexture")
 	{
 		mText = "OgreProcedural";
 		mFontSize = 12;
@@ -5269,7 +5306,7 @@ public class TextTexture : TextureProcessing
 //	Set the text content.
 //	\param text New text for processing (default "OgreProcedural")
 //	
-	public TextTexture setText(Mogre.String text)
+	public TextTexture setText(string text)
 	{
 		mText = text;
 		return this;
@@ -5377,7 +5414,7 @@ public class TextTexture : TextureProcessing
 //	Set the position of text start point.
 //	\param pos Absolute center point of the text (default: x=1/2 * image width, y=1/2 * image width)
 //	
-	public TextTexture setPosition(POINT pos)
+	public TextTexture setPosition(Vector2 pos)
 	{
 		setPosition((int)pos.x, (int)pos.y);
 		return this;
@@ -5390,9 +5427,9 @@ public class TextTexture : TextureProcessing
 //	\param fontSize Size of font [px] (default 12)
 //	\todo Add search for font names on non windows systems.
 //	
-	public TextTexture setFont(Mogre.String fontName, byte fontSize)
+	public TextTexture setFont(string fontName, byte fontSize)
 	{
-		if (fontName.empty() || fontSize < 4)
+		if (string.IsNullOrEmpty(fontName) || fontSize < 4)
 			return this;
 		mFontName = fontName;
 		mFontSize = fontSize;
@@ -5403,11 +5440,11 @@ public class TextTexture : TextureProcessing
 //	Set the drawing colour of the text.
 //	\param colour New colour for processing (default Ogre::ColourValue::Black)
 //	
-	public TextTexture setColour(Mogre.ColourValue colour)
+	public TextTexture setColour(ColourValue colour)
 	{
 //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
 //ORIGINAL LINE: mColour = colour;
-		mColour.CopyFrom(colour);
+		mColour=(colour);
 		return this;
 	}
 
@@ -5426,7 +5463,7 @@ public class TextTexture : TextureProcessing
 //ORIGINAL LINE: TextTexture& setColour(Ogre::byte red, Ogre::byte green, Ogre::byte blue, Ogre::byte alpha = 255)
 	public TextTexture setColour(byte red, byte green, byte blue, byte alpha)
 	{
-		mColour = ColourValue((float)red / 255.0f, (float)green / 255.0f, (float)blue / 255.0f, (float)alpha / 255.0f);
+		mColour =new ColourValue((float)red / 255.0f, (float)green / 255.0f, (float)blue / 255.0f, (float)alpha / 255.0f);
 		return this;
 	}
 
@@ -5445,7 +5482,7 @@ public class TextTexture : TextureProcessing
 //ORIGINAL LINE: TextTexture& setColour(Ogre::float red, Ogre::float green, Ogre::float blue, Ogre::float alpha = 1.0f)
 	public TextTexture setColour(float red, float green, float blue, float alpha)
 	{
-		mColour = ColourValue(red, green, blue, alpha);
+		mColour =new ColourValue(red, green, blue, alpha);
 		return this;
 	}
 
@@ -5453,7 +5490,7 @@ public class TextTexture : TextureProcessing
 //	Run image manipulation
 //	\return Pointer to image buffer which has been set in the constructor.
 //	
-	public new TextureBuffer process()
+	public override TextureBuffer process()
 	{
 		FT_Library ftlib = new FT_Library();
 		FT_Face face = new FT_Face();
@@ -5503,10 +5540,10 @@ public class TextTexture : TextureProcessing
 		return mBuffer;
 	}
 
-	private String getFontFileByName()
+	private string getFontFileByName()
 	{
-		Mogre.String ff = new String();
-		Mogre.String tmp = new String();
+		string ff = "";
+		string tmp = "";
 	
 	//C++ TO C# CONVERTER TODO TASK: C# does not allow setting or comparing #define constants:
 #if PROCEDURAL_PLATFORM == PROCEDURAL_PLATFORM_WIN32
@@ -5517,7 +5554,7 @@ public class TextTexture : TextureProcessing
 		if (result == null)
 			return mFontName;
 		if (!(ff[0] == '\\' && ff[1] == '\\') && !(ff[1] == ':' && ff[2] == '\\'))
-			return String(windows) + "\\fonts\\" + ff;
+			return  (windows) + "\\fonts\\" + ff;
 		else
 			return ff;
 #else
@@ -5527,9 +5564,9 @@ public class TextTexture : TextureProcessing
 
 //C++ TO C# CONVERTER TODO TASK: C# does not allow setting or comparing #define constants:
 #if PROCEDURAL_PLATFORM == PROCEDURAL_PLATFORM_WIN32
-	private bool getFontFile(Mogre.String fontName, ref String displayName, ref String filePath)
+	private bool getFontFile(string fontName, ref String displayName, ref String filePath)
 	{
-		if (fontName.empty())
+		if (string.IsNullOrEmpty( fontName))
 			return false;
 	
 		if ((fontName[0] == '\\' && fontName[1] == '\\') || (fontName[1] == ':' && fontName[2] == '\\'))
@@ -5652,7 +5689,7 @@ public class TextTexture : TextureProcessing
             //	Set threshold mode.
             //	\param mode New mode what to do with pixels below/above threshold value (default MODE_EXPAND_DOWNWARDS)
             //	
-            public Threshold setMode(Threshold.THRESHOLD_MODE mode) {
+            public Threshold setMode(THRESHOLD_MODE mode) {
                 mMode = mode;
                 return this;
             }
@@ -5661,7 +5698,7 @@ public class TextTexture : TextureProcessing
             //	Run image manipulation
             //	\return Pointer to image buffer which has been set in the constructor.
             //	
-            public new TextureBuffer process() {
+            public override TextureBuffer process() {
                 int t;
                 int w = mBuffer.getWidth();
                 int h = mBuffer.getHeight();
@@ -5677,57 +5714,57 @@ public class TextTexture : TextureProcessing
                         if (mMode == THRESHOLD_MODE.MODE_EXPAND_DOWNWARDS) {
                             if (r < mThreshold) {
                                 t = mThreshold - (int)((mThreshold - r) * ratio);
-                                r = (t < 0) ? 0 : (byte)t;
+                                r = (t < 0) ? (byte)0 : (byte)t;
                             }
                             if (g < mThreshold) {
                                 t = mThreshold - (int)((mThreshold - g) * ratio);
-                                g = (t < 0) ? 0 : (byte)t;
+                                g = (t < 0) ? (byte)0 : (byte)t;
                             }
                             if (b < mThreshold) {
                                 t = mThreshold - (int)((mThreshold - b) * ratio);
-                                b = (t < 0) ? 0 : (byte)t;
+                                b = (t < 0) ? (byte)0 : (byte)t;
                             }
                         }
                         else if (mMode == THRESHOLD_MODE.MODE_EXPAND_UPWARDS) {
                             if (r > mThreshold) {
                                 t = (int)((r - mThreshold) * ratio) - mThreshold;
-                                r = (t > 255) ? 255 : (byte)t;
+                                r = (t > 255) ? (byte)255 : (byte)t;
                             }
                             if (g > mThreshold) {
                                 t = (int)((g - mThreshold) * ratio) - mThreshold;
-                                g = (t > 255) ? 255 : (byte)t;
+                                g = (t > 255) ? (byte)255 : (byte)t;
                             }
                             if (b > mThreshold) {
                                 t = (int)((b - mThreshold) * ratio) - mThreshold;
-                                b = (t > 255) ? 255 : (byte)t;
+                                b = (t > 255) ? (byte)255 : (byte)t;
                             }
                         }
                         else if (mMode == THRESHOLD_MODE.MODE_COMPRESS_BELOW) {
                             if (r < mThreshold) {
                                 t = mThreshold - (int)((mThreshold - r) / ratio);
-                                r = (t < 0) ? 0 : (byte)t;
+                                r = (t < 0) ? (byte)0 : (byte)t;
                             }
                             if (g < mThreshold) {
                                 t = mThreshold - (int)((mThreshold - g) / ratio);
-                                g = (t < 0) ? 0 : (byte)t;
+                                g = (t < 0) ? (byte)0 : (byte)t;
                             }
                             if (b < mThreshold) {
                                 t = mThreshold - (int)((mThreshold - b) / ratio);
-                                b = (t < 0) ? 0 : (byte)t;
+                                b = (t < 0) ? (byte)0 : (byte)t;
                             }
                         }
                         else if (mMode == THRESHOLD_MODE.MODE_COMPRESS_ABOVE) {
                             if (r > mThreshold) {
                                 t = (int)((r - mThreshold) / ratio) - mThreshold;
-                                r = (t > 255) ? 255 : (byte)t;
+                                r = (t > 255) ? (byte)255 : (byte)t;
                             }
                             if (g > mThreshold) {
                                 t = (int)((g - mThreshold) / ratio) - mThreshold;
-                                g = (t > 255) ? 255 : (byte)t;
+                                g = (t > 255) ? (byte)255 : (byte)t;
                             }
                             if (b > mThreshold) {
                                 t = (int)((b - mThreshold) / ratio) - mThreshold;
-                                b = (t > 255) ? 255 : (byte)t;
+                                b = (t > 255) ? (byte)255 : (byte)t;
                             }
                         }
                         mBuffer.setPixel(x, y, r, g, b, a);
@@ -5818,7 +5855,7 @@ public class TextTexture : TextureProcessing
             //	\param twist New twist angle for deformation [0.0, 1.0] \(default 0.25)
             //	
             public Vortex setTwist(float twist) {
-                mTwist = Radian(twist * Math.TWO_PI);
+                mTwist = new Radian(twist * Math.TWO_PI);
                 return this;
             }
 
@@ -5826,10 +5863,10 @@ public class TextTexture : TextureProcessing
             //	Set the twist angle.
             //	\param twist New twist angle for deformation [0.0, Ogre::Math::TWO_PI] rad (default Ogre::Math::HALF_PI)
             //	
-            public Vortex setTwist(Mogre.Radian twist) {
+            public Vortex setTwist(Radian twist) {
                 //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
                 //ORIGINAL LINE: mTwist = twist;
-                mTwist.CopyFrom(twist);
+                mTwist = (twist);
                 return this;
             }
 
@@ -5837,7 +5874,7 @@ public class TextTexture : TextureProcessing
             //	Set the twist angle.
             //	\param twist New twist angle for deformation [0, 360] degree (default 90)
             //	
-            public Vortex setTwist(Mogre.Degree twist) {
+            public Vortex setTwist(Degree twist) {
                 mTwist = twist;
                 return this;
             }
@@ -5846,7 +5883,7 @@ public class TextTexture : TextureProcessing
             //	Run image manipulation
             //	\return Pointer to image buffer which has been set in the constructor.
             //	
-            public new TextureBuffer process() {
+            public override TextureBuffer process() {
                 int w = (int)mBuffer.getWidth();
                 int h = (int)mBuffer.getHeight();
                 int dwCenterX = (int)(mCenterX * (float)w);
@@ -5871,7 +5908,7 @@ public class TextTexture : TextureProcessing
                             d = 1.0f - d;
                             float nx = (float)(x - dwCenterX);
                             float ny = (float)(y - dwCenterY);
-                            float rad = mTwist.valueRadians() * d;
+                            float rad = mTwist.ValueRadians * d;
 
                             float bx = nx;
                             nx = bx * Math.Cos(rad) - ny * Math.Sin(rad) + dwCenterX;
@@ -5899,10 +5936,10 @@ public class TextTexture : TextureProcessing
 
                             int wrapx = (ix + 1) % w;
                             int wrapy = (iy + 1) % h;
-                            Mogre.ColourValue pixelUL = mBuffer.getPixel(ix, iy);
-                            Mogre.ColourValue pixelUR = mBuffer.getPixel(wrapx, iy);
-                            Mogre.ColourValue pixelLL = mBuffer.getPixel(ix, wrapy);
-                            Mogre.ColourValue pixelLR = mBuffer.getPixel(wrapx, wrapy);
+                            ColourValue pixelUL = mBuffer.getPixel(ix, iy);
+                            ColourValue pixelUR = mBuffer.getPixel(wrapx, iy);
+                            ColourValue pixelLL = mBuffer.getPixel(ix, wrapy);
+                            ColourValue pixelLR = mBuffer.getPixel(wrapx, wrapy);
 
                             tmpBuffer.setPixel(x, y, (byte)(ul * pixelUL.r * 255.0f + ll * pixelLL.r * 255.0f + ur * pixelUR.r * 255.0f + lr * pixelLR.r * 255.0f), (byte)(ul * pixelUL.g * 255.0f + ll * pixelLL.g * 255.0f + ur * pixelUR.g * 255.0f + lr * pixelLR.g * 255.0f), (byte)(ul * pixelUL.b * 255.0f + ll * pixelLL.b * 255.0f + ur * pixelUR.b * 255.0f + lr * pixelLR.b * 255.0f), (byte)(ul * pixelUL.a * 255.0f + ll * pixelLL.a * 255.0f + ur * pixelUR.a * 255.0f + lr * pixelLR.a * 255.0f));
                         }
@@ -5912,7 +5949,7 @@ public class TextTexture : TextureProcessing
                 mBuffer.setData(tmpBuffer);
                 tmpBuffer.Dispose();
 
-                Utils.log("Modify texture with vortex filter : " + StringConverter.toString(mTwist.valueDegrees()));
+                Utils.log("Modify texture with vortex filter : " + (mTwist.ValueDegrees).ToString());
                 return mBuffer;
             }
         }
@@ -5920,41 +5957,5 @@ public class TextTexture : TextureProcessing
     }
 
 
-    //----------------------------------------------------------------------------------------
-    //	Copyright ? 2006 - 2009 Tangible Software Solutions Inc.
-    //	This class can be used by anyone provided that the copyright notice remains intact.
-    //
-    //	This class provides the ability to simulate the behavior of the C/C++ functions for 
-    //	generating random numbers, using the .NET Framework System.Random class.
-    //	'rand' converts to the parameterless overload of NextNumber
-    //	'random' converts to the single-parameter overload of NextNumber
-    //	'randomize' converts to the parameterless overload of Seed
-    //	'srand' converts to the single-parameter overload of Seed
-    //----------------------------------------------------------------------------------------
-    //internal static class RandomNumbers
-    //{
-    //    private static System.Random r;
 
-    //    internal static int NextNumber() {
-    //        if (r == null)
-    //            Seed();
-
-    //        return r.Next();
-    //    }
-
-    //    internal static int NextNumber(int ceiling) {
-    //        if (r == null)
-    //            Seed();
-
-    //        return r.Next(ceiling);
-    //    }
-
-    //    internal static void Seed() {
-    //        r = new System.Random();
-    //    }
-
-    //    internal static void Seed(int seed) {
-    //        r = new System.Random(seed);
-    //    }
-    //}
 }
