@@ -137,11 +137,11 @@ public class MultiShape
 		return mShapes[(int)i];
 	}
 
-	/// Returns the i-th shape
-	public Shape getShape(uint i)
-	{
-		return mShapes[(int)i];
-	}
+    ///// Returns the i-th shape
+    //public Shape getShape(uint i)
+    //{
+    //    return mShapes[(int)i];
+    //}
 
 	/// Builds an aggregated list of all points contained in all shapes
 	//-----------------------------------------------------------------------
@@ -153,7 +153,7 @@ public class MultiShape
 		List<Vector2> result = new List<Vector2>();
 		for (int i = 0; i < mShapes.Count; i++)
 		{
-			List<Vector2> points = mShapes[i].getPoints();
+			Vector2[] points = mShapes[i].getPoints();
 //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent to the STL vector 'insert' method in C#:
 			//result.insert(result.end(), points.GetEnumerator(), points.end());
             result.AddRange(points);
@@ -196,7 +196,7 @@ public class MultiShape
         foreach(var it in mShapes)
 		{
 			manual.Begin("BaseWhiteNoLighting", RenderOperation.OperationTypes.OT_LINE_STRIP);
-			it.appendToManualObject(manual);
+			it._appendToManualObject(manual);
 			manual.End();
 		}
 
@@ -289,9 +289,9 @@ public class MultiShape
 		if (closestSegmentIndex != -1)
 		{
 			int edgePoint = -1;
-			if ((closestSegmentIntersection,closestSegmentShape.getPoint(closestSegmentIndex)).SquaredDistance < 1e-8)
+			if ((closestSegmentIntersection-closestSegmentShape.getPoint(closestSegmentIndex)).SquaredDistance < 1e-8)
 				edgePoint = closestSegmentIndex;
-			else if ((closestSegmentIntersection,closestSegmentShape.getPoint(closestSegmentIndex + 1)).squaredDistance < 1e-8)
+			else if ((closestSegmentIntersection-closestSegmentShape.getPoint(closestSegmentIndex + 1)).squaredDistance < 1e-8)
 				edgePoint = closestSegmentIndex + 1;
 			if (edgePoint>-1)
 			{
@@ -302,7 +302,7 @@ public class MultiShape
 				else
 					closestSegmentIndex = edgePoint - 1;
 			}
-			return (closestSegmentShape.getNormalAfter(closestSegmentIndex).x * (point.x - closestSegmentIntersection.x) < 0);
+			return (closestSegmentShape.getNormalAfter((uint)closestSegmentIndex).x * (point.x - closestSegmentIntersection.x) < 0);
 		}
 		// We're in the case where the point is on the "float outside" of the multishape
 		// So, if the float outside == user defined outside, then the point is "user-defined outside"
