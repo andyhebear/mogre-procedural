@@ -1,1 +1,1 @@
-ogre-procedural项目 使用C#重新实现，使用mogre
+ogre-procedural项目 使用C#重新实现，使用mogre 基于OgreProceduralSDK_vs9_v0.2 Revision: ea95625bbdc5 
