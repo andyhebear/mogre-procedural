@@ -743,6 +743,7 @@ using System.Diagnostics;
 
 namespace System.Collections
 {
+    using System;
     static class HashPrimeNumbers
     {
         static readonly int[] primeTbl = {
