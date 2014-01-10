@@ -27,6 +27,7 @@
 
 // $Id: Enumerable.cs c08984d432b1 2012/04/17 16:05:19 azizatif $
 #define NET_20
+//#define LINQBRIDGE_LIB
 
 #if NET_20
 namespace System.Linq
@@ -2773,8 +2774,11 @@ namespace System.Linq
     /// <summary>
     /// Represents a collection of objects that have a common key.
     /// </summary>
-
+#if LINQBRIDGE_LIB
     partial interface IGrouping<out TKey, TElement> : IEnumerable<TElement>
+#else
+    partial interface IGrouping<TKey, TElement> : IEnumerable<TElement>
+#endif
     {
         /// <summary>
         /// Gets the key of the <see cref="IGrouping{TKey,TElement}" />.
