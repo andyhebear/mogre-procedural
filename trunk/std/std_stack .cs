@@ -36,8 +36,9 @@ namespace Mogre_Procedural.std
             return base.Count;
         }
         public T top() {
-            IEnumerator ie = base.GetEnumerator();
-            return (T)ie.Current;
+            //IEnumerator ie = base.GetEnumerator();
+            //return (T)ie.Current;
+            return base.Peek();
         }
 
         public static void swap(ref std_stack<T>_this,ref std_stack<T>_other ) {
