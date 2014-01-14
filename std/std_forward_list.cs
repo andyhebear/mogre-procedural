@@ -11,19 +11,19 @@ namespace Mogre_Procedural.std
     /// <typeparam name="T">泛型T</typeparam>
     public class std_forward_list<T> where T : IComparable<T>
     {
-        private forward_list_node<T> head;   //头结点
+        private std_forward_list_node<T> head;   //头结点
 
         #region 构造函数
 
         public std_forward_list() {
-            head = new forward_list_node<T>();
+            head = new std_forward_list_node<T>();
         }
 
         #endregion
 
         #region 属性
 
-        public forward_list_node<T> Head {
+        public std_forward_list_node<T> Head {
             get { return head; }
             set { head = value; }
         }
@@ -37,7 +37,7 @@ namespace Mogre_Procedural.std
         /// </summary>
         /// <returns>长度</returns>
         public int GetLength() {
-            forward_list_node<T> p = head.Next;
+            std_forward_list_node<T> p = head.Next;
             int length = 0;
             while (p != null) {
                 length++;
@@ -66,8 +66,8 @@ namespace Mogre_Procedural.std
         /// </summary>
         /// <param name="item">元素</param>
         public void Add(T item) {
-            forward_list_node<T> willToInsert = new forward_list_node<T>(item);
-            forward_list_node<T> currentNode = new forward_list_node<T>();
+            std_forward_list_node<T> willToInsert = new std_forward_list_node<T>(item);
+            std_forward_list_node<T> currentNode = new std_forward_list_node<T>();
             if (head.Next == null) {
                 head.Next = willToInsert;
                 return;
@@ -99,15 +99,15 @@ namespace Mogre_Procedural.std
             }
 
             if (i == 0) {
-                forward_list_node<T> willToInsert = new forward_list_node<T>(item);
+                std_forward_list_node<T> willToInsert = new std_forward_list_node<T>(item);
 
                 willToInsert.Next = head.Next;
                 head.Next = willToInsert;
                 return;
             }
 
-            forward_list_node<T> currentNode = head.Next;
-            forward_list_node<T> tmp = new forward_list_node<T>();
+            std_forward_list_node<T> currentNode = head.Next;
+            std_forward_list_node<T> tmp = new std_forward_list_node<T>();
             int j = 0;
 
             while (currentNode.Next != null && j < i) {
@@ -117,7 +117,7 @@ namespace Mogre_Procedural.std
             }
 
             if (j == i) {
-                forward_list_node<T> willToInsert = new forward_list_node<T>(item);
+                std_forward_list_node<T> willToInsert = new std_forward_list_node<T>(item);
 
                 willToInsert.Next = currentNode;
                 tmp.Next = willToInsert;
@@ -142,14 +142,14 @@ namespace Mogre_Procedural.std
 
 
             if (i == 0) {
-                forward_list_node<T> willToInsert = new forward_list_node<T>(item);
+                std_forward_list_node<T> willToInsert = new std_forward_list_node<T>(item);
 
                 willToInsert.Next = head.Next.Next;
                 head.Next.Next = willToInsert;
                 return;
             }
 
-            forward_list_node<T> currentNode = head.Next;
+            std_forward_list_node<T> currentNode = head.Next;
 
             int j = 0;
             while (currentNode != null && j < i) {
@@ -157,7 +157,7 @@ namespace Mogre_Procedural.std
                 j++;
             }
             if (j == i) {
-                forward_list_node<T> willToInsert = new forward_list_node<T>(item);
+                std_forward_list_node<T> willToInsert = new std_forward_list_node<T>(item);
 
                 willToInsert.Next = currentNode.Next;
                 currentNode.Next = willToInsert;
@@ -176,7 +176,7 @@ namespace Mogre_Procedural.std
                 throw new ArgumentException("ArgumentException:参数不合法，无法执行删除操作");
 
             }
-            forward_list_node<T> tmp = new forward_list_node<T>();
+            std_forward_list_node<T> tmp = new std_forward_list_node<T>();
 
             if (i == 0) {
                 tmp = head.Next;
@@ -184,7 +184,7 @@ namespace Mogre_Procedural.std
                 return tmp.Data;
             }
 
-            forward_list_node<T> currentNode = head.Next;
+            std_forward_list_node<T> currentNode = head.Next;
 
             int j = 0;
             while (currentNode.Next != null && j < i) {
@@ -216,7 +216,7 @@ namespace Mogre_Procedural.std
                 throw new ArgumentException("ArgumentException:参数不合法，无法获取元素");
 
             }
-            forward_list_node<T> currentNode = new forward_list_node<T>();
+            std_forward_list_node<T> currentNode = new std_forward_list_node<T>();
 
             currentNode = head.Next;
             int j = 0;
@@ -240,7 +240,7 @@ namespace Mogre_Procedural.std
                 throw new InvalidOperationException("InvalidOperationException:单链表为空，无法执行定位操作");
 
             }
-            forward_list_node<T> currentNode = head.Next;
+            std_forward_list_node<T> currentNode = head.Next;
             int i = 0;
             while (!currentNode.Data.Equals(item) && currentNode.Next != null) {
 
@@ -260,8 +260,8 @@ namespace Mogre_Procedural.std
         /// 倒置操作
         /// </summary>
         public void ReversLinkList() {
-            forward_list_node<T> p = Head.Next;
-            forward_list_node<T> q = new forward_list_node<T>();
+            std_forward_list_node<T> p = Head.Next;
+            std_forward_list_node<T> q = new std_forward_list_node<T>();
 
             Head.Next = null;
             while (p != null) {
@@ -289,7 +289,7 @@ namespace Mogre_Procedural.std
             std_forward_list<T> list = new std_forward_list<T>();
 
             for (int i = 0; i < items.Length; i++) {
-                forward_list_node<T> p = new forward_list_node<T>(items[i]);
+                std_forward_list_node<T> p = new std_forward_list_node<T>(items[i]);
 
                 p.Next = list.Head.Next;
                 list.Head.Next = p;
@@ -306,14 +306,14 @@ namespace Mogre_Procedural.std
         /// <returns></returns>
         public static std_forward_list<T> CreateListTail(T[] items) {
 
-            forward_list_node<T> node = new forward_list_node<T>();
+            std_forward_list_node<T> node = new std_forward_list_node<T>();
 
             std_forward_list<T> list = new std_forward_list<T>();
             node = list.Head.Next;
 
             for (int i = 0; i < items.Length; i++) {
 
-                forward_list_node<T> p = new forward_list_node<T>(items[i]);
+                std_forward_list_node<T> p = new std_forward_list_node<T>(items[i]);
 
                 if (list.Head.Next == null) {
                     list.Head.Next = p;
@@ -350,11 +350,11 @@ namespace Mogre_Procedural.std
 
             std_forward_list<T> linklist = new std_forward_list<T>();
 
-            forward_list_node<T> p = Head.Next;
+            std_forward_list_node<T> p = Head.Next;
 
-            forward_list_node<T> q = other.Head.Next;
+            std_forward_list_node<T> q = other.Head.Next;
 
-            forward_list_node<T> s = new forward_list_node<T>();
+            std_forward_list_node<T> s = new std_forward_list_node<T>();
 
 
 
@@ -396,23 +396,23 @@ namespace Mogre_Procedural.std
 
     }
 
-    public class forward_list_node<T>
+    public class std_forward_list_node<T>
     {
         private T data;         //数据域
-        private forward_list_node<T> next;   //引用域
+        private std_forward_list_node<T> next;   //引用域
         #region 构造函数
-        public forward_list_node() {
+        public std_forward_list_node() {
             this.data = default(T);
             this.next = null;
         }
-        public forward_list_node(T data) {
+        public std_forward_list_node(T data) {
             this.data = data;
             this.next = null;
         }
-        public forward_list_node(forward_list_node<T> next) {
+        public std_forward_list_node(std_forward_list_node<T> next) {
             this.next = next;
         }
-        public forward_list_node(T data, forward_list_node<T> next) {
+        public std_forward_list_node(T data, std_forward_list_node<T> next) {
             this.data = data;
             this.next = next;
         }
@@ -426,7 +426,7 @@ namespace Mogre_Procedural.std
             set { data = value; }
         }
 
-        public forward_list_node<T> Next {
+        public std_forward_list_node<T> Next {
             get { return next; }
             set { next = value; }
         }
