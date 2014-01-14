@@ -180,13 +180,7 @@ namespace Mogre_Procedural.std
                 base.AddBefore(node, values[i]);
             }            
         }
-        public static void sort(ref std_list<T> sortlist) {
-            T[] values = sortlist.get_allocator();
-            List<T> sv = new List<T>(values);
-            sv.Sort();
-            std_list<T> sl = new std_list<T>(sv);
-            sortlist = sl;
-        }
+
         /// <summary>
         /// 内部自动排序
         /// </summary>
@@ -233,7 +227,17 @@ namespace Mogre_Procedural.std
         //public void resize(int size, T @defaultvalue) { 
             
         //} 
+        public int size() {
+            return base.Count;
+        }
 
+        public static void sort(ref std_list<T> sortlist) {
+            T[] values = sortlist.get_allocator();
+            List<T> sv = new List<T>(values);
+            sv.Sort();
+            std_list<T> sl = new std_list<T>(sv);
+            sortlist = sl;
+        }
         public static void reverse(ref std_list<T>_this) {
             T[] values = _this.get_allocator();
             int len = values.Length;
@@ -243,9 +247,7 @@ namespace Mogre_Procedural.std
             }
         }
 
-        public int size() {
-            return base.Count;
-        }
+       
         public static void swap(ref std_list<T> _this, ref std_list<T> _other) {
             std_list<T> temp = _this;
             _this = _other;
@@ -255,8 +257,15 @@ namespace Mogre_Procedural.std
         /// Remove duplicate values
         /// </summary>
         /// <param name="_this"></param>
-        //public static void unique(ref std_list<T> _this) { 
-        
-        //}
+        public static void unique(ref std_list<T> _this) {
+            T[] values = _this.get_allocator();
+            List<T> ul = new List<T>();
+            foreach (var v in values) {
+                if (!ul.Contains(v)) {
+                    ul.Add(v);
+                }
+            }
+            _this = new std_list<T>(ul);
+        }
     }
 }
