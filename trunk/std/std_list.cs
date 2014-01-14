@@ -251,5 +251,12 @@ namespace Mogre_Procedural.std
             _this = _other;
             _other = temp;
         }
+        /// <summary>
+        /// Remove duplicate values
+        /// </summary>
+        /// <param name="_this"></param>
+        //public static void unique(ref std_list<T> _this) { 
+        
+        //}
     }
 }
