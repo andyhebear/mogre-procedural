@@ -9,7 +9,7 @@ namespace Mogre_Procedural.std
     /// 带头结点的单链表
     /// </summary>
     /// <typeparam name="T">泛型T</typeparam>
-    public class std_forward_list<T> where T : IComparable<T>
+    public class std_forward_list<T> : IEnumerable<T> where T : IComparable<T>
     {
         private std_forward_list_node<T> head;   //头结点
 
@@ -49,7 +49,7 @@ namespace Mogre_Procedural.std
         /// <summary>
         /// 清空单链表
         /// </summary>
-        public void Clear() {
+        public void clear() {
             head.Next = null;
         }
 
@@ -57,7 +57,7 @@ namespace Mogre_Procedural.std
         /// 判断单链表是否为空
         /// </summary>
         /// <returns>true or false</returns>
-        public bool IsEmpty() {
+        public bool empty() {
             return head.Next == null;
         }
 
@@ -88,7 +88,7 @@ namespace Mogre_Procedural.std
         /// <param name="i">位置，从0开始的索引值</param>
         /// <param name="item">元素值</param>
         public void Insert(int i, T item) {
-            if (IsEmpty() || i < 0) {
+            if (empty() || i < 0) {
                 throw new InvalidOperationException("InvalidOperationException:链表为空或参数小于0，无法执行插入操作");
 
             }
@@ -132,7 +132,7 @@ namespace Mogre_Procedural.std
         /// <param name="i">位置，从0开始的索引值</param>
         /// <param name="item">元素值</param>
         public void InsertPost(int i, T item) {
-            if (IsEmpty() || i < 0) {
+            if (empty() || i < 0) {
                 throw new InvalidOperationException("InvalidOperationException:链表为空或参数小于0，无法执行向后插入操作");
 
             }
@@ -172,7 +172,7 @@ namespace Mogre_Procedural.std
         /// <param name="i">索引值，从0开始</param>
         /// <returns>删除的结点的值</returns>
         public T Delete(int i) {
-            if (IsEmpty() || i < 0) {
+            if (empty() || i < 0) {
                 throw new ArgumentException("ArgumentException:参数不合法，无法执行删除操作");
 
             }
@@ -211,7 +211,7 @@ namespace Mogre_Procedural.std
         /// <param name="i">索引值，从0开始</param>
         /// <returns>返回结点的数据域</returns>
         public T GetElem(int i) {
-            if (IsEmpty() || i < 0 || i > this.GetLength() - 1) {
+            if (empty() || i < 0 || i > this.GetLength() - 1) {
 
                 throw new ArgumentException("ArgumentException:参数不合法，无法获取元素");
 
@@ -228,7 +228,23 @@ namespace Mogre_Procedural.std
 
             return currentNode.Data;
         }
+        public std_forward_list_node<T> GetElemNode(int i) {
+            if (empty() || i < 0 || i > this.GetLength() - 1) {
 
+                throw new ArgumentException("ArgumentException:参数不合法，无法获取元素");
+
+            }
+            std_forward_list_node<T> currentNode = new std_forward_list_node<T>();
+
+            currentNode = head.Next;
+            int j = 0;
+            while (currentNode.Next != null && j < i) {
+                j++;
+                currentNode = currentNode.Next;
+            }
+
+            return currentNode;
+        }
 
         /// <summary>
         /// 在单链表中查找值为item的结点
@@ -236,7 +252,7 @@ namespace Mogre_Procedural.std
         /// <param name="item">需要查找的结点值</param>
         /// <returns>元素所在的位置，从0开始的索引值</returns>
         public int Locate(T item) {
-            if (IsEmpty()) {
+            if (empty()) {
                 throw new InvalidOperationException("InvalidOperationException:单链表为空，无法执行定位操作");
 
             }
@@ -346,7 +362,7 @@ namespace Mogre_Procedural.std
         /// <typeparam name="TItem"></typeparam>
         /// <param name="other"></param>
         /// <returns></returns>
-        public std_forward_list<T> Merge<TItem>(std_forward_list<T> other) where TItem : T {
+        public std_forward_list<T> merge<TItem>(std_forward_list<T> other) where TItem : T {
 
             std_forward_list<T> linklist = new std_forward_list<T>();
 
@@ -393,7 +409,177 @@ namespace Mogre_Procedural.std
         }
 
         #endregion
+        public T[] get_allocator() {
+            List<T> members = new List<T>();
+            std_forward_list_node<T> p = head.Next;
+            int length = 0;
+            while (p != null) {
+                members.Add(p.Data);
+                length++;
+                p = p.Next;
+            }
+            return members.ToArray();
+        }
+        public void reverse() {
+            this.ReversLinkList();
+        }
 
+        /// <summary>
+        /// 删除重复项
+        /// </summary>
+        //public void unique() { 
+        //}
+        ///// <summary>
+        ///// 条件删除
+        ///// </summary>
+        ///// <param name="ondelete"></param>
+        //public void remove_if(Action<T> ondelete) { 
+
+        //}
+        ///// <summary>
+        ///// 排序
+        ///// </summary>
+        //public void sort() { 
+        //}
+        public int before_begin() {
+            return 0;
+        }
+        public int begin() {
+            return 1;
+        }
+        public int end() {
+            return this.GetLength() - 1;
+        }
+        public T this[int index] {
+            get {
+                return GetElem(index);
+            }
+            set {
+                std_forward_list_node<T> node = GetElemNode(index);
+                node.Data = value;
+            }
+        }
+        public T front() {
+            return head.Next.Data;
+        }
+        public int erase_after(int pos) {
+            //std_forward_list_node<T> node = GetElemNode(pos);
+            //std_forward_list_node<T> next = node.Next;
+            //if (next != null) {
+            //    std_forward_list_node<T> next2 = next.Next;
+            //    if (next2 != null) {
+            //        node.Next = next2;
+            //    }
+            //}
+            Delete(pos + 1);
+            return pos + 1;
+        }
+        public int erase_after(int beginpos, int endpos) {
+            //std_forward_list_node<T> begin = GetElemNode(beginpos);
+            //std_forward_list_node<T> end = GetElemNode(endpos+1);
+            //begin.Next = end;
+            for (int i = endpos; i >= beginpos; i++) {
+                Delete(i);
+            }
+            return beginpos + 1;
+        }
+        public int insert_after(int pos, T @value) {
+            //std_forward_list_node<T> node = GetElemNode(pos);
+            //std_forward_list_node<T> next_old = node.Next;
+            //std_forward_list_node<T> insert = new std_forward_list_node<T>(@value);
+            //node.Next = insert;
+            //insert.Next = next_old;
+            InsertPost(pos, @value);
+            return pos + 1;
+        }
+        public int insert_after(int pos, uint num, T @value) {
+            //std_forward_list_node<T> node = GetElemNode(pos);
+            //std_forward_list_node<T> next_old = node.Next;
+            //std_forward_list_node<T> before = null;
+            for (int i = 0; i < num; i++) {
+                //std_forward_list_node<T> insert = new std_forward_list_node<T>(@value);
+
+                //if (i == num - 1) {
+                //    insert.Next = next_old;
+                //}
+                //if (i == 0) {
+                //    node.Next = insert;
+                //}
+                //else {
+                //    before.Next = insert;
+                //}
+                //before = insert;
+                InsertPost(pos + i, @value);
+            }
+            return pos + (int)num;
+        }
+        public int insert_after(int pos, T[] array) {
+            //std_forward_list_node<T> node = GetElemNode(pos);
+            //std_forward_list_node<T> next_old = node.Next;
+            //std_forward_list_node<T> before = null;
+            int num = array.Length;
+            for (int i = 0; i < num; i++) {
+                //std_forward_list_node<T> insert = new std_forward_list_node<T>(array[i]);
+
+                //if (i == num - 1) {
+                //    insert.Next = next_old;
+                //}
+                //if (i == 0) {
+                //    node.Next = insert;
+                //}
+                //else {
+                //    before.Next = insert;
+                //}
+                //before = insert;
+                InsertPost(pos + i, array[i]);
+            }
+            return pos + num;
+        }
+        public void remove(int pos) {
+            Delete(pos);
+        }
+        public void pop_front() {
+            Delete(0);
+        }
+        public void push_front(T @value) {
+            Insert(0, @value);
+        }
+        public static void swap(ref std_forward_list<T> _this, ref std_forward_list<T> _other) {
+            std_forward_list<T> temp = _this;
+            _this = _other;
+            _other = temp;
+        }
+
+
+
+
+        #region IEnumerable<T> 成员
+
+        public IEnumerator<T> GetEnumerator() {
+            std_forward_list_node<T> p = head.Next;
+            //int length = 0;
+            while (p != null) {
+                yield return p.Data;
+                //length++;
+                p = p.Next;
+            }
+        }
+
+        #endregion
+
+        #region IEnumerable 成员
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {
+            std_forward_list_node<T> p = head.Next;
+            //int length = 0;
+            while (p != null) {
+                yield return p;
+                //length++;
+                p = p.Next;
+            }
+        }
+
+        #endregion
     }
 
     public class std_forward_list_node<T>
