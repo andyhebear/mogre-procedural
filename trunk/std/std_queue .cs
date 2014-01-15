@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Collections;
 
 namespace Mogre_Procedural.std
 {
@@ -55,7 +56,7 @@ namespace Mogre_Procedural.std
     /// <typeparam name="T">Specifies the type of elements in the queue.</typeparam>
     /// <typeparam name="TPriority">Specifies the type of object representing the priority.</typeparam>
     //[SuppressMessage("Microsoft.Naming", "CA1711:IdentifiersShouldNotHaveIncorrectSuffix")]
-    public class std_priority_queue<T, TPriority>
+    public class std_priority_queue<T, TPriority>:  IEnumerable<T>, ICollection, IEnumerable
     {
         private readonly List<KeyValuePair<T, TPriority>> heap = new List<KeyValuePair<T, TPriority>>();
         private readonly Dictionary<T, int> indexes = new Dictionary<T, int>();
@@ -236,5 +237,48 @@ namespace Mogre_Procedural.std
             _other = temp;
 
         }
+
+
+
+
+        #region IEnumerable<T> 成员
+
+        public IEnumerator<T> GetEnumerator() {
+            int len = heap.Count;
+            for(int i=1;i<len;i++){
+                yield return heap[i].Key;
+            }
+        }
+
+        #endregion
+
+        #region IEnumerable 成员
+
+        IEnumerator IEnumerable.GetEnumerator() {
+            int len = heap.Count;
+            for (int i = 1; i < len; i++) {
+                yield return heap[i].Value;
+            }
+        }
+
+        #endregion
+
+        #region ICollection 成员
+
+        public void CopyTo(Array array, int index) {
+            KeyValuePair<T,TPriority>[]arr=new KeyValuePair<T,TPriority>[heap.Count];
+            heap.CopyTo(arr, 0);
+            array = arr;
+        }
+
+        public bool IsSynchronized {
+            get { throw new NotImplementedException(); }
+        }
+
+        public object SyncRoot {
+            get { throw new NotImplementedException(); }
+        }
+
+        #endregion
     }
 }
