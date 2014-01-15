@@ -7,6 +7,7 @@ using System.Linq;
 namespace Mogre_Procedural.std
 {
     /// <summary>
+    ///  like c++ std::multimap
     /// An implementation of a MultiMap, that is a Map which has many values
     /// for a given key.
     /// </summary>
