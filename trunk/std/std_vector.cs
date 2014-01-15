@@ -84,11 +84,11 @@ namespace Mogre_Procedural.std
             base.InsertRange(pos, values);
             return pos;
         }
-        public int insert(int pos, T[]array,int firstpos, int lastpos) {
-            int len = lastpos - firstpos + 1;
+        public int insert(int pos, T[]array,int firstpos, int beforelastpos) {
+            int len = beforelastpos - firstpos ;
             T[] data = new T[len];
             int index=0;
-            for (int i = firstpos; i <= lastpos; i++) {
+            for (int i = firstpos; i < beforelastpos; i++) {
                 data[index++] = array[i];
             }
             base.InsertRange(pos, data);
@@ -142,13 +142,13 @@ namespace Mogre_Procedural.std
             }
             base.AddRange(values);
         }
-        public void assign(T[] array, int beginpos, int endpos) {
+        public void assign(T[] array, int beginpos, int beforeendpos) {
             //
-            int len = (endpos - beginpos + 1);
+            int len = (beforeendpos - beginpos );
             System.Diagnostics.Debug.Assert(len < array.Length);
             T[] values = new T[len];
             int index = 0;
-            for (int i = beginpos; i <len; i++) {
+            for (int i = beginpos; i < beforeendpos; i++) {
                 values[index++] = array[i];
             }
             base.Clear();
@@ -167,11 +167,11 @@ namespace Mogre_Procedural.std
             base.RemoveAt(pos);
             return obj;
         }
-        public T[] erase(int beginpos, int lastpos) {
-            int len = lastpos - beginpos + 1;
+        public T[] erase(int beginpos, int beforelastpos) {
+            int len = beforelastpos - beginpos ;
             T[] array = new T[len];
             base.CopyTo(beginpos, array, 0, len);
-            base.RemoveRange(beginpos, lastpos - beginpos + 1);
+            base.RemoveRange(beginpos, len);
             return array;
         }
 
