@@ -23,7 +23,7 @@ namespace Mogre_Procedural.std
 
         public std_map(IDictionary<TKey, TValue> dictionary, IComparer<TKey> comparer) :
             base(dictionary, comparer) {
-            Dictionary<TKey, TValue> aa;
+          
         }
 
         //public std_pair<TKey,TValue> begin() {
@@ -42,8 +42,12 @@ namespace Mogre_Procedural.std
         //    return new std_pair<TKey, TValue>(kp.Key,kp.Value);
 
         //}
+        /// <summary>
+        /// 返回当前数  最后一个位置+1
+        /// </summary>
+        /// <returns></returns>
         public int end() {
-            return base.Count - 1;
+            return base.Count;
         }
         public TValue at(TKey key) {
             return base[key];
@@ -58,6 +62,12 @@ namespace Mogre_Procedural.std
         }
         public void clear() {
             base.Clear();
+        }
+        public int max_size() {
+            return int.MaxValue;
+        }
+        public int size() {
+            return base.Count;
         }
         /// <summary>
         /// return 0 or 1
@@ -88,10 +98,10 @@ namespace Mogre_Procedural.std
             bool find_second = false;
             //查找下一个
             Enumerator et = base.GetEnumerator();
-            if (et.Current.Key.Equals(key)) {
-                first = et.Current;
-                find_first = true;
-            }
+            //if (et.Current.Key.Equals(key)) {
+            //    first = et.Current;
+            //    find_first = true;
+            //}
             while (et.MoveNext()) {
                 if (find_first) {
                     second = et.Current;
@@ -132,12 +142,12 @@ namespace Mogre_Procedural.std
             //    base.Remove((TKey)key);
             //}
         }
-        public void erase(int it_beginpos, int it_endpos) {
+        public void erase(int it_beginpos, int it_beforeendpos) {
             int len = base.Keys.Count;
             TKey[] keys = new TKey[len];
             base.Keys.CopyTo(keys, 0);
 
-            for (int i = it_beginpos; i <= it_endpos; i++) {
+            for (int i = it_beginpos; i < it_beforeendpos; i++) {
                 base.Remove(keys[i]);
             }
         }
@@ -151,16 +161,32 @@ namespace Mogre_Procedural.std
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public bool find(TKey key) {
-            //TValue tv;
-            //bool find= base.TryGetValue(key, out tv);
-            //if (find) { 
+        //public bool find(TKey key) {
+        //    //TValue tv;
+        //    //bool find= base.TryGetValue(key, out tv);
+        //    //if (find) { 
 
-            //}
-            //return key;
-            return base.ContainsKey(key);
+        //    //}
+        //    //return key;
+        //    return base.ContainsKey(key);
+        //}
+        /// <summary>
+        /// 查找索引位置
+        /// </summary>
+        /// <param name="key"></param>
+        ///// <param name="pos"></param>
+        /// <returns>没有找到返回-1</returns>
+        public int find(TKey key) {
+            int index = -1;
+            foreach (var v in base.Keys) {
+                index++;
+                if (v.Equals(key)) {
+                    break;
+                }
+            }
+            return index;
+
         }
-
         public KeyValuePair<TKey, TValue>[] get_allocator() {
             KeyValuePair<TKey, TValue>[] array = new KeyValuePair<TKey, TValue>[base.Count];
             base.CopyTo(array, 0);
@@ -181,7 +207,7 @@ namespace Mogre_Procedural.std
             std_pair<KeyValuePair<TKey, TValue>, bool> ret = new std_pair<KeyValuePair<TKey, TValue>, bool>(new KeyValuePair<TKey, TValue>(key, @value), false);
             if (!base.ContainsKey(key)) {
                 base.Add(key, @value);
-                ret.Second = true;
+                ret.second = true;
             }
             else {
                 ret = new std_pair<KeyValuePair<TKey, TValue>, bool>(new KeyValuePair<TKey, TValue>(key, base[key]), false);
@@ -192,7 +218,7 @@ namespace Mogre_Procedural.std
         public void insert(int pos, TKey key, TValue value) {
             insert(key, value);
         }
-        public void insert(std_map<TKey, TValue> _other, int beginpos, int endpos) {
+        public void insert(std_map<TKey, TValue> _other, int beginpos, int beforeendpos) {
             int index = 0;
             bool find_begin = false;
             bool find_end = false;
@@ -200,11 +226,12 @@ namespace Mogre_Procedural.std
                 if (index == beginpos) {
                     find_begin = true;
                 }
-                if (index > endpos) {
+                if (index >= beforeendpos) {
                     find_end = true;
+                    break;
                 }
                 if (find_begin && !find_end) {
-                    if (!base.ContainsKey(v.Key)) {
+                    if (!base.ContainsKey(v.Key)) {//???
                         base.Add(v.Key, v.Value);
                     }
                 }
@@ -212,12 +239,19 @@ namespace Mogre_Procedural.std
             }
 
         }
-
+        /// <summary>
+        /// 原始是返回 KEY的比较器，这里不是
+        /// </summary>
+        /// <returns></returns>
         public TKey[] key_comp() {
             TKey[] keys = new TKey[base.Count];
             base.Keys.CopyTo(keys, 0);
             return keys;
         }
+        /// <summary>
+        /// 原始是返回值比较器  这里不是
+        /// </summary>
+        /// <returns></returns>
         public TValue[] value_comp() {
             TValue[] keys = new TValue[base.Count];
             base.Values.CopyTo(keys, 0);
@@ -248,12 +282,7 @@ namespace Mogre_Procedural.std
         }
 
 
-        public int max_size() {
-            return int.MaxValue;
-        }
-        public int size() {
-            return base.Count;
-        }
+    
 
         public static void swap(ref std_map<TKey, TValue> _this, ref std_map<TKey, TValue> _other) {
             std_map<TKey, TValue> temp = _this;
@@ -309,7 +338,7 @@ namespace Mogre_Procedural.std
 
         //}
         public int end() {
-            return base.Count - 1;
+            return base.Count ;
         }
         public TValue at(TKey key) {
             return base[key];
@@ -354,10 +383,10 @@ namespace Mogre_Procedural.std
             bool find_second = false;
             //查找下一个
             Enumerator et = base.GetEnumerator();
-            if (et.Current.Key.Equals(key)) {
-                first = et.Current;
-                find_first = true;
-            }
+            //if (et.Current.Key.Equals(key)) {
+            //    first = et.Current;
+            //    find_first = true;
+            //}
             while (et.MoveNext()) {
                 if (find_first) {
                     second = et.Current;
@@ -398,12 +427,12 @@ namespace Mogre_Procedural.std
             //    base.Remove((TKey)key);
             //}
         }
-        public void erase(int it_beginpos, int it_endpos) {
+        public void erase(int it_beginpos, int it_beforeendpos) {
             int len = base.Keys.Count;
             TKey[] keys = new TKey[len];
             base.Keys.CopyTo(keys, 0);
 
-            for (int i = it_beginpos; i <= it_endpos; i++) {
+            for (int i = it_beginpos; i <it_beforeendpos; i++) {
                 base.Remove(keys[i]);
             }
         }
@@ -413,20 +442,36 @@ namespace Mogre_Procedural.std
             }
         }
         /// <summary>
-        /// not like c++ find
+        /// 
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public bool find(TKey key) {
-            //TValue tv;
-            //bool find= base.TryGetValue(key, out tv);
-            //if (find) { 
+        //public bool find(TKey key) {
+        //    //TValue tv;
+        //    //bool find= base.TryGetValue(key, out tv);
+        //    //if (find) { 
 
-            //}
-            //return key;
-            return base.ContainsKey(key);
+        //    //}
+        //    //return key;
+        //    return base.ContainsKey(key);
+        //}
+        /// <summary>
+        /// not like c++ find
+        /// 查找索引位置
+        /// </summary>
+        /// <param name="key"></param>
+        ///// <param name="pos"></param>
+        /// <returns>没有找到返回-1</returns>
+        public int find(TKey key) {
+            int index = -1;
+            foreach (var v in base.Keys) {
+                index++;
+                if (v.Equals(key)) {
+                    break;
+                }
+            }
+            return index;
         }
-
         //public KeyValuePair<TKey, TValue>[] get_allocator() {
         //    KeyValuePair<TKey, TValue>[] array = new KeyValuePair<TKey, TValue>[base.Count];
         //    base.CopyTo(array, 0);
@@ -447,7 +492,7 @@ namespace Mogre_Procedural.std
             std_pair<KeyValuePair<TKey, TValue>, bool> ret = new std_pair<KeyValuePair<TKey, TValue>, bool>(new KeyValuePair<TKey, TValue>(key, @value), false);
             if (!base.ContainsKey(key)) {
                 base.Add(key, @value);
-                ret.Second = true;
+                ret.second = true;
             }
             else {
                 ret = new std_pair<KeyValuePair<TKey, TValue>, bool>(new KeyValuePair<TKey, TValue>(key, base[key]), false);
@@ -458,7 +503,7 @@ namespace Mogre_Procedural.std
         public void insert(int pos, TKey key, TValue value) {
             insert(key, value);
         }
-        public void insert(std_map<TKey, TValue> _other, int beginpos, int endpos) {
+        public void insert(std_map<TKey, TValue> _other, int beginpos, int beforeendpos) {
             int index = 0;
             bool find_begin = false;
             bool find_end = false;
@@ -466,8 +511,9 @@ namespace Mogre_Procedural.std
                 if (index == beginpos) {
                     find_begin = true;
                 }
-                if (index > endpos) {
+                if (index >= beforeendpos) {
                     find_end = true;
+                    break;
                 }
                 if (find_begin && !find_end) {
                     if (!base.ContainsKey(v.Key)) {
