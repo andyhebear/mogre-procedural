@@ -290,7 +290,7 @@ namespace Mogre_Procedural.std
             return 0;
         }
         /// <summary>
-        /// 返回的是当中个数 比最后的位置大1
+        /// 返回当前KEY数  最后一个位置+1
         /// </summary>
         /// <returns></returns>
         public int end() {
@@ -462,13 +462,35 @@ namespace Mogre_Procedural.std
             return 0; ;
         }
 
-        public int lower_bound(TKey key) {
-            return find(key);
+        //public int lower_bound(TKey key) {
+        //    return find(key);
+        //}
+        //public int upper_bound(TKey key) {
+        //    return find(key) + 1;
+        //}
+        public std_pair<TKey, IList<TValue>> lower_bound(TKey key) {
+            std_pair<TKey, IList<TValue>> sp = null;
+            if (this._buckets.ContainsKey(key)) {
+                sp = new std_pair<TKey, IList<TValue>>(key, this._buckets[key]);
+            }
+            return sp;
         }
-        public int upper_bound(TKey key) {
-            return find(key) + 1;
+        public std_pair<TKey, IList<TValue>> upper_bound(TKey key) {
+            std_pair<TKey, IList<TValue>> sp = null;
+            if (this._buckets.ContainsKey(key)) {
+                bool find_pre = false;
+                foreach (var v in this._buckets.Keys) {
+                    if (find_pre) {
+                        sp = new std_pair<TKey, IList<TValue>>(v, this._buckets[v]);
+                        break;
+                    }
+                    if (v.Equals(key)) {
+                        find_pre = true;
+                    }
+                }
+            }
+            return sp;
         }
-
         public std_pair<std_pair<TKey, TValue>, std_pair<TKey, TValue>> equal_range(TKey key) {
             //return lower bound  and up bound
             if (!this.ContainsKey(key)) {
