@@ -33,9 +33,9 @@ namespace Mogre_Procedural.std
                 base.AddFirst(values[i]);
             }
         }
-        public void assign(T[] values,uint beginpos,uint len) {
+        public void assign(T[] values,int beginpos,int beforeendpos) {
             base.Clear();
-            for (uint i = beginpos; i <len; i++) {
+            for (int i = beginpos; i < beforeendpos; i++) {
                 base.AddFirst(values[i]);
             }
         }
@@ -43,7 +43,7 @@ namespace Mogre_Procedural.std
             return 0;
         }
         public int end() {
-            return base.Count - 1;
+            return base.Count ;
         }
         public bool empty() {
             return base.Count == 0;
@@ -106,11 +106,11 @@ namespace Mogre_Procedural.std
             base.Remove(remove);
             return pos;
         }
-        public int erase(int beginpos, int endpos) {
+        public int erase(int beginpos, int beforeendpos) {
             int index = 0;
             int i = 0;
             LinkedListNode<T> first = base.First;
-            LinkedListNode<T>[] removes = new LinkedListNode<T>[endpos-startpos+1];
+            LinkedListNode<T>[] removes = new LinkedListNode<T>[beforeendpos - beginpos];
             if (beginpos == 0) {
                 removes[0] = first;
                 i++;
@@ -120,11 +120,11 @@ namespace Mogre_Procedural.std
                 if (index == beginpos) {
                     removes[i++] = first.Next;                    
                 }
-                else if (index > beginpos && index < endpos) {
+                else if (index > beginpos && index < beforeendpos) {
                     removes[i++] = first.Next;
                 }
-                else if (index == endpos) { 
-                    removes[i++] = first.Next;
+                else if (index == beforeendpos) { 
+                    //removes[i++] = first.Next;
                     break;
                 }
                 first = first.Next;
@@ -132,7 +132,7 @@ namespace Mogre_Procedural.std
             foreach (var v in removes) {
                 base.Remove(v);
             }
-            return endpos ;
+            return beforeendpos ;
         }
         public static int advance(int pos, int add) {
             return pos + add;
@@ -174,9 +174,9 @@ namespace Mogre_Procedural.std
                 base.AddBefore(node, values[i]);
             }
         }
-        public void insert(int pos, T[] values, int beginpos, int endpos) {
+        public void insert(int pos, T[] values, int beginpos, int beforeendpos) {
             LinkedListNode<T> node = getElement(pos);
-            for(int i=beginpos;i<=endpos;i++){
+            for(int i=beginpos;i<beforeendpos;i++){
                 base.AddBefore(node, values[i]);
             }            
         }
@@ -254,6 +254,7 @@ namespace Mogre_Procedural.std
             _other = temp;
         }
         /// <summary>
+        /// 移除重复项目
         /// Remove duplicate values
         /// </summary>
         /// <param name="_this"></param>
