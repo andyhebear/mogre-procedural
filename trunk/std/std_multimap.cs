@@ -14,13 +14,25 @@ namespace Mogre_Procedural.std
     public class std_multimap<TKey, TValue> : ILookup<TKey, TValue>, IEnumerable<KeyValuePair<TKey, TValue>>
     {
 
-        SortedDictionary<TKey, IList<TValue>> _buckets = new SortedDictionary<TKey, IList<TValue>>();
+        SortedDictionary<TKey, IList<TValue>> _buckets;// = new SortedDictionary<TKey, IList<TValue>>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MultiMap&lt;TKey, TValue&gt;"/> class.
         /// </summary>
-        public std_multimap() { }
+        public std_multimap() {
+            _buckets = new SortedDictionary<TKey, IList<TValue>>();
+        }
+        public std_multimap(IComparer<TKey> comparer) {
+            _buckets = new SortedDictionary<TKey, IList<TValue>>(comparer);
+        }
 
+        public std_multimap(IDictionary<TKey, IList<TValue>> dictionary) {
+            _buckets = new SortedDictionary<TKey, IList<TValue>>(dictionary);
+        }
+
+        public std_multimap(IDictionary<TKey, IList<TValue>> dictionary, IComparer<TKey> comparer) {
+            _buckets = new SortedDictionary<TKey, IList<TValue>>(dictionary, comparer);
+        }
         #region IDictionary<TKey,TValue> like Members
 
         /// <summary>
