@@ -96,7 +96,7 @@ public static class GlobalMembersProceduralExtruder
 			Quaternion q = Utils._computeQuaternion(direction);
 
 			Radian angle = Utils.angleBetween ((q *Vector3.UNIT_Y),(oldup));
-			if (i>pathBeginIndex && angle>(Radian)Math.HALF_PI/2.)
+			if (i>pathBeginIndex && angle>(Radian)Math.HALF_PI/2.0f)
 			{
 				q = Utils._computeQuaternion(direction, oldup);
 			}
@@ -111,21 +111,21 @@ public static class GlobalMembersProceduralExtruder
 			if (rotationTrack != null)
 			{
 				float angle_2 = 0f;
-				angle_2 = rotationTrack.getValue(lineicPos, lineicPos / totalPathLength, i);
+				angle_2 = rotationTrack.getValue(lineicPos, lineicPos / totalPathLength, (uint)i);
 
 				q = q *new Quaternion((Radian)angle_2, Vector3.UNIT_Z);
 			}
 			if (scaleTrack != null)
 			{
-				scale = scaleTrack.getValue(lineicPos, lineicPos / totalPathLength, i);
+				scale = scaleTrack.getValue(lineicPos, lineicPos / totalPathLength, (uint)i);
 			}
 			float uTexCoord = 0f;
 			if (pathTextureTrack != null)
-				uTexCoord = pathTextureTrack.getValue(lineicPos, lineicPos / totalPathLength, i);
+				uTexCoord = pathTextureTrack.getValue(lineicPos, lineicPos / totalPathLength, (uint)i);
 			else
 				uTexCoord = lineicPos / totalPathLength;
 
-			_extrudeShape(ref buffer, shapeToExtrude, v0, q, q, scale, 1.0, 1.0, totalShapeLength, uTexCoord, i<pathEndIndex, shapeTextureTrack);
+			_extrudeShape(ref buffer, shapeToExtrude, v0, q, q, scale, 1.0f, 1.0f, totalShapeLength, uTexCoord, i<pathEndIndex, shapeTextureTrack);
 		}
 	}
 	//-----------------------------------------------------------------------

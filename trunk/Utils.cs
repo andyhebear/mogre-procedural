@@ -266,5 +266,51 @@ namespace Mogre_Procedural
         public static Vector2 reframe(RealRect rect, Vector2 input) {
             return new Vector2(rect.left + input.x * rect.Width, rect.top + input.y * rect.Height);
         }
+
+        
+        public static void ThrowException(Exception exception) {
+            if (exception != null) { throw exception; }
+        }
+     
+        public static object Clone(object obj, bool deepClone) {
+            if (deepClone && obj is IDeeplyCloneable) {
+                return ((IDeeplyCloneable)obj).DeepClone();
+            }
+            else if (obj is ICloneable) {
+                return ((ICloneable)obj).Clone();
+            }
+            else {
+                return obj;
+            }
+        }
+
+
+        public static bool ObjectEquals(object obj1, object obj2, bool deepCmp) {
+            if (obj1 == null && obj2 == null) { return true; }
+            else if (obj1 == null || obj2 == null) { return false; }
+            else if (!obj1.GetType().Equals(obj2.GetType())) { return false; }
+            else if (deepCmp && obj1 is IContentEquatable) {
+                return ((IContentEquatable)obj1).ContentEquals(obj2);
+            }
+            else {
+                return obj1.Equals(obj2);
+            }
+        }
+
+        public static object ChangeType(object obj, Type newType, IFormatProvider fmtProvider) {
+            ThrowException(newType == null ? new ArgumentNullException("newType") : null);
+            if (newType.IsAssignableFrom(obj.GetType())) {
+                return obj;
+            }
+            else {
+                return Convert.ChangeType(obj, newType, fmtProvider); // throws InvalidCastException, FormatException, OverflowException
+            }
+        }
+
+
+
+        internal static int GetHashCode(object obj) {
+            throw new NotImplementedException();
+        }
     }
 }
