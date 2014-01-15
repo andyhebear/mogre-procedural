@@ -14,7 +14,7 @@ namespace Mogre_Procedural.std
     public class std_pair<T> : IEquatable<std_pair<T>>
     {
         private Tuple<T, T> data;
-        public T First {
+        public T first {
                         get {
                 return this.data.First;
             }
@@ -22,7 +22,7 @@ namespace Mogre_Procedural.std
                 this.data = new  Tuple<T, T>(value, this.data.Second);
             }
         }
-        public T Second {
+        public T second {
             get {
                 return this.data.Second;
             }
@@ -71,7 +71,7 @@ namespace Mogre_Procedural.std
 
         public override int GetHashCode() {
 
-            return First.GetHashCode() ^ Second.GetHashCode();
+            return first.GetHashCode() ^ second.GetHashCode();
 
         }
 
@@ -81,7 +81,7 @@ namespace Mogre_Procedural.std
     public class std_pair<T,V> : IEquatable<std_pair<T,V>>
     {
         private Tuple<T, V> data;
-        public T First {
+        public T first {
             get {
                 return this.data.First;
             }
@@ -89,7 +89,7 @@ namespace Mogre_Procedural.std
                 this.data = new Tuple<T, V>(value, this.data.Second);
             }
         }
-        public V Second {
+        public V second {
             get {
                 return this.data.Second;
             }
@@ -138,7 +138,7 @@ namespace Mogre_Procedural.std
 
         public override int GetHashCode() {
 
-            return First.GetHashCode() ^ Second.GetHashCode();
+            return first.GetHashCode() ^ second.GetHashCode();
 
         }
 
