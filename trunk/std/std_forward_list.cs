@@ -423,32 +423,69 @@ namespace Mogre_Procedural.std
         public void reverse() {
             this.ReversLinkList();
         }
-
+      
         /// <summary>
-        /// 删除重复项
+        /// [未实现]删除重复项
         /// </summary>
-        //public void unique() { 
-        //}
-        ///// <summary>
-        ///// 条件删除
-        ///// </summary>
-        ///// <param name="ondelete"></param>
-        //public void remove_if(Action<T> ondelete) { 
+        public void unique() {
+            throw new NotImplementedException("unique not code write");
+        }
+        /// <summary>
+        /// [未实现]条件删除
+        /// </summary>
+        /// <param name="ondelete"></param>
+        public void remove_if(Action<T> ondelete) {
+            throw new NotImplementedException("remove_if not code write");
+        }
+        /// <summary>
+        /// [未实现]排序
+        /// </summary>
+        public void sort() {
+            throw new NotImplementedException("sort not code write");
+        }
 
-        //}
-        ///// <summary>
-        ///// 排序
-        ///// </summary>
-        //public void sort() { 
-        //}
+        public void assign(int num, T value) {
+            this.clear();
+            for (int i = 0; i < num; i++) {
+                this.Add(value);
+            }        
+        }
+        public void assign(T[] array) {
+            this.clear();
+            int num = array.Length;
+            for (int i = 0; i < num; i++) {
+                this.Add(array[i]);
+            }        
+        }
+        public void assign(T[] array,int beginpos,int beforeendpos) {
+            this.clear();
+            int num = array.Length;
+            for (int i = beginpos; i < beforeendpos; i++) {
+                this.Add(array[i]);
+            }
+        }
+        public void emplace_front(T value) {
+            this.Insert(0, value);
+        }
+        /// <summary>
+        /// 返回插入的位置
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public int emplace_after(int pos, T value) {
+            this.InsertPost(pos, value);
+            return pos + 1;
+        } 
+
         public int before_begin() {
-            return 0;
+            return -1;
         }
         public int begin() {
-            return 1;
+            return 0;
         }
         public int end() {
-            return this.GetLength() - 1;
+            return this.GetLength();
         }
         public T this[int index] {
             get {
@@ -474,15 +511,18 @@ namespace Mogre_Procedural.std
             Delete(pos + 1);
             return pos + 1;
         }
-        public int erase_after(int beginpos, int endpos) {
+        public int erase_after(int beginpos, int beforeendpos) {
             //std_forward_list_node<T> begin = GetElemNode(beginpos);
             //std_forward_list_node<T> end = GetElemNode(endpos+1);
             //begin.Next = end;
-            for (int i = endpos; i >= beginpos; i++) {
+            for (int i = beforeendpos-1; i > beginpos; i++) {
                 Delete(i);
             }
             return beginpos + 1;
         }
+
+
+
         public int insert_after(int pos, T @value) {
             //std_forward_list_node<T> node = GetElemNode(pos);
             //std_forward_list_node<T> next_old = node.Next;
@@ -531,6 +571,14 @@ namespace Mogre_Procedural.std
                 //    before.Next = insert;
                 //}
                 //before = insert;
+                InsertPost(pos + i, array[i]);
+            }
+            return pos + num;
+        }
+        public int insert_after(int pos, T[] array,int array_beginpos,int array_beforeendpos) {
+            
+            int num = array.Length;
+            for (int i = array_beginpos; i < array_beforeendpos; i++) {               
                 InsertPost(pos + i, array[i]);
             }
             return pos + num;
