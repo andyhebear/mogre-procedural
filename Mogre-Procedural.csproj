@@ -44,6 +44,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MeshGenerator.cs" />
+    <Compile Include="thirdlib\self-balancing-avl-tree\AvlTree.cs" />
+    <Compile Include="thirdlib\self-balancing-avl-tree\map.cs" />
+    <Compile Include="thirdlib\self-balancing-avl-tree\multimap.cs" />
+    <Compile Include="std\std_forward_list.cs" />
+    <Compile Include="std\Real.cs" />
     <Compile Include="OgreMeshData.cs" />
     <Compile Include="Procedural.cs" />
     <Compile Include="ProceduralBoolean.cs" />
@@ -101,7 +106,100 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="NET_35\HashSet.cs" />
+    <Compile Include="NET_35\LinqBridge-1.3.cs" />
+    <Compile Include="std\std_bitset .cs" />
+    <Compile Include="std\std_deque.cs" />
+    <Compile Include="std\std_list.cs" />
+    <Compile Include="std\std_map.cs" />
+    <Compile Include="std\std_multimap.cs" />
+    <Compile Include="std\std_multiset.cs" />
+    <Compile Include="std\std_pair.cs" />
+    <Compile Include="std\std_queue .cs" />
+    <Compile Include="std\std_set.cs" />
+    <Compile Include="std\std_stack .cs" />
+    <Compile Include="std\std_vector.cs" />
+    <Compile Include="std\Tuple.cs" />
+    <Compile Include="std\Utility.cs" />
     <Compile Include="Utils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="src_ogre-procedural\CMakeLists.txt" />
+    <Content Include="src_ogre-procedural\include\Procedural.h" />
+    <Content Include="src_ogre-procedural\include\ProceduralBoolean.h" />
+    <Content Include="src_ogre-procedural\include\ProceduralBoxGenerator.h" />
+    <Content Include="src_ogre-procedural\include\ProceduralCapsuleGenerator.h" />
+    <Content Include="src_ogre-procedural\include\ProceduralConeGenerator.h" />
+    <Content Include="src_ogre-procedural\include\ProceduralCylinderGenerator.h" />
+    <Content Include="src_ogre-procedural\include\ProceduralDebugRendering.h" />
+    <Content Include="src_ogre-procedural\include\ProceduralExtruder.h" />
+    <Content Include="src_ogre-procedural\include\ProceduralGeometryHelpers.h" />
+    <Content Include="src_ogre-procedural\include\ProceduralIcoSphereGenerator.h" />
+    <Content Include="src_ogre-procedural\include\ProceduralLathe.h" />
+    <Content Include="src_ogre-procedural\include\ProceduralMeshGenerator.h" />
+    <Content Include="src_ogre-procedural\include\ProceduralMeshModifiers.h" />
+    <Content Include="src_ogre-procedural\include\ProceduralMultiShape.h" />
+    <Content Include="src_ogre-procedural\include\ProceduralMultiShapeGenerators.h" />
+    <Content Include="src_ogre-procedural\include\ProceduralNoise.h" />
+    <Content Include="src_ogre-procedural\include\ProceduralPath.h" />
+    <Content Include="src_ogre-procedural\include\ProceduralPathGenerators.h" />
+    <Content Include="src_ogre-procedural\include\ProceduralPathGeneratorsBase.h" />
+    <Content Include="src_ogre-procedural\include\ProceduralPlaneGenerator.h" />
+    <Content Include="src_ogre-procedural\include\ProceduralRoundedBoxGenerator.h" />
+    <Content Include="src_ogre-procedural\include\ProceduralShape.h" />
+    <Content Include="src_ogre-procedural\include\ProceduralShapeGenerators.h" />
+    <Content Include="src_ogre-procedural\include\ProceduralShapeGeneratorsBase.h" />
+    <Content Include="src_ogre-procedural\include\ProceduralSphereGenerator.h" />
+    <Content Include="src_ogre-procedural\include\ProceduralSplines.h" />
+    <Content Include="src_ogre-procedural\include\ProceduralSpringGenerator.h" />
+    <Content Include="src_ogre-procedural\include\ProceduralStableHeaders.h" />
+    <Content Include="src_ogre-procedural\include\ProceduralSVG.h" />
+    <Content Include="src_ogre-procedural\include\ProceduralTextureBuffer.h" />
+    <Content Include="src_ogre-procedural\include\ProceduralTextureGenerator.h" />
+    <Content Include="src_ogre-procedural\include\ProceduralTextureModifiers.h" />
+    <Content Include="src_ogre-procedural\include\ProceduralTorusGenerator.h" />
+    <Content Include="src_ogre-procedural\include\ProceduralTorusKnotGenerator.h" />
+    <Content Include="src_ogre-procedural\include\ProceduralTrack.h" />
+    <Content Include="src_ogre-procedural\include\ProceduralTriangleBuffer.h" />
+    <Content Include="src_ogre-procedural\include\ProceduralTriangulator.h" />
+    <Content Include="src_ogre-procedural\include\ProceduralTubeGenerator.h" />
+    <Content Include="src_ogre-procedural\include\ProceduralUtils.h" />
+    <Content Include="src_ogre-procedural\include\rapidxml\rapidxml.hpp" />
+    <Content Include="src_ogre-procedural\src\ProceduralBoolean.cpp" />
+    <Content Include="src_ogre-procedural\src\ProceduralBoxGenerator.cpp" />
+    <Content Include="src_ogre-procedural\src\ProceduralCapsuleGenerator.cpp" />
+    <Content Include="src_ogre-procedural\src\ProceduralConeGenerator.cpp" />
+    <Content Include="src_ogre-procedural\src\ProceduralCylinderGenerator.cpp" />
+    <Content Include="src_ogre-procedural\src\ProceduralDebugRendering.cpp" />
+    <Content Include="src_ogre-procedural\src\ProceduralExtruder.cpp" />
+    <Content Include="src_ogre-procedural\src\ProceduralGeometryHelpers.cpp" />
+    <Content Include="src_ogre-procedural\src\ProceduralIcoSphereGenerator.cpp" />
+    <Content Include="src_ogre-procedural\src\ProceduralLathe.cpp" />
+    <Content Include="src_ogre-procedural\src\ProceduralMeshModifiers.cpp" />
+    <Content Include="src_ogre-procedural\src\ProceduralMultiShape.cpp" />
+    <Content Include="src_ogre-procedural\src\ProceduralMultiShapeGenerators.cpp" />
+    <Content Include="src_ogre-procedural\src\ProceduralNoise.cpp" />
+    <Content Include="src_ogre-procedural\src\ProceduralPath.cpp" />
+    <Content Include="src_ogre-procedural\src\ProceduralPathGenerators.cpp" />
+    <Content Include="src_ogre-procedural\src\ProceduralPlaneGenerator.cpp" />
+    <Content Include="src_ogre-procedural\src\ProceduralPrecompiledHeaders.cpp" />
+    <Content Include="src_ogre-procedural\src\ProceduralRoundedBoxGenerator.cpp" />
+    <Content Include="src_ogre-procedural\src\ProceduralShape.cpp" />
+    <Content Include="src_ogre-procedural\src\ProceduralShapeGenerators.cpp" />
+    <Content Include="src_ogre-procedural\src\ProceduralSphereGenerator.cpp" />
+    <Content Include="src_ogre-procedural\src\ProceduralSpringGenerator.cpp" />
+    <Content Include="src_ogre-procedural\src\ProceduralSVG.cpp" />
+    <Content Include="src_ogre-procedural\src\ProceduralTextureBuffer.cpp" />
+    <Content Include="src_ogre-procedural\src\ProceduralTextureGenerator.cpp" />
+    <Content Include="src_ogre-procedural\src\ProceduralTextureModifiers.cpp" />
+    <Content Include="src_ogre-procedural\src\ProceduralTorusGenerator.cpp" />
+    <Content Include="src_ogre-procedural\src\ProceduralTorusKnotGenerator.cpp" />
+    <Content Include="src_ogre-procedural\src\ProceduralTrack.cpp" />
+    <Content Include="src_ogre-procedural\src\ProceduralTriangleBuffer.cpp" />
+    <Content Include="src_ogre-procedural\src\ProceduralTriangulator.cpp" />
+    <Content Include="src_ogre-procedural\src\ProceduralTubeGenerator.cpp" />
+    <Content Include="src_ogre-procedural\src\ProceduralUtils.cpp" />
+    <Content Include="src_ogre-procedural\status.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
