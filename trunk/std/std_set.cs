@@ -10,158 +10,7 @@ namespace Mogre_Procedural.std
     using System.Collections;
     using System.Runtime.Serialization;
     using System.Diagnostics;
-    /// <summary>
-    /// std:set 相当 HashSet<T>类，但这里需要明确，STL中的set是以红黑树作为底层数据结构，
-    /// 而C#中HashSet<T>类是以哈希表作为底层数据结构，因为其两者使用数据结构的不同，
-    /// 从而导致查询效率不同，set查找的花费时间为O（logn），这也是红黑树查询时间，
-    /// 而HashSet的查询花费时间为O（1）。
-    /// 一个集合(set)是一个容器，它其中所包含的元素的值是唯一的。
-    /// 这在收集一个数据的具体值的时候是有用的。
-    /// 集合中的元素按一定的顺序排列，并被作为集合中的实例。一个集合通过一个链表来组织，
-    /// 在插入操作和删除操作上比向量(vector)快，但查找或添加末尾的元素时会有些慢。
-    /// 具体实现采用了红黑树的平衡二叉树的数据结构。
-    /// </summary>
-    public interface Istd_set<T>
-    {
-        /// <summary>
-        /// 返回一个迭代器的第一个元素的容器
-        /// </summary>
-        /// <returns>迭代器第一个元素</returns>
-        public T[] begin();
-        /// <summary>
-        /// 返回一个迭代器的第一个元素的容器c++11
-        /// </summary>
-        /// <returns>迭代器第一个元素</returns>
-        // public T[] cbegin();
-        /// <summary>
-        /// 返回一个迭代的最后一个元素的容器元素.  这个元素作为一个占位符;试图访问它导致未定义的行为
-        /// </summary>
-        /// <returns>迭代器的最后一个元素的元素</returns>
-        public T[] end();
-        /// <summary>
-        /// 返回一个迭代的最后一个元素的容器元素.  这个元素作为一个占位符;试图访问它导致未定义的行为c++11
-        /// </summary>
-        /// <returns>迭代器的最后一个元素的元素 </returns>
-        // public T[] cend();
 
-        //
-        /// <summary>
-        /// 相反的容器返回一个反向迭代器的第一个元素。它对应的非反转的容器中的最后一个元素
-        /// </summary>
-        /// <returns>反向迭代器第一个元素</returns>
-        //public T[] rbegin();
-        /// <summary>
-        /// 相反的容器返回一个反向迭代器的第一个元素。它对应的非反转的容器中的最后一个元素c++11
-        /// </summary>
-        /// <returns>反向迭代器第一个元素</returns>
-        //public T[] crbegin();
-        /// <summary>
-        /// 返回一个反向迭代器的反转容器的最后一个元素的元素。它对应于前面的元素的非反转的容器中的第一个元素。这个元素作为一个占位符，试图访问它导致未定义的行为. 
-        /// </summary>
-        /// <returns>反向迭代的最后一个元素的元素</returns>
-        // public T[] rend();
-        /// <summary>
-        /// 返回一个反向迭代器的反转容器的最后一个元素的元素。它对应于前面的元素的非反转的容器中的第一个元素。这个元素作为一个占位符，试图访问它导致未定义的行为.c++11 
-        /// </summary>
-        /// <returns>反向迭代的最后一个元素的元素</returns>
-        // public T[] crend();
-        /// <summary>
-        /// 检查，如果容器有任何元素，即是否begin() == end().
-        /// </summary>
-        /// <returns>true如果容器是空的</returns>
-        public bool empty();
-        /// <summary>
-        /// Returns the number of elements in the container在容器中的元素的数量
-        /// </summary>
-        /// <returns>std::distance(begin(), end())</returns>
-        public int size();
-        /// <summary>
-        /// 返回元素的最大数量的容器是能够容纳由于系统或库实现限制，即std::distance(begin(), end())最大的集装箱
-        /// </summary>
-        /// <returns></returns>
-        public int max_size();
-        /// <summary>
-        /// 从容器中移除所有元素。 过去的end迭代器不会失效.
-        /// </summary>
-        public void clear();
-        //begin() 返回指向第一个元素的迭代器
-        //clear() 清除所有元素
-        //public void insert(ICollection<T> @set,int start,int end);
-        //public void insert(int first, int last);
-        //public void insert(ICollection<T> @set);
-        //public T insert(T @set);
-        //public T insert(T @set, int pos);
-        //public void erase(int pos);
-        //public void erase(T first, T last);
-        //public void erase(T key);
-        ///// <summary>
-        ///// 容器内容交换
-        ///// </summary>
-        ///// <param name="ther"></param>
-        //public void swap(std_set<T> @ther);
-        /// <summary>
-        /// 返回某个值元素的个数
-        /// </summary>
-        /// <returns></returns>
-        public int count(T key);
-        public int find(T key);
-        ///// <summary>
-        ///// Returns a range containing all elements with the given key in the container. 
-        ///// The range is defined by two iterators, one pointing to the first element 
-        ///// that is not less than key and another pointing to the first element
-        ///// greater than key. The first iterator may be alternatively obtained with
-        ///// lower_bound(), the second - with upper_bound(). 
-        ///// </summary>
-        ///// <param name="key"></param>
-        ///// <returns></returns>
-        //public KeyValuePair<T, T> equal_range(T key);
-        /// <summary>
-        /// 返回一个迭代器指向的第一个元素是“不低于”比key.
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns>迭代器指向的第一个元素是“少”比key。如果没有这样的元素被发现，过去的结束迭代器（见end()）返回</returns>
-        //public T lower_bound(T key);
-        //
-        /// <summary>
-        /// 迭代器指向的第一个元素是“更大的”key。如果没有这样的元素被发现，过去的结束（见end()）返回迭代器.
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        //public T upper_bound(T key);
-        //end() 返回指向最后一个元素之后的迭代器，不是最后一个元素
-
-        //equal_range() 返回集合中与给定值相等的上下限的两个迭代器
-
-        //erase() 删除集合中的元素
-
-        //find() 返回一个指向被查找到元素的迭代器
-
-        //get_allocator() 返回集合的分配器
-
-        //insert() 在集合中插入元素
-
-        //lower_bound() 返回指向大于（或等于）某值的第一个元素的迭代器
-
-        //key_comp() 返回一个用于元素间值比较的函数
-
-        //max_size() 返回集合能容纳的元素的最大限值
-
-        //rbegin() 返回指向集合中最后一个元素的反向迭代器
-
-        //rend() 返回指向集合中第一个元素的反向迭代器
-
-        //size() 集合中元素的数目
-
-        //swap() 交换两个集合变量
-
-        //upper_bound() 返回大于某个值元素的迭代器
-
-        //value_comp() 返回一个用于比较元素间的值的函数
-        //std::set_intersection() :这个函数是求两个集合的交集。
-        //std::set_union() :求两个集合的并集
-        //std::set_difference（）：差集
-        //std::set_symmetric_difference（）：得到的结果是第一个迭代器相对于第二个的差集并 上第二个相当于第一个的差集
-    }
 
     /// <summary>
     /// like c++ std::set 
@@ -462,6 +311,161 @@ namespace Mogre_Procedural.std
             return array;
         }
     }
+
+
+    ///// <summary>
+    ///// std:set 相当 HashSet<T>类，但这里需要明确，STL中的set是以红黑树作为底层数据结构，
+    ///// 而C#中HashSet<T>类是以哈希表作为底层数据结构，因为其两者使用数据结构的不同，
+    ///// 从而导致查询效率不同，set查找的花费时间为O（logn），这也是红黑树查询时间，
+    ///// 而HashSet的查询花费时间为O（1）。
+    ///// 一个集合(set)是一个容器，它其中所包含的元素的值是唯一的。
+    ///// 这在收集一个数据的具体值的时候是有用的。
+    ///// 集合中的元素按一定的顺序排列，并被作为集合中的实例。一个集合通过一个链表来组织，
+    ///// 在插入操作和删除操作上比向量(vector)快，但查找或添加末尾的元素时会有些慢。
+    ///// 具体实现采用了红黑树的平衡二叉树的数据结构。
+    ///// </summary>
+    //public interface Istd_set<T>
+    //{
+    //    /// <summary>
+    //    /// 返回一个迭代器的第一个元素的容器
+    //    /// </summary>
+    //    /// <returns>迭代器第一个元素</returns>
+    //    public T[] begin();
+    //    /// <summary>
+    //    /// 返回一个迭代器的第一个元素的容器c++11
+    //    /// </summary>
+    //    /// <returns>迭代器第一个元素</returns>
+    //    // public T[] cbegin();
+    //    /// <summary>
+    //    /// 返回一个迭代的最后一个元素的容器元素.  这个元素作为一个占位符;试图访问它导致未定义的行为
+    //    /// </summary>
+    //    /// <returns>迭代器的最后一个元素的元素</returns>
+    //    public T[] end();
+    //    /// <summary>
+    //    /// 返回一个迭代的最后一个元素的容器元素.  这个元素作为一个占位符;试图访问它导致未定义的行为c++11
+    //    /// </summary>
+    //    /// <returns>迭代器的最后一个元素的元素 </returns>
+    //    // public T[] cend();
+
+    //    //
+    //    /// <summary>
+    //    /// 相反的容器返回一个反向迭代器的第一个元素。它对应的非反转的容器中的最后一个元素
+    //    /// </summary>
+    //    /// <returns>反向迭代器第一个元素</returns>
+    //    //public T[] rbegin();
+    //    /// <summary>
+    //    /// 相反的容器返回一个反向迭代器的第一个元素。它对应的非反转的容器中的最后一个元素c++11
+    //    /// </summary>
+    //    /// <returns>反向迭代器第一个元素</returns>
+    //    //public T[] crbegin();
+    //    /// <summary>
+    //    /// 返回一个反向迭代器的反转容器的最后一个元素的元素。它对应于前面的元素的非反转的容器中的第一个元素。这个元素作为一个占位符，试图访问它导致未定义的行为. 
+    //    /// </summary>
+    //    /// <returns>反向迭代的最后一个元素的元素</returns>
+    //    // public T[] rend();
+    //    /// <summary>
+    //    /// 返回一个反向迭代器的反转容器的最后一个元素的元素。它对应于前面的元素的非反转的容器中的第一个元素。这个元素作为一个占位符，试图访问它导致未定义的行为.c++11 
+    //    /// </summary>
+    //    /// <returns>反向迭代的最后一个元素的元素</returns>
+    //    // public T[] crend();
+    //    /// <summary>
+    //    /// 检查，如果容器有任何元素，即是否begin() == end().
+    //    /// </summary>
+    //    /// <returns>true如果容器是空的</returns>
+    //    public bool empty();
+    //    /// <summary>
+    //    /// Returns the number of elements in the container在容器中的元素的数量
+    //    /// </summary>
+    //    /// <returns>std::distance(begin(), end())</returns>
+    //    public int size();
+    //    /// <summary>
+    //    /// 返回元素的最大数量的容器是能够容纳由于系统或库实现限制，即std::distance(begin(), end())最大的集装箱
+    //    /// </summary>
+    //    /// <returns></returns>
+    //    public int max_size();
+    //    /// <summary>
+    //    /// 从容器中移除所有元素。 过去的end迭代器不会失效.
+    //    /// </summary>
+    //    public void clear();
+    //    //begin() 返回指向第一个元素的迭代器
+    //    //clear() 清除所有元素
+    //    //public void insert(ICollection<T> @set,int start,int end);
+    //    //public void insert(int first, int last);
+    //    //public void insert(ICollection<T> @set);
+    //    //public T insert(T @set);
+    //    //public T insert(T @set, int pos);
+    //    //public void erase(int pos);
+    //    //public void erase(T first, T last);
+    //    //public void erase(T key);
+    //    ///// <summary>
+    //    ///// 容器内容交换
+    //    ///// </summary>
+    //    ///// <param name="ther"></param>
+    //    //public void swap(std_set<T> @ther);
+    //    /// <summary>
+    //    /// 返回某个值元素的个数
+    //    /// </summary>
+    //    /// <returns></returns>
+    //    public int count(T key);
+    //    public int find(T key);
+    //    ///// <summary>
+    //    ///// Returns a range containing all elements with the given key in the container. 
+    //    ///// The range is defined by two iterators, one pointing to the first element 
+    //    ///// that is not less than key and another pointing to the first element
+    //    ///// greater than key. The first iterator may be alternatively obtained with
+    //    ///// lower_bound(), the second - with upper_bound(). 
+    //    ///// </summary>
+    //    ///// <param name="key"></param>
+    //    ///// <returns></returns>
+    //    //public KeyValuePair<T, T> equal_range(T key);
+    //    /// <summary>
+    //    /// 返回一个迭代器指向的第一个元素是“不低于”比key.
+    //    /// </summary>
+    //    /// <param name="key"></param>
+    //    /// <returns>迭代器指向的第一个元素是“少”比key。如果没有这样的元素被发现，过去的结束迭代器（见end()）返回</returns>
+    //    //public T lower_bound(T key);
+    //    //
+    //    /// <summary>
+    //    /// 迭代器指向的第一个元素是“更大的”key。如果没有这样的元素被发现，过去的结束（见end()）返回迭代器.
+    //    /// </summary>
+    //    /// <param name="key"></param>
+    //    /// <returns></returns>
+    //    //public T upper_bound(T key);
+    //    //end() 返回指向最后一个元素之后的迭代器，不是最后一个元素
+
+    //    //equal_range() 返回集合中与给定值相等的上下限的两个迭代器
+
+    //    //erase() 删除集合中的元素
+
+    //    //find() 返回一个指向被查找到元素的迭代器
+
+    //    //get_allocator() 返回集合的分配器
+
+    //    //insert() 在集合中插入元素
+
+    //    //lower_bound() 返回指向大于（或等于）某值的第一个元素的迭代器
+
+    //    //key_comp() 返回一个用于元素间值比较的函数
+
+    //    //max_size() 返回集合能容纳的元素的最大限值
+
+    //    //rbegin() 返回指向集合中最后一个元素的反向迭代器
+
+    //    //rend() 返回指向集合中第一个元素的反向迭代器
+
+    //    //size() 集合中元素的数目
+
+    //    //swap() 交换两个集合变量
+
+    //    //upper_bound() 返回大于某个值元素的迭代器
+
+    //    //value_comp() 返回一个用于比较元素间的值的函数
+    //    //std::set_intersection() :这个函数是求两个集合的交集。
+    //    //std::set_union() :求两个集合的并集
+    //    //std::set_difference（）：差集
+    //    //std::set_symmetric_difference（）：得到的结果是第一个迭代器相对于第二个的差集并 上第二个相当于第一个的差集
+    //}
+
 
 
 
