@@ -53,15 +53,15 @@ namespace Mogre_Procedural.std
         public int begin() {
             return 0;
         }
-        public T begin(bool getref) {
-            return front();
-        }
+        //public T begin(bool getref) {
+        //    return front();
+        //}
         public int end() {
-            return base.Count - 1;
+            return base.Count ;
         }
-        public T end(bool getref) {
-            return back();
-        }
+        //public T end(bool getref) {
+        //    return back();
+        //}
         public void push_back(T value) {
             base.Add(value);
         }

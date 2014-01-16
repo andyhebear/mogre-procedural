@@ -444,10 +444,11 @@ namespace Mogre_Procedural.std
             foreach (var v in this._buckets.Keys) {
                 index++;
                 if (v.Equals(key)) {
+                    return index;
                     break;
                 }
             }
-            return index;
+            return -1;
 
         }
         /// <summary>
@@ -562,11 +563,11 @@ namespace Mogre_Procedural.std
     }
 
     /// <summary>
-    /// like c++ std::unordered_map
+    /// like c++ std::unordered_multimap
     /// </summary>
     /// <typeparam name="TKey"></typeparam>
     /// <typeparam name="TValue"></typeparam>
-    public class std_unordered_map<TKey, TValue> : ILookup<TKey, TValue>, IEnumerable<KeyValuePair<TKey, TValue>>
+    public class std_unordered_multimap<TKey, TValue> : ILookup<TKey, TValue>, IEnumerable<KeyValuePair<TKey, TValue>>
     {
 
         Dictionary<TKey, IList<TValue>> _buckets;// = new SortedDictionary<TKey, IList<TValue>>();
@@ -574,18 +575,18 @@ namespace Mogre_Procedural.std
         /// <summary>
         /// Initializes a new instance of the <see cref="MultiMap&lt;TKey, TValue&gt;"/> class.
         /// </summary>
-        public std_unordered_map() {
+        public std_unordered_multimap() {
             _buckets = new Dictionary<TKey, IList<TValue>>();
         }
-        public std_unordered_map(IEqualityComparer<TKey> comparer) {
+        public std_unordered_multimap(IEqualityComparer<TKey> comparer) {
             _buckets = new Dictionary<TKey, IList<TValue>>(comparer);
         }
 
-        public std_unordered_map(IDictionary<TKey, IList<TValue>> dictionary) {
+        public std_unordered_multimap(IDictionary<TKey, IList<TValue>> dictionary) {
             _buckets = new Dictionary<TKey, IList<TValue>>(dictionary);
         }
 
-        public std_unordered_map(IDictionary<TKey, IList<TValue>> dictionary, IEqualityComparer<TKey> comparer) {
+        public std_unordered_multimap(IDictionary<TKey, IList<TValue>> dictionary, IEqualityComparer<TKey> comparer) {
             _buckets = new Dictionary<TKey, IList<TValue>>(dictionary, comparer);
         }
         #region IDictionary<TKey,TValue> like Members
@@ -864,8 +865,8 @@ namespace Mogre_Procedural.std
         public void clear() {
             this.Clear();
         }
-        public static void swap(ref std_multimap<TKey, TValue> _this, ref std_multimap<TKey, TValue> _other) {
-            std_multimap<TKey, TValue> temp = _this;
+        public static void swap(ref std_unordered_multimap<TKey, TValue> _this, ref std_unordered_multimap<TKey, TValue> _other) {
+            std_unordered_multimap<TKey, TValue> temp = _this;
             _this = _other;
             _other = temp;
         }
@@ -891,7 +892,7 @@ namespace Mogre_Procedural.std
         /// <param name="array"></param>
         /// <param name="beginpos"></param>
         /// <param name="endpos">当前位置之前</param>
-        public void insert(std_unordered_map<TKey, TValue> array, int beginpos, int beforeendpos) {
+        public void insert(std_unordered_multimap<TKey, TValue> array, int beginpos, int beforeendpos) {
 
            // KeyValuePair<TKey, IList<TValue>>[] pairs = new KeyValuePair<TKey, IList<TValue>>[array.KeyCount];
             //array._buckets.CopyTo(pairs, 0);
@@ -900,7 +901,7 @@ namespace Mogre_Procedural.std
                 this.Add(pairs[i].Key, pairs[i].Value);
             }
         }
-        public void insert(std_unordered_map<TKey, TValue> array) {
+        public void insert(std_unordered_multimap<TKey, TValue> array) {
             //KeyValuePair<TKey, IList<TValue>>[] pairs = new KeyValuePair<TKey, IList<TValue>>[array.KeyCount];
             //array._buckets.CopyTo(pairs, 0);
             KeyValuePair<TKey, IList<TValue>>[] pairs = array.get_allocator();
@@ -1003,10 +1004,11 @@ namespace Mogre_Procedural.std
             foreach (var v in this._buckets.Keys) {
                 index++;
                 if (v.Equals(key)) {
+                    return index;
                     break;
                 }
             }
-            return index;
+            return -1;
 
         }
         /// <summary>
