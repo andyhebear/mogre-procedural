@@ -1,5 +1,4 @@
-﻿//#ifndef PROCEDURAL_SPLINES_INCLUDED
-#define PROCEDURAL_SPLINES_INCLUDED
+﻿
 
 /*
     -----------------------------------------------------------------------------
@@ -29,6 +28,11 @@
     THE SOFTWARE.
     -----------------------------------------------------------------------------
     */
+
+
+//#ifndef PROCEDURAL_SPLINES_INCLUDED
+#define PROCEDURAL_SPLINES_INCLUDED
+
 
 namespace Mogre_Procedural
 {
