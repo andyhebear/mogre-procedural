@@ -11,7 +11,7 @@ namespace Mogre_Procedural.std
     public class std_multiset<T> : IEnumerable<T>
     {
 
-        private SortedDictionary<T, int> items = new SortedDictionary<T, int>();
+        private SortedDictionary<T, int> _items = new SortedDictionary<T, int>();
 
         public std_multiset() {
         }
@@ -24,33 +24,36 @@ namespace Mogre_Procedural.std
 
         public void Add(T item) {
             if (Contains(item))
-                items[item]++;
+                _items[item]++;
             else
-                items[item] = 1;
+                _items[item] = 1;
         }
 
         public bool Contains(T item) {
-            return items.ContainsKey(item);
+            return _items.ContainsKey(item);
         }
 
-        public void Remove(T item) {
-            if (!Contains(item))
+        public bool Remove(T item) {
+            if (!Contains(item)) {
+                return false;
                 throw new Exception();
-
-            if (--items[item] == 0)
-                items.Remove(item);
+            }
+            if (--_items[item] == 0) {
+                _items.Remove(item);
+            }
+            return true;
         }
 
         public void Remove(IEnumerable<T> itemList) {
             foreach (T item in itemList)
-                items.Remove(item);
+                _items.Remove(item);
         }
 
         public int Count {
             get {
                 int count = 0;
 
-                foreach (int n in items.Values)
+                foreach (int n in _items.Values)
                     count += n;
 
                 return count;
@@ -58,7 +61,7 @@ namespace Mogre_Procedural.std
         }
 
         public IEnumerator<T> GetEnumerator() {
-            foreach (KeyValuePair<T, int> entry in items) {
+            foreach (KeyValuePair<T, int> entry in _items) {
                 for (int n = 0; n < entry.Value; n++)
                     yield return entry.Key;
             }
@@ -78,16 +81,151 @@ namespace Mogre_Procedural.std
             return GetEnumerator();
         }
 
+
+
+
+        public int begin() {
+            return 0;
+        }
+
+        public int end() {
+            return this.Count;
+        }
+        public bool empty() {
+            return this.Count == 0;
+        }
+        public int size() {
+            return this.Count;
+        }
+        public int max_size() {
+            return int.MaxValue;
+        }
+        public void clear() {
+            this._items.Clear();
+        }
+        //
+        //
+        public void insert(T value) {
+              this.Add(value);
+        }
+        public void insert(uint pos, T value) {
+             this.Add(value);
+        }
+        public void insert(T[] array, int beginpos, int beforeendpos) {
+            for (int i = beginpos; i < beforeendpos; i++) {
+                this.Add(array[i]);
+            }
+        }
+
+        public bool erase(int pos, bool index) {
+            T[] array =get_allocator();            
+            return this.Remove(array[pos]);
+        }
+        /// <summary>
+        /// 原始返回 0或者1
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public bool erase(T value) {
+            return this._items.Remove(value);
+        }
+        public void erase(int beginpos, int beforeendpos) {
+            T[] array = get_allocator();
+            //base.CopyTo(array, 0);
+            for (int i = beforeendpos - 1; i >= beginpos; i--) {
+                this.Remove(array[i]);
+            }
+        }
+
+        /// <summary>
+        /// T type must same
+        /// </summary>
+        /// <param name="_this"></param>
+        /// <param name="_other"></param>
+        public static void swap(std_multiset<T> _this, std_multiset<T> _other) {
+            std_multiset<T> temp = _this;
+            _this = _other;
+            _other = temp;
+        }
+
+        public void emplace(T value) {
+             this.Add(value);
+        }
+        /// <summary>
+        /// 原始是返回KEY比较器 这里没有实现
+        /// </summary>
+        /// <returns></returns>
+        public T[] key_comp() {
+            throw new NotSupportedException();
+        }
+        /// <summary>
+        /// 原始是返回值比较器 这里没有实现
+        /// </summary>
+        /// <returns></returns>
+        public T[] value_comp() {
+            throw new NotSupportedException();
+        }
+        /// <summary>
+        /// 没有找到返回-1
+        /// 返回查找的位置
+        /// </summary>
+        /// <returns>if no find,return -1</returns>
+        public int find(T value) {
+            
+            IEnumerator<T> rt = this.GetEnumerator();
+            int index = -1;
+            while (rt.MoveNext()) {
+                index++;
+                if (rt.Current.Equals(value)) {
+                    return index;
+                }
+            }
+            return -1;
+        }
+        /// <summary>
+        /// 返回指定值的数量 
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public int count(T value) {
+            if (_items.ContainsKey(value))
+                return _items[value];
+            return 0;
+        }
+
+        public int lower_bound(T key) {
+            int f = find(key);
+            return f;
+        }
+        public int upper_bound(T key) {
+            int f = find(key);
+            return f + 1;
+        }
+        public std_pair<int, int> equal_range(T key) {
+            int f = find(key);
+            return new std_pair<int, int>(f, f + 1);
+        }
+        public T[] get_allocator() {
+            T[] array = new T[this.Count];
+            int index = 0;
+            foreach (var v in this._items) {
+                int len = v.Value;
+                for (int i = 0; i < len; i++) {
+                    array[index++] = v.Key;
+                }
+            }
+           return array;
+        }
     }
    
     /// <summary>
     /// like c++ std::unordered_multiset
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class std_unordered_multiset<T> : IEnumerable<T>
+    public class std_unordered_multiset<T> :  IEnumerable<T>
     {
 
-        private Dictionary<T, int> items = new Dictionary<T, int>();
+        private Dictionary<T, int> _items = new Dictionary<T, int>();
 
         public std_unordered_multiset() {
         }
@@ -100,33 +238,35 @@ namespace Mogre_Procedural.std
 
         public void Add(T item) {
             if (Contains(item))
-                items[item]++;
+                _items[item]++;
             else
-                items[item] = 1;
+                _items[item] = 1;
         }
 
         public bool Contains(T item) {
-            return items.ContainsKey(item);
+            return _items.ContainsKey(item);
         }
 
-        public void Remove(T item) {
-            if (!Contains(item))
+        public bool Remove(T item) {
+            if (!Contains(item)) {
+                return false;
                 throw new Exception();
-
-            if (--items[item] == 0)
-                items.Remove(item);
+            }
+            if (--_items[item] == 0)
+                _items.Remove(item);
+            return true;
         }
 
         public void Remove(IEnumerable<T> itemList) {
             foreach (T item in itemList)
-                items.Remove(item);
+                _items.Remove(item);
         }
 
         public int Count {
             get {
                 int count = 0;
 
-                foreach (int n in items.Values)
+                foreach (int n in _items.Values)
                     count += n;
 
                 return count;
@@ -134,7 +274,7 @@ namespace Mogre_Procedural.std
         }
 
         public IEnumerator<T> GetEnumerator() {
-            foreach (KeyValuePair<T, int> entry in items) {
+            foreach (KeyValuePair<T, int> entry in _items) {
                 for (int n = 0; n < entry.Value; n++)
                     yield return entry.Key;
             }
@@ -152,6 +292,120 @@ namespace Mogre_Procedural.std
 
         IEnumerator IEnumerable.GetEnumerator() {
             return GetEnumerator();
+        }
+
+
+        //
+        public void insert(T value) {
+            this.Add(value);
+        }
+        public void insert(uint pos, T value) {
+            this.Add(value);
+        }
+        public void insert(T[] array, int beginpos, int beforeendpos) {
+            for (int i = beginpos; i < beforeendpos; i++) {
+                this.Add(array[i]);
+            }
+        }
+
+        public bool erase(int pos, bool index) {
+            T[] array = get_allocator();
+            return this.Remove(array[pos]);
+        }
+        /// <summary>
+        /// 原始返回 0或者1
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public bool erase(T value) {
+            return this._items.Remove(value);
+        }
+        public void erase(int beginpos, int beforeendpos) {
+            T[] array = get_allocator();
+            //base.CopyTo(array, 0);
+            for (int i = beforeendpos - 1; i >= beginpos; i--) {
+                this.Remove(array[i]);
+            }
+        }
+
+        /// <summary>
+        /// T type must same
+        /// </summary>
+        /// <param name="_this"></param>
+        /// <param name="_other"></param>
+        public static void swap(std_unordered_multiset<T> _this, std_unordered_multiset<T> _other) {
+            std_unordered_multiset<T> temp = _this;
+            _this = _other;
+            _other = temp;
+        }
+
+        public void emplace(T value) {
+            this.Add(value);
+        }
+        /// <summary>
+        /// 原始是返回KEY比较器 这里没有实现
+        /// </summary>
+        /// <returns></returns>
+        public T[] key_comp() {
+            throw new NotSupportedException();
+        }
+        /// <summary>
+        /// 原始是返回值比较器 这里没有实现
+        /// </summary>
+        /// <returns></returns>
+        public T[] value_comp() {
+            throw new NotSupportedException();
+        }
+        /// <summary>
+        /// 没有找到返回-1
+        /// 返回查找的位置
+        /// </summary>
+        /// <returns>if no find,return -1</returns>
+        public int find(T value) {
+
+            IEnumerator<T> rt = this.GetEnumerator();
+            int index = -1;
+            while (rt.MoveNext()) {
+                index++;
+                if (rt.Current.Equals(value)) {
+                    return index;
+                }
+            }
+            return -1;
+        }
+        /// <summary>
+        /// 返回指定值的数量 
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public int count(T value) {
+            if (_items.ContainsKey(value))
+                return _items[value];
+            return 0;
+        }
+
+        public int lower_bound(T key) {
+            int f = find(key);
+            return f;
+        }
+        public int upper_bound(T key) {
+            int f = find(key);
+            return f + 1;
+        }
+        public std_pair<int, int> equal_range(T key) {
+            int f = find(key);
+            return new std_pair<int, int>(f, f + 1);
+        }
+        public T[] get_allocator() {
+            T[] array = new T[this.Count];
+            int index = 0;
+            foreach (var v in this._items) {
+                int len = v.Value;
+                for (int i = 0; i < len; i++) {
+                    array[index++] = v.Key;
+                }
+            }
+            return array;
         }
 
     }
