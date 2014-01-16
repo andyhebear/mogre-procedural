@@ -1,4 +1,7 @@
-﻿//
+﻿#define NET_3_5
+#define NET_4_0
+
+//
 // HashSet.cs
 //
 // Authors:
@@ -25,11 +28,9 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
-# define NET_20
 
 
-
-#if NET_20
+#if NET_3_5
 // HashSet is basically implemented as a reduction of Dictionary<K, V>
 namespace System.Collections.Generic
 {

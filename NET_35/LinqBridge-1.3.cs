@@ -26,10 +26,13 @@
 #endregion
 
 // $Id: Enumerable.cs c08984d432b1 2012/04/17 16:05:19 azizatif $
-#define NET_20
+#define NET_3_5
 //#define LINQBRIDGE_LIB
 
-#if NET_20
+#if NET_3_5
+
+
+
 namespace System.Linq
 {
 #region Imports
@@ -3103,5 +3106,11 @@ namespace System
     delegate void Action<T1, T2, T3, T4>(T1 arg1, T2 arg2, T3 arg3, T4 arg4);
 #endif
 }
+
+
+
+
+
+
 
 #endif
