@@ -560,6 +560,568 @@ namespace Mogre_Procedural.std
 
 
     }
+
+    /// <summary>
+    /// like c++ std::unordered_map
+    /// </summary>
+    /// <typeparam name="TKey"></typeparam>
+    /// <typeparam name="TValue"></typeparam>
+    public class std_unordered_map<TKey, TValue> : ILookup<TKey, TValue>, IEnumerable<KeyValuePair<TKey, TValue>>
+    {
+
+        Dictionary<TKey, IList<TValue>> _buckets;// = new SortedDictionary<TKey, IList<TValue>>();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MultiMap&lt;TKey, TValue&gt;"/> class.
+        /// </summary>
+        public std_unordered_map() {
+            _buckets = new Dictionary<TKey, IList<TValue>>();
+        }
+        public std_unordered_map(IEqualityComparer<TKey> comparer) {
+            _buckets = new Dictionary<TKey, IList<TValue>>(comparer);
+        }
+
+        public std_unordered_map(IDictionary<TKey, IList<TValue>> dictionary) {
+            _buckets = new Dictionary<TKey, IList<TValue>>(dictionary);
+        }
+
+        public std_unordered_map(IDictionary<TKey, IList<TValue>> dictionary, IEqualityComparer<TKey> comparer) {
+            _buckets = new Dictionary<TKey, IList<TValue>>(dictionary, comparer);
+        }
+        #region IDictionary<TKey,TValue> like Members
+
+        /// <summary>
+        /// Adds the specified key and value to the dictionary.
+        /// </summary>
+        /// <param name="key">The key of the element to add.</param>
+        /// <param name="value">The value of the element to add.</param>
+        public void Add(TKey key, TValue value) {
+            if (!_buckets.ContainsKey(key)) {
+                _buckets.Add(key, new List<TValue>());
+            }
+            _buckets[key].Add(value);
+            //_count++;
+        }
+        public void Add(TKey key, TValue[] value) {
+            if (!_buckets.ContainsKey(key)) {
+                _buckets.Add(key, new List<TValue>());
+            }
+            foreach (var v in value) {
+                _buckets[key].Add(v);
+                //_count++;
+            }
+        }
+        public void Add(TKey key, IList<TValue> value) {
+            if (!_buckets.ContainsKey(key)) {
+                _buckets.Add(key, new List<TValue>());
+            }
+            foreach (var v in value) {
+                _buckets[key].Add(v);
+                //_count++;
+            }
+        }
+        /// <summary>
+        /// Determines whether the MultiMap contains the specified key.
+        /// </summary>
+        /// <param name="key">The key to locate in the MultiMap.</param>
+        /// <returns>
+        /// 	<c>true</c> if the MultiMap contains the specified key; otherwise, <c>false</c>.
+        /// </returns>
+        public bool ContainsKey(TKey key) {
+            return _buckets.ContainsKey(key);
+        }
+
+        /// <summary>
+        /// Gets a collection containing the keys in the MultiMap
+        /// </summary>
+        /// <value>The keys.</value>
+        public ICollection<TKey> Keys {
+            get { return _buckets.Keys; }
+        }
+
+        /// <summary>
+        /// Removes the value with the specified key from the MultiMap.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <returns></returns>
+        public bool Remove(TKey key) {
+            if (!_buckets.ContainsKey(key)) {
+                return false;
+            }
+            //_count -= multimap[key].Count;
+            bool found = _buckets.Remove(key);
+            return found;
+        }
+
+        /// <summary>
+        /// Gets the value associated with the specified key.
+        /// </summary>
+        /// <param name="key">The key of the value to get.</param>
+        /// <param name="value">When this method returns, contains the value associated with the specified key, if the key is found; otherwise, the default value for the type of value parameter.</param>
+        /// <returns></returns>
+        public bool TryGetValue(TKey key, out IList<TValue> value) {
+            return _buckets.TryGetValue(key, out value);
+        }
+
+        /// <summary>
+        /// Gets a collection containing the values in the MultiMap
+        /// 所有的值列表
+        /// </summary>
+        /// <value>The values.</value>
+        public IList<TValue> Values {
+            get { return _buckets.Values.SelectMany(x => x).ToList(); }
+        }
+
+        /// <summary>
+        /// Gets the <see cref="System.Collections.Generic.IList&lt;TValue&gt;"/> with the specified key.
+        /// </summary>
+        /// <value></value>
+        public IList<TValue> this[TKey key] {
+            get {
+                return _buckets[key];
+            }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Clears this instance.
+        /// </summary>
+        public void Clear() {
+            this._buckets.Clear();
+            //_count = 0;
+        }
+
+        /// <summary>
+        /// Gets the number of key/value collection pairs in the <see cref="T:System.Linq.ILookup`2"/>.
+        /// </summary>
+        /// <value></value>
+        /// <returns>
+        /// The number of key/value collection pairs in the <see cref="T:System.Linq.ILookup`2"/>.
+        /// </returns>
+        public int Count {
+            get { return this._buckets.Count; }
+        }
+        public int KeyCount {
+            get { return this._buckets.Count; }
+        }
+        /// <summary>
+        ///     Number of total items currently in this buckets.
+        /// </summary>
+        //private int _count;
+        /// <summary>
+        /// Number of total items currently in this buckets.
+        /// </summary>
+        public int TotalCount {
+            get {
+                int count = 0;
+                foreach (var v in this._buckets) {
+                    count += v.Value.Count;
+                }
+                return count;
+                //return this._count;
+            }
+        }
+        /// <summary>
+        /// Gets a value indicating whether this instance is read only.
+        /// </summary>
+        /// <value>
+        /// 	<c>true</c> if this instance is read only; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsReadOnly {
+            get { return (this._buckets as IList).IsReadOnly; }
+        }
+
+        #region IEnumerable Members
+
+        /// <summary>
+        /// Returns an enumerator that iterates through a collection.
+        /// </summary>
+        /// <returns>
+        /// An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
+        /// </returns>
+        IEnumerator IEnumerable.GetEnumerator() {
+            return this.GetEnumerator();
+        }
+
+        #endregion
+
+        #region ILookup<TKey,TValue> Members
+
+        /// <summary>
+        /// Determines whether a specified key exists in the <see cref="T:System.Linq.ILookup`2"/>.
+        /// </summary>
+        /// <param name="key">The key to search for in the <see cref="T:System.Linq.ILookup`2"/>.</param>
+        /// <returns>
+        /// true if <paramref name="key"/> is in the <see cref="T:System.Linq.ILookup`2"/>; otherwise, false.
+        /// </returns>
+        public bool Contains(TKey key) {
+            return this.ContainsKey(key);
+        }
+
+        /// <summary>
+        /// Gets the <see cref="System.Collections.Generic.IEnumerable&lt;TValue&gt;"/> with the specified key.
+        /// </summary>
+        /// <value></value>
+        IEnumerable<TValue> ILookup<TKey, TValue>.this[TKey key] {
+            get { return this[key]; }
+        }
+
+        #endregion
+
+        #region IEnumerable<IGrouping<TKey,TValue>> Members
+
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
+        /// </returns>
+        IEnumerator<IGrouping<TKey, TValue>> IEnumerable<IGrouping<TKey, TValue>>.GetEnumerator() {
+            foreach (var key in this._buckets) {
+                yield return new std_multimapgroup(key.Key, key.Value);
+            }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
+        /// </returns>
+        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() {
+            foreach (var key in this._buckets) {
+                foreach (var value in key.Value) {
+                    yield return new KeyValuePair<TKey, TValue>(key.Key, value);
+                }
+            }
+        }
+
+        private class std_multimapgroup : IGrouping<TKey, TValue>
+        {
+            #region IGrouping<TKey,TValue> Members
+
+            public TKey Key {
+                get;
+                private set;
+            }
+
+            #endregion
+
+            IList<TValue> values;
+
+            /// <summary>
+            /// Initializes a new instance of the MultiMapGroup class.
+            /// </summary>
+            public std_multimapgroup(TKey key, IList<TValue> value) {
+                Key = key;
+                values = value;
+            }
+
+            #region IEnumerable<TValue> Members
+
+            public IEnumerator<TValue> GetEnumerator() {
+                return values.GetEnumerator();
+            }
+
+            #endregion
+
+            #region IEnumerable Members
+
+            IEnumerator IEnumerable.GetEnumerator() {
+                return GetEnumerator();
+            }
+
+            #endregion
+        }
+
+
+
+        #region c++
+
+        public int begin() {
+            return 0;
+        }
+        /// <summary>
+        /// 返回当前KEY数  最后一个位置+1
+        /// </summary>
+        /// <returns></returns>
+        public int end() {
+            return this.KeyCount;// -1;
+        }
+        public bool empty() {
+            return this.KeyCount == 0;
+        }
+        public int size() {
+            return this.TotalCount;
+        }
+        public int max_size() {
+            return int.MaxValue;
+        }
+
+        public void clear() {
+            this.Clear();
+        }
+        public static void swap(ref std_multimap<TKey, TValue> _this, ref std_multimap<TKey, TValue> _other) {
+            std_multimap<TKey, TValue> temp = _this;
+            _this = _other;
+            _other = temp;
+        }
+
+        public void insert(TKey key, TValue value) {
+            this.Add(key, value);
+        }
+        public void insert(KeyValuePair<TKey, TValue> pair) {
+            this.Add(pair.Key, pair.Value);
+        }
+        public void insert(std_pair<TKey, TValue> pair) {
+            this.Add(pair.first, pair.second);
+        }
+        public void insert(uint pos, KeyValuePair<TKey, TValue> pair) {
+            insert(pair);
+        }
+        public void insert(uint pos, std_pair<TKey, TValue> pair) {
+            insert(pair);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="array"></param>
+        /// <param name="beginpos"></param>
+        /// <param name="endpos">当前位置之前</param>
+        public void insert(std_unordered_map<TKey, TValue> array, int beginpos, int beforeendpos) {
+
+           // KeyValuePair<TKey, IList<TValue>>[] pairs = new KeyValuePair<TKey, IList<TValue>>[array.KeyCount];
+            //array._buckets.CopyTo(pairs, 0);
+            KeyValuePair<TKey, IList<TValue>>[] pairs = array.get_allocator();
+            for (int i = beginpos; i < beforeendpos; i++) {
+                this.Add(pairs[i].Key, pairs[i].Value);
+            }
+        }
+        public void insert(std_unordered_map<TKey, TValue> array) {
+            //KeyValuePair<TKey, IList<TValue>>[] pairs = new KeyValuePair<TKey, IList<TValue>>[array.KeyCount];
+            //array._buckets.CopyTo(pairs, 0);
+            KeyValuePair<TKey, IList<TValue>>[] pairs = array.get_allocator();
+            for (int i = 0; i < pairs.Length; i++) {
+                this.Add(pairs[i].Key, pairs[i].Value);
+            }
+        }
+        /// <summary>
+        /// 第几个下标位置的KEY删除 
+        /// 通常 pos=find("key");
+        /// erase(pos);
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <return> returns the number of elements erased. </return>
+        public int erase(uint pos) {
+            TKey[] pairs = new TKey[this.KeyCount];
+            this._buckets.Keys.CopyTo(pairs, 0);
+            if (pos >= pairs.Length) return 0;
+            int c = this._buckets[pairs[pos]].Count;
+            this.Remove(pairs[pos]);
+            return c;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns>returns the number of elements erased.</returns>
+        public int erase(TKey key) {
+            if (!this.ContainsKey(key)) return 0;
+            int c = this._buckets[key].Count;
+            this.Remove(key);
+            return c;
+        }
+        public void erase(int beginpos, int beforeendpos) {
+            TKey[] pairs = new TKey[this._buckets.Keys.Count];
+            this._buckets.Keys.CopyTo(pairs, 0);
+            for (int i = beginpos; i < beforeendpos; i++) {
+                this.Remove(pairs[i]);
+            }
+        }
+        //
+        public void emplace(TKey key, TValue value) {
+            this.Add(key, value);
+        }
+        /// <summary>
+        /// 原始是返回key比较器， 这里把所有键返回了
+        /// </summary>
+        /// <returns></returns>
+        public TKey[] key_comp() {
+            throw new Exception("返回值比较器异常,没有实现");
+            //TKey[] keys = new TKey[this._buckets.Keys.Count];
+            //this._buckets.Keys.CopyTo(keys, 0);
+            //return keys;
+        }
+        //      std::multimap<char,int> mymultimap;
+
+        //mymultimap.insert(std::make_pair('x',101));
+        //mymultimap.insert(std::make_pair('y',202));
+        //mymultimap.insert(std::make_pair('y',252));
+        //mymultimap.insert(std::make_pair('z',303));
+
+        //std::cout << "mymultimap contains:\n";
+
+        //std::pair<char,int> highest = *mymultimap.rbegin();          // last element
+
+        //std::multimap<char,int>::iterator it = mymultimap.begin();
+        //do {
+        //  std::cout << (*it).first << " => " << (*it).second << '\n';
+        //} while ( mymultimap.value_comp()(*it++, highest) );
+
+        //  Output:
+        //mymultimap contains:
+        //x => 101
+        //y => 202
+        //y => 252
+        //z => 303
+        /// <summary>
+        /// 原始是返回value比较器
+        /// 注意这里没有实现。【不要调用】
+        /// </summary>
+        /// <returns></returns>
+        public TValue[] value_comp() {
+            throw new Exception("返回值比较器异常,没有实现");
+        }
+        public KeyValuePair<TKey, IList<TValue>>[] get_allocator() {
+            List<KeyValuePair<TKey, IList<TValue>>> pairs = new  List<KeyValuePair<TKey,IList<TValue>>>();
+            foreach (var v in this._buckets) {
+                pairs.Add(v);
+            }
+            return pairs.ToArray();
+        }
+        /// <summary>
+        /// 查找索引位置
+        /// </summary>
+        /// <param name="key"></param>
+        ///// <param name="pos"></param>
+        /// <returns>没有找到返回-1</returns>
+        public int find(TKey key) {
+            int index = -1;
+            foreach (var v in this._buckets.Keys) {
+                index++;
+                if (v.Equals(key)) {
+                    break;
+                }
+            }
+            return index;
+
+        }
+        /// <summary>
+        /// 查询key对应的值的个数
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns>值的个数</returns>
+        public int count(TKey key) {
+            if (this._buckets.ContainsKey(key)) {
+                return this._buckets[key].Count;
+            }
+            return 0; ;
+        }
+
+        //public int lower_bound(TKey key) {
+        //    return find(key);
+        //}
+        //public int upper_bound(TKey key) {
+        //    return find(key) + 1;
+        //}
+        public std_pair<TKey, IList<TValue>> lower_bound(TKey key) {
+            std_pair<TKey, IList<TValue>> sp = null;
+            if (this._buckets.ContainsKey(key)) {
+                sp = new std_pair<TKey, IList<TValue>>(key, this._buckets[key]);
+            }
+            return sp;
+        }
+        public std_pair<TKey, IList<TValue>> upper_bound(TKey key) {
+            std_pair<TKey, IList<TValue>> sp = null;
+            if (this._buckets.ContainsKey(key)) {
+                bool find_pre = false;
+                foreach (var v in this._buckets.Keys) {
+                    if (find_pre) {
+                        sp = new std_pair<TKey, IList<TValue>>(v, this._buckets[v]);
+                        break;
+                    }
+                    if (v.Equals(key)) {
+                        find_pre = true;
+                    }
+                }
+            }
+            return sp;
+        }
+        public std_pair<std_pair<TKey, TValue>, std_pair<TKey, TValue>> equal_range(TKey key) {
+            //return lower bound  and up bound
+            if (!this.ContainsKey(key)) {
+                return null;
+            }
+            //KeyValuePair<TKey, TValue> select =new KeyValuePair<TKey,TValue>(key, base[key]);
+            KeyValuePair<TKey, TValue> first = new KeyValuePair<TKey, TValue>();
+            KeyValuePair<TKey, TValue> second = new KeyValuePair<TKey, TValue>();
+            bool find_first = false;
+            bool find_second = false;
+            //查找下一个
+            IEnumerator<KeyValuePair<TKey, TValue>> et = this.GetEnumerator();
+            //if (et.Current.Key.Equals(key)) {
+            //    first = et.Current;
+            //    find_first = true;
+            //}
+            while (et.MoveNext()) {
+                if (find_first) {
+                    second = et.Current;
+                    find_second = true;
+                    break;
+                }
+                else {
+                    if (et.Current.Key.Equals(key)) {
+                        first = et.Current;
+                        find_first = true;
+                    }
+                }
+            }
+
+            std_pair<std_pair<TKey, TValue>, std_pair<TKey, TValue>> range = new std_pair<std_pair<TKey, TValue>, std_pair<TKey, TValue>>(
+                find_first ? new std_pair<TKey, TValue>(first.Key, first.Value) : null,
+                find_second ? new std_pair<TKey, TValue>(second.Key, second.Value) : null);
+            return range;
+        }
+        /// <summary>
+        /// 获取值
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <returns></returns>
+        public IList<TValue> at(int pos) {
+            int index = 0;
+            foreach (var v in _buckets.Keys) {
+                if (index == pos) {
+                    return _buckets[v];
+                }
+                index++;
+            }
+            return null;
+        }
+        /// <summary>
+        /// 增加值
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <param name="value"></param>
+        public void at(int pos, TValue @value) {
+            int index = 0;
+            foreach (var v in _buckets.Keys) {
+                if (index == pos) {
+                    _buckets[v].Add(@value);
+                    break;
+                }
+                index++;
+            }
+        }
+        #endregion
+
+
+    }
+
+    
+    
     ///// <summary>
     ///// like c++ std::multimap 相当于Dictionary<TKey,List<TValue>>，该类在C#中不存在的，也需要自己实现
     ///// </summary>
