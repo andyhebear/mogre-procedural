@@ -1,5 +1,5 @@
 ﻿
-# define NET_20
+# define NET_4_0
 
 
 namespace Mogre_Procedural.std
@@ -11,13 +11,15 @@ namespace Mogre_Procedural.std
     using System.Runtime.Serialization;
     using System.Diagnostics;
     /// <summary>
-    /// std:set
+    /// std:set 相当 HashSet<T>类，但这里需要明确，STL中的set是以红黑树作为底层数据结构，
+    /// 而C#中HashSet<T>类是以哈希表作为底层数据结构，因为其两者使用数据结构的不同，
+    /// 从而导致查询效率不同，set查找的花费时间为O（logn），这也是红黑树查询时间，
+    /// 而HashSet的查询花费时间为O（1）。
     /// 一个集合(set)是一个容器，它其中所包含的元素的值是唯一的。
     /// 这在收集一个数据的具体值的时候是有用的。
     /// 集合中的元素按一定的顺序排列，并被作为集合中的实例。一个集合通过一个链表来组织，
     /// 在插入操作和删除操作上比向量(vector)快，但查找或添加末尾的元素时会有些慢。
     /// 具体实现采用了红黑树的平衡二叉树的数据结构。
-    /// https://github.com/viidea/latino/blob/master/Latino/Set.cs
     /// </summary>
     public interface Istd_set<T>
     {
@@ -162,113 +164,303 @@ namespace Mogre_Procedural.std
     }
 
     /// <summary>
-    /// like c++ std::set HashSet<T>类，但这里需要明确，STL中的set是以红黑树作为底层数据结构，
-    /// 而C#中HashSet<T>类是以哈希表作为底层数据结构，因为其两者使用数据结构的不同，
-    /// 从而导致查询效率不同，set查找的花费时间为O（logn），这也是红黑树查询时间，
-    /// 而HashSet的查询花费时间为O（1）。
+    /// like c++ std::set 
     /// </summary>
-    public class std_set<T> : SortedSet<T>, Istd_set<T>
+    public class std_set<T> : SortedSet<T>
     {
         public std_set()
             : base() {
 
         }
 
-        public std_set(IEqualityComparer<T> comparer)
+        public std_set(IComparer<T> comparer)
             : base(comparer) {
         }
 
         public std_set(IEnumerable<T> collection)
-            : base(collection, null) {
+            : base(collection) {
         }
 
-        public std_set(IEnumerable<T> collection, IEqualityComparer<T> comparer)
+        public std_set(IEnumerable<T> collection, IComparer<T> comparer)
             : base(collection, comparer) {
 
         }
 
-
-
-
-
-        #region Istd_set<T> 成员
-
-        public T[] begin() {
-            throw new NotImplementedException();
+        public int begin() {
+            return 0;
         }
 
-        public T[] end() {
-            throw new NotImplementedException();
+        public int end() {
+            return base.Count;
         }
-
         public bool empty() {
-            throw new NotImplementedException();
+            return base.Count == 0;
         }
-
         public int size() {
-            throw new NotImplementedException();
+            return base.Count;
         }
-
         public int max_size() {
-            throw new NotImplementedException();
+            return int.MaxValue;
         }
-
         public void clear() {
-            throw new NotImplementedException();
+            base.Clear();
+        }
+        //
+        public bool insert(T value) {
+            return base.Add(value);
+        }
+        public bool insert(uint pos, T value) {
+            return base.Add(value);
+        }
+        public void insert(T[] array, int beginpos, int beforeendpos) {
+            for (int i = beginpos; i < beforeendpos; i++) {
+                base.Add(array[i]);
+            }
         }
 
-        public new int count(T key) {
-            throw new NotImplementedException();
+        public bool erase(int pos, bool index) {
+            T[] array = new T[base.Count];
+            base.CopyTo(array, 0);
+            return base.Remove(array[pos]);
+        }
+        /// <summary>
+        /// 原始返回 0或者1
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public bool erase(T value) {
+            return base.Remove(value);
+        }
+        public void erase(int beginpos, int beforeendpos) {
+            T[] array = new T[base.Count];
+            base.CopyTo(array, 0);
+            for (int i = beforeendpos - 1; i >= beginpos; i--) {
+                base.Remove(array[i]);
+            }
         }
 
-        public int find(T key) {
-            throw new NotImplementedException();
+        /// <summary>
+        /// T type must same
+        /// </summary>
+        /// <param name="_this"></param>
+        /// <param name="_other"></param>
+        public static void swap(std_set<T> _this, std_set<T> _other) {
+            std_set<T> temp = _this;
+            _this = _other;
+            _other = temp;
         }
 
-        #endregion
+        public bool emplace(T value) {
+            return base.Add(value);
+        }
+        /// <summary>
+        /// 原始是返回KEY比较器 这里没有实现
+        /// </summary>
+        /// <returns></returns>
+        public T[] key_comp() {
+            throw new NotSupportedException();
+        }
+        /// <summary>
+        /// 原始是返回值比较器 这里没有实现
+        /// </summary>
+        /// <returns></returns>
+        public T[] value_comp() {
+            throw new NotSupportedException();
+        }
+        /// <summary>
+        /// 没有找到返回-1
+        /// 返回查找的位置
+        /// </summary>
+        /// <returns>if no find,return -1</returns>
+        public int find(T value) {
+            Enumerator rt = base.GetEnumerator();
+            int index = -1;
+            while (rt.MoveNext()) {
+                index++;
+                if (rt.Current.Equals(value)) {
+                    return index;
+                }
+            }
+            return -1;
+        }
+        /// <summary>
+        /// 因为是无重复 所以返回0或者1
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public int count(T value) {
+            int f = find(value);
+            return f == -1 ? 0 : 1;
+        }
+
+        public int lower_bound(T key) { 
+            int f=find(key);
+            return f;
+        }
+        public int upper_bound(T key) {
+            int f = find(key);
+            return f+1;
+        }
+        public std_pair<int, int> equal_range(T key) { 
+             int f=find(key);
+             return new std_pair<int, int>(f,f+1);
+        }
+        public T[] get_allocator() {
+            T[] array = new T[base.Count];
+            base.CopyTo(array, 0);
+            return array;
+        }
     }
 
     /// <summary>
     /// like std::unordered_set
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class std_unordered_set<T> : HashSet<T>, Istd_set<T>
+    public class std_unordered_set<T> : HashSet<T>
     {
-        #region Istd_set<T> 成员
+        public std_unordered_set()
+            : base() {
 
-        public T[] begin() {
-            throw new NotImplementedException();
         }
 
-        public T[] end() {
-            throw new NotImplementedException();
+        public std_unordered_set(IEqualityComparer<T> comparer)
+            : base(comparer) {
         }
 
+        public std_unordered_set(IEnumerable<T> collection)
+            : base(collection) {
+        }
+
+        public std_unordered_set(IEnumerable<T> collection, IEqualityComparer<T> comparer)
+            : base(collection, comparer) {
+
+        }
+
+        public int begin() {
+            return 0;
+        }
+
+        public int end() {
+            return base.Count;
+        }
         public bool empty() {
-            throw new NotImplementedException();
+            return base.Count == 0;
         }
-
         public int size() {
-            throw new NotImplementedException();
+            return base.Count;
         }
-
         public int max_size() {
-            throw new NotImplementedException();
+            return int.MaxValue;
         }
-
         public void clear() {
-            throw new NotImplementedException();
+            base.Clear();
         }
 
-        public new int count(T key) {
-            throw new NotImplementedException();
+        //
+        public bool insert(T value) {
+            return base.Add(value);
+        }
+        public bool insert(uint pos, T value) {
+            return base.Add(value);
+        }
+        public void insert(T[] array, int beginpos, int beforeendpos) {
+            for (int i = beginpos; i < beforeendpos; i++) {
+                base.Add(array[i]);
+            }
         }
 
-        public int find(T key) {
-            throw new NotImplementedException();
+        public bool erase(int pos, bool index) {
+            T[] array = new T[base.Count];
+            base.CopyTo(array, 0);
+            return base.Remove(array[pos]);
+        }
+        /// <summary>
+        /// 原始返回 0或者1
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public bool erase(T value) {
+            return base.Remove(value);
+        }
+        public void erase(int beginpos, int beforeendpos) {
+            T[] array = new T[base.Count];
+            base.CopyTo(array, 0);
+            for (int i = beforeendpos - 1; i >= beginpos; i--) {
+                base.Remove(array[i]);
+            }
         }
 
-        #endregion
+        /// <summary>
+        /// T type must same
+        /// </summary>
+        /// <param name="_this"></param>
+        /// <param name="_other"></param>
+        public static void swap(std_unordered_set<T> _this, std_unordered_set<T> _other) {
+            std_unordered_set<T> temp = _this;
+            _this = _other;
+            _other = temp;
+        }
+
+        public bool emplace(T value) {
+            return base.Add(value);
+        }
+        /// <summary>
+        /// 原始是返回KEY比较器 这里没有实现
+        /// </summary>
+        /// <returns></returns>
+        public T[] key_comp() {
+            throw new NotSupportedException();
+        }
+        /// <summary>
+        /// 原始是返回值比较器 这里没有实现
+        /// </summary>
+        /// <returns></returns>
+        public T[] value_comp() {
+            throw new NotSupportedException();
+        }
+        /// <summary>
+        /// 没有找到返回-1
+        /// 返回查找的位置
+        /// </summary>
+        /// <returns>if no find,return -1</returns>
+        public int find(T value) {
+            Enumerator rt = base.GetEnumerator();
+            int index = -1;
+            while (rt.MoveNext()) {
+                index++;
+                if (rt.Current.Equals(value)) {
+                    return index;
+                }
+            }
+            return -1;
+        }
+        /// <summary>
+        /// 因为是无重复 所以返回0或者1
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public int count(T value) {
+            int f = find(value);
+            return f == -1 ? 0 : 1;
+        }
+
+        public int lower_bound(T key) {
+            int f = find(key);
+            return f;
+        }
+        public int upper_bound(T key) {
+            int f = find(key);
+            return f + 1;
+        }
+        public std_pair<int, int> equal_range(T key) {
+            int f = find(key);
+            return new std_pair<int, int>(f, f + 1);
+        }
+        public T[] get_allocator() {
+            T[] array = new T[base.Count];
+            base.CopyTo(array, 0);
+            return array;
+        }
     }
 
 
