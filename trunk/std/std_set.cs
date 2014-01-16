@@ -32,7 +32,7 @@ namespace Mogre_Procedural.std
 
         public std_set(IEnumerable<T> collection, IComparer<T> comparer)
             : base(collection, comparer) {
-
+            
         }
 
         public int begin() {
