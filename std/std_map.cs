@@ -123,12 +123,12 @@ namespace Mogre_Procedural.std
         }
 
 
-        public void erase(int pos, bool index) {
+        public bool erase(int pos, bool index) {
 
             int len = base.Keys.Count;
             TKey[] keys = new TKey[len];
             base.Keys.CopyTo(keys, 0);
-            base.Remove(keys[pos]);
+            return  base.Remove(keys[pos]);
             //int i = 0;
             //object key=null ;
             //foreach (var v in base.Keys) {
@@ -151,10 +151,11 @@ namespace Mogre_Procedural.std
                 base.Remove(keys[i]);
             }
         }
-        public void erase(TKey key) {
-            if (base.ContainsKey(key)) {
-                base.Remove(key);
-            }
+        public bool erase(TKey key) {
+            //if (base.ContainsKey(key)) {
+               return base.Remove(key);
+            //}
+           // return false;
         }
         /// <summary>
         /// not like c++ find
@@ -181,10 +182,10 @@ namespace Mogre_Procedural.std
             foreach (var v in base.Keys) {
                 index++;
                 if (v.Equals(key)) {
-                    break;
+                    return index;                   
                 }
             }
-            return index;
+            return -1;
 
         }
         public KeyValuePair<TKey, TValue>[] get_allocator() {
@@ -244,18 +245,20 @@ namespace Mogre_Procedural.std
         /// </summary>
         /// <returns></returns>
         public TKey[] key_comp() {
-            TKey[] keys = new TKey[base.Count];
-            base.Keys.CopyTo(keys, 0);
-            return keys;
+            //TKey[] keys = new TKey[base.Count];
+            //base.Keys.CopyTo(keys, 0);
+            //return keys;
+            throw new NotSupportedException();
         }
         /// <summary>
         /// 原始是返回值比较器  这里不是
         /// </summary>
         /// <returns></returns>
         public TValue[] value_comp() {
-            TValue[] keys = new TValue[base.Count];
-            base.Values.CopyTo(keys, 0);
-            return keys;
+            //TValue[] keys = new TValue[base.Count];
+            //base.Values.CopyTo(keys, 0);
+            //return keys;
+            throw new NotSupportedException();
         }
         public std_pair<TKey, TValue> lower_bound(TKey key) {
             std_pair<TKey, TValue> sp = null;
@@ -408,12 +411,12 @@ namespace Mogre_Procedural.std
         }
 
 
-        public void erase(int pos, bool index) {
+        public bool erase(int pos, bool index) {
 
             int len = base.Keys.Count;
             TKey[] keys = new TKey[len];
             base.Keys.CopyTo(keys, 0);
-            base.Remove(keys[pos]);
+           return base.Remove(keys[pos]);
             //int i = 0;
             //object key=null ;
             //foreach (var v in base.Keys) {
@@ -432,14 +435,14 @@ namespace Mogre_Procedural.std
             TKey[] keys = new TKey[len];
             base.Keys.CopyTo(keys, 0);
 
-            for (int i = it_beginpos; i <it_beforeendpos; i++) {
+            for (int i = it_beforeendpos - 1; i >= it_beginpos; i--) {
                 base.Remove(keys[i]);
             }
         }
-        public void erase(TKey key) {
-            if (base.ContainsKey(key)) {
-                base.Remove(key);
-            }
+        public bool erase(TKey key) {
+           // if (base.ContainsKey(key)) {
+            return    base.Remove(key);
+            //}
         }
         /// <summary>
         /// 
@@ -467,10 +470,10 @@ namespace Mogre_Procedural.std
             foreach (var v in base.Keys) {
                 index++;
                 if (v.Equals(key)) {
-                    break;
+                    return index;
                 }
             }
-            return index;
+            return -1;
         }
         //public KeyValuePair<TKey, TValue>[] get_allocator() {
         //    KeyValuePair<TKey, TValue>[] array = new KeyValuePair<TKey, TValue>[base.Count];
@@ -500,8 +503,8 @@ namespace Mogre_Procedural.std
             return ret;
         }
 
-        public void insert(int pos, TKey key, TValue value) {
-            insert(key, value);
+        public void insert(int pos, TKey key, TValue @value) {
+            insert(key, @value);
         }
         public void insert(std_map<TKey, TValue> _other, int beginpos, int beforeendpos) {
             int index = 0;
@@ -526,14 +529,16 @@ namespace Mogre_Procedural.std
         }
 
         public TKey[] key_comp() {
-            TKey[] keys = new TKey[base.Count];
-            base.Keys.CopyTo(keys, 0);
-            return keys;
+            throw new NotSupportedException();
+            //TKey[] keys = new TKey[base.Count];
+            //base.Keys.CopyTo(keys, 0);
+            //return keys;
         }
         public TValue[] value_comp() {
-            TValue[] keys = new TValue[base.Count];
-            base.Values.CopyTo(keys, 0);
-            return keys;
+            throw new NotSupportedException();
+            //TValue[] keys = new TValue[base.Count];
+            //base.Values.CopyTo(keys, 0);
+            //return keys;
         }
         public std_pair<TKey, TValue> lower_bound(TKey key) {
             std_pair<TKey, TValue> sp = null;
