@@ -32,7 +32,7 @@
 
 //#ifndef PROCEDURAL_SPLINES_INCLUDED
 #define PROCEDURAL_SPLINES_INCLUDED
-
+//use new std wrapper...ok
 
 namespace Mogre_Procedural
 {
