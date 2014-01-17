@@ -250,7 +250,7 @@ namespace Mogre_Procedural
         //        pointList.Add(P);
         //    }
         //}
-        public static void computeCubicHermitePoints(CubicHermiteSplineControlPoint<Vector2> pointBefore, CubicHermiteSplineControlPoint<Vector2> pointAfter, uint numSeg, ref std_vector<Vector2> pointList) {
+        public static void computeCubicHermitePoints(CubicHermiteSplineControlPoint<Vector2> pointBefore, CubicHermiteSplineControlPoint<Vector2> pointAfter, uint numSeg, ref List<Vector2> pointList) {
             Vector2 p0 = pointBefore.position;
             Vector2 m0 = pointBefore.tangentAfter;
             Vector2 p1 = pointAfter.position;
@@ -264,7 +264,8 @@ namespace Mogre_Procedural
                 pointList.Add(P);
             }
         }
-        public static void computeCubicHermitePoints(CubicHermiteSplineControlPoint<Vector3> pointBefore, CubicHermiteSplineControlPoint<Vector3> pointAfter, uint numSeg, ref std_vector<Vector3> pointList) {
+     
+        public static void computeCubicHermitePoints(CubicHermiteSplineControlPoint<Vector3> pointBefore, CubicHermiteSplineControlPoint<Vector3> pointAfter, uint numSeg, ref List<Vector3> pointList) {
             Vector3 p0 = pointBefore.position;
             Vector3 m0 = pointBefore.tangentAfter;
             Vector3 p1 = pointAfter.position;
@@ -278,7 +279,7 @@ namespace Mogre_Procedural
                 pointList.Add(P);
             }
         }
-        public static void computeCubicHermitePoints(CubicHermiteSplineControlPoint<Real> pointBefore, CubicHermiteSplineControlPoint<Real> pointAfter, uint numSeg, ref std_vector<Real> pointList) {
+        public static void computeCubicHermitePoints(CubicHermiteSplineControlPoint<Real> pointBefore, CubicHermiteSplineControlPoint<Real> pointAfter, uint numSeg, ref List<Real> pointList) {
             Real p0 = pointBefore.position;
             Real m0 = pointBefore.tangentAfter;
             Real p1 = pointAfter.position;
@@ -304,31 +305,31 @@ namespace Mogre_Procedural
         //        pointList.Add(P);
         //    }
         //}
-        public static void computeCatmullRomPoints(Real P1, Real P2, Real P3, Real P4, uint numSeg, ref std_vector<Real> pointList) {
+        public static void computeCatmullRomPoints(Real P1, Real P2, Real P3, Real P4, uint numSeg, ref List<Real> pointList) {
             for (uint j = 0; j < numSeg; ++j) {
                 float t = (float)j / (float)numSeg;
                 float t2 = t * t;
                 float t3 = t * t2;
                 Real P = 0.5f * ((-t3 + 2.0f * t2 - t) * P1 + (3.0f * t3 - 5.0f * t2 + 2.0f) * P2 + (-3.0f * t3 + 4.0f * t2 + t) * P3 + (t3 - t2) * P4);
-                pointList.push_back(P);
+                pointList.Add(P);
             }
         }
-        public static void computeCatmullRomPoints(Vector2 P1, Vector2 P2, Vector2 P3, Vector2 P4, uint numSeg, ref std_vector<Vector2> pointList) {
+        public static void computeCatmullRomPoints(Vector2 P1, Vector2 P2, Vector2 P3, Vector2 P4, uint numSeg, ref List<Vector2> pointList) {
             for (uint j = 0; j < numSeg; ++j) {
                 float t = (float)j / (float)numSeg;
                 float t2 = t * t;
                 float t3 = t * t2;
                 Vector2 P = 0.5f * ((-t3 + 2.0f * t2 - t) * P1 + (3.0f * t3 - 5.0f * t2 + 2.0f) * P2 + (-3.0f * t3 + 4.0f * t2 + t) * P3 + (t3 - t2) * P4);
-                pointList.push_back(P);
+                pointList.Add(P);
             }
         }
-        public static void computeCatmullRomPoints(Vector3 P1, Vector3 P2, Vector3 P3, Vector3 P4, uint numSeg, ref std_vector<Vector3> pointList) {
+        public static void computeCatmullRomPoints(Vector3 P1, Vector3 P2, Vector3 P3, Vector3 P4, uint numSeg, ref List<Vector3> pointList) {
             for (uint j = 0; j < numSeg; ++j) {
                 float t = (float)j / (float)numSeg;
                 float t2 = t * t;
                 float t3 = t * t2;
                 Vector3 P = 0.5f * ((-t3 + 2.0f * t2 - t) * P1 + (3.0f * t3 - 5.0f * t2 + 2.0f) * P2 + (-3.0f * t3 + 4.0f * t2 + t) * P3 + (t3 - t2) * P4);
-                pointList.push_back(P);
+                pointList.Add(P);
             }
         }
         //C++ TO C# CONVERTER TODO TASK: The original C++ template specifier was replaced with a C# generic specifier, which may not produce the same behavior:
@@ -346,7 +347,7 @@ namespace Mogre_Procedural
         //        pointList.Add(P);
         //    }
         //}  
-        public static void computeKochanekBartelsPoints(KochanekBartelsSplineControlPoint<Vector2> P1, KochanekBartelsSplineControlPoint<Vector2> P2, KochanekBartelsSplineControlPoint<Vector2> P3, KochanekBartelsSplineControlPoint<Vector2> P4, uint numSeg, ref std_vector<Vector2> pointList) {
+        public static void computeKochanekBartelsPoints(KochanekBartelsSplineControlPoint<Vector2> P1, KochanekBartelsSplineControlPoint<Vector2> P2, KochanekBartelsSplineControlPoint<Vector2> P3, KochanekBartelsSplineControlPoint<Vector2> P4, uint numSeg, ref List<Vector2> pointList) {
             Vector2 m0 = (1 - P2.tension) * (1 + P2.bias) * (1 + P2.continuity) / 2.0f * (P2.position - P1.position) + (1 - P2.tension) * (1 - P2.bias) * (1 - P2.continuity) / 2.0f * (P3.position - P2.position);
             Vector2 m1 = (1 - P3.tension) * (1 + P3.bias) * (1 - P3.continuity) / 2.0f * (P3.position - P2.position) + (1 - P3.tension) * (1 - P3.bias) * (1 + P3.continuity) / 2.0f * (P4.position - P3.position);
 
@@ -355,7 +356,7 @@ namespace Mogre_Procedural
                 float t2 = t * t;
                 float t3 = t2 * t;
                 Vector2 P = (2 * t3 - 3 * t2 + 1) * P2.position + (t3 - 2 * t2 + t) * m0 + (-2 * t3 + 3 * t2) * P3.position + (t3 - t2) * m1;
-                pointList.push_back(P);
+                pointList.Add(P);
             }
         }
     }
