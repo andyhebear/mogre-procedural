@@ -593,7 +593,7 @@ namespace Mogre_Procedural
     // Compares 2 Vector2, with some tolerance
     //C++ TO C# CONVERTER WARNING: The original type declaration contained unconverted modifiers:
     //ORIGINAL LINE: struct _ProceduralExport Vector2Comparator
-    public class Vector2Comparator:IComparable<Vector2>
+    public class Vector2Comparator:IComparer<Vector2>
     {
         //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
         //ORIGINAL LINE: bool operator ()(const Ogre::Vector2& one, const Ogre::Vector2& two) const
@@ -612,10 +612,11 @@ namespace Mogre_Procedural
             return one.y < two.y;
         }
 
-        #region IComparable<Vector2> 成员
+        #region IComparer<Vector2> 成员
 
-        public int CompareTo(Vector2 other) {            
-            throw new NotImplementedException();
+        public int Compare(Vector2 x, Vector2 y) {
+            bool cp=Operator(x,y);
+            return cp ? 1 : -1;
         }
 
         #endregion
@@ -624,7 +625,7 @@ namespace Mogre_Procedural
     // Compares 2 Vector3, with some tolerance
     //C++ TO C# CONVERTER WARNING: The original type declaration contained unconverted modifiers:
     //ORIGINAL LINE: struct _ProceduralExport Vector3Comparator
-    public class Vector3Comparator:IComparable<Vector3>
+    public class Vector3Comparator : IComparer<Vector3>
     {
         //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
         //ORIGINAL LINE: bool operator ()(const Ogre::Vector3& one, const Ogre::Vector3& two) const
@@ -646,10 +647,13 @@ namespace Mogre_Procedural
             return one.z < two.z;
         }
 
-        #region IComparable<Vector3> 成员
+     
 
-        public int CompareTo(Vector3 other) {
-            throw new NotImplementedException();
+        #region IComparer<Vector3> 成员
+
+        public int Compare(Vector3 x, Vector3 y) {
+            bool cp = Operator(x, y);
+            return cp ? 1 : -1;
         }
 
         #endregion
