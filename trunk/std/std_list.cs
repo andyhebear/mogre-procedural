@@ -5,7 +5,7 @@ using System.Text;
 namespace Mogre_Procedural.std
 {
     /// <summary>
-    /// like c++ std:list 双向链表 相当于LinkedList<T>类
+    /// like c++ std:list 双向链表 相当于LinkedList类
     /// </summary>
     public class std_list<T> : LinkedList<T>
     {
@@ -106,6 +106,7 @@ namespace Mogre_Procedural.std
             base.Remove(remove);
             return pos;
         }
+
         public int erase(int beginpos, int beforeendpos) {
             int index = 0;
             int i = 0;
