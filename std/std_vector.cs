@@ -19,7 +19,7 @@ namespace Mogre_Procedural.std
        
     }
     /// <summary>
-    /// like c++ std::vector 相当于List<T>类
+    /// like c++ std::vector 相当于List类
     /// </summary>
     public class std_vector<T> : List<T>, Istd_vector<T>
     {

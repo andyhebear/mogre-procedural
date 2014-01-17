@@ -67,7 +67,7 @@ namespace Mogre_Procedural.std
             }
         }
 
-        public bool erase(int pos, bool index) {
+        public bool erase(int pos, bool refposEqual) {
             T[] array = new T[base.Count];
             base.CopyTo(array, 0);
             return base.Remove(array[pos]);
@@ -131,6 +131,19 @@ namespace Mogre_Procedural.std
                 }
             }
             return -1;
+        }
+        public T find(int pos, bool refposfind) {
+            Enumerator rt = base.GetEnumerator();
+            int index = -1;
+            T f = default(T);
+            while (rt.MoveNext()) {
+                index++;
+                if (index==pos) {
+                    f = rt.Current;
+                    return f;
+                }
+            }
+            return f;
         }
         /// <summary>
         /// 因为是无重复 所以返回0或者1
