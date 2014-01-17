@@ -289,7 +289,7 @@ namespace Mogre_Procedural
             }
         }
     }
-
+      
     //*
     // * Extrudes a 2D shape along a path to build an extruded mesh.
     // * Can be used to build things such as pipelines, roads...
