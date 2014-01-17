@@ -30,6 +30,8 @@ THE SOFTWARE.
 */
 //#ifndef PROCEDURAL_SHAPE_GENERATORS_INCLUDED
 #define PROCEDURAL_SHAPE_GENERATORS_INCLUDED
+//use new std wrapper...ok
+
 
 namespace Mogre_Procedural
 {
