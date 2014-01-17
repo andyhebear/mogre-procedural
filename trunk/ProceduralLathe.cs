@@ -31,6 +31,8 @@ THE SOFTWARE.
 //#ifndef PROCEDURAL_LATHE_INCLUDED
 #define PROCEDURAL_LATHE_INCLUDED
 
+// wraper with new std contain.... ok
+
 namespace Mogre_Procedural
 {
     using System;
