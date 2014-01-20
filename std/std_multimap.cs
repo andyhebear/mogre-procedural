@@ -14,24 +14,24 @@ namespace Mogre_Procedural.std
     public class std_multimap<TKey, TValue> : ILookup<TKey, TValue>, IEnumerable<KeyValuePair<TKey, TValue>>
     {
 
-        SortedDictionary<TKey, IList<TValue>> _buckets;// = new SortedDictionary<TKey, IList<TValue>>();
+        SortedDictionary<TKey, List<TValue>> _buckets;// = new SortedDictionary<TKey, IList<TValue>>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MultiMap&lt;TKey, TValue&gt;"/> class.
         /// </summary>
         public std_multimap() {
-            _buckets = new SortedDictionary<TKey, IList<TValue>>();
+            _buckets = new SortedDictionary<TKey, List<TValue>>();
         }
         public std_multimap(IComparer<TKey> comparer) {
-            _buckets = new SortedDictionary<TKey, IList<TValue>>(comparer);
+            _buckets = new SortedDictionary<TKey, List<TValue>>(comparer);
         }
 
-        public std_multimap(IDictionary<TKey, IList<TValue>> dictionary) {
-            _buckets = new SortedDictionary<TKey, IList<TValue>>(dictionary);
+        public std_multimap(IDictionary<TKey, List<TValue>> dictionary) {
+            _buckets = new SortedDictionary<TKey, List<TValue>>(dictionary);
         }
 
-        public std_multimap(IDictionary<TKey, IList<TValue>> dictionary, IComparer<TKey> comparer) {
-            _buckets = new SortedDictionary<TKey, IList<TValue>>(dictionary, comparer);
+        public std_multimap(IDictionary<TKey, List<TValue>> dictionary, IComparer<TKey> comparer) {
+            _buckets = new SortedDictionary<TKey, List<TValue>>(dictionary, comparer);
         }
         #region IDictionary<TKey,TValue> like Members
 
@@ -104,7 +104,7 @@ namespace Mogre_Procedural.std
         /// <param name="key">The key of the value to get.</param>
         /// <param name="value">When this method returns, contains the value associated with the specified key, if the key is found; otherwise, the default value for the type of value parameter.</param>
         /// <returns></returns>
-        public bool TryGetValue(TKey key, out IList<TValue> value) {
+        public bool TryGetValue(TKey key, out List<TValue> value) {
             return _buckets.TryGetValue(key, out value);
         }
 
@@ -113,7 +113,7 @@ namespace Mogre_Procedural.std
         /// 所有的值列表
         /// </summary>
         /// <value>The values.</value>
-        public IList<TValue> Values {
+        public List<TValue> Values {
             get { return _buckets.Values.SelectMany(x => x).ToList(); }
         }
 
@@ -121,7 +121,7 @@ namespace Mogre_Procedural.std
         /// Gets the <see cref="System.Collections.Generic.IList&lt;TValue&gt;"/> with the specified key.
         /// </summary>
         /// <value></value>
-        public IList<TValue> this[TKey key] {
+        public List<TValue> this[TKey key] {
             get {
                 return _buckets[key];
             }
@@ -338,14 +338,14 @@ namespace Mogre_Procedural.std
         /// <param name="endpos">当前位置之前</param>
         public void insert(std_multimap<TKey, TValue> array, int beginpos, int beforeendpos) {
 
-            KeyValuePair<TKey, IList<TValue>>[] pairs = new KeyValuePair<TKey, IList<TValue>>[array.KeyCount];
+            KeyValuePair<TKey, List<TValue>>[] pairs = new KeyValuePair<TKey, List<TValue>>[array.KeyCount];
             array._buckets.CopyTo(pairs, 0);
             for (int i = beginpos; i < beforeendpos; i++) {
                 this.Add(pairs[i].Key, pairs[i].Value);
             }
         }
         public void insert(std_multimap<TKey, TValue> array) {
-            KeyValuePair<TKey, IList<TValue>>[] pairs = new KeyValuePair<TKey, IList<TValue>>[array.KeyCount];
+            KeyValuePair<TKey, List<TValue>>[] pairs = new KeyValuePair<TKey, List<TValue>>[array.KeyCount];
             array._buckets.CopyTo(pairs, 0);
             for (int i = 0; i < pairs.Length; i++) {
                 this.Add(pairs[i].Key, pairs[i].Value);
@@ -428,8 +428,8 @@ namespace Mogre_Procedural.std
         public TValue[] value_comp() {
             throw new Exception("返回值比较器异常,没有实现");
         }
-        public KeyValuePair<TKey, IList<TValue>>[] get_allocator() {
-            KeyValuePair<TKey, IList<TValue>>[] pairs = new KeyValuePair<TKey, IList<TValue>>[array.buckets.Count];
+        public KeyValuePair<TKey, List<TValue>>[] get_allocator() {
+            KeyValuePair<TKey, List<TValue>>[] pairs = new KeyValuePair<TKey, List<TValue>>[_buckets.Count];
             this._buckets.CopyTo(pairs, 0);
             return pairs;
         }
@@ -451,6 +451,19 @@ namespace Mogre_Procedural.std
             return -1;
 
         }
+        public std_pair<TKey,List<TValue>> get(uint pos){                 
+            int index = -1;
+            foreach (var v in this._buckets.Keys) {
+                index++;
+                if (index==pos) {
+                    return new std_pair<TKey,List<TValue>>(v,this._buckets[v]);
+                    break;
+                }
+            }          
+            return null;
+        }
+      
+
         /// <summary>
         /// 查询key对应的值的个数
         /// </summary>
@@ -469,20 +482,20 @@ namespace Mogre_Procedural.std
         //public int upper_bound(TKey key) {
         //    return find(key) + 1;
         //}
-        public std_pair<TKey, IList<TValue>> lower_bound(TKey key) {
-            std_pair<TKey, IList<TValue>> sp = null;
+        public std_pair<TKey, List<TValue>> lower_bound(TKey key) {
+            std_pair<TKey, List<TValue>> sp = null;
             if (this._buckets.ContainsKey(key)) {
-                sp = new std_pair<TKey, IList<TValue>>(key, this._buckets[key]);
+                sp = new std_pair<TKey, List<TValue>>(key, this._buckets[key]);
             }
             return sp;
         }
-        public std_pair<TKey, IList<TValue>> upper_bound(TKey key) {
-            std_pair<TKey, IList<TValue>> sp = null;
+        public std_pair<TKey, List<TValue>> upper_bound(TKey key) {
+            std_pair<TKey, List<TValue>> sp = null;
             if (this._buckets.ContainsKey(key)) {
                 bool find_pre = false;
                 foreach (var v in this._buckets.Keys) {
                     if (find_pre) {
-                        sp = new std_pair<TKey, IList<TValue>>(v, this._buckets[v]);
+                        sp = new std_pair<TKey, List<TValue>>(v, this._buckets[v]);
                         break;
                     }
                     if (v.Equals(key)) {
@@ -492,40 +505,44 @@ namespace Mogre_Procedural.std
             }
             return sp;
         }
-        public std_pair<std_pair<TKey, TValue>, std_pair<TKey, TValue>> equal_range(TKey key) {
+        public std_pair<std_pair<TKey, List<TValue>>, std_pair<TKey, List<TValue>>> equal_range(TKey key) {
             //return lower bound  and up bound
             if (!this.ContainsKey(key)) {
                 return null;
             }
-            //KeyValuePair<TKey, TValue> select =new KeyValuePair<TKey,TValue>(key, base[key]);
-            KeyValuePair<TKey, TValue> first = new KeyValuePair<TKey, TValue>();
-            KeyValuePair<TKey, TValue> second = new KeyValuePair<TKey, TValue>();
-            bool find_first = false;
-            bool find_second = false;
-            //查找下一个
-            IEnumerator<KeyValuePair<TKey, TValue>> et = this.GetEnumerator();
-            //if (et.Current.Key.Equals(key)) {
-            //    first = et.Current;
-            //    find_first = true;
+            //
+            std_pair<std_pair<TKey, List<TValue>>, std_pair<TKey, List<TValue>>> lu = new std_pair<std_pair<TKey, List<TValue>>, std_pair<TKey, List<TValue>>>();
+            lu.first = lower_bound(key);
+            lu.second = upper_bound(key);
+            return lu;
+            //KeyValuePair<TKey, TValue> first = new KeyValuePair<TKey, TValue>();
+            //KeyValuePair<TKey, TValue> second = new KeyValuePair<TKey, TValue>();
+            //bool find_first = false;
+            //bool find_second = false;
+            ////查找下一个
+            //IEnumerator<KeyValuePair<TKey, TValue>> et = this.GetEnumerator();
+            ////if (et.Current.Key.Equals(key)) {
+            ////    first = et.Current;
+            ////    find_first = true;
+            ////}
+            //while (et.MoveNext()) {
+            //    if (find_first) {
+            //        second = et.Current;
+            //        find_second = true;
+            //        break;
+            //    }
+            //    else {
+            //        if (et.Current.Key.Equals(key)) {
+            //            first = et.Current;
+            //            find_first = true;
+            //        }
+            //    }
             //}
-            while (et.MoveNext()) {
-                if (find_first) {
-                    second = et.Current;
-                    find_second = true;
-                    break;
-                }
-                else {
-                    if (et.Current.Key.Equals(key)) {
-                        first = et.Current;
-                        find_first = true;
-                    }
-                }
-            }
 
-            std_pair<std_pair<TKey, TValue>, std_pair<TKey, TValue>> range = new std_pair<std_pair<TKey, TValue>, std_pair<TKey, TValue>>(
-                find_first ? new std_pair<TKey, TValue>(first.Key, first.Value) : null,
-                find_second ? new std_pair<TKey, TValue>(second.Key, second.Value) : null);
-            return range;
+            //std_pair<std_pair<TKey, TValue>, std_pair<TKey, TValue>> range = new std_pair<std_pair<TKey, TValue>, std_pair<TKey, TValue>>(
+            //    find_first ? new std_pair<TKey, TValue>(first.Key, first.Value) : null,
+            //    find_second ? new std_pair<TKey, TValue>(second.Key, second.Value) : null);
+            //return range;
         }
         /// <summary>
         /// 获取值
