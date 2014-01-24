@@ -164,6 +164,9 @@ namespace Mogre_Procedural
         protected Real max(Real p, Real p_2) {
             return System.Math.Max(p, p_2);
         }
+        protected void OGRE_EXCEPT(string p, string p_2, string p_3) {
+            throw new Exception(p + "_" + p_2 + "_" + p_3);
+        }
         //    *
         //	 * Sets V Tile, ie the number by which v texture coordinates are multiplied (default=1)
         //	 
