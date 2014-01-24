@@ -34,6 +34,7 @@ namespace Mogre_Procedural
 
     using Mogre;
     using Math = Mogre.Math;
+    using Mogre_Procedural.std;
     //C++ TO C# CONVERTER TODO TASK: The original C++ template specifier was replaced with a C# generic specifier, which may not produce the same behavior:
     //ORIGINAL LINE: template <typename T>
     //*
@@ -159,6 +160,9 @@ namespace Mogre_Procedural
 
         protected float sqrtf(float p) {
             return Math.Sqrt(p);
+        }
+        protected Real max(Real p, Real p_2) {
+            return System.Math.Max(p, p_2);
         }
         //    *
         //	 * Sets V Tile, ie the number by which v texture coordinates are multiplied (default=1)
