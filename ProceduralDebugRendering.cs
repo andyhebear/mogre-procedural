@@ -26,6 +26,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
+//#ifndef PROCEDURAL_DEBUG_RENDERING_INCLUDED
+#define PROCEDURAL_DEBUG_RENDERING_INCLUDED
+
 
 namespace Mogre_Procedural
 {
@@ -84,17 +87,11 @@ namespace Mogre_Procedural
         //ORIGINAL LINE: ManualObject* buildManualObject() const
         public ManualObject buildManualObject() {
             if (mTriangleBuffer == null)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALID_STATE>(), "The input triangle buffer must not be null", "Procedural::ShowNormalsGenerator::buildManualObject()", __FILE__, __LINE__);
-                throw new Exception("The input triangle buffer must not be null !");
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALID_STATE", "The input triangle buffer must not be null", "Procedural::ShowNormalsGenerator::buildManualObject()");
             ;
             SceneManager sceneMgr = Root.Singleton.GetSceneManagerIterator().Current;
             if (sceneMgr == null)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALID_STATE>(), "Scene Manager must be set in Root", "Procedural::ShowNormalsGenerator::buildManualObject()", __FILE__, __LINE__);
-                throw new Exception("scenemager must not be null !");
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALID_STATE", "Scene Manager must be set in Root", "Procedural::ShowNormalsGenerator::buildManualObject()");
             ;
             ManualObject manual = sceneMgr.CreateManualObject("debug_procedural_" + Guid.NewGuid().ToString("N"));
             manual.Begin("BaseWhiteNoLighting", RenderOperation.OperationTypes.OT_LINE_LIST);
@@ -126,6 +123,10 @@ namespace Mogre_Procedural
             return manual;
         }
 
+        private void OGRE_EXCEPT(string p, string p_2, string p_3) {
+            throw new Exception(p + "_" + p_2 + "_" + p_3);
+        }
+
         /// Builds the normals representation as a mesh
         public MeshPtr buildMesh(string name) {
             return buildMesh(name, "General");
@@ -133,9 +134,6 @@ namespace Mogre_Procedural
         public MeshPtr buildMesh() {
             return buildMesh("", "General");
         }
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
-        //ORIGINAL LINE: MeshPtr buildMesh(const string& name = "", const string& group = "General") const
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
         public MeshPtr buildMesh(string name, string group) {
             System.Diagnostics.Debug.Assert(!string.IsNullOrEmpty(name));
             if (string.IsNullOrEmpty(name)) {

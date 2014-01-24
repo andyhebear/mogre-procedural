@@ -26,7 +26,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-
+//#ifndef PROCEDURAL_CONE_GENERATOR_INCLUDED
+#define PROCEDURAL_CONE_GENERATOR_INCLUDED
+// write with new std .... ok
 namespace Mogre_Procedural
 {
     using System;
@@ -142,10 +144,7 @@ namespace Mogre_Procedural
         //	
         public ConeGenerator setNumSegBase(uint numSegBase) {
             if (numSegBase == 0)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "There must be more than 0 segments", "Procedural::ConeGenerator::setNumSegBase(unsigned int)", __FILE__, __LINE__);
-                throw new Exception("numSegBase must be larger than 0!");
+               OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "There must be more than 0 segments", "Procedural::ConeGenerator::setNumSegBase(unsigned int)");
             ;
             mNumSegBase = numSegBase;
             return this;
@@ -157,10 +156,7 @@ namespace Mogre_Procedural
         //	
         public ConeGenerator setNumSegHeight(uint numSegHeight) {
             if (numSegHeight == 0)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "There must be more than 0 segments", "Procedural::ConeGenerator::setNumSegHeight(unsigned int)", __FILE__, __LINE__);
-                throw new Exception("numSegHeight must be larger than 0!");
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "There must be more than 0 segments", "Procedural::ConeGenerator::setNumSegHeight(unsigned int)");
             ;
             mNumSegHeight = numSegHeight;
             return this;
@@ -172,10 +168,7 @@ namespace Mogre_Procedural
         //	
         public ConeGenerator setRadius(float radius) {
             if (radius <= 0.0f)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Radius must be larger than 0!", "Procedural::ConeGenerator::setRadius(Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("radius must be larger than 0!");
+             OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Radius must be larger than 0!", "Procedural::ConeGenerator::setRadius(Ogre::Real)");
             ;
             mRadius = radius;
             return this;
@@ -187,10 +180,7 @@ namespace Mogre_Procedural
         //	
         public ConeGenerator setHeight(float height) {
             if (height <= 0.0f)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Height must be larger than 0!", "Procedural::ConeGenerator::setHeight(Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("height must be larger than 0!");
+              	OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Height must be larger than 0!", "Procedural::ConeGenerator::setHeight(Ogre::Real)");
             ;
             mHeight = height;
             return this;

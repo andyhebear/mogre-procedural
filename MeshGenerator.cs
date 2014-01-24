@@ -26,6 +26,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
+//#ifndef PROCEDURAL_MESH_GENERATOR_INCLUDED
+#define PROCEDURAL_MESH_GENERATOR_INCLUDED
+//write with new std .... ok
 namespace Mogre_Procedural
 {
     using System;
@@ -164,7 +167,7 @@ namespace Mogre_Procedural
         protected Real max(Real p, Real p_2) {
             return System.Math.Max(p, p_2);
         }
-        protected void OGRE_EXCEPT(string p, string p_2, string p_3) {
+        protected static void OGRE_EXCEPT(string p, string p_2, string p_3) {
             throw new Exception(p + "_" + p_2 + "_" + p_3);
         }
         //    *
