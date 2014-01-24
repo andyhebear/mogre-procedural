@@ -57,20 +57,14 @@ namespace Mogre_Procedural
         //-----------------------------------------------------------------------
         public static void _extrudeBodyImpl(ref TriangleBuffer buffer, Shape shapeToExtrude, Path pathToExtrude, int pathBeginIndex, int pathEndIndex, Track shapeTextureTrack, Track rotationTrack, Track scaleTrack, Track pathTextureTrack) {
             if (pathToExtrude == null || shapeToExtrude == null)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALID_STATE>(), "Shape and Path must not be null!", "Procedural::Extruder::_extrudeBodyImpl(Procedural::TriangleBuffer&, const Procedural::Shape*)", __FILE__, __LINE__);
-                throw new Exception("Shape and Path must not be null!");
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALID_STATE", "Shape and Path must not be null!", "Procedural::Extruder::_extrudeBodyImpl(Procedural::TriangleBuffer&, const Procedural::Shape*)");
             ;
 
             uint numSegPath = (uint)(pathEndIndex - pathBeginIndex);
             uint numSegShape = (uint)shapeToExtrude.getSegCount();
 
             if (numSegPath == 0 || numSegShape == 0)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALID_STATE>(), "Shape and path must contain at least two points", "Procedural::Extruder::_extrudeBodyImpl(Procedural::TriangleBuffer&, const Procedural::Shape*)", __FILE__, __LINE__);
-                throw new Exception("Shape and path must contain at least two points");
+               	OGRE_EXCEPT("Ogre::Exception::ERR_INVALID_STATE", "Shape and path must contain at least two points", "Procedural::Extruder::_extrudeBodyImpl(Procedural::TriangleBuffer&, const Procedural::Shape*)");
             ;
 
             float totalPathLength = pathToExtrude.getTotalLength();
@@ -124,6 +118,10 @@ namespace Mogre_Procedural
                 _extrudeShape(ref buffer, shapeToExtrude, v0, q, q, scale, 1.0f, 1.0f, totalShapeLength, uTexCoord, i < pathEndIndex, shapeTextureTrack);
             }
         }
+
+        private static void OGRE_EXCEPT(string p, string p_2, string p_3) {
+            throw new Exception(p+"_"+p_2+"_"+p_3);
+        }
         //-----------------------------------------------------------------------
         public static void _extrudeCapImpl(ref TriangleBuffer buffer, MultiShape multiShapeToExtrude, MultiPath extrusionMultiPath, TrackMap scaleTracks, TrackMap rotationTracks)
 	{
@@ -146,8 +144,9 @@ namespace Mogre_Procedural
 				rotationTrack = rotationTracks[i];//.find(i).second;
 
 			//begin cap
-			if (extrusionMultiPath.getIntersectionsMap().find(MultiPath.PathCoordinate(i, 0)) == extrusionMultiPath.getIntersectionsMap().end())
-			{
+			//if (extrusionMultiPath.getIntersectionsMap().find(MultiPath.PathCoordinate(i, 0)) == extrusionMultiPath.getIntersectionsMap().end())
+            if (extrusionMultiPath.getIntersectionsMap().find(new MultiPath.PathCoordinate(i,0))==-1)
+            {
 				buffer.rebaseOffset();
 				buffer.estimateIndexCount((uint)indexBuffer.Count);
 				buffer.estimateVertexCount((uint)pointList.Count);
@@ -162,7 +161,7 @@ namespace Mogre_Procedural
 				if (scaleTrack != null)
 					scaleBegin = scaleTrack.getFirstValue();
 
-				for (int j =0; j<pointList.Count; j++)
+				for (int j =0; j<pointList.size(); j++)
 				{
 					Vector2 vp2 = pointList[j];
 					Vector3 vp = new Vector3(vp2.x, vp2.y, 0);
@@ -180,8 +179,9 @@ namespace Mogre_Procedural
 			}
 
 			//end cap
-			if (extrusionMultiPath.getIntersectionsMap().find(MultiPath.PathCoordinate(i, extrusionPath.getSegCount())) == extrusionMultiPath.getIntersectionsMap().end())
-			{
+			//if (extrusionMultiPath.getIntersectionsMap().find(MultiPath.PathCoordinate(i, extrusionPath.getSegCount())) == extrusionMultiPath.getIntersectionsMap().end())
+            if (extrusionMultiPath.getIntersectionsMap().find(new MultiPath.PathCoordinate(i, (uint)extrusionPath.getSegCount()))==-1)
+            {
 				buffer.rebaseOffset();
 				buffer.estimateIndexCount((uint)indexBuffer.Count);
 				buffer.estimateVertexCount((uint)pointList.Count);
@@ -224,9 +224,9 @@ namespace Mogre_Procedural
             Vector3 refX = firstOrientation * Vector3.UNIT_X;
             Vector3 refZ = firstOrientation * Vector3.UNIT_Z;
 
-            List<Vector2> v2s = new List<Vector2>();
-            List<MultiPath.PathCoordinate> coords = new List<MultiPath.PathCoordinate>();
-            List<float> direction = new List<float>();
+            std_vector<Vector2> v2s = new std_vector<Vector2>();
+            std_vector<MultiPath.PathCoordinate> coords = new std_vector<MultiPath.PathCoordinate>();
+            std_vector<float> direction = new std_vector<float>();
 
             for (int i = 0; i < intersection.size(); ++i) {
                 Path path = multiPath.getPath((int)intersection[i].pathIndex);
@@ -234,16 +234,16 @@ namespace Mogre_Procedural
                 if (pointIndex > 0 || path.isClosed()) {
                     Vector3 vb = path.getDirectionBefore(pointIndex);
                     Vector2 vb2 = new Vector2(vb.DotProduct(refX), vb.DotProduct(refZ));
-                    v2s.Add(vb2);
-                    coords.Add(intersection[i]);
-                    direction.Add(1);
+                    v2s.push_back(vb2);
+                    coords.push_back(intersection[i]);
+                    direction.push_back(1);
                 }
                 if (pointIndex < path.getSegCount() || path.isClosed()) {
                     Vector3 va = -path.getDirectionAfter(pointIndex);
                     Vector2 va2 = new Vector2(va.DotProduct(refX), va.DotProduct(refZ));
-                    v2s.Add(va2);
-                    coords.Add(intersection[i]);
-                    direction.Add(-1);
+                    v2s.push_back(va2);
+                    coords.push_back(intersection[i]);
+                    direction.push_back(-1);
                 }
             }
 
