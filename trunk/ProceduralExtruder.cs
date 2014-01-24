@@ -311,10 +311,10 @@ namespace Mogre_Procedural
         private MultiPath mMultiExtrusionPath = new MultiPath();
         private bool mCapped;
 
-        private TrackMap mRotationTracks = new TrackMap();
-        private TrackMap mScaleTracks = new TrackMap();
-        private TrackMap mShapeTextureTracks = new TrackMap();
-        private TrackMap mPathTextureTracks = new TrackMap();
+        private TrackMap mRotationTracks = new std_map<uint, Track>();
+        private TrackMap mScaleTracks = new std_map<uint, Track>();
+        private TrackMap mShapeTextureTracks = new std_map<uint, Track>();
+        private TrackMap mPathTextureTracks = new std_map<uint, Track>();
 
         /// Default constructor
         public Extruder() {
@@ -335,10 +335,7 @@ namespace Mogre_Procedural
         //ORIGINAL LINE: void addToTriangleBuffer(TriangleBuffer& buffer) const
         public void addToTriangleBuffer(ref TriangleBuffer buffer) {
             if (mMultiShapeToExtrude.getShapeCount() == 0)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALID_STATE>(), "At least one shape must be defined!", "Procedural::Extruder::addToTriangleBuffer(Procedural::TriangleBuffer)", __FILE__, __LINE__);
-                throw new Exception("At least one shape must be defined!");
+               OGRE_EXCEPT("Ogre::Exception::ERR_INVALID_STATE", "At least one shape must be defined!", "Procedural::Extruder::addToTriangleBuffer(Procedural::TriangleBuffer)");
             ;
 
             // Triangulate the begin and end caps
@@ -394,6 +391,8 @@ namespace Mogre_Procedural
                 }
             }
         }
+
+     
 
         //* Sets the shape to extrude. Mutually exclusive with setMultiShapeToExtrude. 
         public Extruder setShapeToExtrude(Shape shapeToExtrude) {
