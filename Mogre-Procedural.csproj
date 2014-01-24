@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="rapidxml.cs" />
     <Compile Include="MeshGenerator.cs" />
     <Compile Include="NET_35\ISet.cs" />
     <Compile Include="NET_35\MonoAttribute.cs" />

@@ -1,4 +1,4 @@
-#define PROCEDURAL_USE_FREETYPE
+//#define PROCEDURAL_USE_FREETYPE
 
 using System;
 using System.Collections.Generic;
@@ -25,7 +25,7 @@ public class TextShape
 {
 	private String mText = "";
 	private String mFontName = "";
-	private byte mFontSize = 0;
+	private byte mFontSize = 0; 
 
 //    *
 //	Default constructor.

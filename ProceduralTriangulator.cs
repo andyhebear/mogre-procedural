@@ -375,7 +375,7 @@ namespace Mogre_Procedural
 						//Utils::log("tri inside" + itTri->debugDescription());
 						for (int m=0; m<3; m++)
 						{
-							DelaunaySegment d1(itTri.i[m], itTri.i[(m+1)%3]);
+							DelaunaySegment d1=new DelaunaySegment(itTri.i[m], itTri.i[(m+1)%3]);
 							if (segments.find(d1)!=segments.end())
 								segments.erase(d1);
 							else if (segments.find(d1.inverse())!=segments.end())
