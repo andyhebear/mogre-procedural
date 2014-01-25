@@ -163,7 +163,7 @@ namespace Mogre_Procedural
 
             if (mComputeMode == NormalComputeMode.NCM_TRIANGLE) {
                 if (mMustWeldUnweldFirst)
-                    new WeldVerticesModifier.UnweldVerticesModifier().setInputTriangleBuffer(mInputTriangleBuffer).modify();
+                    new UnweldVerticesModifier().setInputTriangleBuffer(mInputTriangleBuffer).modify();
 
                 std_vector<int> indices = mInputTriangleBuffer.getIndices();
                 std_vector<TriangleBuffer.Vertex> vertices = mInputTriangleBuffer.getVertices();
