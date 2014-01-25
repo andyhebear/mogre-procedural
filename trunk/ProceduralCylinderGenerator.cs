@@ -106,7 +106,7 @@ namespace Mogre_Procedural
                     float x0 = mRadius * cosf(j * deltaAngle);
                     float z0 = mRadius * sinf(j * deltaAngle);
 
-                    addPoint(buffer, new Vector3(x0, i * deltaHeight, z0), new Vector3(x0, 0, z0).NormalisedCopy, new Vector2(j / (float)mNumSegBase, i / (float)mNumSegHeight));
+                    addPoint(ref buffer, new Vector3(x0, (float)i * deltaHeight, z0), new Vector3(x0, 0f, z0).NormalisedCopy, new Vector2((float)j / (float)mNumSegBase, (float)i / (float)mNumSegHeight));
 
                     if (i != mNumSegHeight) {
                         buffer.index(offset + (int)mNumSegBase + 1);
