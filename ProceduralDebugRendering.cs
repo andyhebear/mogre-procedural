@@ -29,7 +29,7 @@ THE SOFTWARE.
 //#ifndef PROCEDURAL_DEBUG_RENDERING_INCLUDED
 #define PROCEDURAL_DEBUG_RENDERING_INCLUDED
 
-
+// write with new std ... ok
 namespace Mogre_Procedural
 {
     using System;
@@ -38,6 +38,7 @@ namespace Mogre_Procedural
 
     using Mogre;
     using Math = Mogre.Math;
+    using Mogre_Procedural.std;
     /// This class creates a visualisation of the normals of a TriangleBuffer
     //C++ TO C# CONVERTER WARNING: The original type declaration contained unconverted modifiers:
     //ORIGINAL LINE: class _ProceduralExport ShowNormalsGenerator
@@ -95,7 +96,7 @@ namespace Mogre_Procedural
             ;
             ManualObject manual = sceneMgr.CreateManualObject("debug_procedural_" + Guid.NewGuid().ToString("N"));
             manual.Begin("BaseWhiteNoLighting", RenderOperation.OperationTypes.OT_LINE_LIST);
-            List<TriangleBuffer.Vertex> vertices = mTriangleBuffer.getVertices();
+            std_vector<TriangleBuffer.Vertex> vertices = mTriangleBuffer.getVertices();
             //for (List<TriangleBuffer.Vertex>.Enumerator it = vertices.GetEnumerator(); it.MoveNext(); ++it)
             foreach (var it in vertices) {
                 manual.Position(it.mPosition);
