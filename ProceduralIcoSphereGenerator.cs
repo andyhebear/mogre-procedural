@@ -65,7 +65,7 @@ namespace Mogre_Procedural
         //	 * Builds the mesh into the given TriangleBuffer
         //	 * @param buffer The TriangleBuffer on where to append the mesh.
         //	 
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: void addToTriangleBuffer(TriangleBuffer& buffer) const
         public void addToTriangleBuffer(ref TriangleBuffer buffer) {
             List<Vector3> vertices = new List<Vector3>();

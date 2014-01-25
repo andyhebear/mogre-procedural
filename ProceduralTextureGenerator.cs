@@ -113,7 +113,7 @@ namespace Mogre_Procedural
         //	\param colour New colour of the cell top (default Ogre::ColourValue::White)
         //	
         public Cell setColour(ColourValue colour) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mColour = colour;
             mColour = (colour);
             return this;
@@ -335,7 +335,7 @@ namespace Mogre_Procedural
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         public Cloud setColour(ColourValue colour) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mColour = colour;
             mColour = (colour);
             return this;
@@ -433,7 +433,7 @@ namespace Mogre_Procedural
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         public Gradient setColourA(ColourValue colour) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mColourA = colour;
             mColourA = (colour);
             return this;
@@ -461,7 +461,7 @@ namespace Mogre_Procedural
         //	\param colour New colour in the top right corner for processing (default Ogre::ColourValue::Green)
         //	
         public Gradient setColourB(ColourValue colour) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mColourB = colour;
             mColourB = (colour);
             return this;
@@ -489,7 +489,7 @@ namespace Mogre_Procedural
         //	\param colour New colour in the bottom left corner for processing (default Ogre::ColourValue::Red)
         //	
         public Gradient setColourC(ColourValue colour) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mColourC = colour;
             mColourC = (colour);
             return this;
@@ -517,7 +517,7 @@ namespace Mogre_Procedural
         //	\param colour New colour in the bottom right corner for processing (default Ogre::ColourValue(0.0f, 1.0f, 1.0f))
         //	
         public Gradient setColourD(ColourValue colour) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mColourD = colour;
             mColourD = (colour);
             return this;
@@ -548,16 +548,16 @@ namespace Mogre_Procedural
         //	\param colourD New colour in the bottom right corner (default Ogre::ColourValue(0.0f, 1.0f, 1.0f))
         //	
         public Gradient setColours(ColourValue colourA, ColourValue colourB, ColourValue colourC, ColourValue colourD) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mColourA = colourA;
             mColourA = (colourA);
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mColourB = colourB;
             mColourB = (colourB);
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mColourC = colourC;
             mColourC = (colourC);
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mColourD = colourD;
             mColourD = (colourD);
             return this;
@@ -690,7 +690,7 @@ namespace Mogre_Procedural
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         public Labyrinth setColour(ColourValue colour) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mColour = colour;
             mColour = (colour);
             return this;
@@ -784,7 +784,7 @@ namespace Mogre_Procedural
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         public Marble setColour(ColourValue colour) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mColour = colour;
             mColour = (colour);
             return this;
@@ -897,7 +897,7 @@ namespace Mogre_Procedural
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         public Noise setColour(ColourValue colour) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mColour = colour;
             mColour = (colour);
             return this;
@@ -1008,7 +1008,7 @@ namespace Mogre_Procedural
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         public Solid setColour(ColourValue colour) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mColour = colour;
             mColour = (colour);
             return this;
@@ -1083,7 +1083,7 @@ namespace Mogre_Procedural
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         public Textile setColour(ColourValue colour) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mColour = colour;
             mColour = (colour);
             return this;
@@ -1179,7 +1179,7 @@ namespace Mogre_Procedural
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         public Wood setColour(ColourValue colour) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mColour = colour;
             mColour = (colour);
             return this;

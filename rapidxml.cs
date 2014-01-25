@@ -37,7 +37,7 @@
 //        //! \return Pointer to location within the parsed string where error occured.
 ////C++ TO C# CONVERTER TODO TASK: The original C++ template specifier was replaced with a C# generic specifier, which may not produce the same behavior:
 ////ORIGINAL LINE: template<class Ch>
-////C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+////
 ////ORIGINAL LINE: Ch *where() const
 //        public Ch where<Ch>()
 //        {
@@ -749,7 +749,7 @@
 //        //! <br><br>
 //        //! Use name_size() function to determine length of the name.
 //        //! \return Name of node, or empty string if node has no name.
-////C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+////
 ////ORIGINAL LINE: Ch *name() const
 //        public Ch name()
 //        {
@@ -759,7 +759,7 @@
 //        //! Gets size of node name, not including terminator character.
 //        //! This function works correctly irrespective of whether name is or is not zero terminated.
 //        //! \return Size of node name, in characters.
-////C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+////
 ////ORIGINAL LINE: std::int name_size() const
 //        public std.int name_size()
 //        {
@@ -772,7 +772,7 @@
 //        //! <br><br>
 //        //! Use value_size() function to determine length of the value.
 //        //! \return Value of node, or empty string if node has no value.
-////C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+////
 ////ORIGINAL LINE: Ch *value() const
 //        public Ch @value()
 //        {
@@ -782,7 +782,7 @@
 //        //! Gets size of node value, not including terminator character.
 //        //! This function works correctly irrespective of whether value is or is not zero terminated.
 //        //! \return Size of node value, in characters.
-////C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+////
 ////ORIGINAL LINE: std::int value_size() const
 //        public std.int value_size()
 //        {
@@ -856,7 +856,7 @@
 
 //        //! Gets node parent.
 //        //! \return Pointer to parent node, or 0 if there is no parent.
-////C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+////
 ////ORIGINAL LINE: xml_node<Ch> *parent() const
 //        public xml_node<Ch> *parent()
 //        {
@@ -910,7 +910,7 @@
 
 //        //! Gets document of which attribute is a child.
 //        //! \return Pointer to document that contains this attribute, or 0 if there is no parent document.
-////C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+////
 ////ORIGINAL LINE: xml_document<Ch> *document() const
 //        public xml_document<Ch> *document()
 //        {
@@ -941,7 +941,7 @@
 //        {
 //            return previous_attribute(0, 0, true);
 //        }
-////C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+////
 ////ORIGINAL LINE: xml_attribute<Ch> *previous_attribute(const Ch *name = 0, std::int name_size = 0, bool case_sensitive = true) const
 ////C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
 //        public xml_attribute<Ch> *previous_attribute(Ch name, std.int name_size, bool case_sensitive)
@@ -976,7 +976,7 @@
 //        {
 //            return next_attribute(0, 0, true);
 //        }
-////C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+////
 ////ORIGINAL LINE: xml_attribute<Ch> *next_attribute(const Ch *name = 0, std::int name_size = 0, bool case_sensitive = true) const
 ////C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
 //        public xml_attribute<Ch> *next_attribute(Ch name, std.int name_size, bool case_sensitive)
@@ -1035,7 +1035,7 @@
 
 //        //! Gets type of node.
 //        //! \return Type of node.
-////C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+////
 ////ORIGINAL LINE: node_type type() const
 //        public node_type type()
 //        {
@@ -1047,7 +1047,7 @@
 
 //        //! Gets document of which node is a child.
 //        //! \return Pointer to document that contains this node, or 0 if there is no parent document.
-////C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+////
 ////ORIGINAL LINE: xml_document<Ch> *document() const
 //        public xml_document<Ch> *document()
 //        {
@@ -1075,7 +1075,7 @@
 //        {
 //            return first_node(0, 0, true);
 //        }
-////C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+////
 ////ORIGINAL LINE: xml_node<Ch> *first_node(const Ch *name = 0, std::int name_size = 0, bool case_sensitive = true) const
 ////C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
 //        public xml_node<Ch> *first_node(Ch name, std.int name_size, bool case_sensitive)
@@ -1112,7 +1112,7 @@
 //        {
 //            return last_node(0, 0, true);
 //        }
-////C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+////
 ////ORIGINAL LINE: xml_node<Ch> *last_node(const Ch *name = 0, std::int name_size = 0, bool case_sensitive = true) const
 ////C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
 //        public xml_node<Ch> *last_node(Ch name, std.int name_size, bool case_sensitive)
@@ -1150,7 +1150,7 @@
 //        {
 //            return previous_sibling(0, 0, true);
 //        }
-////C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+////
 ////ORIGINAL LINE: xml_node<Ch> *previous_sibling(const Ch *name = 0, std::int name_size = 0, bool case_sensitive = true) const
 ////C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
 //        public xml_node<Ch> *previous_sibling(Ch name, std.int name_size, bool case_sensitive)
@@ -1188,7 +1188,7 @@
 //        {
 //            return next_sibling(0, 0, true);
 //        }
-////C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+////
 ////ORIGINAL LINE: xml_node<Ch> *next_sibling(const Ch *name = 0, std::int name_size = 0, bool case_sensitive = true) const
 ////C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
 //        public xml_node<Ch> *next_sibling(Ch name, std.int name_size, bool case_sensitive)
@@ -1224,7 +1224,7 @@
 //        {
 //            return first_attribute(0, 0, true);
 //        }
-////C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+////
 ////ORIGINAL LINE: xml_attribute<Ch> *first_attribute(const Ch *name = 0, std::int name_size = 0, bool case_sensitive = true) const
 ////C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
 //        public xml_attribute<Ch> *first_attribute(Ch name, std.int name_size, bool case_sensitive)
@@ -1259,7 +1259,7 @@
 //        {
 //            return last_attribute(0, 0, true);
 //        }
-////C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+////
 ////ORIGINAL LINE: xml_attribute<Ch> *last_attribute(const Ch *name = 0, std::int name_size = 0, bool case_sensitive = true) const
 ////C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
 //        public xml_attribute<Ch> *last_attribute(Ch name, std.int name_size, bool case_sensitive)

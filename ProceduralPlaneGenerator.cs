@@ -64,7 +64,7 @@ namespace Mogre_Procedural
         //	 * Builds the mesh into the given TriangleBuffer
         //	 * @param buffer The TriangleBuffer on where to append the mesh.
         //	 
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: void addToTriangleBuffer(TriangleBuffer& buffer) const
         public PlaneGenerator addToTriangleBuffer(ref TriangleBuffer buffer) {
             buffer.rebaseOffset();
@@ -154,7 +154,7 @@ namespace Mogre_Procedural
                 //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Normal must not be null", "Procedural::PlaneGenerator::setNormal(unsigned int)", __FILE__, __LINE__);
                 throw new Exception("normal must not zero");
             ;
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mNormal = normal;
             mNormal = (normal);
             return this;

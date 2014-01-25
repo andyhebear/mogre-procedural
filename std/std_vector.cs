@@ -194,6 +194,7 @@ namespace Mogre_Procedural.std
             //no do            
         }
         public void reserve(int count) {
+            this.Capacity = count;
             //no do
         }
         public void shrink_to_fit() {

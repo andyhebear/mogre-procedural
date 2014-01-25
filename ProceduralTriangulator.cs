@@ -75,7 +75,7 @@ namespace Mogre_Procedural
                 i1 = _i1;
                 i2 = _i2;
             }
-            //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+            //
             //ORIGINAL LINE: bool operator <(const DelaunaySegment& STLAllocator<U, AllocPolicy>) const
             public static bool operator <(DelaunaySegment This, DelaunaySegment Other) {
                 if (This.i1 != Other.i1)
@@ -97,19 +97,19 @@ namespace Mogre_Procedural
                 this.pl = pl;
             }
 
-            //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+            //
             //ORIGINAL LINE: inline Ogre::Vector2 p(int k) const
             public Vector2 p(int k) {
                 return (pl)[i[k]];
             }
 
-            //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+            //
             //ORIGINAL LINE: bool operator ==(const Triangle& STLAllocator<U, AllocPolicy>) const
             public static bool operator ==(Triangle This, Triangle Other) {
                 return This.i[0] == Other.i[0] && This.i[1] == Other.i[1] && This.i[2] == Other.i[2];
             }
 
-            //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+            //
             //ORIGINAL LINE: inline Ogre::Vector2 getMidPoint() const
             public Vector2 getMidPoint() {
                 return 1.0f / 3.0f * (p(0) + p(1) + p(2));
@@ -123,7 +123,7 @@ namespace Mogre_Procedural
             }
 
             //-----------------------------------------------------------------------
-            //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+            //
             //ORIGINAL LINE: int findSegNumber(int i0, int i1) const
             public int findSegNumber(int i0, int i1) {
                 if ((i0 == i[0] && i1 == i[1]) || (i0 == i[1] && i1 == i[0]))
@@ -163,7 +163,7 @@ namespace Mogre_Procedural
                 // Check if point is in triangle
                 return (u >= 0) && (v >= 0) && (u + v - 1 <= 0);
             }
-            //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+            //
             //ORIGINAL LINE: bool containsSegment(int i0, int i1) const
             public bool containsSegment(int i0, int i1) {
                 return ((i0 == i[0] || i0 == i[1] || i0 == i[2]) && (i1 == i[0] || i1 == i[1] || i1 == i[2]));
@@ -253,7 +253,7 @@ namespace Mogre_Procedural
         private std_vector<Segment2D> mSegmentListToTriangulate;
         private bool mRemoveOutside;
 
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: void delaunay(List<Ogre::Vector2>& pointList, LinkedList<Triangle>& tbuffer) const
         void delaunay(PointList pointList, ref DelaunayTriangleBuffer tbuffer) 
 {

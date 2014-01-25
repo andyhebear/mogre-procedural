@@ -26,7 +26,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
+//#ifndef PROCEDURAL_TRIANGLEBUFFER_INCLUDED
+#define PROCEDURAL_TRIANGLEBUFFER_INCLUDED
 
+// write with new std ... ok
 namespace Mogre_Procedural
 {
     using System;
@@ -35,6 +38,7 @@ namespace Mogre_Procedural
 
     using Mogre;
     using Math = Mogre.Math;
+    using Mogre_Procedural.std;
     //* This is ogre-procedural's temporary mesh buffer.
     // * It stores all the info needed to build an Ogre Mesh, yet is intented to be more flexible, since
     // * there is no link towards hardware.
@@ -50,9 +54,9 @@ namespace Mogre_Procedural
             public Vector2 mUV = new Vector2();
         }
 
-        protected List<int> mIndices = new List<int>();
+        protected std_vector<int> mIndices = new std_vector<int>();
 
-        protected List<Vertex> mVertices = new List<Vertex>();
+        protected std_vector<Vertex> mVertices = new std_vector<Vertex>();
         //std::vector<Vertex>::iterator mCurrentVertex;
         protected int globalOffset;
         protected int mEstimatedVertexCount;
@@ -69,32 +73,32 @@ namespace Mogre_Procedural
         public void append(TriangleBuffer other) {
             rebaseOffset();
             foreach (var it in other.mIndices) {
-                mIndices.Add(globalOffset + it);
+                mIndices.push_back(globalOffset + it);
             }
             foreach (var it in other.mVertices) {
-                mVertices.Add(it);
+                mVertices.push_back(it);
             }
         }
 
         /// Gets a modifiable reference to vertices
-        public List<Vertex> getVertices() {
+        public std_vector<Vertex> getVertices() {
             return mVertices;
         }
 
         /// Gets a non-modifiable reference to vertices
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: const List<Vertex>& getVertices() const
         public Vertex[] _getVertices() {
             return mVertices.ToArray();
         }
 
         /// Gets a modifiable reference to vertices
-        public List<int> getIndices() {
+        public std_vector<int> getIndices() {
             return mIndices;
         }
 
         /// Gets a non-modifiable reference to indices
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: const List<int>& getIndices() const
         public int[] _getIndices() {
             return mIndices.ToArray();
@@ -104,7 +108,7 @@ namespace Mogre_Procedural
         //	 * Rebase index offset : call that function before you add a new mesh to the triangle buffer
         //	 
         public void rebaseOffset() {
-            globalOffset = mVertices.Count;
+            globalOffset = mVertices.size();
         }
 
 
@@ -115,7 +119,7 @@ namespace Mogre_Procedural
             return transformToMesh(name, "General");
         }
 
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: Ogre::MeshPtr transformToMesh(const string& name, const Ogre::String& group = "General") const
         //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
         public MeshPtr transformToMesh(string name, string group) {
@@ -141,36 +145,36 @@ namespace Mogre_Procedural
 
         //* Adds a new vertex to the buffer 
         public TriangleBuffer vertex(Vertex v) {
-            mVertices.Add(v);
-            mCurrentVertex = mVertices[mVertices.Count - 1];
+            mVertices.push_back(v);
+            mCurrentVertex = mVertices.back(); //mVertices[mVertices.Count - 1];
             return this;
         }
 
         //* Adds a new vertex to the buffer 
         public TriangleBuffer vertex(Vector3 position, Vector3 normal, Vector2 uv) {
             Vertex v = new Vertex();
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: v.mPosition = position;
             v.mPosition = (position);
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: v.mNormal = normal;
             v.mNormal = (normal);
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: v.mUV = uv;
             v.mUV = (uv);
-            mVertices.Add(v);
-            mCurrentVertex = mVertices[mVertices.Count - 1];
+            mVertices.push_back(v);
+            mCurrentVertex = mVertices.back();//mVertices[mVertices.Count - 1];
             return this;
         }
 
         //* Adds a new vertex to the buffer 
         public TriangleBuffer position(Vector3 pos) {
             Vertex v = new Vertex();
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: v.mPosition = pos;
             v.mPosition = (pos);
-            mVertices.Add(v);
-            mCurrentVertex = mVertices[mVertices.Count - 1];
+            mVertices.push_back(v);
+            mCurrentVertex = mVertices.back(); //mVertices[mVertices.Count - 1];
             return this;
         }
 
@@ -178,14 +182,14 @@ namespace Mogre_Procedural
         public TriangleBuffer position(float x, float y, float z) {
             Vertex v = new Vertex();
             v.mPosition = new Vector3(x, y, z);
-            mVertices.Add(v);
-            mCurrentVertex = mVertices[mVertices.Count - 1];
+            mVertices.push_back(v);
+            mCurrentVertex = mVertices.back(); //mVertices[mVertices.Count - 1];
             return this;
         }
 
         //* Sets the normal of the current vertex 
         public TriangleBuffer normal(Vector3 normal) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mCurrentVertex->mNormal = normal;
             mCurrentVertex.mNormal = (normal);
             return this;
@@ -199,7 +203,7 @@ namespace Mogre_Procedural
 
         //* Sets the texture coordinates of the current vertex 
         public TriangleBuffer textureCoord(Vector2 vec) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mCurrentVertex->mUV = vec;
             mCurrentVertex.mUV = (vec);
             return this;
@@ -210,7 +214,7 @@ namespace Mogre_Procedural
         //	 * Index is relative to the latest rebaseOffset().
         //	 
         public TriangleBuffer index(int i) {
-            mIndices.Add(globalOffset + i);
+            mIndices.push_back(globalOffset + i);
             return this;
         }
 
@@ -219,9 +223,9 @@ namespace Mogre_Procedural
         //	 * Index is relative to the latest rebaseOffset().
         //	 
         public TriangleBuffer triangle(int i1, int i2, int i3) {
-            mIndices.Add(globalOffset + i1);
-            mIndices.Add(globalOffset + i2);
-            mIndices.Add(globalOffset + i3);
+            mIndices.push_back(globalOffset + i1);
+            mIndices.push_back(globalOffset + i2);
+            mIndices.push_back(globalOffset + i3);
             return this;
         }
 
@@ -282,7 +286,7 @@ namespace Mogre_Procedural
             foreach (var it in mVertices) {
                 it.mNormal = -it.mNormal;
             }
-            for (int i = 0; i < mIndices.Count; ++i) {
+            for (int i = 0; i < mIndices.size(); ++i) {
                 if (i % 3 == 1) {
                     //std::swap(mIndices[i], mIndices[i-1]);
                     list_swap<int>(mIndices, i, i - 1);
@@ -303,7 +307,8 @@ namespace Mogre_Procedural
         //	 
         public void estimateVertexCount(uint vertexCount) {
             mEstimatedVertexCount += (int)vertexCount;
-            mVertices.Capacity = mEstimatedVertexCount;
+            //mVertices.Capacity = mEstimatedVertexCount;
+            mVertices.reserve(mEstimatedVertexCount);
         }
 
         //    *
@@ -312,7 +317,8 @@ namespace Mogre_Procedural
         //	 
         public void estimateIndexCount(uint indexCount) {
             mEstimatedIndexCount += (int)indexCount;
-            mIndices.Capacity = mEstimatedIndexCount;
+            //mIndices.Capacity = mEstimatedIndexCount;
+            mIndices.reserve(mEstimatedIndexCount);
         }
     }
 

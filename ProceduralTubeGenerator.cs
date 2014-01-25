@@ -26,7 +26,7 @@
     THE SOFTWARE.
     -----------------------------------------------------------------------------
     */
-
+//write with new std ... ok
 namespace Mogre_Procedural
 {
 
@@ -81,7 +81,7 @@ namespace Mogre_Procedural
         //	 * Builds the mesh into the given TriangleBuffer
         //	 * @param buffer The TriangleBuffer on where to append the mesh.
         //	 
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: void addToTriangleBuffer(TriangleBuffer& buffer) const
         public void addToTriangleBuffer(ref TriangleBuffer buffer) {
             buffer.rebaseOffset();
@@ -181,11 +181,7 @@ namespace Mogre_Procedural
         //	
         public TubeGenerator setNumSegBase(uint numSegBase) {
             if (numSegBase == 0)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "There must be more than 0 segments", "Procedural::TubeGenerator::setNumSegBase(unsigned int)", __FILE__, __LINE__);
-                throw new Exception("numSegBase must more than 0!");
-            ;
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "There must be more than 0 segments", "Procedural::TubeGenerator::setNumSegBase(unsigned int)"); ;
             mNumSegBase = numSegBase;
             return this;
         }
@@ -196,10 +192,7 @@ namespace Mogre_Procedural
         //	
         public TubeGenerator setNumSegHeight(uint numSegHeight) {
             if (numSegHeight == 0)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "There must be more than 0 segments", "Procedural::TubeGenerator::setNumSegHeight(unsigned int)", __FILE__, __LINE__);
-                throw new Exception("numSegHeight must more than 0!");
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "There must be more than 0 segments", "Procedural::TubeGenerator::setNumSegHeight(unsigned int)");
             ;
             mNumSegHeight = numSegHeight;
             return this;
@@ -212,17 +205,9 @@ namespace Mogre_Procedural
         //	
         public TubeGenerator setOuterRadius(float outerRadius) {
             if (outerRadius <= 0.0f)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Radius must be larger than 0!", "Procedural::TubeGenerator::setOuterRadius(Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("outerRadius must more than 0!");
-            ;
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Radius must be larger than 0!", "Procedural::TubeGenerator::setOuterRadius(Ogre::Real)");
             if (outerRadius < mInnerRadius)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Outer radius must be bigger than inner radius!", "Procedural::TubeGenerator::setOuterRadius(Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("Outer radius must be bigger than inner radius!");
-            ;
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Outer radius must be bigger than inner radius!", "Procedural::TubeGenerator::setOuterRadius(Ogre::Real)"); ;
             mOuterRadius = outerRadius;
             return this;
         }
@@ -234,16 +219,9 @@ namespace Mogre_Procedural
         //	
         public TubeGenerator setInnerRadius(float innerRadius) {
             if (innerRadius <= 0.0f)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Radius must be larger than 0!", "Procedural::TubeGenerator::setInnerRadius(Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("innerRadius must more than 0!");
-            ;
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Radius must be larger than 0!", "Procedural::TubeGenerator::setInnerRadius(Ogre::Real)");
             if (mOuterRadius < innerRadius)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Outer radius must be bigger than inner radius!", "Procedural::TubeGenerator::setInnerRadius(Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("outerRadius must more than innerRadius!");
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Outer radius must be bigger than inner radius!", "Procedural::TubeGenerator::setInnerRadius(Ogre::Real)");
             ;
             mInnerRadius = innerRadius;
             return this;
@@ -255,10 +233,7 @@ namespace Mogre_Procedural
         //	
         public TubeGenerator setHeight(float height) {
             if (height <= 0.0f)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Height must be larger than 0!", "Procedural::TubeGenerator::setHeight(Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("height must more than 0!");
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Height must be larger than 0!", "Procedural::TubeGenerator::setHeight(Ogre::Real)");
             ;
             mHeight = height;
             return this;

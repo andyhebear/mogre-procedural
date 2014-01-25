@@ -130,7 +130,7 @@ namespace Mogre_Procedural
         //    *
         //	 * Outputs a triangleBuffer
         //	 
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: TriangleBuffer buildTriangleBuffer() const
         public TriangleBuffer buildTriangleBuffer() {
             TriangleBuffer tbuffer = new TriangleBuffer();
@@ -279,7 +279,7 @@ namespace Mogre_Procedural
         /// @param position the position of the new point
         /// @param normal the normal of the new point
         /// @param uv the uv texcoord of the new point
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: inline void addPoint(TriangleBuffer& buffer, const Ogre::Vector3& position, const Ogre::Vector3& normal, const Ogre::Vector2& uv) const
         protected void addPoint(ref TriangleBuffer buffer, Vector3 position, Vector3 normal, Vector2 uv) {
             if (mTransform)

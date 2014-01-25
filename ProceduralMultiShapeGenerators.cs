@@ -212,7 +212,7 @@ public class TextShape
 									}
 	
 									if (nextIsConnic)
-//C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+//
 //ORIGINAL LINE: lastPoint = nextPoint;
 										lastPoint=(nextPoint);
 								}

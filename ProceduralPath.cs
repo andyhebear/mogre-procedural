@@ -144,14 +144,14 @@ namespace Mogre_Procedural
         }
 
         //* Tells if the path is closed or not 
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: bool isClosed() const
         public bool isClosed() {
             return mClosed;
         }
 
         //* Gets the list of points as a vector of Vector3 
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: const List<Ogre::Vector3>& getPoints() const
         public List<Vector3> _getPoints() {
             //return mPoints; 
@@ -170,7 +170,7 @@ namespace Mogre_Procedural
         //	 * @param i the index of the point.
         //	 *          if it is <0 or >maxPoint, cycle through the list of points
         //	 
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: const Ogre::Vector3& getPoint(int i) const
         public Vector3 getPoint(int i) {
             if (mClosed)
@@ -181,7 +181,7 @@ namespace Mogre_Procedural
         //    * Gets the number of segments in the path
         //	 * Takes into accound whether path is closed or not
         //	 
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: int getSegCount() const
         public int getSegCount() {
             return (mPoints.Count - 1) + (mClosed ? 1 : 0);
@@ -190,7 +190,7 @@ namespace Mogre_Procedural
         //    *
         //	 * Returns local direction after the current point
         //	 
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: Ogre::Vector3 getDirectionAfter(uint i) const
         public Vector3 getDirectionAfter(int i) {
             // If the path isn't closed, we get a different calculation at the end, because
@@ -204,7 +204,7 @@ namespace Mogre_Procedural
         //    *
         //	 * Returns local direction after the current point
         //	 
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: Ogre::Vector3 getDirectionBefore(uint i) const
         public Vector3 getDirectionBefore(int i) {
             // If the path isn't closed, we get a different calculation at the end, because
@@ -219,14 +219,14 @@ namespace Mogre_Procedural
         //	 * Returns the local direction at the current point.
         //	 * @param i index of the point
         //	 
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: Ogre::Vector3 getAvgDirection(uint i) const
         public Vector3 getAvgDirection(int i) {
             return (getDirectionAfter(i) + getDirectionBefore(i)).NormalisedCopy;
         }
 
         /// Returns the total lineic length of that shape
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: Ogre::float getTotalLength() const
         public float getTotalLength() {
             float length = 0;
@@ -240,7 +240,7 @@ namespace Mogre_Procedural
         }
 
 
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: Ogre::float getLengthAtPoint(int index) const
         public float getLengthAtPoint(int index) {
             float length = 0;
@@ -257,7 +257,7 @@ namespace Mogre_Procedural
         /// @param coord a number between 0 and 1 meaning the percentage of position on the segment
         /// @exception Ogre::InvalidParametersException i is out of bounds
         /// @exception Ogre::InvalidParametersException coord must be comprised between 0 and 1
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: inline Ogre::Vector3 getPosition(uint i, Ogre::float coord) const
         public Vector3 getPosition(int i, float coord) {
             if (i >= mPoints.Count)
@@ -280,7 +280,7 @@ namespace Mogre_Procedural
         /// Gets a position on the shape from lineic coordinate
         /// @param coord lineic coordinate
         /// @exception Ogre::InvalidStateException The path must at least contain 2 points
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: Ogre::Vector3 getPosition(Ogre::float coord) const
         public Vector3 getPosition(float coord) {
             if (mPoints.Count < 2)
@@ -309,7 +309,7 @@ namespace Mogre_Procedural
         public MeshPtr realizeMesh() {
             return realizeMesh("");
         }
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: Ogre::MeshPtr realizeMesh(const string& name = "") const
         //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
         public MeshPtr realizeMesh(string name) {
@@ -335,7 +335,7 @@ namespace Mogre_Procedural
         }
 
         /// Creates a path with the keys of this path and extra keys coming from a track
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: Path mergeKeysWithTrack(const Track& track) const
         public Path mergeKeysWithTrack(Track track) {
             if (!track.isInsertPoint() || track.getAddressingMode() == Track.AddressingMode.AM_POINT)
@@ -648,7 +648,7 @@ namespace Mogre_Procedural
         /// Converts the path to a shape, with Y=0
 
         //-----------------------------------------------------------------------
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: Shape convertToShape() const
         public Shape convertToShape() {
             Shape s = new Shape();
@@ -685,7 +685,7 @@ namespace Mogre_Procedural
                 pathIndex = _pathIndex;
                 pointIndex = _pointIndex;
             }
-            //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+            //
             //ORIGINAL LINE: bool operator < (const PathCoordinate& STLAllocator<U, AllocPolicy>) const
             public static bool operator <(PathCoordinate th, PathCoordinate other) {
                 if (th.pathIndex != other.pathIndex)
@@ -715,13 +715,13 @@ namespace Mogre_Procedural
             return this;
         }
 
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: uint getPathCount() const
         public int getPathCount() {
             return mPaths.Count;
         }
 
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: Path getPath(uint i) const
         public Path getPath(int i) {
             return mPaths[i];
@@ -795,19 +795,19 @@ namespace Mogre_Procedural
         //    return end;
         //}
 
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: inline const std::map<PathCoordinate, List<PathCoordinate>>& getIntersectionsMap() const
         public Dictionary<PathCoordinate, List<PathCoordinate>> getIntersectionsMap() {
             return mIntersectionsMap;
         }
 
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: inline const List<List<PathCoordinate>>& getIntersections() const
         public List<List<PathCoordinate>> getIntersections() {
             return mIntersections;
         }
 
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: List<std::pair<uint, uint> > getNoIntersectionParts(uint pathIndex) const
         /// <summary>
         /// 获取非交集

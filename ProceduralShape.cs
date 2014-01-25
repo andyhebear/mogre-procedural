@@ -209,7 +209,7 @@ namespace Mogre_Procedural
 
         /// Converts the shape to a path, with Y=0
         //-----------------------------------------------------------------------
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: Path convertToPath() const
         public Path convertToPath() {
             Path p = new Path();
@@ -228,7 +228,7 @@ namespace Mogre_Procedural
         public Track convertToTrack() {
             return convertToTrack(Track.AddressingMode.AM_RELATIVE_LINEIC);
         }
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: Track convertToTrack(Track::AddressingMode addressingMode =Track::AM_RELATIVE_LINEIC) const
         //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
         public Track convertToTrack(Track.AddressingMode addressingMode) {
@@ -241,7 +241,7 @@ namespace Mogre_Procedural
         }
 
         /// Gets a copy of raw vector data of this shape
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: inline List<Ogre::Vector2> getPoints() const
         public Vector2[] getPoints() {
             return mPoints.ToArray();
@@ -254,7 +254,7 @@ namespace Mogre_Procedural
         //}
 
         /// Gets raw vector data of this shape as a non-const reference
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: inline const List<Ogre::Vector2>& getPointsReference() const
         public List<Vector2> getPointsReference() {
             return mPoints;
@@ -263,13 +263,13 @@ namespace Mogre_Procedural
         //    *
         //	 * Bounds-safe method to get a point : it will allow you to go beyond the bounds
         //	 
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: inline const Ogre::Vector2& getPoint(int i) const
         public Vector2 getPoint(int i) {
             return mPoints[getBoundedIndex(i)];
         }
 
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: inline uint getBoundedIndex(int i) const
         public int getBoundedIndex(int i) {
             if (mClosed)
@@ -278,7 +278,7 @@ namespace Mogre_Procedural
         }
 
         /// Gets number of points in current point list
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: inline const List<Ogre::Vector2>::size_type getPointCount() const
         public int getPointCount() {
             return mPoints.Count;
@@ -304,7 +304,7 @@ namespace Mogre_Procedural
         }
 
         /// Gets which side is out
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: inline Side getOutSide() const
         public Side getOutSide() {
             return mOutSide;
@@ -317,14 +317,14 @@ namespace Mogre_Procedural
         }
 
         /// Gets the number of segments in that shape
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: inline int getSegCount() const
         public int getSegCount() {
             return (mPoints.Count - 1) + (mClosed ? 1 : 0);
         }
 
         /// Gets whether the shape is closed or not
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: inline bool isClosed() const
         public bool isClosed() {
             return mClosed;
@@ -333,7 +333,7 @@ namespace Mogre_Procedural
         //    *
         //	 * Returns local direction after the current point
         //	 
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: inline Ogre::Vector2 getDirectionAfter(uint i) const
         public Vector2 getDirectionAfter(uint index) {
             int i = (int)index;
@@ -348,7 +348,7 @@ namespace Mogre_Procedural
         //    *
         //	 * Returns local direction after the current point
         //	 
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: inline Ogre::Vector2 getDirectionBefore(uint i) const
         public Vector2 getDirectionBefore(uint index) {
             int i = (int)index;
@@ -361,14 +361,14 @@ namespace Mogre_Procedural
         }
 
         /// Gets the average between before direction and after direction
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: inline Ogre::Vector2 getAvgDirection(uint i) const
         public Vector2 getAvgDirection(uint i) {
             return (getDirectionAfter(i) + getDirectionBefore(i)).NormalisedCopy;
         }
 
         /// Gets the shape normal just after that point
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: inline Ogre::Vector2 getNormalAfter(uint i) const
         public Vector2 getNormalAfter(uint i) {
             if (mOutSide == Side.SIDE_RIGHT)
@@ -377,7 +377,7 @@ namespace Mogre_Procedural
         }
 
         /// Gets the shape normal just before that point
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: inline Ogre::Vector2 getNormalBefore(uint i) const
         public Vector2 getNormalBefore(uint i) {
             if (mOutSide == Side.SIDE_RIGHT)
@@ -386,7 +386,7 @@ namespace Mogre_Procedural
         }
 
         /// Gets the "normal" of that point ie an average between before and after normals
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: inline Ogre::Vector2 getAvgNormal(uint i) const
         public Vector2 getAvgNormal(uint i) {
             if (mOutSide == Side.SIDE_RIGHT)
@@ -402,7 +402,7 @@ namespace Mogre_Procedural
         public MeshPtr realizeMesh() {
             return realizeMesh("");
         }
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: MeshPtr realizeMesh(const string& name ="") const
         //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
         public MeshPtr realizeMesh(string name) {
@@ -429,7 +429,7 @@ namespace Mogre_Procedural
         //	 * Appends the shape vertices to a manual object being edited
         //	 
         //-----------------------------------------------------------------------
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: void _appendToManualObject(ManualObject* manual) const
         public void _appendToManualObject(ManualObject manual) {
             //for (List<Vector2>.Enumerator itPos = mPoints.GetEnumerator(); itPos.MoveNext(); itPos++)
@@ -447,12 +447,12 @@ namespace Mogre_Procedural
         //	 * @param point The point to check
         //	 * @return true if the point is inside this shape, false otherwise
         //	 
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: bool isPointInside(const Ogre::Vector2& point) const;
         //C++ TO C# CONVERTER TODO TASK: The implementation of the following method could not be found:
         //	bool isPointInside(Ogre::Vector2 point);
         //-----------------------------------------------------------------------
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: bool Shape::isPointInside(const Vector2& point) const
         public bool isPointInside(Vector2 point) {
             // Draw a horizontal lines that goes through "point"
@@ -470,7 +470,7 @@ namespace Mogre_Procedural
                     if (dist < closestSegmentDistance) {
                         closestSegmentIndex = i;
                         closestSegmentDistance = dist;
-                        //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+                        //
                         //ORIGINAL LINE: closestSegmentIntersection = intersect;
                         closestSegmentIntersection = (intersect);
                     }
@@ -510,7 +510,7 @@ namespace Mogre_Procedural
 
 
         //-----------------------------------------------------------------------
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: MultiShape booleanIntersect(const Shape& STLAllocator<U, AllocPolicy>) const
         public MultiShape booleanIntersect(Shape other) {
             return _booleanOperation(other, BooleanOperationType.BOT_INTERSECTION);
@@ -526,7 +526,7 @@ namespace Mogre_Procedural
         //	 * @exception Ogre::InvalidParametersException Other shapes must be closed and has to contain at least 2 points!
         //	 
         //-----------------------------------------------------------------------
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: MultiShape booleanUnion(const Shape& STLAllocator<U, AllocPolicy>) const
         public MultiShape booleanUnion(Shape other) {
             return _booleanOperation(other, BooleanOperationType.BOT_UNION);
@@ -542,7 +542,7 @@ namespace Mogre_Procedural
         //	 * @exception Ogre::InvalidParametersException Other shapes must be closed and has to contain at least 2 points!
         //	 
         //-----------------------------------------------------------------------
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: MultiShape booleanDifference(const Shape& STLAllocator<U, AllocPolicy>) const
         public MultiShape booleanDifference(Shape other) {
             return _booleanOperation(other, BooleanOperationType.BOT_DIFFERENCE);
@@ -555,7 +555,7 @@ namespace Mogre_Procedural
         //	 
 
         //-----------------------------------------------------------------------
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: Side findRealOutSide() const
         public Side findRealOutSide() {
             float x = mPoints[0].x;
@@ -578,7 +578,7 @@ namespace Mogre_Procedural
         //	 * Determines whether the outside as defined by user equals "real" outside
         //	
         //-----------------------------------------------------------------------
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: bool isOutsideRealOutside() const
         public bool isOutsideRealOutside() {
             return findRealOutSide() == mOutSide;
@@ -588,7 +588,7 @@ namespace Mogre_Procedural
         /// @param track the track to merge keys with
         /// @return a new Shape coming from the merge between original shape and the track
         //-----------------------------------------------------------------------
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: Shape mergeKeysWithTrack(const Track& track) const
         public Shape mergeKeysWithTrack(Track track) {
             if (!track.isInsertPoint() || track.getAddressingMode() == Track.AddressingMode.AM_POINT)
@@ -803,7 +803,7 @@ namespace Mogre_Procedural
         }
 
         /// Returns the total lineic length of that shape
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: Ogre::float getTotalLength() const
         public float getTotalLength() {
             float length = 0;
@@ -819,7 +819,7 @@ namespace Mogre_Procedural
         /// @param coord a number between 0 and 1 meaning the percentage of position on the segment
         /// @exception Ogre::InvalidParametersException i is out of bounds
         /// @exception Ogre::InvalidParametersException coord must be comprised between 0 and 1
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: inline Ogre::Vector2 getPosition(uint i, Ogre::float coord) const
         public Vector2 getPosition(uint i, float coord) {
             if (!mClosed || i >= mPoints.Count)
@@ -842,7 +842,7 @@ namespace Mogre_Procedural
         /// Gets a position on the shape from lineic coordinate
         /// @param coord lineic coordinate
         /// @exception Ogre::InvalidStateException The shape must at least contain 2 points
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: inline Ogre::Vector2 getPosition(Ogre::float coord) const
         public Vector2 getPosition(float coord) {
             if (mPoints.Count < 2)
@@ -865,7 +865,7 @@ namespace Mogre_Procedural
         }
 
         /// Computes the radius of a bounding circle centered on the origin
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: Ogre::float findBoundingRadius() const
         public float findBoundingRadius() {
             float sqRadius = 0.0f;
@@ -912,7 +912,7 @@ namespace Mogre_Procedural
 
 
         //-----------------------------------------------------------------------
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: MultiShape _booleanOperation(const Shape& STLAllocator<U, AllocPolicy>, BooleanOperationType opType) const
         private MultiShape _booleanOperation(Shape other, BooleanOperationType opType) {
             if (!mClosed || mPoints.Count < 2)
@@ -1092,7 +1092,7 @@ namespace Mogre_Procedural
 
 
         //-----------------------------------------------------------------------
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: bool _isLookingForOutside(BooleanOperationType opType, sbyte shapeSelector) const
         private bool _isLookingForOutside(BooleanOperationType opType, sbyte shapeSelector) {
             switch (opType) {
@@ -1110,7 +1110,7 @@ namespace Mogre_Procedural
         }
 
         //-----------------------------------------------------------------------
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: sbyte _isIncreasing(float d, BooleanOperationType opType, sbyte shapeSelector) const
         private sbyte _isIncreasing(float d, BooleanOperationType opType, sbyte shapeSelector) {
             if (d < 0f && opType == BooleanOperationType.BOT_UNION)
@@ -1125,7 +1125,7 @@ namespace Mogre_Procedural
         }
 
         //-----------------------------------------------------------------------
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: bool _findWhereToGo(const Shape* inputShapes[], BooleanOperationType opType, IntersectionInShape intersection, byte& shapeSelector, sbyte& isIncreasing, uint& currentSegment) const
         private bool _findWhereToGo(Shape[] inputShapes, BooleanOperationType opType, IntersectionInShape intersection, ref byte shapeSelector, ref sbyte isIncreasing, ref uint currentSegment) {
             if (intersection.onVertex[0] || intersection.onVertex[1]) {
@@ -1216,7 +1216,7 @@ namespace Mogre_Procedural
         }
 
         //-----------------------------------------------------------------------
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: void _findAllIntersections(const Shape& STLAllocator<U, AllocPolicy>, List<IntersectionInShape>& intersections) const
         private void _findAllIntersections(Shape other, ref List<IntersectionInShape> intersections) {
             for (ushort i = 0; i < getSegCount(); i++) {

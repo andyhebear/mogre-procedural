@@ -331,7 +331,7 @@ namespace Mogre_Procedural
         //	 * @exception Ogre::InvalidStateException Required parameter is zero!
         //	 
         //-----------------------------------------------------------------------
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: void addToTriangleBuffer(TriangleBuffer& buffer) const
         public void addToTriangleBuffer(ref TriangleBuffer buffer) {
             if (mMultiShapeToExtrude.getShapeCount() == 0)

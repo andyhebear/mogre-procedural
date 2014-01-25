@@ -35,6 +35,7 @@ namespace Mogre_Procedural
 
     using Mogre;
     using Math = Mogre.Math;
+    using Mogre_Procedural.std;
 
     //C++ TO C# CONVERTER WARNING: The original type declaration contained unconverted modifiers:
     //ORIGINAL LINE: class _ProceduralExport Boolean : public MeshGenerator<Boolean>
@@ -73,7 +74,7 @@ namespace Mogre_Procedural
 
         //-----------------------------------------------------------------------
 
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: void addToTriangleBuffer(TriangleBuffer& buffer) const
         public void addToTriangleBuffer(ref TriangleBuffer buffer) {
             List<TriangleBuffer.Vertex> vec1 = mMesh1.getVertices();
@@ -188,7 +189,7 @@ namespace Mogre_Procedural
                     for (int i = 0; i < 3; i++) {
                          Vector3 pos = newMesh1.getVertices()[newMesh1.getIndices()[mesh1seed1 * 3 + i]].mPosition;
                         if ((pos-firstSeg.mA).SquaredLength > 1e-6 && (pos-firstSeg.mB).SquaredLength > 1e-6) {
-                            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+                            //
                             //ORIGINAL LINE: vMesh1 = pos;
                             vMesh1=(pos);
                             nMesh1 = newMesh1.getVertices()[newMesh1.getIndices()[mesh1seed1 * 3 + i]].mNormal;
@@ -199,7 +200,7 @@ namespace Mogre_Procedural
                     for (int i = 0; i < 3; i++) {
                          Vector3 pos = newMesh2.getVertices()[newMesh2.getIndices()[mesh2seed1 * 3 + i]].mPosition;
                         if ((pos-firstSeg.mA).SquaredLength > 1e-6 && (pos-firstSeg.mB).SquaredLength > 1e-6) {
-                            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+                            //
                             //ORIGINAL LINE: vMesh2 = pos;
                             vMesh2=(pos);
                             nMesh2 = newMesh2.getVertices()[newMesh2.getIndices()[mesh2seed1 * 3 + i]].mNormal;
@@ -256,7 +257,176 @@ namespace Mogre_Procedural
         private KeyValuePair<KeyValuePair<Segment3D, int>, KeyValuePair<Segment3D, int>> equal_range(List<KeyValuePair<Segment3D, int>> triLookup1, Segment3D segment3D) {
             throw new NotImplementedException();
         }
+
+        public void addToTriangleBuffer(ref TriangleBuffer buffer) 
+{
+	 std_vector<TriangleBuffer.Vertex> vec1 = mMesh1.getVertices();
+	 std_vector<int> ind1 = mMesh1->getIndices();
+	 std_vector<TriangleBuffer.Vertex> vec2 = mMesh2->getVertices();
+	 std_vector<int> ind2 = mMesh2->getIndices();
+	Segment3D intersectionResult;
+
+	std::vector<Intersect> intersectionList;
+
+	// Find all intersections between mMesh1 and mMesh2
+	int idx1 = 0;
+	for (std::vector<int>::const_iterator it = ind1.begin(); it != ind1.end(); idx1++)
+	{
+		Triangle3D t1(vec1[*it++].mPosition, vec1[*it++].mPosition, vec1[*it++].mPosition);
+
+		int idx2 = 0;
+		for (std::vector<int>::const_iterator it2 = ind2.begin(); it2 != ind2.end(); idx2++)
+		{
+			Triangle3D t2(vec2[*it2++].mPosition, vec2[*it2++].mPosition, vec2[*it2++].mPosition);
+
+			if (t1.findIntersect(t2, intersectionResult))
+			{
+				Intersect intersect(intersectionResult, idx1, idx2);
+				intersectionList.push_back(intersect);
+			}
+		}
+	}
+	// Remove all intersection segments too small to be relevant
+	for (std::vector<Intersect>::iterator it = intersectionList.begin(); it != intersectionList.end();)
+		if ((it->mSeg.mB - it->mSeg.mA).squaredLength() < 1e-8)
+			it = intersectionList.erase(it);
+		else
+			++it;
+
+	// Retriangulate
+	TriangleBuffer newMesh1, newMesh2;
+	_retriangulate(newMesh1, *mMesh1, intersectionList, true);
+	_retriangulate(newMesh2, *mMesh2, intersectionList, false);
+
+	//buffer.append(newMesh1);
+	//buffer.append(newMesh2);
+	//return;
+
+	// Trace contours
+	std::vector<Path> contours;
+	std::vector<Segment3D> segmentSoup;
+	for (std::vector<Intersect>::iterator it = intersectionList.begin(); it != intersectionList.end(); ++it)
+		segmentSoup.push_back(it->mSeg);
+	Path().buildFromSegmentSoup(segmentSoup, contours);
+
+	// Build a lookup from segment to triangle
+	TriLookup triLookup1, triLookup2;
+	_buildTriLookup(triLookup1, newMesh1);
+	_buildTriLookup(triLookup2, newMesh2);
+
+	std::set<Segment3D, Seg3Comparator> limits;
+	for (std::vector<Segment3D>::iterator it = segmentSoup.begin(); it != segmentSoup.end(); ++it)
+		limits.insert(it->orderedCopy());
+	// Build resulting mesh
+	for (std::vector<Path>::iterator it = contours.begin(); it != contours.end(); ++it)
+	{
+		// Find 2 seed triangles for each contour
+		Segment3D firstSeg(it->getPoint(0), it->getPoint(1));
+
+		std::pair<TriLookup::iterator, TriLookup::iterator> it2mesh1 = triLookup1.equal_range(firstSeg.orderedCopy());
+		std::pair<TriLookup::iterator, TriLookup::iterator> it2mesh2 = triLookup2.equal_range(firstSeg.orderedCopy());
+		int mesh1seed1, mesh1seed2, mesh2seed1, mesh2seed2;
+
+		if (it2mesh1.first != triLookup1.end() && it2mesh2.first != triLookup2.end())
+		{
+			// check which of seed1 and seed2 must be included (it can be 0, 1 or both)
+			mesh1seed1 = it2mesh1.first->second;
+			mesh1seed2 = (--it2mesh1.second)->second;
+			mesh2seed1 = it2mesh2.first->second;
+			mesh2seed2 = (--it2mesh2.second)->second;
+			if (mesh1seed1 == mesh1seed2)
+				mesh1seed2 = -1;
+			if (mesh2seed1 == mesh2seed2)
+				mesh2seed2 = -1;
+
+			Vector3 vMesh1, nMesh1, vMesh2, nMesh2;
+			for (int i=0; i<3; i++)
+			{
+				const Vector3& pos = newMesh1.getVertices()[newMesh1.getIndices()[mesh1seed1 * 3 + i]].mPosition;
+				if (pos.squaredDistance(firstSeg.mA)>1e-6 && pos.squaredDistance(firstSeg.mB)>1e-6)
+				{
+					vMesh1 = pos;
+					nMesh1 = newMesh1.getVertices()[newMesh1.getIndices()[mesh1seed1 * 3 + i]].mNormal;
+					break;
+				}
+			}
+
+			for (int i=0; i<3; i++)
+			{
+				const Vector3& pos = newMesh2.getVertices()[newMesh2.getIndices()[mesh2seed1 * 3 + i]].mPosition;
+				if (pos.squaredDistance(firstSeg.mA)>1e-6 && pos.squaredDistance(firstSeg.mB)>1e-6)
+				{
+					vMesh2 = pos;
+					nMesh2 = newMesh2.getVertices()[newMesh2.getIndices()[mesh2seed1 * 3 + i]].mNormal;
+					break;
+				}
+			}
+
+			bool M2S1InsideM1 = (nMesh1.dotProduct(vMesh2-firstSeg.mA) < 0);
+			bool M1S1InsideM2 = (nMesh2.dotProduct(vMesh1-firstSeg.mA) < 0);
+
+			_removeFromTriLookup(mesh1seed1, triLookup1);
+			_removeFromTriLookup(mesh2seed1, triLookup2);
+			_removeFromTriLookup(mesh1seed2, triLookup1);
+			_removeFromTriLookup(mesh2seed2, triLookup2);
+
+			// Recursively add all neighbours of these triangles
+			// Stop when a contour is touched
+			switch (mBooleanOperation)
+			{
+			case BT_UNION:
+				if (M1S1InsideM2)
+					_recursiveAddNeighbour(buffer, newMesh1, mesh1seed2, triLookup1, limits, false);
+				else
+					_recursiveAddNeighbour(buffer, newMesh1, mesh1seed1, triLookup1, limits, false);
+				if (M2S1InsideM1)
+					_recursiveAddNeighbour(buffer, newMesh2, mesh2seed2, triLookup2, limits, false);
+				else
+					_recursiveAddNeighbour(buffer, newMesh2, mesh2seed1, triLookup2, limits, false);
+				break;
+			case BT_INTERSECTION:
+				if (M1S1InsideM2)
+					_recursiveAddNeighbour(buffer, newMesh1, mesh1seed1, triLookup1, limits, false);
+				else
+					_recursiveAddNeighbour(buffer, newMesh1, mesh1seed2, triLookup1, limits, false);
+				if (M2S1InsideM1)
+					_recursiveAddNeighbour(buffer, newMesh2, mesh2seed1, triLookup2, limits, false);
+				else
+					_recursiveAddNeighbour(buffer, newMesh2, mesh2seed2, triLookup2, limits, false);
+				break;
+			case BT_DIFFERENCE:
+				if (M1S1InsideM2)
+					_recursiveAddNeighbour(buffer, newMesh1, mesh1seed2, triLookup1, limits, false);
+				else
+					_recursiveAddNeighbour(buffer, newMesh1, mesh1seed1, triLookup1, limits, false);
+				if (M2S1InsideM1)
+					_recursiveAddNeighbour(buffer, newMesh2, mesh2seed1, triLookup2, limits, true);
+				else
+					_recursiveAddNeighbour(buffer, newMesh2, mesh2seed2, triLookup2, limits, true);
+				break;
+			}
+		}
+	}
+}
     }
+    //-----------------------------------------------------------------------
+
+    public class Intersect
+    {
+        public Segment3D mSeg = new Segment3D();
+        public int mTri1;
+        public int mTri2;
+
+        public Intersect(Segment3D seg, int tri1, int tri2) {
+            //mSeg = new Segment3D(seg);           
+            mSeg.mA = seg.mA;
+            mSeg.mB = seg.mB;
+            mTri1 = tri1;
+            mTri2 = tri2;
+        }
+    }
+    //-----------------------------------------------------------------------
+
     public static class GlobalMembersProceduralBoolean
     {
         //-----------------------------------------------------------------------
@@ -538,26 +708,11 @@ namespace Mogre_Procedural
             }
         }
     }
-    public class Intersect
-    {
-        public Segment3D mSeg = new Segment3D();
-        public int mTri1;
-        public int mTri2;
-
-        public Intersect(Segment3D seg, int tri1, int tri2) {
-            //mSeg = new Segment3D(seg);           
-            mSeg.mA = seg.mA;
-            mSeg.mB = seg.mB;
-            mTri1 = tri1;
-            mTri2 = tri2;
-        }
-    }
-    //-----------------------------------------------------------------------
-
+  
     public class Seg3Comparator
     {
 
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: bool operator ()(const Segment3D& one, const Segment3D& two) const
         //C++ TO C# CONVERTER TODO TASK: The () operator cannot be overloaded in C#:
         public static bool Operator(Segment3D one, Segment3D two) {
@@ -715,7 +870,7 @@ namespace Mogre_Procedural
     //            return this;
     //        }
 
-    //        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+    //        //
     //        //ORIGINAL LINE: void addToTriangleBuffer(TriangleBuffer& buffer) const;
     //        //C++ TO C# CONVERTER TODO TASK: The implementation of the following method could not be found:
     //        //	void addToTriangleBuffer(ref TriangleBuffer buffer);
@@ -930,7 +1085,7 @@ namespace Mogre_Procedural
     //    }
     //    //-----------------------------------------------------------------------
 
-    ////C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+    ////
     ////ORIGINAL LINE: void Boolean::addToTriangleBuffer(TriangleBuffer& buffer) const
     //    public static void addToTriangleBuffer(ref TriangleBuffer buffer)
     //    {
@@ -1110,7 +1265,7 @@ namespace Mogre_Procedural
     //public class Seg3Comparator
     //{
 
-    ////C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+    ////
     ////ORIGINAL LINE: bool operator ()(const Segment3D& one, const Segment3D& two) const
     ////C++ TO C# CONVERTER TODO TASK: The () operator cannot be overloaded in C#:
     //    public static bool operator ==(Segment3D one, Segment3D two)

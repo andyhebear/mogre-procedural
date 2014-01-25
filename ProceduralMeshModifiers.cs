@@ -82,7 +82,7 @@ namespace Mogre_Procedural
         }
 
         public SpherifyModifier setCenter(Vector3 center) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mCenter = center;
             mCenter = (center);
             return this;
@@ -172,13 +172,13 @@ namespace Mogre_Procedural
                     Vector3 v2 = vertices[indices[i + 1]].mPosition;
                     Vector3 v3 = vertices[indices[i + 2]].mPosition;
                     Vector3 n = (v2 - v1).CrossProduct(v3 - v1).NormalisedCopy;
-                    //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+                    //
                     //ORIGINAL LINE: vertices[indices[i]].mNormal = n;
                     vertices[indices[i]].mNormal = (n);
-                    //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+                    //
                     //ORIGINAL LINE: vertices[indices[i+1]].mNormal = n;
                     vertices[indices[i + 1]].mNormal = (n);
-                    //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+                    //
                     //ORIGINAL LINE: vertices[indices[i+2]].mNormal = n;
                     vertices[indices[i + 2]].mNormal = (n);
                 }
@@ -371,7 +371,7 @@ namespace Mogre_Procedural
         }
 
         public PlaneUVModifier setPlaneNormal(Vector3 planeNormal) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mPlaneNormal = planeNormal;
             mPlaneNormal = (planeNormal);
             return this;
@@ -383,14 +383,14 @@ namespace Mogre_Procedural
         }
 
         public PlaneUVModifier setPlaneCenter(Vector3 planeCenter) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mPlaneCenter = planeCenter;
             mPlaneCenter = (planeCenter);
             return this;
         }
 
         public PlaneUVModifier setPlaneSize(Vector2 planeSize) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mPlaneSize = planeSize;
             mPlaneSize = (planeSize);
             return this;
@@ -499,14 +499,14 @@ namespace Mogre_Procedural
         }
 
         public HemisphereUVModifier setTextureRectangleTop(TRect<float> textureRectangleTop) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mTextureRectangleTop = textureRectangleTop;
             mTextureRectangleTop = (textureRectangleTop);
             return this;
         }
 
         public HemisphereUVModifier setTextureRectangleBottom(TRect<float> textureRectangleBottom) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mTextureRectangleBottom = textureRectangleBottom;
             mTextureRectangleBottom = (textureRectangleBottom);
             return this;
@@ -660,14 +660,14 @@ namespace Mogre_Procedural
         }
 
         public BoxUVModifier setBoxSize(Vector3 boxSize) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mBoxSize = boxSize;
             mBoxSize = (boxSize);
             return this;
         }
 
         public BoxUVModifier setBoxCenter(Vector3 boxCenter) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mBoxCenter = boxCenter;
             mBoxCenter = (boxCenter);
             return this;

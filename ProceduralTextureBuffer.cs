@@ -323,7 +323,7 @@ namespace Mogre_Procedural
         //	\return Return colour value as an Ogre::ColourValue object.
         //	\exception Ogre::InvalidParametersException Pixel location is out of bounds!
         //	
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: Ogre::ColourValue getPixel(int x, int y) const
         public ColourValue getPixel(int x, int y) {
             if (x >= mWidth || y >= mHeight)
@@ -343,7 +343,7 @@ namespace Mogre_Procedural
         //	\return Return red colour value as a byte [0, 255].
         //	\exception Ogre::InvalidParametersException Pixel location is out of bounds!
         //	
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: Ogre::byte getPixelRedByte(int x, int y) const
         public byte getPixelRedByte(int x, int y) {
             if (x >= mWidth || y >= mHeight)
@@ -363,7 +363,7 @@ namespace Mogre_Procedural
         //	\return Return green colour value as a byte [0, 255].
         //	\exception Ogre::InvalidParametersException Pixel location is out of bounds!
         //	
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: Ogre::byte getPixelGreenByte(int x, int y) const
         public byte getPixelGreenByte(int x, int y) {
             if (x >= mWidth || y >= mHeight)
@@ -383,7 +383,7 @@ namespace Mogre_Procedural
         //	\return Return blue colour value as a byte [0, 255].
         //	\exception Ogre::InvalidParametersException Pixel location is out of bounds!
         //	
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: Ogre::byte getPixelBlueByte(int x, int y) const
         public byte getPixelBlueByte(int x, int y) {
             if (x >= mWidth || y >= mHeight)
@@ -403,7 +403,7 @@ namespace Mogre_Procedural
         //	\return Return alpha colour value as a byte [0, 255].
         //	\exception Ogre::InvalidParametersException Pixel location is out of bounds!
         //	
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: Ogre::byte getPixelAlphaByte(int x, int y) const
         public byte getPixelAlphaByte(int x, int y) {
             if (x >= mWidth || y >= mHeight)
@@ -423,7 +423,7 @@ namespace Mogre_Procedural
         //	\return Return red colour value as a Ogre::float [0.0, 1.0].
         //	\exception Ogre::InvalidParametersException Pixel location is out of bounds!
         //	
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: Ogre::float getPixelRedReal(int x, int y) const
         public float getPixelRedReal(int x, int y) {
             if (x >= mWidth || y >= mHeight)
@@ -443,7 +443,7 @@ namespace Mogre_Procedural
         //	\return Return green colour value as a Ogre::float [0.0, 1.0].
         //	\exception Ogre::InvalidParametersException Pixel location is out of bounds!
         //	
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: Ogre::float getPixelGreenReal(int x, int y) const
         public float getPixelGreenReal(int x, int y) {
             if (x >= mWidth || y >= mHeight)
@@ -463,7 +463,7 @@ namespace Mogre_Procedural
         //	\return Return blue colour value as a Ogre::float [0.0, 1.0].
         //	\exception Ogre::InvalidParametersException Pixel location is out of bounds!
         //	
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: Ogre::float getPixelBlueReal(int x, int y) const
         public float getPixelBlueReal(int x, int y) {
             if (x >= mWidth || y >= mHeight)
@@ -483,7 +483,7 @@ namespace Mogre_Procedural
         //	\return Return alpha colour value as a Ogre::float [0.0, 1.0].
         //	\exception Ogre::InvalidParametersException Pixel location is out of bounds!
         //	
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: Ogre::float getPixelAlphaReal(int x, int y) const
         public float getPixelAlphaReal(int x, int y) {
             if (x >= mWidth || y >= mHeight)
@@ -500,7 +500,7 @@ namespace Mogre_Procedural
         //	\brief Create a copy of the current texture image buffer
         //	\note You have to delete cloned object by yourself!
         //	
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: TextureBuffer* clone() const
         public TextureBuffer clone() {
             TextureBuffer clon = new TextureBuffer(mWidth);
@@ -594,21 +594,21 @@ namespace Mogre_Procedural
         }
 
         /// Get the width of the stored image in px
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: inline Ogre::uint getWidth() const
         public int getWidth() {
             return (int)mWidth;
         }
 
         /// Get the height of the stored image in px
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: inline Ogre::uint getHeight() const
         public int getHeight() {
             return (int)mHeight;
         }
 
         /// Create a new image from buffer.
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: Ogre::Image* getImage() const
         public unsafe Mogre.Image getImage() {
             Mogre.Image image = new Mogre.Image();
@@ -622,7 +622,7 @@ namespace Mogre_Procedural
         //	\brief Save the image from the buffer to a file.
         //	\param filename Name (and path) of the image file where to save the buffer.
         //	
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: void saveImage(Ogre::String filename) const
         public void saveImage(string filename) {
             Mogre.Image image = getImage();
@@ -638,7 +638,7 @@ namespace Mogre_Procedural
         public TexturePtr createTexture(string name) {
             return createTexture(name, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
         }
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: Ogre::TexturePtr createTexture(Ogre::String name, Ogre::String group = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME) const
         //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
         public TexturePtr createTexture(string name, string group) {

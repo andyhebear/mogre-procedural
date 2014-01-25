@@ -48,10 +48,20 @@ namespace Mogre_Procedural.std
         /// <returns></returns>
         public int end() {
             return base.Count;
+        } 
+        public std_pair<TKey, TValue> get(uint pos) {
+            uint index = 0;
+            foreach (var v in base.Keys) {
+                if (index == pos) {
+                    return new std_pair<TKey, TValue>(v, base[v]);
+                }
+                index++;
+            }
+            return null;
         }
         public TValue at(TKey key) {
             return base[key];
-        }
+        }       
         /// <summary>
         /// 设置值
         /// </summary>
@@ -91,35 +101,41 @@ namespace Mogre_Procedural.std
             if (!base.ContainsKey(key)) {
                 return null;
             }
-            //KeyValuePair<TKey, TValue> select =new KeyValuePair<TKey,TValue>(key, base[key]);
-            KeyValuePair<TKey, TValue> first = new KeyValuePair<TKey, TValue>();
-            KeyValuePair<TKey, TValue> second = new KeyValuePair<TKey, TValue>();
-            bool find_first = false;
-            bool find_second = false;
-            //查找下一个
-            Enumerator et = base.GetEnumerator();
-            //if (et.Current.Key.Equals(key)) {
-            //    first = et.Current;
-            //    find_first = true;
-            //}
-            while (et.MoveNext()) {
-                if (find_first) {
-                    second = et.Current;
-                    find_second = true;
-                    break;
-                }
-                else {
-                    if (et.Current.Key.Equals(key)) {
-                        first = et.Current;
-                        find_first = true;
-                    }
-                }
+            std_pair<TKey, TValue> f1 = lower_bound(key);
+            std_pair<TKey, TValue> s2 = upper_bound(key);
+            if (f1 != null) {
+                return new std_pair<std_pair<TKey,TValue>,std_pair<TKey,TValue>>(f1,s2);                
             }
+            return null;
+            ////KeyValuePair<TKey, TValue> select =new KeyValuePair<TKey,TValue>(key, base[key]);
+            //KeyValuePair<TKey, TValue> first = new KeyValuePair<TKey, TValue>();
+            //KeyValuePair<TKey, TValue> second = new KeyValuePair<TKey, TValue>();
+            //bool find_first = false;
+            //bool find_second = false;
+            ////查找下一个
+            //Enumerator et = base.GetEnumerator();
+            ////if (et.Current.Key.Equals(key)) {
+            ////    first = et.Current;
+            ////    find_first = true;
+            ////}
+            //while (et.MoveNext()) {
+            //    if (find_first) {
+            //        second = et.Current;
+            //        find_second = true;
+            //        break;
+            //    }
+            //    else {
+            //        if (et.Current.Key.Equals(key)) {
+            //            first = et.Current;
+            //            find_first = true;
+            //        }
+            //    }
+            //}
 
-            std_pair<std_pair<TKey, TValue>, std_pair<TKey, TValue>> range = new std_pair<std_pair<TKey, TValue>, std_pair<TKey, TValue>>(
-                find_first ? new std_pair<TKey, TValue>(first.Key, first.Value) : null,
-                find_second ? new std_pair<TKey, TValue>(second.Key, second.Value) : null);
-            return range;
+            //std_pair<std_pair<TKey, TValue>, std_pair<TKey, TValue>> range = new std_pair<std_pair<TKey, TValue>, std_pair<TKey, TValue>>(
+            //    find_first ? new std_pair<TKey, TValue>(first.Key, first.Value) : null,
+            //    find_second ? new std_pair<TKey, TValue>(second.Key, second.Value) : null);
+            //return range;
         }
 
 
@@ -292,6 +308,8 @@ namespace Mogre_Procedural.std
             _this = _other;
             _other = temp;
         }
+
+       
     }
 
     public class std_unordered_map<TKey, TValue> : Dictionary<TKey, TValue>
