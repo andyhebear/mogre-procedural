@@ -69,7 +69,7 @@ namespace Mogre_Procedural
                 px = 0.0f;
                 py = 0.0f;
                 index = 0;
-                char lastCmd = 0;
+                char lastCmd = (char)0;
 
                 while (index < p.Count) {
                     try {
@@ -567,7 +567,7 @@ namespace Mogre_Procedural
             }
             //-----------------------------------------------------------------------
 
-            internal void voidparseVLineTo(bool rel, bool next) {
+            internal void parseVLineTo(bool rel, bool next) {
                 if (next) index++;
                 float y = 0.0f;
                 if (!parseReal(ref y))
@@ -578,7 +578,7 @@ namespace Mogre_Procedural
                     point.y = y;
                 shape.addPoint(point);
             }
-
+             
 
             #region add
             private double atan2(float uy, float ux) {
@@ -800,7 +800,7 @@ namespace Mogre_Procedural
                 strcpy(ref tmp, pNode[attrib].Value);
                 for (int i = 0; i <= len; i++)
                     if (!(tmp[i] == '.' || ('0' <= tmp[i] && tmp[i] <= '9'))) {
-                        tmp[i] = 0;
+                        tmp[i] = (char)0;
                         break;
                     }
                 // convert
@@ -909,7 +909,7 @@ namespace Mogre_Procedural
             int len = strlen(val);
             char[] tmp = new char[len + 1];
             strcpy(ref tmp, val);
-            tmp[len] = 0;
+            tmp[len] = (char)0;
             for (int i = 0; i < len; i++) {
                 bool valid = false;
                 //for (Ogre::uint j = 0; j < strlen(achar); j++)

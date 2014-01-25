@@ -228,9 +228,7 @@ namespace Mogre_Procedural.std
         //public void resize(int size, T @defaultvalue) { 
             
         //} 
-        public int size() {
-            return base.Count;
-        }
+        
 
         public static void sort(ref std_list<T> sortlist) {
             T[] values = sortlist.get_allocator();

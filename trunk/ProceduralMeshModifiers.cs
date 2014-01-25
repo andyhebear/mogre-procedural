@@ -498,14 +498,14 @@ namespace Mogre_Procedural
             return this;
         }
 
-        public HemisphereUVModifier setTextureRectangleTop(TRect<float> textureRectangleTop) {
+        public HemisphereUVModifier setTextureRectangleTop(TRect textureRectangleTop) {
             //
             //ORIGINAL LINE: mTextureRectangleTop = textureRectangleTop;
             mTextureRectangleTop = (textureRectangleTop);
             return this;
         }
 
-        public HemisphereUVModifier setTextureRectangleBottom(TRect<float> textureRectangleBottom) {
+        public HemisphereUVModifier setTextureRectangleBottom(TRect textureRectangleBottom) {
             //
             //ORIGINAL LINE: mTextureRectangleBottom = textureRectangleBottom;
             mTextureRectangleBottom = (textureRectangleBottom);

@@ -79,6 +79,9 @@ namespace Mogre_Procedural.std
         public static bool operator ==(std_pair<T> _this, std_pair<T> _other) {
             return _this.Equals(_other);
         }
+        public static bool operator !=(std_pair<T> _this, std_pair<T> _other) {
+            return !_this.Equals(_other);
+        }
     }
     public class std_pair<T,V> : IEquatable<std_pair<T,V>>
     {
@@ -147,6 +150,9 @@ namespace Mogre_Procedural.std
         #endregion System.Object Implementation
         public static bool operator ==(std_pair<T, V> _this, std_pair<T, V> _other) {
             return _this.Equals(_other);
+        }
+        public static bool operator !=(std_pair<T, V> _this, std_pair<T, V> _other) {
+            return !_this.Equals(_other);
         }
     }
     /// <summary>

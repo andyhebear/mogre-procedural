@@ -261,7 +261,7 @@ namespace Mogre_Procedural
         //-----------------------------------------------------------------------
         //
         //ORIGINAL LINE: void addToTriangleBuffer(TriangleBuffer& buffer) const
-        public void addToTriangleBuffer(ref TriangleBuffer buffer) {
+        public override void addToTriangleBuffer(ref TriangleBuffer buffer) {
             Path p = new HelixPath().setHeight(mHeight).setNumRound(mNumRound).setNumSegPath((uint)mNumSegPath).setRadius(mRadiusHelix).realizePath();
 
             Shape s = new CircleShape().setRadius(mRadiusCircle).setNumSeg((uint)mNumSegCircle).realizeShape();

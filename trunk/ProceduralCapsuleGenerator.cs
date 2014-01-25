@@ -80,7 +80,7 @@ namespace Mogre_Procedural
         //	 
         //
         //ORIGINAL LINE: void addToTriangleBuffer(TriangleBuffer& buffer) const
-        public void addToTriangleBuffer(ref TriangleBuffer buffer) {
+        public override void addToTriangleBuffer(ref TriangleBuffer buffer) {
             buffer.rebaseOffset();
             buffer.estimateVertexCount((2 * mNumRings + 2) * (mNumSegments + 1) + (mNumSegHeight - 1) * (mNumSegments + 1));
             buffer.estimateIndexCount((2 * mNumRings + 1) * (mNumSegments + 1) * 6 + (mNumSegHeight - 1) * (mNumSegments + 1) * 6);

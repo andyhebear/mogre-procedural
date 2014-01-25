@@ -11,71 +11,71 @@ namespace Mogre_Procedural.std
         /// b中在pos处的二进制位是否为1？
         /// </summary>
         /// <returns></returns>
-        public bool test(int pos);//访问特定位
+         bool test(int pos);//访问特定位
         /// <summary>
         /// 是否所有都是置为1的二进制位
         /// </summary>
         /// <returns></returns>
-        public bool all();//检查是否所有，任何或没有位被设置为true 
+         bool all();//检查是否所有，任何或没有位被设置为true 
         /// <summary>
         /// 是否存在置为1的二进制位？
         /// </summary>
         /// <returns></returns>
-        public bool any();
+         bool any();
         /// <summary>
         /// b中不存在置为1的二进制位吗？
         /// </summary>
         /// <returns></returns>
-        public bool none();
+         bool none();
         /// <summary>
         /// the count of "true"
         /// </summary>
-        public int count();
+         int count();
         /// <summary>
         /// returns the size number of bits that the bitset can hold
         /// 返回的大小，位的bitset可容纳的数
         /// </summary>
         /// <returns></returns>
-        public int size();
+         int size();
         /// <summary>
         /// 把b中所有二进制位都置为1
         /// </summary>
-        public void set(); //Set bits (public member function )
+         void set(); //Set bits (public member function )
         /// <summary>
         /// 把b中在pos处的二进制位置为1
         /// </summary>
         /// <param name="pos"></param>
-        public void set(int pos);
+         void set(int pos);
         /// <summary>
         /// 把b中所有二进制位都置为0
         /// </summary>
-        public void reset();//Reset bits (public member function )
+         void reset();//Reset bits (public member function )
         /// <summary>
         /// 把b中在pos处的二进制位置为0
         /// </summary>
         /// <param name="pos"></param>
-        public void reset(int pos);
+         void reset(int pos);
         /// <summary>
         /// 把b中所有二进制位逐位取反
         /// </summary>
-        public void flip();//Flip bits (public member function )
+         void flip();//Flip bits (public member function )
         /// <summary>
         /// 把b中在pos处的二进制位取反
         /// </summary>
         /// <param name="pos"></param>
-        public void flip(int pos);
+         void flip(int pos);
 
-        public string to_string();//Convert to string (public member function )
+         string to_string();//Convert to string (public member function )
         /// <summary>
         /// 用b中同样的二进制位返回一个unsigned int值
         /// </summary>
         /// <returns></returns>
-        public uint to_ulong();//Convert to unsigned long integer (public member function )
+         uint to_ulong();//Convert to unsigned long integer (public member function )
         /// <summary>
         /// 用b中同样的二进制位返回一个unsigned long值
         /// </summary>
         /// <returns></returns>
-        public ulong to_ullong();// Convert to unsigned long long (public member function )
+         ulong to_ullong();// Convert to unsigned long long (public member function )
     }
     /// <summary>
     ///like c++ std::bitset

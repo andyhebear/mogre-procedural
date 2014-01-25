@@ -7,16 +7,16 @@ namespace Mogre_Procedural.std
     public interface Istd_vector<T>
     {
         void push_back(T value);
-        void insert(int pos, T value);
+        int insert(int pos, T value);
         T at(int pos);
         void pop_back();
-        void erase(T value);
-        void erase(int pos);
+        T erase(uint pos);
+        void erase(T value, bool dataref);
         void clear();
         bool empty();
         int capacity();
         int size();
-       
+
     }
     /// <summary>
     /// like c++ std::vector 相当于List类
@@ -32,7 +32,8 @@ namespace Mogre_Procedural.std
         public std_vector(int capacity)
             : base() {
         }
-        public std_vector(int count, T @value) : base() {
+        public std_vector(int count, T @value)
+            : base() {
             T[] values = new T[count];
             for (int i = 0; i < count; i++) {
                 values[i] = value;
@@ -57,7 +58,7 @@ namespace Mogre_Procedural.std
         //    return front();
         //}
         public int end() {
-            return base.Count ;
+            return base.Count;
         }
         //public T end(bool getref) {
         //    return back();
@@ -76,18 +77,18 @@ namespace Mogre_Procedural.std
             return pos;
         }
 
-        public int insert(int pos, int count, T value) { 
-            T[]values=new T[count];
-            for(int i=0;i<count;i++){
-                values[i]=value;
+        public int insert(int pos, int count, T value) {
+            T[] values = new T[count];
+            for (int i = 0; i < count; i++) {
+                values[i] = value;
             }
             base.InsertRange(pos, values);
             return pos;
         }
-        public int insert(int pos, T[]array,int firstpos, int beforelastpos) {
-            int len = beforelastpos - firstpos ;
+        public int insert(int pos, T[] array, int firstpos, int beforelastpos) {
+            int len = beforelastpos - firstpos;
             T[] data = new T[len];
-            int index=0;
+            int index = 0;
             for (int i = firstpos; i < beforelastpos; i++) {
                 data[index++] = array[i];
             }
@@ -144,7 +145,7 @@ namespace Mogre_Procedural.std
         }
         public void assign(T[] array, int beginpos, int beforeendpos) {
             //
-            int len = (beforeendpos - beginpos );
+            int len = (beforeendpos - beginpos);
             System.Diagnostics.Debug.Assert(len < array.Length);
             T[] values = new T[len];
             int index = 0;
@@ -162,13 +163,13 @@ namespace Mogre_Procedural.std
             base.Remove(value);
         }
 
-        public T erase(int pos) {
-            T obj = base[pos];
-            base.RemoveAt(pos);
+        public T erase(uint pos) {
+            T obj = base[(int)pos];
+            base.RemoveAt((int)pos);
             return obj;
         }
         public T[] erase(int beginpos, int beforelastpos) {
-            int len = beforelastpos - beginpos ;
+            int len = beforelastpos - beginpos;
             T[] array = new T[len];
             base.CopyTo(beginpos, array, 0, len);
             base.RemoveRange(beginpos, len);
@@ -203,14 +204,18 @@ namespace Mogre_Procedural.std
         public int max_size() {
             return int.MaxValue;
         }
-   
+
 
         #endregion
 
-        public static void swap(ref std_vector<T> _this,ref std_vector<T> _other) {
+        public static void swap(ref std_vector<T> _this, ref std_vector<T> _other) {
             std_vector<T> temp = _this;
             _this = _other;
             _other = temp;
         }
+
+
+
+
     }
 }

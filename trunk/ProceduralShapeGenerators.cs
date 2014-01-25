@@ -219,7 +219,7 @@ namespace Mogre_Procedural
 
         /// Adds a control point
         public KochanekBartelsSpline2 addPoint(float x, float y) {
-            mPoints.push_back(new KochanekBartelsSplineControlPoint<Vector2>(Vector2(x, y)));
+            mPoints.push_back(new KochanekBartelsSplineControlPoint<Vector2>(new Vector2(x, y)));
             return this;
         }
 

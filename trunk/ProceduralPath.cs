@@ -692,6 +692,11 @@ namespace Mogre_Procedural
                     return th.pathIndex < other.pathIndex;
                 return th.pointIndex < other.pointIndex;
             }
+            public static bool operator >(PathCoordinate th, PathCoordinate other) {
+                if (th.pathIndex != other.pathIndex)
+                    return th.pathIndex > other.pathIndex;
+                return th.pointIndex > other.pointIndex;
+            }
         }
         //#define PathIntersection_AlternateDefinition1
         private List<Path> mPaths = new List<Path>();

@@ -169,7 +169,7 @@ namespace Mogre_Procedural
         //	 
         
         //ORIGINAL LINE: void addToTriangleBuffer(TriangleBuffer& buffer) const
-        public void addToTriangleBuffer(ref TriangleBuffer buffer) {
+        public override  void addToTriangleBuffer(ref TriangleBuffer buffer) {
             PlaneGenerator pg = new PlaneGenerator();
             pg.setUTile(mUTile).setVTile(mVTile);
             if (mTransform != null) {

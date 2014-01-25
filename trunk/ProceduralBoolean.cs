@@ -26,7 +26,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-
+// write with new std ... ok
 namespace Mogre_Procedural
 {
     using System;
@@ -36,6 +36,9 @@ namespace Mogre_Procedural
     using Mogre;
     using Math = Mogre.Math;
     using Mogre_Procedural.std;
+    //-----------------------------------------------------------------------
+    //typedef std::multimap<Segment3D, int, Seg3Comparator> TriLookup;
+    using TriLookup = std.std_multimap<Segment3D, int>;
 
     //C++ TO C# CONVERTER WARNING: The original type declaration contained unconverted modifiers:
     //ORIGINAL LINE: class _ProceduralExport Boolean : public MeshGenerator<Boolean>
@@ -76,49 +79,48 @@ namespace Mogre_Procedural
 
         //
         //ORIGINAL LINE: void addToTriangleBuffer(TriangleBuffer& buffer) const
-        public void addToTriangleBuffer(ref TriangleBuffer buffer) {
-            List<TriangleBuffer.Vertex> vec1 = mMesh1.getVertices();
-            List<int> ind1 = mMesh1.getIndices();
-            List<TriangleBuffer.Vertex> vec2 = mMesh2.getVertices();
-            List<int> ind2 = mMesh2.getIndices();
+        public override void addToTriangleBuffer(ref TriangleBuffer buffer) {
+            std_vector<TriangleBuffer.Vertex> vec1 = mMesh1.getVertices();
+            std_vector<int> ind1 = mMesh1.getIndices();
+            std_vector<TriangleBuffer.Vertex> vec2 = mMesh2.getVertices();
+            std_vector<int> ind2 = mMesh2.getIndices();
             Segment3D intersectionResult = new Segment3D();
 
-            List<Intersect> intersectionList = new List<Intersect>();
+            std_vector<Intersect> intersectionList = new std_vector<Intersect>();
 
             // Find all intersections between mMesh1 and mMesh2
             int idx1 = 0;
-            //for (List<int>.Enumerator it = ind1.GetEnumerator(); it.MoveNext(); idx1++)
-            foreach (var it in ind1) {
-                if (idx1 % 3 == 0) {
-                    //Triangle3D t1(vec1[*it++].mPosition, vec1[*it++].mPosition, vec1[*it++].mPosition);
-                    Triangle3D t1 = new Triangle3D(vec1[it].mPosition, vec1[it + 1].mPosition, vec1[it + 2].mPosition);
-                    int idx2 = 0;
-                    foreach (var it2 in ind2) {
-                        if (idx2 % 3 == 0) {
-                            //Triangle3D t2(vec2[*it2++].mPosition, vec2[*it2++].mPosition, vec2[*it2++].mPosition);
-                            Triangle3D t2 = new Triangle3D(vec2[it2].mPosition, vec2[it2 + 1].mPosition, vec2[it2 + 2].mPosition);
-                            if (t1.findIntersect(t2, ref intersectionResult)) {
-                                Intersect intersect = new Intersect(intersectionResult, idx1 / 3, idx2 / 3);
-                                intersectionList.Add(intersect);
-                            }
-                        }
-                        idx2++;
+            //for (std::vector<int>::const_iterator it = ind1.begin(); it != ind1.end(); idx1++)
+            for (int i = 0; i < ind1.Count; i += 3, idx1++) {
+                int it = ind1[i];
+                //Triangle3D t1(vec1[*it++].mPosition, vec1[*it++].mPosition, vec1[*it++].mPosition);
+                Triangle3D t1 = new Triangle3D(vec1[it].mPosition, vec1[it + 1].mPosition, vec1[it + 2].mPosition);
+                int idx2 = 0;
+                //for (std::vector<int>::const_iterator it2 = ind2.begin(); it2 != ind2.end(); idx2++)
+                for (int j = 0; j < ind2.Count; j += 3, idx2++) {
+                    int it2 = ind2[j];
+                    //Triangle3D t2(vec2[*it2++].mPosition, vec2[*it2++].mPosition, vec2[*it2++].mPosition);
+                    Triangle3D t2 = new Triangle3D(vec2[it2].mPosition, vec2[it2 + 1].mPosition, vec2[it2 + 2].mPosition);
+                    if (t1.findIntersect(t2, ref intersectionResult)) {
+                        Intersect intersect = new Intersect(intersectionResult, idx1, idx2);
+                        intersectionList.push_back(intersect);
                     }
                 }
-                idx1++;
+
             }
             // Remove all intersection segments too small to be relevant
             //for (std::vector<Intersect>::iterator it = intersectionList.begin(); it != intersectionList.end();)
+            //    if ((it.mSeg.mB - it.mSeg.mA).squaredLength() < 1e-8)
+            //        it = intersectionList.erase(it);
+            //    else
+            //        ++it;
             for (int i = intersectionList.Count - 1; i >= 0; i--) {
-                //    if ((it->mSeg.mB - it->mSeg.mA).squaredLength() < 1e-8)
-                //    it = intersectionList.erase(it);
-                //else
-                //    ++it;
                 Intersect it = intersectionList[i];
-                if ((it.mSeg.mB - it.mSeg.mA).SquaredLength < 1e-8) {
-                    intersectionList.RemoveAt(i);
-                }
+                if ((it.mSeg.mB - it.mSeg.mA).SquaredLength < 1e-8)
+                    intersectionList.erase((uint)i);
             }
+
+
             // Retriangulate
             TriangleBuffer newMesh1 = new TriangleBuffer();
             TriangleBuffer newMesh2 = new TriangleBuffer();
@@ -130,86 +132,71 @@ namespace Mogre_Procedural
             //return;
 
             // Trace contours
-            List<Path> contours = new List<Path>();
-            List<Segment3D> segmentSoup = new List<Segment3D>();
-            foreach (var it in intersectionList) {
-                segmentSoup.Add(it.mSeg);
-            }
+            std_vector<Path> contours = new std_vector<Path>();
+            std_vector<Segment3D> segmentSoup = new std_vector<Segment3D>();
+            //for (std::vector<Intersect>::iterator it = intersectionList.begin(); it != intersectionList.end(); ++it)
+            foreach (var it in intersectionList)
+                segmentSoup.push_back(it.mSeg);
             new Path().buildFromSegmentSoup(segmentSoup, ref contours);
 
             // Build a lookup from segment to triangle
-            //std.multimap<Segment3D, int, Seg3Comparator> triLookup1 = new std.multimap<Segment3D, int, Seg3Comparator>();
-            //std.multimap<Segment3D, int, Seg3Comparator> triLookup2 = new std.multimap<Segment3D, int, Seg3Comparator>();
-            List<KeyValuePair<Segment3D, int>> triLookup1 = new List<KeyValuePair<Segment3D, int>>();
-            List<KeyValuePair<Segment3D, int>> triLookup2 = new List<KeyValuePair<Segment3D, int>>();
+            TriLookup triLookup1 = new std_multimap<Segment3D, int>(new Seg3Comparator()), triLookup2 = new std_multimap<Segment3D, int>(new Seg3Comparator());
             GlobalMembersProceduralBoolean._buildTriLookup(ref triLookup1, newMesh1);
             GlobalMembersProceduralBoolean._buildTriLookup(ref triLookup2, newMesh2);
 
-            //std.set<Segment3D, Seg3Comparator> limits = new std.set<Segment3D, Seg3Comparator>();
-            List<Segment3D> limits = new List<Segment3D>();
-            //for (List<Segment3D>.Enumerator it = segmentSoup.GetEnumerator(); it.MoveNext(); ++it)
-            //    limits.insert(it.orderedCopy());
-            foreach(var it in segmentSoup){
-                limits.Add(it.orderedCopy());
-            }
+            std_set<Segment3D> limits = new std_set<Segment3D>(new Seg3Comparator());
+            //for (std::vector<Segment3D>::iterator it = segmentSoup.begin(); it != segmentSoup.end(); ++it)
+            foreach (var it in segmentSoup)
+                limits.insert(it.orderedCopy());
             // Build resulting mesh
-            //for (List<Path>.Enumerator it = contours.GetEnumerator(); it.MoveNext(); ++it) 
-            foreach(var it in contours)
-            {
+            //for (std::vector<Path>::iterator it = contours.begin(); it != contours.end(); ++it)
+            foreach (var it in contours) {
                 // Find 2 seed triangles for each contour
                 Segment3D firstSeg = new Segment3D(it.getPoint(0), it.getPoint(1));
+                //std_pair<TriLookup::iterator, TriLookup::iterator> it2mesh1 = triLookup1.equal_range(firstSeg.orderedCopy());
+                //std_pair<TriLookup::iterator, TriLookup::iterator> it2mesh2 = triLookup2.equal_range(firstSeg.orderedCopy());
+                std_pair<std_pair<Segment3D, List<int>>, std_pair<Segment3D, List<int>>> it2mesh1 = triLookup1.equal_range(firstSeg.orderedCopy());
+                std_pair<std_pair<Segment3D, List<int>>, std_pair<Segment3D, List<int>>> it2mesh2 = triLookup2.equal_range(firstSeg.orderedCopy());
+                int mesh1seed1 = 0, mesh1seed2 = 0, mesh2seed1 = 0, mesh2seed2 = 0;
 
-                //std.pair<std.multimap<Segment3D, int, Seg3Comparator>.Enumerator, std.multimap<Segment3D, int, Seg3Comparator>.Enumerator> it2mesh1 = triLookup1.equal_range(firstSeg.orderedCopy());
-                //std.pair<std.multimap<Segment3D, int, Seg3Comparator>.Enumerator, std.multimap<Segment3D, int, Seg3Comparator>.Enumerator> it2mesh2 = triLookup2.equal_range(firstSeg.orderedCopy());
-                KeyValuePair<KeyValuePair<Segment3D, int>, KeyValuePair<Segment3D, int>> it2mesh1 = equal_range(triLookup1, firstSeg.orderedCopy());
-                KeyValuePair<KeyValuePair<Segment3D, int>, KeyValuePair<Segment3D, int>> it2mesh2 = equal_range(triLookup1, firstSeg.orderedCopy());
-                int mesh1seed1;
-                int mesh1seed2;
-                int mesh2seed1;
-                int mesh2seed2;
-
-                //if (it2mesh1.Key != triLookup1.end() && it2mesh2.first != triLookup2.end()) 
-                if(it2mesh1.Key.Key!=triLookup1[triLookup1.Count-1].Key&&
-                    it2mesh2.Key.Key!=triLookup2[triLookup2.Count-1].Key)
-                {
+                //if (it2mesh1.first != triLookup1.end() && it2mesh2.first != triLookup2.end())
+                if (it2mesh1.first != null && it2mesh2.first != null) {
                     // check which of seed1 and seed2 must be included (it can be 0, 1 or both)
-                    mesh1seed1 = it2mesh1.Key.Value;
-                    mesh1seed2 = (it2mesh1.Value).Value - 1; //--(it2mesh1.Value).Value;
-                    mesh2seed1 = it2mesh2.Key.Value;
-                    mesh2seed2 =(it2mesh2.Value).Value-1; //--(it2mesh2.Value).Value;
+                    //mesh1seed1 = it2mesh1.first.second;
+                    //mesh1seed2 = (--it2mesh1.second).second;
+                    //mesh2seed1 = it2mesh2.first.second;
+                    //mesh2seed2 = (--it2mesh2.second).second;
+                    mesh1seed1 = it2mesh1.first.second[0];
+                    mesh1seed2 = it2mesh1.first.second[it2mesh1.first.second.Count - 1]; //(--it2mesh1.second).second[0];
+                    mesh2seed1 = it2mesh2.first.second[0];
+                    mesh2seed2 = it2mesh2.first.second[it2mesh2.first.second.Count - 1];//(--it2mesh2.second).second[0];
+
                     if (mesh1seed1 == mesh1seed2)
                         mesh1seed2 = -1;
                     if (mesh2seed1 == mesh2seed2)
                         mesh2seed2 = -1;
 
-                    Vector3 vMesh1 = new Vector3();
-                    Vector3 nMesh1 = new Vector3();
-                    Vector3 vMesh2 = new Vector3();
-                    Vector3 nMesh2 = new Vector3();
+                    Vector3 vMesh1, nMesh1, vMesh2, nMesh2;
                     for (int i = 0; i < 3; i++) {
-                         Vector3 pos = newMesh1.getVertices()[newMesh1.getIndices()[mesh1seed1 * 3 + i]].mPosition;
-                        if ((pos-firstSeg.mA).SquaredLength > 1e-6 && (pos-firstSeg.mB).SquaredLength > 1e-6) {
-                            //
-                            //ORIGINAL LINE: vMesh1 = pos;
-                            vMesh1=(pos);
+                        Vector3 pos = newMesh1.getVertices()[newMesh1.getIndices()[mesh1seed1 * 3 + i]].mPosition;
+                        if ((pos - firstSeg.mA).SquaredLength > 1e-6 && (pos - firstSeg.mB).SquaredLength > 1e-6) {
+                            vMesh1 = pos;
                             nMesh1 = newMesh1.getVertices()[newMesh1.getIndices()[mesh1seed1 * 3 + i]].mNormal;
                             break;
                         }
                     }
 
                     for (int i = 0; i < 3; i++) {
-                         Vector3 pos = newMesh2.getVertices()[newMesh2.getIndices()[mesh2seed1 * 3 + i]].mPosition;
-                        if ((pos-firstSeg.mA).SquaredLength > 1e-6 && (pos-firstSeg.mB).SquaredLength > 1e-6) {
-                            //
-                            //ORIGINAL LINE: vMesh2 = pos;
-                            vMesh2=(pos);
+                        Vector3 pos = newMesh2.getVertices()[newMesh2.getIndices()[mesh2seed1 * 3 + i]].mPosition;
+                        if ((pos - firstSeg.mA).SquaredLength > 1e-6 && (pos - firstSeg.mB).SquaredLength > 1e-6) {
+                            vMesh2 = pos;
                             nMesh2 = newMesh2.getVertices()[newMesh2.getIndices()[mesh2seed1 * 3 + i]].mNormal;
                             break;
                         }
                     }
 
-                    bool M2S1InsideM1 = (nMesh1.DotProduct(vMesh2 - firstSeg.mA) < 0);
-                    bool M1S1InsideM2 = (nMesh2.DotProduct(vMesh1 - firstSeg.mA) < 0);
+                    bool M2S1InsideM1 = (nMesh1.DotProduct(vMesh2 - firstSeg.mA) < 0f);
+                    bool M1S1InsideM2 = (nMesh2.DotProduct(vMesh1 - firstSeg.mA) < 0f);
 
                     GlobalMembersProceduralBoolean._removeFromTriLookup(mesh1seed1, ref triLookup1);
                     GlobalMembersProceduralBoolean._removeFromTriLookup(mesh2seed1, ref triLookup2);
@@ -235,7 +222,7 @@ namespace Mogre_Procedural
                             else
                                 GlobalMembersProceduralBoolean._recursiveAddNeighbour(ref buffer, newMesh1, mesh1seed2, ref triLookup1, limits, false);
                             if (M2S1InsideM1)
-                                GlobalMembersProceduralBoolean._recursiveAddNeighbour(ref buffer, newMesh2, mesh2seed1, ref triLookup2, limits, false);
+                                GlobalMembersProceduralBoolean._recursiveAddNeighbour(ref buffer, newMesh2, mesh2seed1, ref  triLookup2, limits, false);
                             else
                                 GlobalMembersProceduralBoolean._recursiveAddNeighbour(ref buffer, newMesh2, mesh2seed2, ref triLookup2, limits, false);
                             break;
@@ -243,9 +230,9 @@ namespace Mogre_Procedural
                             if (M1S1InsideM2)
                                 GlobalMembersProceduralBoolean._recursiveAddNeighbour(ref buffer, newMesh1, mesh1seed2, ref triLookup1, limits, false);
                             else
-                                GlobalMembersProceduralBoolean._recursiveAddNeighbour(ref buffer, newMesh1, mesh1seed1, ref triLookup1, limits, false);
+                                GlobalMembersProceduralBoolean._recursiveAddNeighbour(ref buffer, newMesh1, mesh1seed1, ref  triLookup1, limits, false);
                             if (M2S1InsideM1)
-                                GlobalMembersProceduralBoolean._recursiveAddNeighbour(ref buffer, newMesh2, mesh2seed1, ref triLookup2, limits, true);
+                                GlobalMembersProceduralBoolean._recursiveAddNeighbour(ref buffer, newMesh2, mesh2seed1, ref  triLookup2, limits, true);
                             else
                                 GlobalMembersProceduralBoolean._recursiveAddNeighbour(ref buffer, newMesh2, mesh2seed2, ref triLookup2, limits, true);
                             break;
@@ -253,161 +240,6 @@ namespace Mogre_Procedural
                 }
             }
         }
-
-        private KeyValuePair<KeyValuePair<Segment3D, int>, KeyValuePair<Segment3D, int>> equal_range(List<KeyValuePair<Segment3D, int>> triLookup1, Segment3D segment3D) {
-            throw new NotImplementedException();
-        }
-
-        public void addToTriangleBuffer(ref TriangleBuffer buffer) 
-{
-	 std_vector<TriangleBuffer.Vertex> vec1 = mMesh1.getVertices();
-	 std_vector<int> ind1 = mMesh1->getIndices();
-	 std_vector<TriangleBuffer.Vertex> vec2 = mMesh2->getVertices();
-	 std_vector<int> ind2 = mMesh2->getIndices();
-	Segment3D intersectionResult;
-
-	std::vector<Intersect> intersectionList;
-
-	// Find all intersections between mMesh1 and mMesh2
-	int idx1 = 0;
-	for (std::vector<int>::const_iterator it = ind1.begin(); it != ind1.end(); idx1++)
-	{
-		Triangle3D t1(vec1[*it++].mPosition, vec1[*it++].mPosition, vec1[*it++].mPosition);
-
-		int idx2 = 0;
-		for (std::vector<int>::const_iterator it2 = ind2.begin(); it2 != ind2.end(); idx2++)
-		{
-			Triangle3D t2(vec2[*it2++].mPosition, vec2[*it2++].mPosition, vec2[*it2++].mPosition);
-
-			if (t1.findIntersect(t2, intersectionResult))
-			{
-				Intersect intersect(intersectionResult, idx1, idx2);
-				intersectionList.push_back(intersect);
-			}
-		}
-	}
-	// Remove all intersection segments too small to be relevant
-	for (std::vector<Intersect>::iterator it = intersectionList.begin(); it != intersectionList.end();)
-		if ((it->mSeg.mB - it->mSeg.mA).squaredLength() < 1e-8)
-			it = intersectionList.erase(it);
-		else
-			++it;
-
-	// Retriangulate
-	TriangleBuffer newMesh1, newMesh2;
-	_retriangulate(newMesh1, *mMesh1, intersectionList, true);
-	_retriangulate(newMesh2, *mMesh2, intersectionList, false);
-
-	//buffer.append(newMesh1);
-	//buffer.append(newMesh2);
-	//return;
-
-	// Trace contours
-	std::vector<Path> contours;
-	std::vector<Segment3D> segmentSoup;
-	for (std::vector<Intersect>::iterator it = intersectionList.begin(); it != intersectionList.end(); ++it)
-		segmentSoup.push_back(it->mSeg);
-	Path().buildFromSegmentSoup(segmentSoup, contours);
-
-	// Build a lookup from segment to triangle
-	TriLookup triLookup1, triLookup2;
-	_buildTriLookup(triLookup1, newMesh1);
-	_buildTriLookup(triLookup2, newMesh2);
-
-	std::set<Segment3D, Seg3Comparator> limits;
-	for (std::vector<Segment3D>::iterator it = segmentSoup.begin(); it != segmentSoup.end(); ++it)
-		limits.insert(it->orderedCopy());
-	// Build resulting mesh
-	for (std::vector<Path>::iterator it = contours.begin(); it != contours.end(); ++it)
-	{
-		// Find 2 seed triangles for each contour
-		Segment3D firstSeg(it->getPoint(0), it->getPoint(1));
-
-		std::pair<TriLookup::iterator, TriLookup::iterator> it2mesh1 = triLookup1.equal_range(firstSeg.orderedCopy());
-		std::pair<TriLookup::iterator, TriLookup::iterator> it2mesh2 = triLookup2.equal_range(firstSeg.orderedCopy());
-		int mesh1seed1, mesh1seed2, mesh2seed1, mesh2seed2;
-
-		if (it2mesh1.first != triLookup1.end() && it2mesh2.first != triLookup2.end())
-		{
-			// check which of seed1 and seed2 must be included (it can be 0, 1 or both)
-			mesh1seed1 = it2mesh1.first->second;
-			mesh1seed2 = (--it2mesh1.second)->second;
-			mesh2seed1 = it2mesh2.first->second;
-			mesh2seed2 = (--it2mesh2.second)->second;
-			if (mesh1seed1 == mesh1seed2)
-				mesh1seed2 = -1;
-			if (mesh2seed1 == mesh2seed2)
-				mesh2seed2 = -1;
-
-			Vector3 vMesh1, nMesh1, vMesh2, nMesh2;
-			for (int i=0; i<3; i++)
-			{
-				const Vector3& pos = newMesh1.getVertices()[newMesh1.getIndices()[mesh1seed1 * 3 + i]].mPosition;
-				if (pos.squaredDistance(firstSeg.mA)>1e-6 && pos.squaredDistance(firstSeg.mB)>1e-6)
-				{
-					vMesh1 = pos;
-					nMesh1 = newMesh1.getVertices()[newMesh1.getIndices()[mesh1seed1 * 3 + i]].mNormal;
-					break;
-				}
-			}
-
-			for (int i=0; i<3; i++)
-			{
-				const Vector3& pos = newMesh2.getVertices()[newMesh2.getIndices()[mesh2seed1 * 3 + i]].mPosition;
-				if (pos.squaredDistance(firstSeg.mA)>1e-6 && pos.squaredDistance(firstSeg.mB)>1e-6)
-				{
-					vMesh2 = pos;
-					nMesh2 = newMesh2.getVertices()[newMesh2.getIndices()[mesh2seed1 * 3 + i]].mNormal;
-					break;
-				}
-			}
-
-			bool M2S1InsideM1 = (nMesh1.dotProduct(vMesh2-firstSeg.mA) < 0);
-			bool M1S1InsideM2 = (nMesh2.dotProduct(vMesh1-firstSeg.mA) < 0);
-
-			_removeFromTriLookup(mesh1seed1, triLookup1);
-			_removeFromTriLookup(mesh2seed1, triLookup2);
-			_removeFromTriLookup(mesh1seed2, triLookup1);
-			_removeFromTriLookup(mesh2seed2, triLookup2);
-
-			// Recursively add all neighbours of these triangles
-			// Stop when a contour is touched
-			switch (mBooleanOperation)
-			{
-			case BT_UNION:
-				if (M1S1InsideM2)
-					_recursiveAddNeighbour(buffer, newMesh1, mesh1seed2, triLookup1, limits, false);
-				else
-					_recursiveAddNeighbour(buffer, newMesh1, mesh1seed1, triLookup1, limits, false);
-				if (M2S1InsideM1)
-					_recursiveAddNeighbour(buffer, newMesh2, mesh2seed2, triLookup2, limits, false);
-				else
-					_recursiveAddNeighbour(buffer, newMesh2, mesh2seed1, triLookup2, limits, false);
-				break;
-			case BT_INTERSECTION:
-				if (M1S1InsideM2)
-					_recursiveAddNeighbour(buffer, newMesh1, mesh1seed1, triLookup1, limits, false);
-				else
-					_recursiveAddNeighbour(buffer, newMesh1, mesh1seed2, triLookup1, limits, false);
-				if (M2S1InsideM1)
-					_recursiveAddNeighbour(buffer, newMesh2, mesh2seed1, triLookup2, limits, false);
-				else
-					_recursiveAddNeighbour(buffer, newMesh2, mesh2seed2, triLookup2, limits, false);
-				break;
-			case BT_DIFFERENCE:
-				if (M1S1InsideM2)
-					_recursiveAddNeighbour(buffer, newMesh1, mesh1seed2, triLookup1, limits, false);
-				else
-					_recursiveAddNeighbour(buffer, newMesh1, mesh1seed1, triLookup1, limits, false);
-				if (M2S1InsideM1)
-					_recursiveAddNeighbour(buffer, newMesh2, mesh2seed1, triLookup2, limits, true);
-				else
-					_recursiveAddNeighbour(buffer, newMesh2, mesh2seed2, triLookup2, limits, true);
-				break;
-			}
-		}
-	}
-}
     }
     //-----------------------------------------------------------------------
 
@@ -424,6 +256,31 @@ namespace Mogre_Procedural
             mTri1 = tri1;
             mTri2 = tri2;
         }
+    }
+    //-----------------------------------------------------------------------
+    public class Seg3Comparator : IComparer<Segment3D>
+    {
+
+        //
+        //ORIGINAL LINE: bool operator ()(const Segment3D& one, const Segment3D& two) const
+        //C++ TO C# CONVERTER TODO TASK: The () operator cannot be overloaded in C#:
+        public static bool Operator(Segment3D one, Segment3D two) {
+            if (one.epsilonEquivalent(two))
+                return false;
+
+            if ((one.mA - two.mA).SquaredLength > 1e-6)
+                return Vector3Comparator.Operator(one.mA, two.mA);
+            return Vector3Comparator.Operator(one.mB, two.mB);
+        }
+
+        #region IComparer<Segment3D> 成员
+
+        public int Compare(Segment3D x, Segment3D y) {
+            bool ok = Operator(x, y);
+            return ok ? 1 : -1;
+        }
+
+        #endregion
     }
     //-----------------------------------------------------------------------
 
@@ -446,26 +303,29 @@ namespace Mogre_Procedural
         }
         //-----------------------------------------------------------------------
 
-        public static void _removeFromTriLookup(int k, ref List<KeyValuePair<Segment3D, int>> lookup) {
+        public static void _removeFromTriLookup(int k, ref TriLookup lookup) {
             //for (std.multimap<Segment3D, int, Seg3Comparator>.Enumerator it2 = lookup.begin(); it2 != lookup.end(); )
             int count = lookup.Count;
             for (int i = count - 1; i >= 0; i--) {
                 //std.multimap<Segment3D, int, Seg3Comparator>.Enumerator removeIt = it2++;
-                KeyValuePair<Segment3D, int> removeIt = lookup[i];
-                if (removeIt.Value == k) {
-                    //lookup.Remove(removeIt);
-                    lookup.RemoveAt(i);
+                std_pair<Segment3D, List<int>> removeIt = lookup.get((uint)i);
+                foreach (var v in removeIt.second) {
+                    if (v == k) {
+                        //lookup.Remove(removeIt);
+                        lookup.Remove(removeIt.first);
+                        break;
+                    }
                 }
             }
         }
         //-----------------------------------------------------------------------
 
-        public static void _recursiveAddNeighbour(ref TriangleBuffer result, TriangleBuffer source, int triNumber, ref List<KeyValuePair<Segment3D, int>> lookup, List<Segment3D> limits, bool inverted) {
+        public static void _recursiveAddNeighbour(ref TriangleBuffer result, TriangleBuffer source, int triNumber, ref TriLookup lookup, std_set<Segment3D> limits, bool inverted) {
             if (triNumber == -1)
                 return;
             Utils.log("tri " + (triNumber.ToString()));
-            List<int> ind = source.getIndices();
-            List<TriangleBuffer.Vertex> vec = source.getVertices();
+            std_vector<int> ind = source.getIndices();
+            std_vector<TriangleBuffer.Vertex> vec = source.getVertices();
             result.rebaseOffset();
             if (inverted) {
                 result.triangle(0, 2, 1);
@@ -490,125 +350,89 @@ namespace Mogre_Procedural
             //Utils::log("vertex " + StringConverter::toString(vec[ind[triNumber*3+1]].mPosition));
             //Utils::log("vertex " + StringConverter::toString(vec[ind[triNumber*3+2]].mPosition));
 
-            KeyValuePair<Segment3D, int> it;
+            std_pair<Segment3D, List<int>> it = null;
 
             int nextTriangle1 = -1;
             int nextTriangle2 = -1;
             int nextTriangle3 = -1;
-            it = lookup_find(lookup, (new Segment3D(vec[ind[triNumber * 3]].mPosition, vec[ind[triNumber * 3 + 1]].mPosition).orderedCopy()));
-            //if (it != lookup.end() && limits.find(it->first.orderedCopy()) != limits.end())
-            //	Utils::log("Cross limit1");
+            int it_find = lookup.find(new Segment3D(vec[ind[triNumber * 3]].mPosition, vec[ind[triNumber * 3 + 1]].mPosition).orderedCopy());
+            ////if (it != lookup.end() && limits.find(it->first.orderedCopy()) != limits.end())
+            ////	Utils::log("Cross limit1");
+            //if (it != lookup.end() && limits.find(it->first.orderedCopy()) == limits.end()) {
+            //    nextTriangle1 = it->second;
+            //    _removeFromTriLookup(nextTriangle1, lookup);
+            //} 
+            if (it_find != -1) {
+                it = lookup.get((uint)it_find);
+                if (limits.find(it.first.orderedCopy()) == -1) {
+                    nextTriangle1 = it.second[0];
+                    GlobalMembersProceduralBoolean._removeFromTriLookup(nextTriangle1, ref lookup);
+                }
+            }
+            //	it = lookup.find(Segment3D(vec[ind[triNumber * 3 + 1]].mPosition, vec[ind[triNumber * 3 + 2]].mPosition).orderedCopy());
+            it_find = lookup.find(new Segment3D(vec[ind[triNumber * 3 + 1]].mPosition, vec[ind[triNumber * 3 + 2]].mPosition).orderedCopy());
 
-            //if (it != lookup.end() && limits.find(it.first.orderedCopy()) == limits.end())
-            Segment3D limits_end = limits[limits.Count - 1];
-            bool findlm = false;
-            foreach (var lm in limits) {
-                if (lm.orderedCopy().epsilonEquivalent(limits_end)) {
-                    findlm = true;
-                    break;
+            ////if (it != lookup.end() && limits.find(it->first.orderedCopy()) != limits.end())
+            ////Utils::log("Cross limit2");
+            //if (it != lookup.end() && limits.find(it->first.orderedCopy()) == limits.end()) {
+            //    nextTriangle2 = it->second;
+            //    _removeFromTriLookup(nextTriangle2, lookup);
+            //}
+            if (it_find != -1) {
+                it = lookup.get((uint)it_find);
+                if (limits.find(it.first.orderedCopy()) == -1) {
+                    nextTriangle2 = it.second[0];
+                    GlobalMembersProceduralBoolean._removeFromTriLookup(nextTriangle2, ref lookup);
                 }
             }
-            if (it.Key != lookup[lookup.Count - 1].Key && it.Value != lookup[lookup.Count - 1].Value
-                && findlm) {
-                nextTriangle1 = it.Value;
-                _removeFromTriLookup(nextTriangle1, ref lookup);
+            //it = lookup.find(Segment3D(vec[ind[triNumber * 3]].mPosition, vec[ind[triNumber * 3 + 2]].mPosition).orderedCopy());
+            ////if (it != lookup.end() && limits.find(it->first.orderedCopy()) != limits.end())
+            ////	Utils::log("Cross limit3");
+            //if (it != lookup.end() && limits.find(it->first.orderedCopy()) == limits.end()) {
+            //    nextTriangle3 = it->second;
+            //    _removeFromTriLookup(nextTriangle3, lookup);
+            //}
+            it_find = lookup.find(new Segment3D(vec[ind[triNumber * 3]].mPosition, vec[ind[triNumber * 3 + 2]].mPosition).orderedCopy());
+            if (it_find != -1) {
+                it = lookup.get((uint)it_find);
+                if (limits.find(it.first.orderedCopy()) == -1) {
+                    nextTriangle3 = it.second[0];
+                    GlobalMembersProceduralBoolean._removeFromTriLookup(nextTriangle3, ref lookup);
+                }
             }
-            it = lookup_find(lookup, new Segment3D(vec[ind[triNumber * 3 + 1]].mPosition, vec[ind[triNumber * 3 + 2]].mPosition).orderedCopy());
-            //if (it != lookup.end() && limits.find(it->first.orderedCopy()) != limits.end())
-            //Utils::log("Cross limit2");
 
-            //if (it != lookup.end() && limits.find(it.first.orderedCopy()) == limits.end()) 
-            limits_end = limits[limits.Count - 1];
-            findlm = false;
-            foreach (var lm in limits) {
-                if (lm.orderedCopy().epsilonEquivalent(limits_end)) {
-                    findlm = true;
-                    break;
-                }
-            }
-            if (it.Key != lookup[lookup.Count - 1].Key && it.Value != lookup[lookup.Count - 1].Value
-               && findlm) {
-                nextTriangle2 = it.Value;
-                _removeFromTriLookup(nextTriangle2, ref lookup);
-            }
-            it = lookup_find(lookup, new Segment3D(vec[ind[triNumber * 3]].mPosition, vec[ind[triNumber * 3 + 2]].mPosition).orderedCopy());
-            //if (it != lookup.end() && limits.find(it->first.orderedCopy()) != limits.end())
-            //	Utils::log("Cross limit3");
-            //if (it != lookup.end() && limits.find(it.first.orderedCopy()) == limits.end()) 
-            limits_end = limits[limits.Count - 1];
-            findlm = false;
-            foreach (var lm in limits) {
-                if (lm.orderedCopy().epsilonEquivalent(limits_end)) {
-                    findlm = true;
-                    break;
-                }
-            }
-            if (it.Key != lookup[lookup.Count - 1].Key && it.Value != lookup[lookup.Count - 1].Value
-               && findlm) {
-                nextTriangle3 = it.Value;
-                _removeFromTriLookup(nextTriangle3, ref lookup);
-            }
             //Utils::log("add " + StringConverter::toString(nextTriangle1) + " ," + StringConverter::toString(nextTriangle2) + " ,"+StringConverter::toString(nextTriangle3) );
 
             _recursiveAddNeighbour(ref result, source, nextTriangle1, ref lookup, limits, inverted);
             _recursiveAddNeighbour(ref result, source, nextTriangle2, ref lookup, limits, inverted);
             _recursiveAddNeighbour(ref result, source, nextTriangle3, ref lookup, limits, inverted);
         }
-
-        private static KeyValuePair<Segment3D, int> lookup_find(List<KeyValuePair<Segment3D, int>> lookup, Segment3D segment3D) {
-            KeyValuePair<Segment3D, int> lf = new KeyValuePair<Segment3D, int>();
-            foreach (var v in lookup) {
-                if (v.Key.orderedCopy().epsilonEquivalent(segment3D)) {
-                    return v;
-                }
-            }
-            return lf;
-        }
-
-
-
-
         //-----------------------------------------------------------------------
 
-        public static void _retriangulate(ref TriangleBuffer newMesh, TriangleBuffer inputMesh, List<Intersect> intersectionList, bool first) {
-            List<TriangleBuffer.Vertex> vec = inputMesh.getVertices();
-            List<int> ind = inputMesh.getIndices();
+        public static void _retriangulate(ref TriangleBuffer newMesh, TriangleBuffer inputMesh, std_vector<Intersect> intersectionList, bool first) {
+            std_vector<TriangleBuffer.Vertex> vec = inputMesh.getVertices();
+            std_vector<int> ind = inputMesh.getIndices();
             // Triangulate
             //  Group intersections by triangle indice
-            Dictionary<int, List<Segment3D>> meshIntersects = new Dictionary<int, List<Segment3D>>();
+            std_map<int, std_vector<Segment3D>> meshIntersects = new std_map<int, std_vector<Segment3D>>();
             //for (List<Intersect>.Enumerator it = intersectionList.GetEnumerator(); it.MoveNext(); ++it)
             foreach (var it in intersectionList) {
-                //std.map<int, List<Segment3D> >.Enumerator it2;           
-                //if (first)
-                //    it2 = meshIntersects_find(,it.mTri1);
-                //else
-                //    it2 = meshIntersects.find(it.mTri2);
-                //if (it2 != meshIntersects.end())
-                //    it2.second.push_back(it.mSeg);
-                bool find = false;
-                if (first) {
-                    if (meshIntersects.ContainsKey(it.mTri1)) {
-                        find = true;
-                        meshIntersects[it.mTri1].Add(it.mSeg);
-                    }
+                int it2_find;
+                if (first)
+                    it2_find = meshIntersects.find(it.mTri1);
+                else
+                    it2_find = meshIntersects.find(it.mTri2);
+                if (it2_find != -1) {
+                    std_pair<int, std_vector<Segment3D>> it2 = meshIntersects.get((uint)it2_find);
+                    it2.second.push_back(it.mSeg);
                 }
                 else {
-                    if (meshIntersects.ContainsKey(it.mTri2)) {
-                        find = true;
-                        meshIntersects[it.mTri2].Add(it.mSeg);
-                    }
-                }
-                if (!find) {
-                    List<Segment3D> vec2 = new List<Segment3D>();
-                    vec2.Add(it.mSeg);
-                    if (first) {
-                        meshIntersects.Add(it.mTri1, vec2);
-                        //meshIntersects[it.mTri1] = vec2;
-                    }
-                    else {
-                        //meshIntersects[it.mTri2] = vec2;
-                        meshIntersects.Add(it.mTri2, vec2);
-                    }
+                    std_vector<Segment3D> vec2 = new std_vector<Segment3D>();
+                    vec2.push_back(it.mSeg);
+                    if (first)
+                        meshIntersects[it.mTri1] = vec2;
+                    else
+                        meshIntersects[it.mTri2] = vec2;
                 }
             }
             // Build a new TriangleBuffer holding non-intersected triangles and retriangulated-intersected triangles
@@ -619,16 +443,16 @@ namespace Mogre_Procedural
             //for (int i = 0; i < (int)ind.Count / 3; i++)
             //    if (meshIntersects.find(i) == meshIntersects.end())
             //        newMesh.triangle(ind[i * 3], ind[i * 3 + 1], ind[i * 3 + 2]);
-            for (int i = 0; i < (int)ind.Count / 3; i++) {
-                if (meshIntersects.ContainsKey(i)) {
+            for (int i = 0; i < (int)ind.size() / 3; i++) {
+                if (meshIntersects.find(i) == -1) {
                     newMesh.triangle(ind[i * 3], ind[i * 3 + 1], ind[i * 3 + 2]);
                 }
             }
 
-            int numNonIntersected1 = newMesh.getIndices().Count;
+            int numNonIntersected1 = newMesh.getIndices().size();
             //for (std.map<int, List<Segment3D> >.Enumerator it = meshIntersects.begin(); it.MoveNext(); ++it)
             foreach (var it in meshIntersects) {
-                List<Segment3D> segments = it.Value;
+                std_vector<Segment3D> segments = it.Value;
                 int triIndex = it.Key;
                 Vector3 v1 = vec[ind[triIndex * 3]].mPosition;
                 Vector3 v2 = vec[ind[triIndex * 3 + 1]].mPosition;
@@ -639,12 +463,12 @@ namespace Mogre_Procedural
                 Vector3 planeOrigin = vec[ind[triIndex * 3]].mPosition;
 
                 // Project intersection segments onto triangle plane
-                List<Segment2D> segments2 = new List<Segment2D>();
+                std_vector<Segment2D> segments2 = new std_vector<Segment2D>();
 
                 //for (List<Segment3D>.Enumerator it2 = segments.GetEnumerator(); it2.MoveNext(); it2++)
                 //    segments2.Add(projectOnAxis(it2.Current, planeOrigin, xAxis, yAxis));
                 foreach (var it2 in segments) {
-                    segments2.Add(projectOnAxis(it2, planeOrigin, xAxis, yAxis));
+                    segments2.push_back(projectOnAxis(it2, planeOrigin, xAxis, yAxis));
                 }
                 //for (List<Segment2D>.Enumerator it2 = segments2.GetEnumerator(); it2.MoveNext();)
                 int it2_c = segments2.Count;
@@ -662,9 +486,9 @@ namespace Mogre_Procedural
                 Triangle2D tri = new Triangle2D(projectOnAxis(vec[ind[triIndex * 3]].mPosition, planeOrigin, xAxis, yAxis),
                            projectOnAxis(vec[ind[triIndex * 3 + 1]].mPosition, planeOrigin, xAxis, yAxis),
                            projectOnAxis(vec[ind[triIndex * 3 + 2]].mPosition, planeOrigin, xAxis, yAxis));
-                List<Vector2> outPointList = new List<Vector2>();
-                List<int> outIndice = new List<int>();
-                t.setManualSuperTriangle(tri).setRemoveOutside(false).setSegmentListToTriangulate(ref segments2).triangulate(ref outIndice, ref outPointList);
+                std_vector<Vector2> outPointList = new std_vector<Vector2>();//PointList outPointList;
+                std_vector<int> outIndice = new std_vector<int>();
+                t.setManualSuperTriangle(tri).setRemoveOutside(false).setSegmentListToTriangulate(ref segments2).triangulate(outIndice, outPointList);
 
                 // Deproject and add to triangleBuffer
                 newMesh.rebaseOffset();
@@ -698,32 +522,19 @@ namespace Mogre_Procedural
         }
         //-----------------------------------------------------------------------
 
-        public static void _buildTriLookup(ref List<KeyValuePair<Segment3D, int>> lookup, TriangleBuffer newMesh) {
-            List<TriangleBuffer.Vertex> nvec = newMesh.getVertices();
-            List<int> nind = newMesh.getIndices();
+        public static void _buildTriLookup(ref TriLookup lookup, TriangleBuffer newMesh) {
+            std_vector<TriangleBuffer.Vertex> nvec = newMesh.getVertices();
+            std_vector<int> nind = newMesh.getIndices();
             for (int i = 0; i < (int)nind.Count / 3; i++) {
-                lookup.Add(new KeyValuePair<Segment3D, int>(new Segment3D(nvec[nind[i * 3]].mPosition, nvec[nind[i * 3 + 1]].mPosition).orderedCopy(), i));
-                lookup.Add(new KeyValuePair<Segment3D, int>(new Segment3D(nvec[nind[i * 3]].mPosition, nvec[nind[i * 3 + 2]].mPosition).orderedCopy(), i));
-                lookup.Add(new KeyValuePair<Segment3D, int>(new Segment3D(nvec[nind[i * 3 + 1]].mPosition, nvec[nind[i * 3 + 2]].mPosition).orderedCopy(), i));
+                lookup.insert(new Segment3D(nvec[nind[i * 3]].mPosition, nvec[nind[i * 3 + 1]].mPosition).orderedCopy(), i);
+                lookup.insert(new KeyValuePair<Segment3D, int>(new Segment3D(nvec[nind[i * 3]].mPosition, nvec[nind[i * 3 + 2]].mPosition).orderedCopy(), i));
+                lookup.insert(new KeyValuePair<Segment3D, int>(new Segment3D(nvec[nind[i * 3 + 1]].mPosition, nvec[nind[i * 3 + 2]].mPosition).orderedCopy(), i));
             }
         }
     }
-  
-    public class Seg3Comparator
-    {
+    //-----------------------------------------------------------------------
 
-        //
-        //ORIGINAL LINE: bool operator ()(const Segment3D& one, const Segment3D& two) const
-        //C++ TO C# CONVERTER TODO TASK: The () operator cannot be overloaded in C#:
-        public static bool Operator(Segment3D one, Segment3D two) {
-            if (one.epsilonEquivalent(two))
-                return false;
 
-            if ((one.mA - two.mA).SquaredLength > 1e-6)
-                return Vector3Comparator.Operator(one.mA, two.mA);
-            return Vector3Comparator.Operator(one.mB, two.mB);
-        }
-    }
     internal sealed class DefineConstantsProceduralBoolean
     {
         public const int OGRE_PROFILING = 0;
@@ -835,449 +646,7 @@ namespace Mogre_Procedural
 
 
 
-    //    //C++ TO C# CONVERTER WARNING: The original type declaration contained unconverted modifiers:
-    //    //ORIGINAL LINE: class _ProceduralExport Boolean : public MeshGenerator<Boolean>
-    //    public class Boolean : MeshGenerator<Boolean>
-    //    {
-    //        public enum BooleanOperation : int
-    //        {
-    //            BT_UNION,
-    //            BT_INTERSECTION,
-    //            BT_DIFFERENCE
-    //        }
-    //        private BooleanOperation mBooleanOperation;
-    //        private TriangleBuffer mMesh1;
-    //        private TriangleBuffer mMesh2;
 
-    //        public Boolean() {
-    //            mMesh1 = 0;
-    //            mMesh2 = 0;
-    //            mBooleanOperation = BooleanOperation.BT_UNION;
-    //        }
-
-    //        public Boolean setMesh1(ref TriangleBuffer tb) {
-    //            mMesh1 = tb;
-    //            return this;
-    //        }
-
-    //        public Boolean setMesh2(ref TriangleBuffer tb) {
-    //            mMesh2 = tb;
-    //            return this;
-    //        }
-
-    //        public Boolean setBooleanOperation(BooleanOperation op) {
-    //            mBooleanOperation = op;
-    //            return this;
-    //        }
-
-    //        //
-    //        //ORIGINAL LINE: void addToTriangleBuffer(TriangleBuffer& buffer) const;
-    //        //C++ TO C# CONVERTER TODO TASK: The implementation of the following method could not be found:
-    //        //	void addToTriangleBuffer(ref TriangleBuffer buffer);
-
-
-    //        //-----------------------------------------------------------------------
-
-    //    public static Vector2 projectOnAxis(Vector3 input, Vector3 origin, Vector3 axis1, Vector3 axis2)
-    //    { 
-
-    //        return new Vector2((input - origin).DotProduct(axis1), (input - origin).DotProduct(axis2));
-    //    }
-    //    //-----------------------------------------------------------------------
-
-    //    public static Vector3 deprojectOnAxis(Vector2 input, Vector3 origin, Vector3 axis1, Vector3 axis2)
-    //    {
-    //        return origin + input.x * axis1 + input.y* axis2;
-    //    }
-    //    //-----------------------------------------------------------------------
-
-    //    public static Segment2D projectOnAxis(Segment3D input, Vector3 origin, Vector3 axis1, Vector3 axis2)
-    //    {
-    //        return new Segment2D(projectOnAxis(input.mA, origin, axis1, axis2), projectOnAxis(input.mB, origin, axis1, axis2));
-    //    }
-    //    //-----------------------------------------------------------------------
-
-    //    public static void _removeFromTriLookup(int k, ref std.multimap<Segment3D, int, Seg3Comparator> lookup)
-    //    {
-    //        for (std.multimap<Segment3D, int, Seg3Comparator>.Enumerator it2 = lookup.begin(); it2 != lookup.end();)
-    //        {
-    //            std.multimap<Segment3D, int, Seg3Comparator>.Enumerator removeIt = it2++;
-    //            if (removeIt.second == k)
-    //                lookup.erase(removeIt);
-    //        }
-    //    }
-    //    //-----------------------------------------------------------------------
-
-    //    public static void _recursiveAddNeighbour(ref TriangleBuffer result, TriangleBuffer source, int triNumber, ref std.multimap<Segment3D, int, Seg3Comparator> lookup, std.set<Segment3D, Seg3Comparator> limits, bool inverted)
-    //    {
-    //        if (triNumber == -1)
-    //            return;
-    //        Utils.log("tri " + StringConverter.toString(triNumber));
-    //        const List<int> ind = source.getIndices();
-    //        const List<TriangleBuffer.Vertex> vec = source.getVertices();
-    //        result.rebaseOffset();
-    //        if (inverted)
-    //        {
-    //            result.triangle(0, 2, 1);
-    //            TriangleBuffer.Vertex v = vec[ind[triNumber * 3]];
-    //            v.mNormal = -v.mNormal;
-    //            result.vertex(v);
-    //            v = vec[ind[triNumber * 3+1]];
-    //            v.mNormal = -v.mNormal;
-    //            result.vertex(v);
-    //            v = vec[ind[triNumber * 3+2]];
-    //            v.mNormal = -v.mNormal;
-    //            result.vertex(v);
-    //        }
-    //        else
-    //        {
-    //            result.triangle(0, 1, 2);
-    //            result.vertex(vec[ind[triNumber * 3]]);
-    //            result.vertex(vec[ind[triNumber * 3 + 1]]);
-    //            result.vertex(vec[ind[triNumber * 3 + 2]]);
-    //        }
-
-    //        //Utils::log("vertex " + StringConverter::toString(vec[ind[triNumber*3]].mPosition));
-    //        //Utils::log("vertex " + StringConverter::toString(vec[ind[triNumber*3+1]].mPosition));
-    //        //Utils::log("vertex " + StringConverter::toString(vec[ind[triNumber*3+2]].mPosition));
-
-    //        std.multimap<Segment3D, int, Seg3Comparator>.Enumerator it;
-
-    //        int nextTriangle1 = -1;
-    //        int nextTriangle2 = -1;
-    //        int nextTriangle3 = -1;
-    //        it = lookup.find(Segment3D(vec[ind[triNumber * 3]].mPosition, vec[ind[triNumber * 3 + 1]].mPosition).orderedCopy());
-    //        //if (it != lookup.end() && limits.find(it->first.orderedCopy()) != limits.end())
-    //        //	Utils::log("Cross limit1");
-
-    //        if (it != lookup.end() && limits.find(it.first.orderedCopy()) == limits.end())
-    //        {
-    //            nextTriangle1 = it.second;
-    //            _removeFromTriLookup(nextTriangle1, ref lookup);
-    //        }
-    //        it = lookup.find(Segment3D(vec[ind[triNumber * 3 + 1]].mPosition, vec[ind[triNumber * 3 + 2]].mPosition).orderedCopy());
-    //        //if (it != lookup.end() && limits.find(it->first.orderedCopy()) != limits.end())
-    //        //Utils::log("Cross limit2");
-
-    //        if (it != lookup.end() && limits.find(it.first.orderedCopy()) == limits.end())
-    //        {
-    //            nextTriangle2 = it.second;
-    //            _removeFromTriLookup(nextTriangle2, ref lookup);
-    //        }
-    //        it = lookup.find(Segment3D(vec[ind[triNumber * 3]].mPosition, vec[ind[triNumber * 3 + 2]].mPosition).orderedCopy());
-    //        //if (it != lookup.end() && limits.find(it->first.orderedCopy()) != limits.end())
-    //        //	Utils::log("Cross limit3");
-    //        if (it != lookup.end() && limits.find(it.first.orderedCopy()) == limits.end())
-    //        {
-    //            nextTriangle3 = it.second;
-    //            _removeFromTriLookup(nextTriangle3, ref lookup);
-    //        }
-    //        //Utils::log("add " + StringConverter::toString(nextTriangle1) + " ," + StringConverter::toString(nextTriangle2) + " ,"+StringConverter::toString(nextTriangle3) );
-
-    //        _recursiveAddNeighbour(ref result, source, nextTriangle1, ref lookup, limits, inverted);
-    //        _recursiveAddNeighbour(ref result, source, nextTriangle2, ref lookup, limits, inverted);
-    //        _recursiveAddNeighbour(ref result, source, nextTriangle3, ref lookup, limits, inverted);
-    //    }
-    //    //-----------------------------------------------------------------------
-
-    //    public static void _retriangulate(ref TriangleBuffer newMesh, TriangleBuffer inputMesh, List<Intersect> intersectionList, bool first)
-    //    {
-    //        const List<TriangleBuffer.Vertex> vec = inputMesh.getVertices();
-    //        const List<int> ind = inputMesh.getIndices();
-    //        // Triangulate
-    //        //  Group intersections by triangle indice
-    //        std.map<int, List<Segment3D> > meshIntersects = new std.map<int, List<Segment3D> >();
-    //        for (List<Intersect>.Enumerator it = intersectionList.GetEnumerator(); it.MoveNext(); ++it)
-    //        {
-    //            std.map<int, List<Segment3D> >.Enumerator it2;
-    //            if (first)
-    //                it2 = meshIntersects.find(it.mTri1);
-    //            else
-    //                it2 = meshIntersects.find(it.mTri2);
-    //            if (it2 != meshIntersects.end())
-    //                it2.second.push_back(it.mSeg);
-    //            else
-    //            {
-    //                List<Segment3D> vec = new List<Segment3D>();
-    //                vec.Add(it.mSeg);
-    //                if (first)
-    //                    meshIntersects[it.mTri1] = vec;
-    //                else
-    //                    meshIntersects[it.mTri2] = vec;
-    //            }
-    //        }
-    //        // Build a new TriangleBuffer holding non-intersected triangles and retriangulated-intersected triangles
-    //        for (List<TriangleBuffer.Vertex>.Enumerator it = vec.GetEnumerator(); it.MoveNext(); ++it)
-    //            newMesh.vertex(it.Current);
-    //        for (int i = 0; i < (int)ind.Count / 3; i++)
-    //            if (meshIntersects.find(i) == meshIntersects.end())
-    //                newMesh.triangle(ind[i * 3], ind[i * 3 + 1], ind[i * 3 + 2]);
-    //        int numNonIntersected1 = newMesh.getIndices().size();
-    //        for (std.map<int, List<Segment3D> >.Enumerator it = meshIntersects.begin(); it.MoveNext(); ++it)
-    //        {
-    //            List<Segment3D> segments = it.second;
-    //            int triIndex = it.first;
-    //            Vector3 v1 = vec[ind[triIndex * 3]].mPosition;
-    //            Vector3 v2 = vec[ind[triIndex * 3+1]].mPosition;
-    //            Vector3 v3 = vec[ind[triIndex * 3+2]].mPosition;
-    //            Vector3 triNormal = ((v2-v1).crossProduct(v3-v1)).normalisedCopy();
-    //            Vector3 xAxis = triNormal.perpendicular();
-    //            Vector3 yAxis = triNormal.crossProduct(xAxis);
-    //            Vector3 planeOrigin = vec[ind[triIndex * 3]].mPosition;
-
-    //            // Project intersection segments onto triangle plane
-    //            List<Segment2D> segments2 = new List<Segment2D>();
-
-    //            for (List<Segment3D>.Enumerator it2 = segments.GetEnumerator(); it2.MoveNext(); it2++)
-    //                segments2.Add(projectOnAxis(it2.Current, planeOrigin, xAxis, yAxis));
-    //            for (List<Segment2D>.Enumerator it2 = segments2.GetEnumerator(); it2.MoveNext();)
-    //                if ((it2.mA - it2.mB).squaredLength() < 1e-5)
-    ////C++ TO C# CONVERTER TODO TASK: There is no direct equivalent to the STL vector 'erase' method in C#:
-    //                    it2 = segments2.erase(it2);
-    //                else
-
-    //            // Triangulate
-    //            Triangulator t = new Triangulator();
-    //            Triangle2D[[]] tri = new Triangle2D[ind[triIndex * 3]](projectOnAxis(vec.mPosition, planeOrigin, xAxis, yAxis), projectOnAxis(vec[ind[triIndex * 3 + 1]].mPosition, planeOrigin, xAxis, yAxis), projectOnAxis(vec[ind[triIndex * 3 + 2]].mPosition, planeOrigin, xAxis, yAxis));
-    //            PointList outPointList = new PointList();
-    //            List<int> outIndice = new List<int>();
-    //            t.setManualSuperTriangle(tri).setRemoveOutside(false).setSegmentListToTriangulate(segments2).triangulate(outIndice, outPointList);
-
-    //            // Deproject and add to triangleBuffer
-    //            newMesh.rebaseOffset();
-    //            for (List<int>.Enumerator it = outIndice.GetEnumerator(); it.MoveNext(); ++it)
-    //                newMesh.index(it.Current);
-    //            float x1 = tri.mPoints[0].x;
-    //            float y1 = tri.mPoints[0].y;
-    //            Vector2 uv1 = vec[ind[triIndex * 3]].mUV;
-    //            float x2 = tri.mPoints[1].x;
-    //            float y2 = tri.mPoints[1].y;
-    //            Vector2 uv2 = vec[ind[triIndex * 3 + 1]].mUV;
-    //            float x3 = tri.mPoints[2].x;
-    //            float y3 = tri.mPoints[2].y;
-    //            Vector2 uv3 = vec[ind[triIndex * 3 + 2]].mUV;
-    //            float DET = x1 * y2 - x2 * y1 + x2 * y3 - x3 * y2 + x3 * y1 - x1 *y3;
-    //            Vector2 A = ((y2 - y3) * uv1 + (y3 - y1) * uv2 + (y1 - y2) * uv3) / DET;
-    //            Vector2 B = ((x3 - x2) * uv1 + (x1 - x3) * uv2 + (x2 - x1) * uv3) / DET;
-    //            Vector2 C = ((x2 * y3 - x3 * y2) * uv1 + (x3 * y1 - x1 * y3) * uv2 + (x1 * y2 - x2 * y1) * uv3) / DET;
-
-    //            for (List<Vector2>.Enumerator it = outPointList.begin(); it.MoveNext(); ++it)
-    //            {
-    //                Vector2 uv = A * it.x + B * it.y + C;
-    //                newMesh.position(deprojectOnAxis(it.Current, planeOrigin, xAxis, yAxis));
-    //                newMesh.normal(triNormal);
-    //                newMesh.textureCoord(uv);
-    //            }
-    //        }
-    //    }
-    //    //-----------------------------------------------------------------------
-
-    //    public static void _buildTriLookup(ref std.multimap<Segment3D, int, Seg3Comparator> lookup, TriangleBuffer newMesh)
-    //    {
-    //        const List<TriangleBuffer.Vertex> nvec = newMesh.getVertices();
-    //        const List<int> nind = newMesh.getIndices();
-    //        for (int i = 0; i < (int)nind.Count / 3; i++)
-    //        {
-    //            lookup.insert(std.pair<Segment3D, int>(Segment3D(nvec[nind[i * 3]].mPosition, nvec[nind[i * 3 + 1]].mPosition).orderedCopy(), i));
-    //            lookup.insert(std.pair<Segment3D, int>(Segment3D(nvec[nind[i * 3]].mPosition, nvec[nind[i * 3 + 2]].mPosition).orderedCopy(), i));
-    //            lookup.insert(std.pair<Segment3D, int>(Segment3D(nvec[nind[i * 3 + 1]].mPosition, nvec[nind[i * 3 + 2]].mPosition).orderedCopy(), i));
-    //        }
-    //    }
-    //    //-----------------------------------------------------------------------
-
-    ////
-    ////ORIGINAL LINE: void Boolean::addToTriangleBuffer(TriangleBuffer& buffer) const
-    //    public static void addToTriangleBuffer(ref TriangleBuffer buffer)
-    //    {
-    //         List<TriangleBuffer.Vertex> vec1 = mMesh1.getVertices();
-    //         List<int> ind1 = mMesh1.getIndices();
-    //         List<TriangleBuffer.Vertex> vec2 = mMesh2.getVertices();
-    //         List<int> ind2 = mMesh2.getIndices();
-    //        Segment3D intersectionResult = new Segment3D();
-
-    //        List<Intersect> intersectionList = new List<Intersect>();
-
-    //        // Find all intersections between mMesh1 and mMesh2
-    //        int idx1 = 0;
-    //        for (List<int>.Enumerator it = ind1.GetEnumerator(); it.MoveNext(); idx1++)
-    //        {
-    //            Triangle3D[] t1 = new Triangle3D[it.Current++](vec1.mPosition, vec1[it.Current++].mPosition, vec1[it.Current++].mPosition);
-
-    //            int idx2 = 0;
-    //            for (List<int>.Enumerator it2 = ind2.GetEnumerator(); it2.MoveNext(); idx2++)
-    //            {
-    //                Triangle3D[] t2 = new Triangle3D[it2.Current++](vec2.mPosition, vec2[it2.Current++].mPosition, vec2[it2.Current++].mPosition);
-
-    //                if (t1.findIntersect(t2, intersectionResult))
-    //                {
-    //                    Intersect intersect = new Intersect(intersectionResult, idx1, idx2);
-    //                    intersectionList.Add(intersect);
-    //                }
-    //            }
-    //        }
-    //        // Remove all intersection segments too small to be relevant
-    //        for (List<Intersect>.Enumerator it = intersectionList.GetEnumerator(); it.MoveNext();)
-    //            if ((it.mSeg.mB - it.mSeg.mA).squaredLength() < 1e-8)
-    ////C++ TO C# CONVERTER TODO TASK: There is no direct equivalent to the STL vector 'erase' method in C#:
-    //                it = intersectionList.erase(it);//移除
-    //            else
-
-    //        // Retriangulate
-    //        TriangleBuffer newMesh1 = new TriangleBuffer();
-    //        TriangleBuffer newMesh2 = new TriangleBuffer();
-    //        _retriangulate(ref newMesh1, *mMesh1, intersectionList, true);
-    //        _retriangulate(ref newMesh2, *mMesh2, intersectionList, false);
-
-    //        //buffer.append(newMesh1);
-    //        //buffer.append(newMesh2);
-    //        //return;
-
-    //        // Trace contours
-    //        List<Path> contours = new List<Path>();
-    //        List<Segment3D> segmentSoup = new List<Segment3D>();
-    //        for (List<Intersect>.Enumerator it = intersectionList.GetEnumerator(); it.MoveNext(); ++it)
-    //            segmentSoup.Add(it.mSeg);
-    //        Path().buildFromSegmentSoup(segmentSoup, contours);
-
-    //        // Build a lookup from segment to triangle
-    //        std.multimap<Segment3D, int, Seg3Comparator> triLookup1 = new std.multimap<Segment3D, int, Seg3Comparator>();
-    //        std.multimap<Segment3D, int, Seg3Comparator> triLookup2 = new std.multimap<Segment3D, int, Seg3Comparator>();
-    //        _buildTriLookup(ref triLookup1, newMesh1);
-    //        _buildTriLookup(ref triLookup2, newMesh2);
-
-    //        std.set<Segment3D, Seg3Comparator> limits = new std.set<Segment3D, Seg3Comparator>();
-    //        for (List<Segment3D>.Enumerator it = segmentSoup.GetEnumerator(); it.MoveNext(); ++it)
-    //            limits.insert(it.orderedCopy());
-    //        // Build resulting mesh
-    //        for (List<Path>.Enumerator it = contours.GetEnumerator(); it.MoveNext(); ++it)
-    //        {
-    //            // Find 2 seed triangles for each contour
-    //            Segment3D firstSeg = new Segment3D(it.getPoint(0), it.getPoint(1));
-
-    //            std.pair<std.multimap<Segment3D, int, Seg3Comparator>.Enumerator, std.multimap<Segment3D, int, Seg3Comparator>.Enumerator> it2mesh1 = triLookup1.equal_range(firstSeg.orderedCopy());
-    //            std.pair<std.multimap<Segment3D, int, Seg3Comparator>.Enumerator, std.multimap<Segment3D, int, Seg3Comparator>.Enumerator> it2mesh2 = triLookup2.equal_range(firstSeg.orderedCopy());
-    //            int mesh1seed1;
-    //            int mesh1seed2;
-    //            int mesh2seed1;
-    //            int mesh2seed2;
-
-    //            if (it2mesh1.first != triLookup1.end() && it2mesh2.first != triLookup2.end())
-    //            {
-    //                // check which of seed1 and seed2 must be included (it can be 0, 1 or both)
-    //                mesh1seed1 = it2mesh1.first.second;
-    //                mesh1seed2 = (--it2mesh1.second).second;
-    //                mesh2seed1 = it2mesh2.first.second;
-    //                mesh2seed2 = (--it2mesh2.second).second;
-    //                if (mesh1seed1 == mesh1seed2)
-    //                    mesh1seed2 = -1;
-    //                if (mesh2seed1 == mesh2seed2)
-    //                    mesh2seed2 = -1;
-
-    //                Vector3 vMesh1 = new Vector3();
-    //                Vector3 nMesh1 = new Vector3();
-    //                Vector3 vMesh2 = new Vector3();
-    //                Vector3 nMesh2 = new Vector3();
-    //                for (int i =0; i<3; i++)
-    //                {
-    //                    const Vector3 pos = newMesh1.getVertices()[newMesh1.getIndices()[mesh1seed1 * 3 + i]].mPosition;
-    //                    if (pos.squaredDistance(firstSeg.mA)>1e-6 && pos.squaredDistance(firstSeg.mB)>1e-6)
-    //                    {
-    //                        vMesh1 = pos;
-    //                        nMesh1 = newMesh1.getVertices()[newMesh1.getIndices()[mesh1seed1 * 3 + i]].mNormal;
-    //                        break;
-    //                    }
-    //                }
-
-    //                for (int i =0; i<3; i++)
-    //                {
-    //                    const Vector3 pos = newMesh2.getVertices()[newMesh2.getIndices()[mesh2seed1 * 3 + i]].mPosition;
-    //                    if (pos.squaredDistance(firstSeg.mA)>1e-6 && pos.squaredDistance(firstSeg.mB)>1e-6)
-    //                    {
-    //                        vMesh2 = pos;
-    //                        nMesh2 = newMesh2.getVertices()[newMesh2.getIndices()[mesh2seed1 * 3 + i]].mNormal;
-    //                        break;
-    //                    }
-    //                }
-
-    //                bool M2S1InsideM1 = (nMesh1.dotProduct(vMesh2-firstSeg.mA) < 0);
-    //                bool M1S1InsideM2 = (nMesh2.dotProduct(vMesh1-firstSeg.mA) < 0);
-
-    //                _removeFromTriLookup(mesh1seed1, ref triLookup1);
-    //                _removeFromTriLookup(mesh2seed1, ref triLookup2);
-    //                _removeFromTriLookup(mesh1seed2, ref triLookup1);
-    //                _removeFromTriLookup(mesh2seed2, ref triLookup2);
-
-    //                // Recursively add all neighbours of these triangles
-    //                // Stop when a contour is touched
-    //                switch (mBooleanOperation)
-    //                {
-    //                case BT_UNION:
-    //                    if (M1S1InsideM2)
-    //                        _recursiveAddNeighbour(ref buffer, newMesh1, mesh1seed2, ref triLookup1, limits, false);
-    //                    else
-    //                        _recursiveAddNeighbour(ref buffer, newMesh1, mesh1seed1, ref triLookup1, limits, false);
-    //                    if (M2S1InsideM1)
-    //                        _recursiveAddNeighbour(ref buffer, newMesh2, mesh2seed2, ref triLookup2, limits, false);
-    //                    else
-    //                        _recursiveAddNeighbour(ref buffer, newMesh2, mesh2seed1, ref triLookup2, limits, false);
-    //                    break;
-    //                case BT_INTERSECTION:
-    //                    if (M1S1InsideM2)
-    //                        _recursiveAddNeighbour(ref buffer, newMesh1, mesh1seed1, ref triLookup1, limits, false);
-    //                    else
-    //                        _recursiveAddNeighbour(ref buffer, newMesh1, mesh1seed2, ref triLookup1, limits, false);
-    //                    if (M2S1InsideM1)
-    //                        _recursiveAddNeighbour(ref buffer, newMesh2, mesh2seed1, ref triLookup2, limits, false);
-    //                    else
-    //                        _recursiveAddNeighbour(ref buffer, newMesh2, mesh2seed2, ref triLookup2, limits, false);
-    //                    break;
-    //                case BT_DIFFERENCE:
-    //                    if (M1S1InsideM2)
-    //                        _recursiveAddNeighbour(ref buffer, newMesh1, mesh1seed2, ref triLookup1, limits, false);
-    //                    else
-    //                        _recursiveAddNeighbour(ref buffer, newMesh1, mesh1seed1, ref triLookup1, limits, false);
-    //                    if (M2S1InsideM1)
-    //                        _recursiveAddNeighbour(ref buffer, newMesh2, mesh2seed1, ref triLookup2, limits, true);
-    //                    else
-    //                        _recursiveAddNeighbour(ref buffer, newMesh2, mesh2seed2, ref triLookup2, limits, true);
-    //                    break;
-    //                }
-    //            }
-    //        }
-    //    }
-    //    }
-
-    //public class Intersect
-    //{
-    //    public Segment3D mSeg = new Segment3D();
-    //    public int mTri1;
-    //    public int mTri2;
-
-    //    public Intersect(Segment3D seg, int tri1, int tri2)
-    //    {
-    //        mSeg = seg;
-    //        mTri1 = tri1;
-    //        mTri2 = tri2;
-    //    }
-    //}
-    ////-----------------------------------------------------------------------
-
-    //public class Seg3Comparator
-    //{
-
-    ////
-    ////ORIGINAL LINE: bool operator ()(const Segment3D& one, const Segment3D& two) const
-    ////C++ TO C# CONVERTER TODO TASK: The () operator cannot be overloaded in C#:
-    //    public static bool operator ==(Segment3D one, Segment3D two)
-    //    {
-    //        if (one.epsilonEquivalent(two))
-    //            return false;
-
-    //        if (one.mA.squaredDistance(two.mA) > 1e-6)
-    //            return Vector3Comparator()(one.mA, two.mA);
-    //        return Vector3Comparator()(one.mB, two.mB);
-    //    }
-    //}
 
 
 }

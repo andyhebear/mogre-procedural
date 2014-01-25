@@ -287,7 +287,7 @@ namespace Mogre_Procedural
         //-----------------------------------------------------------------------
         //
         //ORIGINAL LINE: void addToTriangleBuffer(TriangleBuffer& buffer) const
-        public void addToTriangleBuffer(ref TriangleBuffer buffer) {
+        public override void addToTriangleBuffer(ref TriangleBuffer buffer) {
             if (mShapeToExtrude == null && mMultiShapeToExtrude == null)
                 //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
                 //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
