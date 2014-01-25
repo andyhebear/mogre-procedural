@@ -65,7 +65,7 @@ namespace Mogre_Procedural
         }
 
         /// Gets the out side of the shape
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: inline Side getOutSide() const
         public Side getOutSide() {
             return mOutSide;

@@ -71,7 +71,7 @@ namespace Mogre_Procedural
         }
 
         /// Outputs current spline to an Ogre spline
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: Ogre::SimpleSpline toSimpleSpline() const
         public SimpleSpline toSimpleSpline() {
             Mogre.SimpleSpline spline = new SimpleSpline();
@@ -93,7 +93,7 @@ namespace Mogre_Procedural
         }
 
         /// Safely gets a control point
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: inline const Ogre::Vector3& safeGetPoint(uint i) const
         public Vector3 safeGetPoint(uint i) {
             if (mClosed)
@@ -177,7 +177,7 @@ namespace Mogre_Procedural
             return this;
         }
         /// Safely gets a control point
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: inline const CubicHermiteSplineControlPoint<Ogre::Vector3>& safeGetPoint(uint i) const
         public CubicHermiteSplineControlPoint<Vector3> safeGetPoint(uint i) {
             if (mClosed)
@@ -233,7 +233,7 @@ namespace Mogre_Procedural
 
         /// Sets first point
         public LinePath setPoint1(Vector3 point1) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mPoint1 = point1;
             mPoint1 = (point1);
             return this;
@@ -241,7 +241,7 @@ namespace Mogre_Procedural
 
         /// Sets second point
         public LinePath setPoint2(Vector3 point2) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mPoint2 = point2;
             mPoint2 = (point2);
             return this;
@@ -262,10 +262,10 @@ namespace Mogre_Procedural
 
         /// Builds a linepath between 2 points
         public LinePath betweenPoints(Vector3 point1, Vector3 point2) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mPoint1 = point1;
             mPoint1 = (point1);
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mPoint2 = point2;
             mPoint2 = (point2);
             return this;
@@ -317,7 +317,7 @@ namespace Mogre_Procedural
         }
 
         /// Safely gets a control point
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: inline const Ogre::Vector3& safeGetPoint(uint i) const
         public Vector3 safeGetPoint(uint i) {
             if (mClosed)
@@ -431,7 +431,7 @@ namespace Mogre_Procedural
         }
 
         /// Safely gets a control point
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: inline const Ogre::Vector3& safeGetPoint(uint i) const
         public Vector3 safeGetPoint(uint i) {
             if (mClosed)

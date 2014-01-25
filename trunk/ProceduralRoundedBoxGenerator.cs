@@ -182,7 +182,7 @@ namespace Mogre_Procedural
         //	 * Builds the mesh into the given TriangleBuffer
         //	 * @param buffer The TriangleBuffer on where to append the mesh.
         //	 
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: void addToTriangleBuffer(TriangleBuffer& buffer) const
         public void addToTriangleBuffer(ref TriangleBuffer buffer) {
             //int offset = 0;
@@ -239,7 +239,7 @@ namespace Mogre_Procedural
         //					-1 => negative
         //					0 => undefined
         // 
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: void _addEdge(TriangleBuffer& buffer, short xPos, short yPos, short zPos) const
         private void _addEdge(ref TriangleBuffer buffer, short xPos, short yPos, short zPos) {
             int offset = 0;
@@ -305,7 +305,7 @@ namespace Mogre_Procedural
         }
 
         /// Internal. Builds a "corner" of the rounded box, ie a 1/8th of a sphere
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: void _addCorner(TriangleBuffer& buffer, bool isXPositive, bool isYPositive, bool isZPositive) const
         private void _addCorner(ref TriangleBuffer buffer, bool isXPositive, bool isYPositive, bool isZPositive) {
             buffer.rebaseOffset();

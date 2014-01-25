@@ -141,7 +141,7 @@ namespace Mogre_Procedural
         //	\param rotation New rotation angle [0.0, Ogre::Math::TWO_PI] rad \(default 0.0)
         //	
         public Abnormals setRotation(Radian rotation) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mW = rotation;
             mW = (rotation);
             return this;
@@ -161,7 +161,7 @@ namespace Mogre_Procedural
         //	\param axis New rotation axis (default Ogre::Vector3(0.0f, 0.0f, 1.0f))
         //	
         public Abnormals setAxis(Vector3 axis) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mAxis = axis;
             mAxis = (axis);
             return this;
@@ -309,7 +309,7 @@ namespace Mogre_Procedural
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         public Alpha setExtractColour(ColourValue colour) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mExtractColour = colour;
             mExtractColour = (colour);
             return this;
@@ -987,7 +987,7 @@ namespace Mogre_Procedural
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         public CircleTexture setColour(ColourValue colour) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mColour = colour;
             mColour = (colour);
             return this;
@@ -1193,7 +1193,7 @@ namespace Mogre_Procedural
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         public Colours setColourBase(ColourValue colour) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mColourBase = colour;
             mColourBase = (colour);
             return this;
@@ -1221,7 +1221,7 @@ namespace Mogre_Procedural
         //	\param colour New colour to add (default Ogre::ColourValue::White)
         //	
         public Colours setColourPercent(ColourValue colour) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mColourPercent = colour;
             mColourPercent = (colour);
             return this;
@@ -1415,7 +1415,7 @@ namespace Mogre_Procedural
         //	\param colour New colour for drawing (default Ogre::ColourValue::White)
         //	
         public Combine setColour(ColourValue colour) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mColour = colour;
             mColour = (colour);
             return this;
@@ -1935,7 +1935,7 @@ namespace Mogre_Procedural
         //	\param colour New colour for drawing (default Ogre::ColourValue::White)
         //	
         public Crack setColour(ColourValue colour) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mColour = colour;
             mColour = (colour);
             return this;
@@ -2277,7 +2277,7 @@ namespace Mogre_Procedural
         //	\param colour New colour for drawing (default Ogre::ColourValue::White)
         //	
         public Cycloid setColour(ColourValue colour) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mColour = colour;
             mColour = (colour);
             return this;
@@ -3195,7 +3195,7 @@ namespace Mogre_Procedural
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         public EllipseTexture setColour(ColourValue colour) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mColour = colour;
             mColour = (colour);
             return this;
@@ -3553,7 +3553,7 @@ namespace Mogre_Procedural
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         public Glow setColour(ColourValue colour) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mColour = colour;
             mColour = (colour);
             return this;
@@ -3941,7 +3941,7 @@ namespace Mogre_Procedural
         //	\param colour New ambient light colour (default Ogre::ColourValue::Black)
         //	
         public TextureLightBaker setColourAmbient(ColourValue colour) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mColourAmbient = colour;
             mColourAmbient = (colour);
             return this;
@@ -3969,7 +3969,7 @@ namespace Mogre_Procedural
         //	\param colour New diffuse light colour (default Ogre::ColourValue(0.5f, 0.5f, 0.5f, 1.0f))
         //	
         public TextureLightBaker setColourDiffuse(ColourValue colour) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mColourDiffuse = colour;
             mColourDiffuse = (colour);
             return this;
@@ -3997,7 +3997,7 @@ namespace Mogre_Procedural
         //	\param colour New specular light colour (default Ogre::ColourValue::White)
         //	
         public TextureLightBaker setColourSpecular(ColourValue colour) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mColourSpecular = colour;
             mColourSpecular = (colour);
             return this;
@@ -4027,13 +4027,13 @@ namespace Mogre_Procedural
         //	\param specular New specular light colour (default Ogre::ColourValue::White)
         //	
         public TextureLightBaker setColours(ColourValue ambient, ColourValue diffuse, ColourValue specular) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mColourAmbient = ambient;
             mColourAmbient = (ambient);
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mColourDiffuse = diffuse;
             mColourDiffuse = (diffuse);
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mColourSpecular = specular;
             mColourSpecular = (specular);
             return this;
@@ -4492,7 +4492,7 @@ namespace Mogre_Procedural
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         public RandomPixels setColour(ColourValue colour) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mColour = colour;
             mColour = (colour);
             return this;
@@ -4616,7 +4616,7 @@ namespace Mogre_Procedural
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         public RectangleTexture setColour(ColourValue colour) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mColour = colour;
             mColour = (colour);
             return this;
@@ -4917,7 +4917,7 @@ namespace Mogre_Procedural
         //	\param rotation New rotation angle [0.0, Ogre::Math::TWO_PI] rad (default 0.0)
         //	
         public RotationZoom setRotation(Radian rotation) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mRotation = rotation;
             mRotation = (rotation);
             return this;
@@ -5442,7 +5442,7 @@ public class TextTexture : TextureProcessing
 //	
 	public TextTexture setColour(ColourValue colour)
 	{
-//C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+//
 //ORIGINAL LINE: mColour = colour;
 		mColour=(colour);
 		return this;
@@ -5864,7 +5864,7 @@ public class TextTexture : TextureProcessing
             //	\param twist New twist angle for deformation [0.0, Ogre::Math::TWO_PI] rad (default Ogre::Math::HALF_PI)
             //	
             public Vortex setTwist(Radian twist) {
-                //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+                //
                 //ORIGINAL LINE: mTwist = twist;
                 mTwist = (twist);
                 return this;

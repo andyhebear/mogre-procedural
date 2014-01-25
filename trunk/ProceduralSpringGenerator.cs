@@ -259,7 +259,7 @@ namespace Mogre_Procedural
         //	 
 
         //-----------------------------------------------------------------------
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: void addToTriangleBuffer(TriangleBuffer& buffer) const
         public void addToTriangleBuffer(ref TriangleBuffer buffer) {
             Path p = new HelixPath().setHeight(mHeight).setNumRound(mNumRound).setNumSegPath((uint)mNumSegPath).setRadius(mRadiusHelix).realizePath();

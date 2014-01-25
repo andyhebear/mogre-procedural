@@ -60,7 +60,7 @@ namespace Mogre_Procedural
         private bool mCapped;
 
         //-----------------------------------------------------------------------
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: void _latheCapImpl(TriangleBuffer& buffer) const
         private void _latheCapImpl(ref TriangleBuffer buffer) {
             std_vector<int> indexBuffer = new std_vector<int>();
@@ -73,14 +73,14 @@ namespace Mogre_Procedural
             MultiShape multishapeCopy = new MultiShape();
 
             if (mShapeToExtrude != null) {
-                //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+                //
                 //ORIGINAL LINE: shapeCopy = *mShapeToExtrude;
                 shapeCopy = (mShapeToExtrude);
                 shapeCopy.close();
                 t.setShapeToTriangulate(shapeCopy);
             }
             else {
-                //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+                //
                 //ORIGINAL LINE: multishapeCopy = *mMultiShapeToExtrude;
                 multishapeCopy = (mMultiShapeToExtrude);
                 multishapeCopy.close();
@@ -127,7 +127,7 @@ namespace Mogre_Procedural
             }
         }
         //-----------------------------------------------------------------------
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: void _latheBodyImpl(TriangleBuffer& buffer, const Shape* shapeToExtrude) const
         private void _latheBodyImpl(ref TriangleBuffer buffer, Shape shapeToExtrude) {
             if (shapeToExtrude == null)
@@ -228,7 +228,7 @@ namespace Mogre_Procedural
         /// Sets the angle to begin lathe with (default=0)
         /// Automatically makes the lathe not closed
         public Lathe setAngleBegin(Radian angleBegin) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mAngleBegin = angleBegin;
             mAngleBegin = (angleBegin);
             mClosed = false;
@@ -238,7 +238,7 @@ namespace Mogre_Procedural
         /// Sets the angle to end lathe with (default=2PI)
         /// Automatically makes the lathe not closed
         public Lathe setAngleEnd(Radian angleEnd) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mAngleEnd = angleEnd;
             mAngleEnd = (angleEnd);
             mClosed = false;
@@ -285,7 +285,7 @@ namespace Mogre_Procedural
         //	 * @exception Ogre::InvalidStateException Required parameter is zero!
         //	 
         //-----------------------------------------------------------------------
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: void addToTriangleBuffer(TriangleBuffer& buffer) const
         public void addToTriangleBuffer(ref TriangleBuffer buffer) {
             if (mShapeToExtrude == null && mMultiShapeToExtrude == null)

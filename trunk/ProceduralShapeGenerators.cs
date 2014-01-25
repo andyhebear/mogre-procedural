@@ -77,7 +77,7 @@ namespace Mogre_Procedural
         //ORIGINAL LINE: inline CubicHermiteSpline2& addPoint(const Ogre::Vector2& p, CubicHermiteSplineAutoTangentMode autoTangentMode = AT_CATMULL)
         public CubicHermiteSpline2 addPoint(Vector2 p, CubicHermiteSplineAutoTangentMode autoTangentMode) {
             CubicHermiteSplineControlPoint<Vector2> cp = new CubicHermiteSplineControlPoint<Vector2>();
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: cp.position = p;
             cp.position = (p);
             cp.autoTangentBefore = autoTangentMode;
@@ -102,7 +102,7 @@ namespace Mogre_Procedural
         }
 
         /// Safely gets a control point
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: inline const CubicHermiteSplineControlPoint<Ogre::Vector2>& safeGetPoint(uint i) const
         public CubicHermiteSplineControlPoint<Vector2> safeGetPoint(int i) {
             if (mClosed)
@@ -167,7 +167,7 @@ namespace Mogre_Procedural
         }
 
         /// Safely gets a control point
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: inline const Ogre::Vector2& safeGetPoint(uint i) const
         public Vector2 safeGetPoint(uint i) {
             if (mClosed)
@@ -230,7 +230,7 @@ namespace Mogre_Procedural
         }
 
         /// Safely gets a control point
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: inline const KochanekBartelsSplineControlPoint<Ogre::Vector2>& safeGetPoint(uint i) const
         public KochanekBartelsSplineControlPoint<Vector2> safeGetPoint(uint i) {
             if (mClosed)
@@ -628,7 +628,7 @@ namespace Mogre_Procedural
         }
 
         /// Safely gets a control point
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: inline const Ogre::Vector2& safeGetPoint(uint i) const
         public Vector2 safeGetPoint(uint i) {
             if (mClosed)
@@ -740,7 +740,7 @@ namespace Mogre_Procedural
         }
 
         /// Safely gets a control point
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: inline const Ogre::Vector2& safeGetPoint(uint i) const
         public Vector2 safeGetPoint(uint i) {
             if (mClosed)

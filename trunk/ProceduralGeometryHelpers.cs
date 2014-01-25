@@ -40,7 +40,7 @@ namespace Mogre_Procedural
     public static class GlobalMembersProceduralGeometryHelpers
     {
         //-----------------------------------------------------------------------
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: Vector3 Line::shortestPathToPoint(const Vector3& point) const
         //public static Vector3 Line.shortestPathToPoint(Vector3 point)
         //{
@@ -105,7 +105,7 @@ namespace Mogre_Procedural
 
         /// Contructor with arguments
         public Circle(Vector2 center, float radius) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mCenter = center;
             mCenter = (center);
             mRadius = radius;
@@ -137,7 +137,7 @@ namespace Mogre_Procedural
         }
 
         /// Tells whether that point is inside the circle or not
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: bool isPointInside(const Ogre::Vector2& p) const
         public bool isPointInside(Vector2 p) {
             return (p - mCenter).Length < mRadius;
@@ -416,7 +416,7 @@ namespace Mogre_Procedural
         /// @param point a point on the line
         /// @param direction a normalized vector representing the direction of that line
         public Line(Vector3 point, Vector3 direction) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mPoint = point;
             mPoint = (point);
             mDirection = direction.NormalisedCopy;
@@ -424,14 +424,14 @@ namespace Mogre_Procedural
 
         /// Builds the line between 2 points
         public void setFrom2Points(Vector3 a, Vector3 b) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mPoint = a;
             mPoint = (a);
             mDirection = (b - a).NormalisedCopy;
         }
 
         /// Finds the shortest vector between that line and a point
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: Ogre::Vector3 shortestPathToPoint(const Ogre::Vector3& point) const;
         //C++ TO C# CONVERTER TODO TASK: The implementation of the following method could not be found:
         //	Ogre::Vector3 shortestPathToPoint(Ogre::Vector3 point);
@@ -458,7 +458,7 @@ namespace Mogre_Procedural
         /// @param point a point on the line
         /// @param direction a normalized vector representing the direction of that line
         public Line2D(Vector2 point, Vector2 direction) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mPoint = point;
             mPoint = (point);
             mDirection = direction.NormalisedCopy;
@@ -466,7 +466,7 @@ namespace Mogre_Procedural
 
         /// Builds the line between 2 points
         public void setFrom2Points(Vector2 a, Vector2 b) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mPoint = a;
             mPoint = (a);
             mDirection = (b - a).NormalisedCopy;
@@ -479,7 +479,7 @@ namespace Mogre_Procedural
         //	 * @return true if segments intersect, false otherwise
         //	 
         //-----------------------------------------------------------------------
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: bool findIntersect(const Line2D& STLAllocator<U, AllocPolicy>, Vector2& intersection) const
         public bool findIntersect(Line2D line2d, ref Vector2 intersection) {
             Vector2 p1 = mPoint;
@@ -522,10 +522,10 @@ namespace Mogre_Procedural
 
         /// Contructor with arguments
         public Segment2D(Vector2 a, Vector2 b) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mA = a;
             mA = (a);
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mB = b;
             mB = (b);
         }
@@ -537,7 +537,7 @@ namespace Mogre_Procedural
         //	 * @return true if segments intersect, false otherwise
         //	 
         //-----------------------------------------------------------------------
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: bool findIntersect(const Segment2D& STLAllocator<U, AllocPolicy>, Vector2& intersection) const
         public bool findIntersect(Segment2D segment2d, ref Vector2 intersection) {
             Vector2 p1 = mA;
@@ -575,7 +575,7 @@ namespace Mogre_Procedural
 
         /// Tells whether this segments intersects the other segment
         //-----------------------------------------------------------------------
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: bool intersects(const Segment2D& STLAllocator<U, AllocPolicy>) const
         public bool intersects(Segment2D segment2d) {
             // Early out if segments have nothing in common
@@ -595,7 +595,7 @@ namespace Mogre_Procedural
     //ORIGINAL LINE: struct _ProceduralExport Vector2Comparator
     public class Vector2Comparator:IComparer<Vector2>
     {
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: bool operator ()(const Ogre::Vector2& one, const Ogre::Vector2& two) const
         //C++ TO C# CONVERTER TODO TASK: The () operator cannot be overloaded in C#:
         /// <summary>
@@ -627,7 +627,7 @@ namespace Mogre_Procedural
     //ORIGINAL LINE: struct _ProceduralExport Vector3Comparator
     public class Vector3Comparator : IComparer<Vector3>
     {
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: bool operator ()(const Ogre::Vector3& one, const Ogre::Vector3& two) const
         //C++ TO C# CONVERTER TODO TASK: The () operator cannot be overloaded in C#:
         //bool operator()(const Ogre::Vector3& one, const Ogre::Vector3& two) const
@@ -672,22 +672,22 @@ namespace Mogre_Procedural
 
         /// Contructor with arguments
         public Segment3D(Vector3 a, Vector3 b) {
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mA = a;
             mA = (a);
-            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+            //
             //ORIGINAL LINE: mB = b;
             mB = (b);
         }
 
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: bool epsilonEquivalent(const Segment3D& STLAllocator<U, AllocPolicy>) const
         public bool epsilonEquivalent(Segment3D segment3D) {
             return (((mA - segment3D.mA).SquaredLength < 1e-8 && (mB - segment3D.mB).SquaredLength < 1e-8) ||
                 ((mA - segment3D.mB).SquaredLength < 1e-8 && (mB - segment3D.mA).SquaredLength < 1e-8));
         }
 
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: Segment3D orderedCopy() const
         public Segment3D orderedCopy() {
             if (Vector3Comparator.Operator(mB, mA))
@@ -726,7 +726,7 @@ namespace Mogre_Procedural
             mPoints[2] = c;
         }
 
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: bool findIntersect(const Triangle3D& STLAllocator<U, AllocPolicy>, Segment3D& intersection) const
         public bool findIntersect(Triangle3D triangle3d, ref Segment3D intersection) {
             // Compute plane equation of first triangle

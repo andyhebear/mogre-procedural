@@ -95,7 +95,7 @@ namespace Mogre_Procedural
         }
 
         /// Returns the i-th shape
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: const Shape& getShape(uint i) const
         public Shape getShape(uint i) {
             return mShapes[(int)i];
@@ -104,7 +104,7 @@ namespace Mogre_Procedural
         /// Builds an aggregated list of all points contained in all shapes
         //-----------------------------------------------------------------------
 
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: List<Vector2> getPoints() const
         public std_vector<Vector2> getPoints() {
             std_vector<Vector2> result = new std_vector<Vector2>();
@@ -118,7 +118,7 @@ namespace Mogre_Procedural
         }
 
         /// Returns the number of shapes in that MultiShape
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: uint getShapeCount() const
         public int getShapeCount() {
             return mShapes.size();
@@ -164,7 +164,7 @@ namespace Mogre_Procedural
         /// It assumes that all of the shapes in that multishape are closed,
         /// and that they don't contradict each other,
         /// ie a point cannot be outside and inside at the same time
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: bool isPointInside(const Ogre::Vector2& point) const;
         //C++ TO C# CONVERTER TODO TASK: The implementation of the following method could not be found:
         //	bool isPointInside(Ogre::Vector2 point);
@@ -187,7 +187,7 @@ namespace Mogre_Procedural
                         if (dist < closestSegmentDistance) {
                             closestSegmentIndex = i;
                             closestSegmentDistance = dist;
-                            //C++ TO C# CONVERTER WARNING: The following line was determined to be a copy assignment (rather than a reference assignment) - this should be verified and a 'CopyFrom' method should be created if it does not yet exist:
+                            //
                             //ORIGINAL LINE: closestSegmentIntersection = intersect;
                             closestSegmentIntersection = (intersect);
                             closestSegmentShape = shape;
@@ -221,7 +221,7 @@ namespace Mogre_Procedural
         //	 
         //-----------------------------------------------------------------------
 
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: bool isClosed() const
         public bool isClosed() {
             //for (List<Shape>.Enumerator it = mShapes.GetEnumerator(); it.MoveNext(); ++it)
@@ -250,7 +250,7 @@ namespace Mogre_Procedural
 
         //-----------------------------------------------------------------------
 
-        //C++ TO C# CONVERTER WARNING: 'const' methods are not available in C#:
+        //
         //ORIGINAL LINE: bool isOutsideRealOutside() const
         public bool isOutsideRealOutside() {
             float x = float.MinValue;//std.numeric_limits<float>.min();

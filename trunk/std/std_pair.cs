@@ -76,7 +76,9 @@ namespace Mogre_Procedural.std
         }
 
         #endregion System.Object Implementation
-
+        public static bool operator ==(std_pair<T> _this, std_pair<T> _other) {
+            return _this.Equals(_other);
+        }
     }
     public class std_pair<T,V> : IEquatable<std_pair<T,V>>
     {
@@ -127,7 +129,7 @@ namespace Mogre_Procedural.std
             return false;
 
         }
-
+       
 
 
         #endregion IEquatable<Pair<T>> Implementation
@@ -143,7 +145,9 @@ namespace Mogre_Procedural.std
         }
 
         #endregion System.Object Implementation
-
+        public static bool operator ==(std_pair<T, V> _this, std_pair<T, V> _other) {
+            return _this.Equals(_other);
+        }
     }
     /// <summary>
 	/// 	A simple container class for returning a pair of objects from a method call 
