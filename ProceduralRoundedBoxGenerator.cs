@@ -184,7 +184,7 @@ namespace Mogre_Procedural
         //	 
         //
         //ORIGINAL LINE: void addToTriangleBuffer(TriangleBuffer& buffer) const
-        public void addToTriangleBuffer(ref TriangleBuffer buffer) {
+        public override void addToTriangleBuffer(ref TriangleBuffer buffer) {
             //int offset = 0;
             // Generate the pseudo-box shape
             PlaneGenerator pg = new PlaneGenerator();
@@ -338,7 +338,7 @@ namespace Mogre_Procedural
                     float z0 = r0 * cosf(seg * deltaSegAngle + offsetSegAngle);
 
                     // Add one vertex to the strip which makes up the sphere
-                    addPoint(buffer, new Vector3(x0 + offsetPosition.x, y0 + offsetPosition.y, z0 + offsetPosition.z), new Vector3(x0, y0, z0).normalisedCopy(), new Vector2((float)seg / (float)mChamferNumSeg, (float)ring / (float)mChamferNumSeg));
+                    addPoint(buffer, new Vector3(x0 + offsetPosition.x, y0 + offsetPosition.y, z0 + offsetPosition.z), new Vector3(x0, y0, z0).NormalisedCopy, new Vector2((float)seg / (float)mChamferNumSeg, (float)ring / (float)mChamferNumSeg));
 
                     if ((ring != mChamferNumSeg) && (seg != mChamferNumSeg)) {
                         // each vertex (except the last) has six indices pointing to it

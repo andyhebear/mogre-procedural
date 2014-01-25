@@ -508,48 +508,24 @@ namespace Mogre_Procedural.std
         public std_pair<std_pair<TKey, List<TValue>>, std_pair<TKey, List<TValue>>> equal_range(TKey key) {
             //return lower bound  and up bound
             if (!this.ContainsKey(key)) {
-                return null;
+                //return null;
+                new std_pair<std_pair<TKey, List<TValue>>, std_pair<TKey, List<TValue>>>(null, null);
             }
             //
-            std_pair<std_pair<TKey, List<TValue>>, std_pair<TKey, List<TValue>>> lu = new std_pair<std_pair<TKey, List<TValue>>, std_pair<TKey, List<TValue>>>();
-            lu.first = lower_bound(key);
-            lu.second = upper_bound(key);
-            return lu;
-            //KeyValuePair<TKey, TValue> first = new KeyValuePair<TKey, TValue>();
-            //KeyValuePair<TKey, TValue> second = new KeyValuePair<TKey, TValue>();
-            //bool find_first = false;
-            //bool find_second = false;
-            ////查找下一个
-            //IEnumerator<KeyValuePair<TKey, TValue>> et = this.GetEnumerator();
-            ////if (et.Current.Key.Equals(key)) {
-            ////    first = et.Current;
-            ////    find_first = true;
-            ////}
-            //while (et.MoveNext()) {
-            //    if (find_first) {
-            //        second = et.Current;
-            //        find_second = true;
-            //        break;
-            //    }
-            //    else {
-            //        if (et.Current.Key.Equals(key)) {
-            //            first = et.Current;
-            //            find_first = true;
-            //        }
-            //    }
-            //}
-
-            //std_pair<std_pair<TKey, TValue>, std_pair<TKey, TValue>> range = new std_pair<std_pair<TKey, TValue>, std_pair<TKey, TValue>>(
-            //    find_first ? new std_pair<TKey, TValue>(first.Key, first.Value) : null,
-            //    find_second ? new std_pair<TKey, TValue>(second.Key, second.Value) : null);
-            //return range;
+           
+           std_pair<TKey, List<TValue>> lu_first = lower_bound(key);
+           std_pair<TKey, List<TValue>> lu_second = upper_bound(key);
+           //std_pair<std_pair<TKey, List<TValue>>, std_pair<TKey, List<TValue>>> lu =
+               
+            return new std_pair<std_pair<TKey, List<TValue>>, std_pair<TKey, List<TValue>>>(lu_first,lu_second);
+            
         }
         /// <summary>
         /// 获取值
         /// </summary>
         /// <param name="pos"></param>
         /// <returns></returns>
-        public IList<TValue> at(int pos) {
+        public List<TValue> at(int pos) {
             int index = 0;
             foreach (var v in _buckets.Keys) {
                 if (index == pos) {

@@ -66,7 +66,7 @@ namespace Mogre_Procedural
         //	 
         //
         //ORIGINAL LINE: void addToTriangleBuffer(TriangleBuffer& buffer) const
-        public PlaneGenerator addToTriangleBuffer(ref TriangleBuffer buffer) {
+        public override void addToTriangleBuffer(ref TriangleBuffer buffer) {
             buffer.rebaseOffset();
             buffer.estimateVertexCount((mNumSegX + 1) * (mNumSegY + 1));
             buffer.estimateIndexCount(mNumSegX * mNumSegY * 6);
@@ -110,7 +110,7 @@ namespace Mogre_Procedural
                 offset++;
             }
 
-            return this;
+            //return this;
         }
 
         //    *

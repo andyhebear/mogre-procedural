@@ -83,13 +83,19 @@ namespace Mogre_Procedural
                 else
                     return This.i2 < Other.i2;
             }
+            public static bool operator >(DelaunaySegment This, DelaunaySegment Other) {
+                if (This.i1 != Other.i1)
+                    return This.i1 > Other.i1;
+                else
+                    return This.i2 > Other.i2;
+            }
             public DelaunaySegment inverse() {
                 return new DelaunaySegment(i2, i1);
             }
         }
 
         //-----------------------------------------------------------------------
-        private class Triangle
+        internal class Triangle
         {
             public readonly PointList pl;
             public int[] i = new int[3];
@@ -108,7 +114,9 @@ namespace Mogre_Procedural
             public static bool operator ==(Triangle This, Triangle Other) {
                 return This.i[0] == Other.i[0] && This.i[1] == Other.i[1] && This.i[2] == Other.i[2];
             }
-
+            public static bool operator !=(Triangle This, Triangle Other) {
+                return This.i[0] != Other.i[0] || This.i[1] != Other.i[1] || This.i[2] != Other.i[2];
+            }
             //
             //ORIGINAL LINE: inline Ogre::Vector2 getMidPoint() const
             public Vector2 getMidPoint() {
@@ -255,170 +263,151 @@ namespace Mogre_Procedural
 
         //
         //ORIGINAL LINE: void delaunay(List<Ogre::Vector2>& pointList, LinkedList<Triangle>& tbuffer) const
-        void delaunay(PointList pointList, ref DelaunayTriangleBuffer tbuffer) 
-{
-	// Compute super triangle or insert manual super triangle
-	if (mManualSuperTriangle!=null)
-	{
-		float maxTriangleSize = 0.0f;
-		//for (PointList::iterator it = pointList.begin(); it!=pointList.end(); ++it)
-		foreach(Vector2 it in pointList)
-        {
-			maxTriangleSize = max(maxTriangleSize, Math.Abs(it.x));
-			maxTriangleSize = max(maxTriangleSize, Math.Abs(it.y));
-		}
-		pointList.push_back(new Vector2(-3f*maxTriangleSize,-3f*maxTriangleSize));
-		pointList.push_back(new Vector2(3f*maxTriangleSize,-3f*maxTriangleSize));
-		pointList.push_back(new Vector2(0.0f,3*maxTriangleSize));
+        void delaunay(PointList pointList, ref DelaunayTriangleBuffer tbuffer) {
+            // Compute super triangle or insert manual super triangle
+            if (mManualSuperTriangle != null) {
+                float maxTriangleSize = 0.0f;
+                //for (PointList::iterator it = pointList.begin(); it!=pointList.end(); ++it)
+                foreach (Vector2 it in pointList) {
+                    maxTriangleSize = max(maxTriangleSize, Math.Abs(it.x));
+                    maxTriangleSize = max(maxTriangleSize, Math.Abs(it.y));
+                }
+                pointList.push_back(new Vector2(-3f * maxTriangleSize, -3f * maxTriangleSize));
+                pointList.push_back(new Vector2(3f * maxTriangleSize, -3f * maxTriangleSize));
+                pointList.push_back(new Vector2(0.0f, 3 * maxTriangleSize));
 
-		int maxTriangleIndex=pointList.size()-3;
-		Triangle superTriangle=new Triangle(pointList);
-		superTriangle.i[0] = maxTriangleIndex;
-		superTriangle.i[1] = maxTriangleIndex+1;
-		superTriangle.i[2] = maxTriangleIndex+2;
-		tbuffer.push_back(superTriangle);
-	}
+                int maxTriangleIndex = pointList.size() - 3;
+                Triangle superTriangle = new Triangle(pointList);
+                superTriangle.i[0] = maxTriangleIndex;
+                superTriangle.i[1] = maxTriangleIndex + 1;
+                superTriangle.i[2] = maxTriangleIndex + 2;
+                tbuffer.push_back(superTriangle);
+            }
 
-	// Point insertion loop
-	for (int i=0; i<pointList.size()-3; i++)
-	{
-		//Utils::log("insert point " + StringConverter::toString(i));
-		//std::list<std::list<Triangle>::iterator> borderlineTriangles;
-        std_list<Triangle>borderlineTriangles=new std_list<Triangle>();
-		// Insert 1 point, find all triangles for which the point is in circumcircle
-		Vector2 p = pointList[i];
-		//std::set<DelaunaySegment> segments;
-        std_set<DelaunaySegment>segments=new std_set<DelaunaySegment>();
-        IEnumerator<Triangle>et= tbuffer.GetEnumerator();
-		//for (DelaunayTriangleBuffer::iterator it = tbuffer.begin(); it!=tbuffer.end();)
-		List<Triangle>need_erase=new List<Triangle>();
-        while(et.MoveNext())
-        {
-            Triangle it=et.Current;
-			Triangle.InsideType isInside = it.isPointInsideCircumcircle(p);
-			if (isInside == Triangle.InsideType.IT_INSIDE)
-			{
-				if (!it.isDegenerate())
-				{
-					//Utils::log("tri insie" + it->debugDescription());
-					for (int k=0; k<3; k++)
-					{
-						DelaunaySegment d1=new DelaunaySegment(it.i[k], it.i[(k+1)%3]);
-						if (segments.find(d1)!=segments.end())
-							segments.erase(d1);
-						else if (segments.find(d1.inverse())!=segments.end())
-							segments.erase(d1.inverse());
-						else
-							segments.insert(d1);
-					}
-				}
-				//it=tbuffer.erase(it);
-                need_erase.Add(it);
-			}
-			else if (isInside == Triangle.InsideType.IT_BORDERLINEOUTSIDE)
-			{
-				//Utils::log("tri borer " + it->debugDescription());
-				borderlineTriangles.push_back(it);
-				//++it;
-			}
-			else
-			{
-				//++it;
-			}
-		}
-        //do delete
-        foreach(var v in need_erase){
-            tbuffer.Remove(v);
+            // Point insertion loop
+            for (int i = 0; i < pointList.size() - 3; i++) {
+                //Utils::log("insert point " + StringConverter::toString(i));
+                //std::list<std::list<Triangle>::iterator> borderlineTriangles;
+                std_list<Triangle> borderlineTriangles = new std_list<Triangle>();
+                // Insert 1 point, find all triangles for which the point is in circumcircle
+                Vector2 p = pointList[i];
+                //std::set<DelaunaySegment> segments;
+                std_set<DelaunaySegment> segments = new std_set<DelaunaySegment>();
+                IEnumerator<Triangle> et = tbuffer.GetEnumerator();
+                //for (DelaunayTriangleBuffer::iterator it = tbuffer.begin(); it!=tbuffer.end();)
+                List<Triangle> need_erase = new List<Triangle>();
+                while (et.MoveNext()) {
+                    Triangle it = et.Current;
+                    Triangle.InsideType isInside = it.isPointInsideCircumcircle(p);
+                    if (isInside == Triangle.InsideType.IT_INSIDE) {
+                        if (!it.isDegenerate()) {
+                            //Utils::log("tri insie" + it->debugDescription());
+                            for (int k = 0; k < 3; k++) {
+                                DelaunaySegment d1 = new DelaunaySegment(it.i[k], it.i[(k + 1) % 3]);
+                                if (segments.find(d1) != segments.end())
+                                    segments.erase(d1);
+                                else if (segments.find(d1.inverse()) != segments.end())
+                                    segments.erase(d1.inverse());
+                                else
+                                    segments.insert(d1);
+                            }
+                        }
+                        //it=tbuffer.erase(it);
+                        need_erase.Add(it);
+                    }
+                    else if (isInside == Triangle.InsideType.IT_BORDERLINEOUTSIDE) {
+                        //Utils::log("tri borer " + it->debugDescription());
+                        borderlineTriangles.push_back(it);
+                        //++it;
+                    }
+                    else {
+                        //++it;
+                    }
+                }
+                //do delete
+                foreach (var v in need_erase) {
+                    tbuffer.Remove(v);
+                }
+
+                // Robustification of the standard algorithm : if one triangle's circumcircle was borderline against the new point,
+                // test whether that triangle is intersected by new segments or not (normal situation : it should not)
+                // If intersected, the triangle is considered having the new point in its circumc
+                std_set<DelaunaySegment> copySegment = segments;
+                IEnumerator<Triangle> be = borderlineTriangles.GetEnumerator();
+                //for (std::list<std::list<Triangle>::iterator>::iterator itpTri = borderlineTriangles.begin(); itpTri!=borderlineTriangles.end(); itpTri++ )
+                while (be.MoveNext()) {
+                    Triangle itpTri = be.Current;
+                    //DelaunayTriangleBuffer::iterator itTri = *itpTri;
+                    Triangle itTri = itpTri;
+                    bool triRemoved = false;
+                    //for (std::set<DelaunaySegment>::iterator it = copySegment.begin(); it!=copySegment.end() && !triRemoved; ++it)
+                    IEnumerator<DelaunaySegment> cse = copySegment.GetEnumerator();
+                    while (cse.MoveNext() && !triRemoved) {
+                        DelaunaySegment it = cse.Current;
+                        bool isTriangleIntersected = false;
+                        for (int k = 0; k < 2; k++) {
+                            int i1 = (k == 0) ? it.i1 : it.i2;
+                            int i2 = i;
+                            for (int l = 0; l < 3; l++) {
+                                //Early out if 2 points are in fact the same
+                                if (itTri.i[l] == i1 || itTri.i[l] == i2 || itTri.i[(l + 1) % 3] == i1 || itTri.i[(l + 1) % 3] == i2)
+                                    continue;
+                                Segment2D seg2 = new Segment2D(itTri.p(l), itTri.p((l + 1) % 3));
+                                Segment2D seg1 = new Segment2D(pointList[i1], pointList[i2]);
+                                if (seg1.intersects(seg2)) {
+                                    isTriangleIntersected = true;
+                                    break;
+                                }
+                            }
+
+                        }
+                        if (isTriangleIntersected) {
+                            if (!itTri.isDegenerate()) {
+                                //Utils::log("tri inside" + itTri->debugDescription());
+                                for (int m = 0; m < 3; m++) {
+                                    DelaunaySegment d1 = new DelaunaySegment(itTri.i[m], itTri.i[(m + 1) % 3]);
+                                    if (segments.find(d1) != segments.end())
+                                        segments.erase(d1);
+                                    else if (segments.find(d1.inverse()) != segments.end())
+                                        segments.erase(d1.inverse());
+                                    else
+                                        segments.insert(d1);
+                                }
+                            }
+                            //tbuffer.erase(itTri);
+                            need_erase.Clear();
+                            need_erase.Add(itTri);
+                            triRemoved = true;
+                        }
+                    }
+                }
+                //do delete
+                foreach (var v in need_erase) {
+                    tbuffer.Remove(v);
+                }
+                // Find all the non-interior edges
+                IEnumerator<DelaunaySegment> seg_ie = segments.GetEnumerator();
+                //for (std::set<DelaunaySegment>::iterator it = segments.begin(); it!=segments.end(); ++it)
+                while (seg_ie.MoveNext()) {
+                    DelaunaySegment it = seg_ie.Current;
+                    //Triangle dt(&pointList);
+                    Triangle dt = new Triangle(pointList);
+                    dt.setVertices(it.i1, it.i2, i);
+                    dt.makeDirectIfNeeded();
+                    //Utils::log("Add tri " + dt.debugDescription());
+                    tbuffer.push_back(dt);
+
+                }
+            }
+
+            // NB : Don't remove super triangle here, because all outer triangles are already removed in the addconstraints method.
+            //      Uncomment that code if delaunay triangulation ever has to be unconstrained...
+            /*TouchSuperTriangle touchSuperTriangle(maxTriangleIndex, maxTriangleIndex+1,maxTriangleIndex+2);
+            tbuffer.remove_if(touchSuperTriangle);
+            pointList.pop_back();
+            pointList.pop_back();
+            pointList.pop_back();*/
         }
-
-		// Robustification of the standard algorithm : if one triangle's circumcircle was borderline against the new point,
-		// test whether that triangle is intersected by new segments or not (normal situation : it should not)
-		// If intersected, the triangle is considered having the new point in its circumc
-		std_set<DelaunaySegment> copySegment = segments;
-        IEnumerator<Triangle>be= borderlineTriangles.GetEnumerator();
-		//for (std::list<std::list<Triangle>::iterator>::iterator itpTri = borderlineTriangles.begin(); itpTri!=borderlineTriangles.end(); itpTri++ )
-		while(be.MoveNext())
-        {
-            Triangle itpTri=be.Current;
-			//DelaunayTriangleBuffer::iterator itTri = *itpTri;
-            Triangle itTri=itpTri;
-			bool triRemoved = false;
-			//for (std::set<DelaunaySegment>::iterator it = copySegment.begin(); it!=copySegment.end() && !triRemoved; ++it)
-			IEnumerator<DelaunaySegment> cse= copySegment.GetEnumerator();
-            while(cse.MoveNext()&&!triRemoved)
-            {
-                DelaunaySegment it=cse.Current;
-				bool isTriangleIntersected = false;
-				for (int k=0; k<2; k++)
-				{
-					int i1 = (k==0)?it.i1:it.i2;
-					int i2 = i;
-					for (int l=0; l<3; l++)
-					{
-						//Early out if 2 points are in fact the same
-						if (itTri.i[l]==i1 || itTri.i[l]==i2 || itTri.i[(l+1)%3]==i1 || itTri.i[(l+1)%3]==i2)
-							continue;
-						Segment2D seg2=new Segment2D(itTri.p(l), itTri.p((l+1)%3));
-						Segment2D seg1=new Segment2D(pointList[i1], pointList[i2]);
-						if (seg1.intersects(seg2))
-						{
-							isTriangleIntersected = true;
-							break;
-						}
-					}
-
-				}
-				if (isTriangleIntersected)
-				{
-					if (!itTri.isDegenerate())
-					{
-						//Utils::log("tri inside" + itTri->debugDescription());
-						for (int m=0; m<3; m++)
-						{
-							DelaunaySegment d1=new DelaunaySegment(itTri.i[m], itTri.i[(m+1)%3]);
-							if (segments.find(d1)!=segments.end())
-								segments.erase(d1);
-							else if (segments.find(d1.inverse())!=segments.end())
-								segments.erase(d1.inverse());
-							else
-								segments.insert(d1);
-						}
-					}
-					//tbuffer.erase(itTri);
-					need_erase.Clear();
-                    need_erase.Add(itTri);
-                    triRemoved=true;
-				}
-			}
-		}
-         //do delete
-        foreach(var v in need_erase){
-            tbuffer.Remove(v);
-        }
-		// Find all the non-interior edges
-        IEnumerator<DelaunaySegment>seg_ie= segments.GetEnumerator();
-		//for (std::set<DelaunaySegment>::iterator it = segments.begin(); it!=segments.end(); ++it)
-		while(seg_ie.MoveNext())
-        {
-            DelaunaySegment it=seg_ie.Current;
-			//Triangle dt(&pointList);
-            Triangle dt=new Triangle(pointList);
-			dt.setVertices(it.i1, it.i2, i);
-			dt.makeDirectIfNeeded();
-			//Utils::log("Add tri " + dt.debugDescription());
-			tbuffer.push_back(dt);
-
-		}
-	}
-
-	// NB : Don't remove super triangle here, because all outer triangles are already removed in the addconstraints method.
-	//      Uncomment that code if delaunay triangulation ever has to be unconstrained...
-	/*TouchSuperTriangle touchSuperTriangle(maxTriangleIndex, maxTriangleIndex+1,maxTriangleIndex+2);
-	tbuffer.remove_if(touchSuperTriangle);
-	pointList.pop_back();
-	pointList.pop_back();
-	pointList.pop_back();*/
-}
 
         void _addConstraints(ref DelaunayTriangleBuffer tbuffer, PointList pl, std_vector<int> segmentListIndices) {
             std_vector<DelaunaySegment> segList = new std_vector<DelaunaySegment>();
@@ -813,7 +802,7 @@ namespace Mogre_Procedural
         //void addToTriangleBuffer(ref TriangleBuffer& buffer) const;
         //-----------------------------------------------------------------------
         //void Triangulator::addToTriangleBuffer(TriangleBuffer& buffer) const
-        public void addToTriangleBuffer(ref TriangleBuffer buffer) {
+        public override void addToTriangleBuffer(ref TriangleBuffer buffer) {
             PointList pointList = new std_vector<Vector2>();
             std_vector<int> indexBuffer = new std_vector<int>();
             triangulate(indexBuffer, pointList);

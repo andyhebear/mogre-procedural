@@ -392,14 +392,14 @@ namespace Mogre_Procedural.std
         /// </summary>
         /// <param name="plane"></param>
         /// <returns></returns>
-        public static Matrix4 BuildReflectionMatrix(Plane plane) {
-            var normal = plane.Normal;
+        //public static Matrix4 BuildReflectionMatrix(Plane plane) {
+        //    var normal = plane.Normal;
 
-            return new Matrix4(-2.0f * normal.x * normal.x + 1.0f, -2.0f * normal.x * normal.y, -2.0f * normal.x * normal.z,
-                                -2.0f * normal.x * plane.D, -2.0f * normal.y * normal.x, -2.0f * normal.y * normal.y + 1.0f,
-                                -2.0f * normal.y * normal.z, -2.0f * normal.y * plane.D, -2.0f * normal.z * normal.x, -2.0f * normal.z * normal.y,
-                                -2.0f * normal.z * normal.z + 1.0f, -2.0f * normal.z * plane.D, 0.0f, 0.0f, 0.0f, 1.0f);
-        }
+        //    return new Matrix4(-2.0f * normal.x * normal.x + 1.0f, -2.0f * normal.x * normal.y, -2.0f * normal.x * normal.z,
+        //                        -2.0f * normal.x * plane.d, -2.0f * normal.y * normal.x, -2.0f * normal.y * normal.y + 1.0f,
+        //                        -2.0f * normal.y * normal.z, -2.0f * normal.y * plane.d, -2.0f * normal.z * normal.x, -2.0f * normal.z * normal.y,
+        //                        -2.0f * normal.z * normal.z + 1.0f, -2.0f * normal.z * plane.d, 0.0f, 0.0f, 0.0f, 1.0f);
+        //}
         public static Matrix4 BuildReflectionMatrix(Mogre.Plane plane) {
             var normal = plane.normal;
 
@@ -495,7 +495,7 @@ namespace Mogre_Procedural.std
             // This is because the triangle has been mirrored when going from tangent space to object space.
             // reverse tangents if necessary.
             var tangentCross = tangent.CrossProduct(binormal);
-            if (tangentCross.Dot(normal) < 0.0f) {
+            if (tangentCross.DotProduct(normal) < 0.0f) {
                 tangent = -tangent;
                 binormal = -binormal;
             }
@@ -612,8 +612,8 @@ namespace Mogre_Procedural.std
         /// <param name="box"></param>
         /// <returns>A Pair object containing whether the intersection occurred, and the distance between the 2 objects.</returns>
         public static IntersectResult Intersects(Ray ray, AxisAlignedBox box) {
-            Contract.RequiresNotNull(ray, "ray");
-            Contract.RequiresNotNull(box, "box");
+           // Contract.RequiresNotNull<Ray>(ray, "ray");
+            Contract.RequiresNotNull<AxisAlignedBox>(box, "box");
 
             if (box.IsNull) {
                 return new IntersectResult(false, 0);
@@ -631,19 +631,19 @@ namespace Mogre_Procedural.std
             var max = box.Maximum;
 
             // check origin inside first
-            if (ray.origin > min && ray.origin < max) {
+            if (ray.Origin > min && ray.Origin < max) {
                 return new IntersectResult(true, 0.0f);
             }
 
             // check each face in turn, only check closest 3
 
             // Min X
-            if (ray.origin.x <= min.x && ray.direction.x > 0) {
-                t = (min.x - ray.origin.x) / ray.direction.x;
+            if (ray.Origin.x <= min.x && ray.Direction.x > 0) {
+                t = (min.x - ray.Origin.x) / ray.Direction.x;
 
                 if (t >= 0) {
                     // substitue t back into ray and check bounds and distance
-                    hitPoint = ray.origin + ray.direction * t;
+                    hitPoint = ray.Origin + ray.Direction * t;
 
                     if (hitPoint.y >= min.y && hitPoint.y <= max.y && hitPoint.z >= min.z && hitPoint.z <= max.z &&
                          (!hit || t < lowt)) {
@@ -654,12 +654,12 @@ namespace Mogre_Procedural.std
             }
 
             // Max X
-            if (ray.origin.x >= max.x && ray.direction.x < 0) {
-                t = (max.x - ray.origin.x) / ray.direction.x;
+            if (ray.Origin.x >= max.x && ray.Direction.x < 0) {
+                t = (max.x - ray.Origin.x) / ray.Direction.x;
 
                 if (t >= 0) {
                     // substitue t back into ray and check bounds and distance
-                    hitPoint = ray.origin + ray.direction * t;
+                    hitPoint = ray.Origin + ray.Direction * t;
 
                     if (hitPoint.y >= min.y && hitPoint.y <= max.y && hitPoint.z >= min.z && hitPoint.z <= max.z &&
                          (!hit || t < lowt)) {
@@ -670,12 +670,12 @@ namespace Mogre_Procedural.std
             }
 
             // Min Y
-            if (ray.origin.y <= min.y && ray.direction.y > 0) {
-                t = (min.y - ray.origin.y) / ray.direction.y;
+            if (ray.Origin.y <= min.y && ray.Direction.y > 0) {
+                t = (min.y - ray.Origin.y) / ray.Direction.y;
 
                 if (t >= 0) {
                     // substitue t back into ray and check bounds and distance
-                    hitPoint = ray.origin + ray.direction * t;
+                    hitPoint = ray.Origin + ray.Direction * t;
 
                     if (hitPoint.x >= min.x && hitPoint.x <= max.x && hitPoint.z >= min.z && hitPoint.z <= max.z &&
                          (!hit || t < lowt)) {
@@ -686,12 +686,12 @@ namespace Mogre_Procedural.std
             }
 
             // Max Y
-            if (ray.origin.y >= max.y && ray.direction.y < 0) {
-                t = (max.y - ray.origin.y) / ray.direction.y;
+            if (ray.Origin.y >= max.y && ray.Direction.y < 0) {
+                t = (max.y - ray.Origin.y) / ray.Direction.y;
 
                 if (t >= 0) {
                     // substitue t back into ray and check bounds and distance
-                    hitPoint = ray.origin + ray.direction * t;
+                    hitPoint = ray.Origin + ray.Direction * t;
 
                     if (hitPoint.x >= min.x && hitPoint.x <= max.x && hitPoint.z >= min.z && hitPoint.z <= max.z &&
                          (!hit || t < lowt)) {
@@ -702,12 +702,12 @@ namespace Mogre_Procedural.std
             }
 
             // Min Z
-            if (ray.origin.z <= min.z && ray.direction.z > 0) {
-                t = (min.z - ray.origin.z) / ray.direction.z;
+            if (ray.Origin.z <= min.z && ray.Direction.z > 0) {
+                t = (min.z - ray.Origin.z) / ray.Direction.z;
 
                 if (t >= 0) {
                     // substitue t back into ray and check bounds and distance
-                    hitPoint = ray.origin + ray.direction * t;
+                    hitPoint = ray.Origin + ray.Direction * t;
 
                     if (hitPoint.x >= min.x && hitPoint.x <= max.x && hitPoint.y >= min.y && hitPoint.y <= max.y &&
                          (!hit || t < lowt)) {
@@ -718,12 +718,12 @@ namespace Mogre_Procedural.std
             }
 
             // Max Z
-            if (ray.origin.z >= max.z && ray.direction.z < 0) {
-                t = (max.z - ray.origin.z) / ray.direction.z;
+            if (ray.Origin.z >= max.z && ray.Direction.z < 0) {
+                t = (max.z - ray.Origin.z) / ray.Direction.z;
 
                 if (t >= 0) {
                     // substitue t back into ray and check bounds and distance
-                    hitPoint = ray.origin + ray.direction * t;
+                    hitPoint = ray.Origin + ray.Direction * t;
 
                     if (hitPoint.x >= min.x && hitPoint.x <= max.x && hitPoint.y >= min.y && hitPoint.y <= max.y &&
                          (!hit || t < lowt)) {
@@ -741,7 +741,7 @@ namespace Mogre_Procedural.std
             // Calculate intersection with plane.
             Real t;
             {
-                var denom = normal.Dot(ray.Direction);
+                var denom = normal.DotProduct(ray.Direction);
                 // Check intersect side
                 if (denom > +Real.Epsilon) {
                     if (!negativeSide) {
@@ -759,7 +759,7 @@ namespace Mogre_Procedural.std
                     return new IntersectResult(false, 0);
                 }
 
-                t = normal.Dot(a - ray.Origin) / denom;
+                t = normal.DotProduct(a - ray.Origin) / denom;
                 if (t < 0) {
                     return new IntersectResult(false, 0);
                 }
@@ -768,9 +768,9 @@ namespace Mogre_Procedural.std
             // Calculate the largest area projection plane in X, Y or Z.
             int i0, i1;
             {
-                var n0 = Math.Utility.Abs(normal[0]);
-                var n1 = Math.Utility.Abs(normal[1]);
-                var n2 = Math.Utility.Abs(normal[2]);
+                var n0 = Utility.Abs(normal[0]);
+                var n1 = Utility.Abs(normal[1]);
+                var n2 = Utility.Abs(normal[2]);
 
                 i0 = 1;
                 i1 = 2;
@@ -851,37 +851,37 @@ namespace Mogre_Procedural.std
         ///     </list>
         /// </returns>
         /// Submitted by: romout
-        public static Intersection Intersects(AxisAlignedBox boxA, AxisAlignedBox boxB) {
-            Contract.RequiresNotNull(boxA, "boxA");
-            Contract.RequiresNotNull(boxB, "boxB");
+        //public static Intersection Intersects(AxisAlignedBox boxA, AxisAlignedBox boxB) {
+        //    Contract.RequiresNotNull(boxA, "boxA");
+        //    Contract.RequiresNotNull(boxB, "boxB");
 
-            // grab the max and mix vectors for both boxes for comparison
-            var minA = boxA.Minimum;
-            var maxA = boxA.Maximum;
-            var minB = boxB.Minimum;
-            var maxB = boxB.Maximum;
+        //    // grab the max and mix vectors for both boxes for comparison
+        //    var minA = boxA.Minimum;
+        //    var maxA = boxA.Maximum;
+        //    var minB = boxB.Minimum;
+        //    var maxB = boxB.Maximum;
 
-            if ((minB.x < minA.x) && (maxB.x > maxA.x) && (minB.y < minA.y) && (maxB.y > maxA.y) && (minB.z < minA.z) &&
-                 (maxB.z > maxA.z)) {
-                // boxA is within boxB
-                return Intersection.Contained;
-            }
+        //    if ((minB.x < minA.x) && (maxB.x > maxA.x) && (minB.y < minA.y) && (maxB.y > maxA.y) && (minB.z < minA.z) &&
+        //         (maxB.z > maxA.z)) {
+        //        // boxA is within boxB
+        //        return Intersection.Contained;
+        //    }
 
-            if ((minB.x > minA.x) && (maxB.x < maxA.x) && (minB.y > minA.y) && (maxB.y < maxA.y) && (minB.z > minA.z) &&
-                 (maxB.z < maxA.z)) {
-                // boxB is within boxA
-                return Intersection.Contains;
-            }
+        //    if ((minB.x > minA.x) && (maxB.x < maxA.x) && (minB.y > minA.y) && (maxB.y < maxA.y) && (minB.z > minA.z) &&
+        //         (maxB.z < maxA.z)) {
+        //        // boxB is within boxA
+        //        return Intersection.Contains;
+        //    }
 
-            if ((minB.x > maxA.x) || (minB.y > maxA.y) || (minB.z > maxA.z) || (maxB.x < minA.x) || (maxB.y < minA.y) ||
-                 (maxB.z < minA.z)) {
-                // not interesting at all
-                return Intersection.None;
-            }
+        //    if ((minB.x > maxA.x) || (minB.y > maxA.y) || (minB.z > maxA.z) || (maxB.x < minA.x) || (maxB.y < minA.y) ||
+        //         (maxB.z < minA.z)) {
+        //        // not interesting at all
+        //        return Intersection.None;
+        //    }
 
-            // if we got this far, they are partially intersecting
-            return Intersection.Partial;
-        }
+        //    // if we got this far, they are partially intersecting
+        //    return Intersection.Partial;
+        //}
 
 
         public static IntersectResult Intersects(Ray ray, Sphere sphere) {
@@ -896,8 +896,8 @@ namespace Mogre_Procedural.std
         /// <param name="discardInside"></param>
         /// <returns>Struct that contains a bool (hit?) and distance.</returns>
         public static IntersectResult Intersects(Ray ray, Sphere sphere, bool discardInside) {
-            Contract.RequiresNotNull(ray, "ray");
-            Contract.RequiresNotNull(sphere, "sphere");
+            //Contract.RequiresNotNull<Ray>(ray, "ray");
+            //Contract.RequiresNotNull<Sphere>(sphere, "sphere");
 
             var rayDir = ray.Direction;
             //Adjust ray origin relative to sphere center
@@ -905,16 +905,16 @@ namespace Mogre_Procedural.std
             var radius = sphere.Radius;
 
             // check origin inside first
-            if ((rayOrig.LengthSquared <= radius * radius) && discardInside) {
+            if ((rayOrig.SquaredLength <= radius * radius) && discardInside) {
                 return new IntersectResult(true, 0);
             }
 
             // mmm...sweet quadratics
             // Build coeffs which can be used with std quadratic solver
             // ie t = (-b +/- sqrt(b*b* + 4ac)) / 2a
-            var a = rayDir.Dot(rayDir);
-            var b = 2 * rayOrig.Dot(rayDir);
-            var c = rayOrig.Dot(rayOrig) - (radius * radius);
+            var a = rayDir.DotProduct(rayDir);
+            var b = 2 * rayOrig.DotProduct(rayDir);
+            var c = rayOrig.DotProduct(rayOrig) - (radius * radius);
 
             // calc determinant
             var d = (b * b) - (4 * a * c);
@@ -944,16 +944,16 @@ namespace Mogre_Procedural.std
         /// <param name="plane"></param>
         /// <returns>Struct that contains a bool (hit?) and distance.</returns>
         public static IntersectResult Intersects(Ray ray, Plane plane) {
-            Contract.RequiresNotNull(ray, "ray");
+            //Contract.RequiresNotNull<Ray>(ray, "ray");
 
-            var denom = plane.Normal.Dot(ray.Direction);
+            var denom = plane.normal.DotProduct(ray.Direction);
 
             if (Utility.Abs(denom) < Real.Epsilon) {
                 // Parellel
                 return new IntersectResult(false, 0);
             }
             else {
-                var nom = plane.Normal.Dot(ray.Origin) + plane.D;
+                var nom = plane.normal.DotProduct(ray.Origin) + plane.d;
                 var t = -(nom / denom);
                 return new IntersectResult(t >= 0, t);
             }
@@ -966,8 +966,8 @@ namespace Mogre_Procedural.std
         /// <param name="box"></param>
         /// <returns>True if there was an intersection, false otherwise.</returns>
         public static bool Intersects(Sphere sphere, AxisAlignedBox box) {
-            Contract.RequiresNotNull(sphere, "sphere");
-            Contract.RequiresNotNull(box, "box");
+           // Contract.RequiresNotNull<Sphere>(sphere, "sphere");
+            Contract.RequiresNotNull<AxisAlignedBox>(box, "box");
 
             if (box.IsNull) {
                 return false;
@@ -1019,7 +1019,7 @@ namespace Mogre_Procedural.std
             }
 
             // Get corners of the box
-            var corners = box.Corners;
+            var corners = box.GetAllCorners();//box.Corners;
 
             // Test which side of the plane the corners are
             // Intersection occurs when at least one corner is on the 
@@ -1042,9 +1042,9 @@ namespace Mogre_Procedural.std
         /// <param name="plane"></param>
         /// <returns>True if there was an intersection, false otherwise.</returns>
         public static bool Intersects(Sphere sphere, Plane plane) {
-            Contract.RequiresNotNull(sphere, "sphere");
+            //Contract.RequiresNotNull<Sphere>(sphere, "sphere");
 
-            return Utility.Abs(plane.Normal.Dot(sphere.Center)) <= sphere.Radius;
+            return Utility.Abs(plane.normal.DotProduct(sphere.Center)) <= sphere.Radius;
         }
 
         /// <summary>
@@ -1060,10 +1060,10 @@ namespace Mogre_Procedural.std
 
             var min = box.Minimum;
             var max = box.Maximum;
-            var rayorig = ray.origin;
+            var rayorig = ray.Origin;
             var rayDir = ray.Direction;
 
-            var absDir = Vector3.Zero;
+            var absDir = Vector3.ZERO;
             absDir[0] = Abs(rayDir[0]);
             absDir[1] = Abs(rayDir[1]);
             absDir[2] = Abs(rayDir[2]);
@@ -1123,7 +1123,7 @@ namespace Mogre_Procedural.std
             var newstart = (min[i] - rayorig[i]) * denom;
             var newend = (max[i] - rayorig[i]) * denom;
             if (newstart > newend) {
-                Swap<Real>(ref newstart, ref newend);
+                Swap<float>(ref newstart, ref newend);
             }
             if (newstart > end || newend < start) {
                 return false;
@@ -1144,81 +1144,67 @@ namespace Mogre_Procedural.std
         /// <param name="ray"></param>
         /// <param name="volume"></param>
         /// <returns>Struct that contains a bool (hit?) and distance.</returns>
-        //public static IntersectResult Intersects( Ray ray, PlaneBoundedVolume volume )
-        //{
-        //    Contract.RequiresNotNull( ray, "ray" );
-        //    Contract.RequiresNotNull( volume, "volume" );
+        public static IntersectResult Intersects(Ray ray, PlaneBoundedVolume volume) {
+            //Contract.RequiresNotNull<Ray>(ray, "ray");
+            Contract.RequiresNotNull<PlaneBoundedVolume>(volume, "volume");
 
-        //    var planes = volume.planes;
+            var planes = volume.planes;
 
-        //    Real maxExtDist = 0.0f;
-        //    var minIntDist = Real.PositiveInfinity;
+            Real maxExtDist = 0.0f;
+            var minIntDist = Real.PositiveInfinity;
 
-        //    Real dist, denom, nom;
+            Real dist, denom, nom;
 
-        //    for ( var i = 0; i < planes.Count; i++ )
-        //    {
-        //        var plane = (Plane)planes[ i ];
+            for (var i = 0; i < planes.Count; i++) {
+                var plane = (Plane)planes[i];
 
-        //        denom = plane.Normal.Dot( ray.Direction );
-        //        if ( Utility.Abs( denom ) < Real.Epsilon )
-        //        {
-        //            // Parallel
-        //            if ( plane.GetSide( ray.Origin ) == volume.outside )
-        //            {
-        //                return new IntersectResult( false, 0 );
-        //            }
+                denom = plane.normal.DotProduct(ray.Direction);
+                if (Utility.Abs(denom) < Real.Epsilon) {
+                    // Parallel
+                    if (plane.GetSide(ray.Origin) == volume.outside) {
+                        return new IntersectResult(false, 0);
+                    }
 
-        //            continue;
-        //        }
+                    continue;
+                }
 
-        //        nom = plane.Normal.Dot( ray.Origin ) + plane.D;
-        //        dist = -( nom/denom );
+                nom = plane.normal.DotProduct(ray.Origin) + plane.d;
+                dist = -(nom / denom);
 
-        //        if ( volume.outside == PlaneSide.Negative )
-        //        {
-        //            nom = -nom;
-        //        }
+                if (volume.outside ==  Plane.Side.NEGATIVE_SIDE) {
+                    nom = -nom;
+                }
 
-        //        if ( dist > 0.0f )
-        //        {
-        //            if ( nom > 0.0f )
-        //            {
-        //                if ( maxExtDist < dist )
-        //                {
-        //                    maxExtDist = dist;
-        //                }
-        //            }
-        //            else
-        //            {
-        //                if ( minIntDist > dist )
-        //                {
-        //                    minIntDist = dist;
-        //                }
-        //            }
-        //        }
-        //        else
-        //        {
-        //            //Ray points away from plane
-        //            if ( volume.outside == PlaneSide.Negative )
-        //            {
-        //                denom = -denom;
-        //            }
+                if (dist > 0.0f) {
+                    if (nom > 0.0f) {
+                        if (maxExtDist < dist) {
+                            maxExtDist = dist;
+                        }
+                    }
+                    else {
+                        if (minIntDist > dist) {
+                            minIntDist = dist;
+                        }
+                    }
+                }
+                else {
+                    //Ray points away from plane
+                    if (volume.outside == Plane.Side.NEGATIVE_SIDE) {
+                        denom = -denom;
+                    }
 
-        //            if ( denom > 0.0f )
-        //            {
-        //                return new IntersectResult( false, 0 );
-        //            }
-        //        }
-        //    }
+                    if (denom > 0.0f) {
+                        return new IntersectResult(false, 0);
+                    }
+                }
+            }
 
-        //    if ( maxExtDist > minIntDist )
-        //    {
-        //        return new IntersectResult( false, 0 );
-        //    }
+            if (maxExtDist > minIntDist) {
+                return new IntersectResult(false, 0);
+            }
 
-        //    return new IntersectResult( true, maxExtDist );
-        //}
+            return new IntersectResult(true, maxExtDist);
+        }
 
         #endregion Intersection Methods
 
@@ -1392,35 +1378,279 @@ namespace Mogre_Procedural.std
     /// <summary>
     ///		Simple struct to allow returning a complex intersection result.
     /// </summary>
-    //public struct IntersectResult
-    //{
-    //    #region Fields
+    public struct IntersectResult
+    {
+        #region Fields
 
-    //    /// <summary>
-    //    ///		Did the intersection test result in a hit?
-    //    /// </summary>
-    //    public bool Hit;
+        /// <summary>
+        ///		Did the intersection test result in a hit?
+        /// </summary>
+        public bool Hit;
 
-    //    /// <summary>
-    //    ///		If Hit was true, this will hold a query specific distance value.
-    //    ///		i.e. for a Ray-Box test, the distance will be the distance from the start point
-    //    ///		of the ray to the point of intersection.
-    //    /// </summary>
-    //    public Real Distance;
+        /// <summary>
+        ///		If Hit was true, this will hold a query specific distance value.
+        ///		i.e. for a Ray-Box test, the distance will be the distance from the start point
+        ///		of the ray to the point of intersection.
+        /// </summary>
+        public Real Distance;
 
-    //    #endregion Fields
+        #endregion Fields
 
-    //    /// <summary>
-    //    ///		Constructor.
-    //    /// </summary>
-    //    /// <param name="hit"></param>
-    //    /// <param name="distance"></param>
-    //    public IntersectResult( bool hit, Real distance )
-    //    {
-    //        this.Hit = hit;
-    //        this.Distance = distance;
-    //    }
-    //}
+        /// <summary>
+        ///		Constructor.
+        /// </summary>
+        /// <param name="hit"></param>
+        /// <param name="distance"></param>
+        public IntersectResult(bool hit, Real distance) {
+            this.Hit = hit;
+            this.Distance = distance;
+        }
+    }
 
     #endregion Return result structures
+
+
+    /// <summary>
+    /// This class is used to enforce that preconditions are met for method calls
+    /// using clear and consice semantics.
+    /// </summary>
+    public static class Contract
+    {
+        /// <summary>
+        /// Requires that a condition evaluates to <c>true</c>.
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <exception cref="ArgumentException">Condition is <c>false</c>.</exception>
+        public static void Requires(bool condition) {
+            if (!condition) {
+                throw new ArgumentException("Method condition violated.");
+            }
+        }
+
+        /// <overloads>
+        /// <param name="name">Name of the requirement, this should be something unique to make it easy to find.</param>
+        /// </overloads>
+        public static void Requires(bool condition, string name) {
+            Proclaim.NotEmpty(name);
+
+            if (!condition) {
+                throw new ArgumentException("Invalid parameter value.", name);
+            }
+        }
+
+        /// <overloads>
+        /// <param name="message">Message if the condition isn't met</param>
+        /// </overloads>
+        public static void Requires(bool condition, string name, string message) {
+            Proclaim.NotEmpty(name);
+
+            if (!condition) {
+                throw new ArgumentException(message, name);
+            }
+        }
+
+        /// <summary>
+        /// Requires that a value not be <c>null</c>.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="name"></param>
+        /// <exception cref="ArgumentNullException">Value is <c>null</c>.</exception>
+        public static void RequiresNotNull<T>(T value, string name) where T : class {
+            Proclaim.NotEmpty(name);
+
+            if (value == null) {
+                throw new ArgumentNullException(name);
+            }
+        }
+
+        /// <summary>
+        /// Requires that the string not be <c>null</c> and not zero length.
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="name"></param>
+        /// <exception cref="ArgumentException">String is <c>null</c> or zero length.</exception>
+        public static void RequiresNotEmpty(string str, string name) {
+            RequiresNotNull(str, name);
+            if (str.Length == 0) {
+                throw new ArgumentException("Non-empty string required.", name);
+            }
+        }
+
+        /// <summary>
+        /// Requires that the collection not be <c>null</c> and has at least one element.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="collection"></param>
+        /// <param name="name"></param>
+        /// <exception cref="ArgumentException">Collection is <c>null</c> or has no elements.</exception>
+        public static void RequiresNotEmpty<T>(ICollection<T> collection, string name) {
+            RequiresNotNull(collection, name);
+            if (collection.Count == 0) {
+                throw new ArgumentException("Non-empty collection required.", name);
+            }
+        }
+
+        /// <summary>
+        /// Requires the specified index to point inside the array.
+        /// </summary>
+        /// <exception cref="ArgumentNullException">Array is <c>null</c>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Index is outside the array.</exception>
+        public static void RequiresArrayIndex<T>(IList<T> array, int index, string indexName) {
+            Proclaim.NotEmpty(indexName);
+            Proclaim.NotNull(array);
+
+            if (index < 0 || index >= array.Count)
+                throw new ArgumentOutOfRangeException(indexName);
+        }
+
+        /// <summary>
+        /// Requires the specified index to point inside the array or at the end.
+        /// </summary>
+        /// <exception cref="ArgumentNullException">Array is <c>null</c>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Index is outside the array.</exception>
+        public static void RequiresArrayInsertIndex<T>(IList<T> array, int index, string indexName) {
+            Proclaim.NotEmpty(indexName);
+            Proclaim.NotNull(array);
+
+            if (index < 0 || index > array.Count)
+                throw new ArgumentOutOfRangeException(indexName);
+        }
+
+        /// <summary>
+        /// Requires the range [offset, offset + count] to be a subset of [0, array.Count].
+        /// </summary>
+        /// <exception cref="ArgumentNullException">Array is <c>null</c>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Offset or count are out of range.</exception>
+        public static void RequiresArrayRange<T>(IList<T> array, int offset, int count, string offsetName, string countName) {
+            Proclaim.NotEmpty(offsetName);
+            Proclaim.NotEmpty(countName);
+            Proclaim.NotNull(array);
+
+            if (count < 0)
+                throw new ArgumentOutOfRangeException(countName);
+            if (offset < 0 || array.Count - offset < count)
+                throw new ArgumentOutOfRangeException(offsetName);
+        }
+
+        /// <summary>
+        /// Requires the range [offset, offset + count] to be a subset of [0, array.Count].
+        /// </summary>
+        /// <exception cref="ArgumentNullException">String is <c>null</c>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Offset or count are out of range.</exception>
+        public static void RequiresArrayRange(string str, int offset, int count, string offsetName, string countName) {
+            Proclaim.NotEmpty(offsetName);
+            Proclaim.NotEmpty(countName);
+            Proclaim.NotNull(str);
+
+            if (count < 0)
+                throw new ArgumentOutOfRangeException(countName);
+            if (offset < 0 || str.Length - offset < count)
+                throw new ArgumentOutOfRangeException(offsetName);
+        }
+
+        /// <summary>
+        /// Requires the array and all its items to be non-null.
+        /// </summary>
+        public static void RequiresNotNullItems<T>(IList<T> items, string name) {
+            Proclaim.NotNull(name);
+            RequiresNotNull(items, name);
+
+            for (int i = 0; i < items.Count; i++) {
+                if (items[i] == null) {
+                    throw ExceptionFactory.CreateArgumentItemNullException(i, name);
+                }
+            }
+        }
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public static class Proclaim
+    {
+        /// <summary>
+        /// Asserts if this statement is reached.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">Code is supposed to be unreachable.</exception>
+        public static Exception Unreachable {
+            get {
+                Debug.Assert(false, "Unreachable");
+                return new InvalidOperationException("Code is supposed to be unreachable.");
+            }
+        }
+
+        /// <summary>
+        /// Asserts if any argument is <c>null</c>.
+        /// </summary>
+        /// <param name="vars"></param>
+        public static void NotNull(params object[] vars) {
+            bool result = true;
+            foreach (object obj in vars) {
+                result &= (obj != null);
+            }
+            Debug.Assert(result);
+        }
+
+        /// <summary>
+        /// Asserts if the string is <c>null</c> or zero length.
+        /// </summary>
+        /// <param name="str"></param>
+        public static void NotEmpty(string str) {
+            Debug.Assert(!String.IsNullOrEmpty(str));
+        }
+
+        /// <summary>
+        /// Asserts if the collection is <c>null</c> or the <c>Count</c> is zero.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="items"></param>
+        public static void NotEmpty<T>(ICollection<T> items) {
+            Debug.Assert(items != null && items.Count > 0);
+        }
+
+        /// <summary>
+        /// Asserts if any item in the collection is <c>null</c>.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="items"></param>
+        public static void NotNullItems<T>(IEnumerable<T> items) where T : class {
+            Debug.Assert(items != null);
+            foreach (object item in items) {
+                Debug.Assert(item != null);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Factory class for some exception classes that have variable constructors based on the 
+    /// framework that is targeted. Rather than use <c>#if</c> around the different constructors
+    /// use the least common denominator, but wrap it in an easier to use method.
+    /// </summary>
+    internal static class ExceptionFactory
+    {
+        /// <summary>
+        /// Factory for the <c>ArgumentOutOfRangeException</c>
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        public static ArgumentOutOfRangeException CreateArgumentOutOfRangeException(string name, object value, string message) {
+            return new ArgumentOutOfRangeException(name, string.Format("{0} (actual value is '{1}')", message, value));
+        }
+
+        /// <summary>
+        /// Factory for the <c>ArgumentOutOfRangeException</c>
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static ArgumentNullException CreateArgumentItemNullException(int index, string arrayName) {
+            return new ArgumentNullException(String.Format("{0}[{1}]", arrayName, index));
+        }
+    }
+
+
+
 }

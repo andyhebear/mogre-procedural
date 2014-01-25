@@ -333,7 +333,7 @@ namespace Mogre_Procedural
         //-----------------------------------------------------------------------
         //
         //ORIGINAL LINE: void addToTriangleBuffer(TriangleBuffer& buffer) const
-        public void addToTriangleBuffer(ref TriangleBuffer buffer) {
+        public override void addToTriangleBuffer(ref TriangleBuffer buffer) {
             if (mMultiShapeToExtrude.getShapeCount() == 0)
                OGRE_EXCEPT("Ogre::Exception::ERR_INVALID_STATE", "At least one shape must be defined!", "Procedural::Extruder::addToTriangleBuffer(Procedural::TriangleBuffer)");
             ;

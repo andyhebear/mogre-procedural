@@ -85,7 +85,7 @@ namespace Mogre_Procedural
         //	 
         //
         //ORIGINAL LINE: void addToTriangleBuffer(TriangleBuffer& buffer) const
-        public void addToTriangleBuffer(ref TriangleBuffer buffer) {
+        public override void addToTriangleBuffer(ref TriangleBuffer buffer) {
             buffer.rebaseOffset();
             if (mCapped) {
                 buffer.estimateVertexCount((mNumSegHeight + 1) * (mNumSegBase + 1) + 2 * (mNumSegBase + 1) + 2);
@@ -106,7 +106,7 @@ namespace Mogre_Procedural
                     float x0 = mRadius * cosf(j * deltaAngle);
                     float z0 = mRadius * sinf(j * deltaAngle);
 
-                    addPoint(buffer, new Vector3(x0, i * deltaHeight, z0), new Vector3(x0, 0, z0).normalisedCopy(), new Vector2(j / (float)mNumSegBase, i / (float)mNumSegHeight));
+                    addPoint(buffer, new Vector3(x0, i * deltaHeight, z0), new Vector3(x0, 0, z0).NormalisedCopy, new Vector2(j / (float)mNumSegBase, i / (float)mNumSegHeight));
 
                     if (i != mNumSegHeight) {
                         buffer.index(offset + (int)mNumSegBase + 1);

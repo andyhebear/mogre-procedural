@@ -1248,7 +1248,7 @@ namespace Mogre_Procedural
                 }
             }
 
-            Utils.log("Create wood texture : " + StringConverter.toString(mRings));
+            Utils.log("Create wood texture : " +(mRings).ToString());
             return mBuffer;
         }
     }
