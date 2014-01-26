@@ -34,7 +34,7 @@ namespace Mogre_Procedural
     using System.Text;
 
     using Mogre;
-    using Math = Mogre.Math;
+    using Math = Mogre.Math; 
 
     //C++ TO C# CONVERTER TODO TASK: The original C++ template specifier was replaced with a C# generic specifier, which may not produce the same behavior:
     //ORIGINAL LINE: template<class T>
