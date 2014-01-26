@@ -38,7 +38,7 @@ namespace Mogre_Procedural{
     /// </summary>  
     public class OgreMeshData : IDisposable {
         // SGD ：2013/6/20 9:31:35
-        // 说明：建立meshdata缓存?
+        // 说明：建立meshdata缓存 ?
 
         public string meshName;
         public Mogre.RenderOperation.OperationTypes  opType;

@@ -63,7 +63,7 @@ namespace Mogre_Procedural
         public ConeGenerator()
             : this(1.0f, 1.0f, 16, 1) {
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: ConeGenerator(Ogre::float radius = 1.0f, Ogre::float height = 1.0f, uint numSegBase = 16, uint numSegHeight = 1) : mNumSegBase(numSegBase), mNumSegHeight(numSegHeight), mRadius(radius), mHeight(height)
         public ConeGenerator(float radius, float height, uint numSegBase, uint numSegHeight) {
             mNumSegBase = numSegBase;
