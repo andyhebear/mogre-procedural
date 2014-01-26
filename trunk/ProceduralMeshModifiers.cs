@@ -61,21 +61,21 @@ namespace Mogre_Procedural
         /// \exception Ogre::InvalidParametersException Input triangle buffer must not be null
         public SpherifyModifier setInputTriangleBuffer(TriangleBuffer inputTriangleBuffer) {
             if (inputTriangleBuffer == null)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Input triangle buffer must not be null", "Procedural::SpherifyModifier::setInputTriangleBuffer(Procedural::TriangleBuffer*)", __FILE__, __LINE__);
-                throw new Exception("Input triangle buffer must not be null!");
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Input triangle buffer must not be null",
+                          "Procedural::SpherifyModifier::setInputTriangleBuffer(Procedural::TriangleBuffer*)");
             ;
             mInputTriangleBuffer = inputTriangleBuffer;
             return this;
         }
 
+        private void OGRE_EXCEPT(string p, string p_2, string p_3) {
+            throw new Exception(p + "_" + p_2 + "_" + p_3);
+        }
+
         public SpherifyModifier setRadius(float radius) {
             if (mRadius <= 0)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Radius must be positive", "Procedural::SpherifyModifier::setInputTriangleBuffer(Procedural::TriangleBuffer*)", __FILE__, __LINE__);
-                throw new Exception("Radius must be larger than 0!");
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Radius must be positive",
+                        "Procedural::SpherifyModifier::setInputTriangleBuffer(Procedural::TriangleBuffer*)");
             ;
             mRadius = radius;
             return this;
@@ -91,10 +91,7 @@ namespace Mogre_Procedural
         /// \exception Ogre::InvalidStateException Input triangle buffer must be set
         public void modify() {
             if (mInputTriangleBuffer == null)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALID_STATE>(), "Input triangle buffer must be set", "Procedural::SpherifyModifier::modify()", __FILE__, __LINE__);
-                throw new Exception("Input triangle buffer must be set!");
+                OGRE_EXCEPT("Exception::ERR_INVALID_STATE", "Input triangle buffer must be set", "Procedural::SpherifyModifier::modify()");
             ;
 
             //for (List<TriangleBuffer.Vertex>.Enumerator it = mInputTriangleBuffer.getVertices().begin(); it != mInputTriangleBuffer.getVertices().end(); ++it)
@@ -155,10 +152,7 @@ namespace Mogre_Procedural
         //--------------------------------------------------------------
         public void modify() {
             if (mInputTriangleBuffer == null)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALID_STATE>(), "Input triangle buffer must be set", __FUNC__, __FILE__, __LINE__);
-                throw new Exception("Input triangle buffer must be set!");
+                OGRE_EXCEPT("Exception::ERR_INVALID_STATE", "Input triangle buffer must be set", "__FUNCTION__");
             ;
 
             if (mComputeMode == NormalComputeMode.NCM_TRIANGLE) {
@@ -195,17 +189,21 @@ namespace Mogre_Procedural
                     Vector3 v2 = vertices[indices[i + 1]].mPosition;
                     Vector3 v3 = vertices[indices[i + 2]].mPosition;
                     Vector3 n = (v2 - v1).CrossProduct(v3 - v1);
-                    tmpNormals[indices[i]].Add(n);
-                    tmpNormals[indices[i + 1]].Add(n);
-                    tmpNormals[indices[i + 2]].Add(n);
+                    tmpNormals[indices[i]].push_back(n);
+                    tmpNormals[indices[i + 1]].push_back(n);
+                    tmpNormals[indices[i + 2]].push_back(n);
                 }
                 for (int i = 0; i < vertices.size(); i++) {
                     Vector3 n = (Vector3.ZERO);
-                    for (int j = 0; j < tmpNormals[i].Count; j++)
+                    for (int j = 0; j < tmpNormals[i].size(); j++)
                         n += tmpNormals[i][j];
                     vertices[i].mNormal = n.NormalisedCopy;
                 }
             }
+        }
+
+        private void OGRE_EXCEPT(string p, string p_2, string p_3) {
+            throw new Exception(p + "_" + p_2 + "_" + p_3);
         }
     }
     //--------------------------------------------------------------
@@ -240,10 +238,7 @@ namespace Mogre_Procedural
         //--------------------------------------------------------------
         public void modify() {
             if (mInputTriangleBuffer == null)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALID_STATE>(), "Input triangle buffer must be set", __FUNC__, __FILE__, __LINE__);
-                throw new Exception("Input triangle buffer must be set!");
+                OGRE_EXCEPT("Exception::ERR_INVALID_STATE", "Input triangle buffer must be set", "__FUNCTION__");
             ;
             //std.map<Vector3, int, Vector3Comparator> mapExistingVertices = new std.map<Vector3, int, Vector3Comparator>();
             std_map<Vector3, int> mapExistingVertices = new std_map<Vector3, int>(new Vector3Comparator());
@@ -299,6 +294,10 @@ namespace Mogre_Procedural
                 }
             }
         }
+
+        private void OGRE_EXCEPT(string p, string p_2, string p_3) {
+            throw new Exception(p + "_" + p_2 + "_" + p_3);
+        }
     }
 
     //--------------------------------------------------------------
@@ -324,18 +323,15 @@ namespace Mogre_Procedural
         //--------------------------------------------------------------
         public void modify() {
             if (mInputTriangleBuffer == null)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALID_STATE>(), "Input triangle buffer must be set", __FUNC__, __FILE__, __LINE__);
-                throw new Exception("Input triangle buffer must be set!");
+                OGRE_EXCEPT("Exception::ERR_INVALID_STATE", "Input triangle buffer must be set", "__FUNCTION__");
             ;
             std_vector<TriangleBuffer.Vertex> newVertices = new std_vector<TriangleBuffer.Vertex>();
             std_vector<TriangleBuffer.Vertex> originVertices = mInputTriangleBuffer.getVertices();
             std_vector<int> originIndices = mInputTriangleBuffer.getIndices();
             for (int i = 0; i < originIndices.size(); i += 3) {
-                newVertices.Add(originVertices[originIndices[i]]);
-                newVertices.Add(originVertices[originIndices[i + 1]]);
-                newVertices.Add(originVertices[originIndices[i + 2]]);
+                newVertices.push_back(originVertices[originIndices[i]]);
+                newVertices.push_back(originVertices[originIndices[i + 1]]);
+                newVertices.push_back(originVertices[originIndices[i + 2]]);
             }
             mInputTriangleBuffer.getVertices().clear();
             mInputTriangleBuffer.getVertices().reserve(newVertices.size());
@@ -346,8 +342,12 @@ namespace Mogre_Procedural
             }
             mInputTriangleBuffer.getIndices().clear();
             mInputTriangleBuffer.getIndices().reserve(newVertices.size());
-            for (int i = 0; i < newVertices.Count; i++)
+            for (int i = 0; i < newVertices.size(); i++)
                 mInputTriangleBuffer.getIndices().push_back(i);
+        }
+
+        private void OGRE_EXCEPT(string p, string p_2, string p_3) {
+            throw new Exception(p + "_" + p_2 + "_" + p_3);
         }
     }
     //--------------------------------------------------------------
@@ -400,10 +400,7 @@ namespace Mogre_Procedural
         //--------------------------------------------------------------
         public void modify() {
             if (mInputTriangleBuffer == null)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALID_STATE>(), "Input triangle buffer must be set", __FUNC__, __FILE__, __LINE__);
-                throw new Exception("Input triangle buffer must be set!");
+                OGRE_EXCEPT("Exception::ERR_INVALID_STATE", "Input triangle buffer must be set", "__FUNCTION__");
             ;
             Vector3 xvec = mPlaneNormal.Perpendicular;
             Vector3 yvec = mPlaneNormal.CrossProduct(xvec);
@@ -414,6 +411,10 @@ namespace Mogre_Procedural
                 float it_mUV_y = v.DotProduct(yvec);
                 it.mUV = new Vector2(it_mUV_x, it_mUV_y);
             }
+        }
+
+        private void OGRE_EXCEPT(string p, string p_2, string p_3) {
+            throw new Exception(p + "_" + p_2 + "_" + p_3);
         }
     }
     //--------------------------------------------------------------
@@ -426,10 +427,7 @@ namespace Mogre_Procedural
         //--------------------------------------------------------------
         public void modify() {
             if (mInputTriangleBuffer == null)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALID_STATE>(), "Input triangle buffer must be set", __FUNC__, __FILE__, __LINE__);
-                throw new Exception("Input triangle buffer must be set!");
+                OGRE_EXCEPT("Exception::ERR_INVALID_STATE", "Input triangle buffer must be set", "__FUNCTION__");
             ;
             //for (List<TriangleBuffer.Vertex>.Enumerator it = mInputTriangleBuffer.getVertices().begin(); it != mInputTriangleBuffer.getVertices().end(); ++it)
             foreach (var it in mInputTriangleBuffer.getVertices()) {
@@ -448,6 +446,9 @@ namespace Mogre_Procedural
             mInputTriangleBuffer = inputTriangleBuffer;
             return this;
         }
+        private void OGRE_EXCEPT(string p, string p_2, string p_3) {
+            throw new Exception(p + "_" + p_2 + "_" + p_3);
+        }
     }
     //--------------------------------------------------------------
     //C++ TO C# CONVERTER WARNING: The original type declaration contained unconverted modifiers:
@@ -462,10 +463,7 @@ namespace Mogre_Procedural
         //--------------------------------------------------------------
         public void modify() {
             if (mInputTriangleBuffer == null)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALID_STATE>(), "Input triangle buffer must be set", __FUNC__, __FILE__, __LINE__);
-                throw new Exception("input triangle buffer must be set!");
+                OGRE_EXCEPT("Exception::ERR_INVALID_STATE", "Input triangle buffer must be set", "__FUNCTION__");
             ;
             //for (List<TriangleBuffer.Vertex>.Enumerator it = mInputTriangleBuffer.getVertices().begin(); it != mInputTriangleBuffer.getVertices().end(); ++it)
             foreach (var it in mInputTriangleBuffer.getVertices()) {
@@ -511,7 +509,9 @@ namespace Mogre_Procedural
             mTextureRectangleBottom = (textureRectangleBottom);
             return this;
         }
-
+        private void OGRE_EXCEPT(string p, string p_2, string p_3) {
+            throw new Exception(p + "_" + p_2 + "_" + p_3);
+        }
     }
     //--------------------------------------------------------------
     //C++ TO C# CONVERTER WARNING: The original type declaration contained unconverted modifiers:
@@ -524,22 +524,11 @@ namespace Mogre_Procedural
         //--------------------------------------------------------------
         public void modify() {
             if (mInputTriangleBuffer == null)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALID_STATE>(), "Input triangle buffer must be set", __FUNC__, __FILE__, __LINE__);
-                throw new Exception("input triangle buffer must be set!");
-            ;
-            if (mHeight <= 0)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALID_STATE>(), "Height must be strictly positive", __FUNC__, __FILE__, __LINE__);
-                throw new Exception("mHeight must be larger than 0!");
-            ;
-            if (mRadius <= 0)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALID_STATE>(), "Radius must be strictly positive", __FUNC__, __FILE__, __LINE__);
-                throw new Exception("Radius must be larger than 0!");
+                OGRE_EXCEPT("Exception::ERR_INVALID_STATE", "Input triangle buffer must be set", "__FUNCTION__");
+            if (mHeight <= 0f)
+                OGRE_EXCEPT("Exception::ERR_INVALID_STATE", "Height must be strictly positive", "__FUNCTION__");
+            if (mRadius <= 0f)
+                OGRE_EXCEPT("Exception::ERR_INVALID_STATE", "Radius must be strictly positive", "__FUNCTION__");
             ;
 
             float angleThreshold = Math.ATan(mHeight / mRadius).ValueRadians;
@@ -579,7 +568,9 @@ namespace Mogre_Procedural
             mHeight = height;
             return this;
         }
-
+        private void OGRE_EXCEPT(string p, string p_2, string p_3) {
+            throw new Exception(p + "_" + p_2 + "_" + p_3);
+        }
     }
     //--------------------------------------------------------------
     //C++ TO C# CONVERTER WARNING: The original type declaration contained unconverted modifiers:
@@ -600,13 +591,10 @@ namespace Mogre_Procedural
         //--------------------------------------------------------------
         public void modify() {
             if (mInputTriangleBuffer == null)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALID_STATE>(), "Input triangle buffer must be set", __FUNC__, __FILE__, __LINE__);
-                throw new Exception("input triangle buffer must be set!");
+               OGRE_EXCEPT("Exception::ERR_INVALID_STATE", "Input triangle buffer must be set", "__FUNCTION__");
             ;
 
-            Vector3[] directions = new Vector3[] { Vector3.UNIT_X, Vector3.UNIT_Y, Vector3.UNIT_Z, Vector3.NEGATIVE_UNIT_X, Vector3.NEGATIVE_UNIT_Y, Vector3.NEGATIVE_UNIT_Z };
+            Vector3[] directions = new Vector3[6] { Vector3.UNIT_X, Vector3.UNIT_Y, Vector3.UNIT_Z, Vector3.NEGATIVE_UNIT_X, Vector3.NEGATIVE_UNIT_Y, Vector3.NEGATIVE_UNIT_Z };
 
             //for (List<TriangleBuffer.Vertex>.Enumerator it = mInputTriangleBuffer.getVertices().begin(); it != mInputTriangleBuffer.getVertices().end(); ++it)
             foreach (var it in mInputTriangleBuffer.getVertices()) {
@@ -676,6 +664,10 @@ namespace Mogre_Procedural
         public BoxUVModifier setMappingType(MappingType mappingType) {
             mMappingType = mappingType;
             return this;
+        }
+
+        private void OGRE_EXCEPT(string p, string p_2, string p_3) {
+            throw new Exception(p + "_" + p_2 + "_" + p_3);
         }
     }
 }
