@@ -58,14 +58,15 @@ namespace Mogre_Procedural
         /// \exception Ogre::InvalidParametersException Minimum of numSeg is 1
         public BaseSpline3<T> setNumSeg(uint numSeg) {
             if (numSeg == 0)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "There must be more than 0 segments", "Procedural::BaseSpline3::setNumSeg(unsigned int)", __FILE__, __LINE__);
-                throw new Exception("There must be more than 0 segments Procedural::BaseSpline3::setNumSeg(unsigned int)");
+              OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "There must be more than 0 segments", "Procedural::BaseSpline3::setNumSeg(unsigned int)");
             ;
             mNumSeg = numSeg;
             //return (T)this;
             return this;
+        }
+
+        protected void OGRE_EXCEPT(string p, string p_2, string p_3) {
+            throw new Exception(p+"_"+p_2+"_"+p_3);
         }
 
         /// Closes the spline
@@ -75,4 +76,5 @@ namespace Mogre_Procedural
             return this;
         }
     }
+
 }
