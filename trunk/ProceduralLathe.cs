@@ -131,18 +131,11 @@ namespace Mogre_Procedural
         //ORIGINAL LINE: void _latheBodyImpl(TriangleBuffer& buffer, const Shape* shapeToExtrude) const
         private void _latheBodyImpl(ref TriangleBuffer buffer, Shape shapeToExtrude) {
             if (shapeToExtrude == null)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALID_STATE>(), "Shape must not be null!", "Procedural::Lathe::_latheBodyImpl(Procedural::TriangleBuffer&, const Procedural::Shape*)", __FILE__, __LINE__);
-                throw new Exception("Shape must not be null!");
-            ;
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALID_STATE", "Shape must not be null!", "Procedural::Lathe::_latheBodyImpl(Procedural::TriangleBuffer&, const Procedural::Shape*)");
             int numSegShape = shapeToExtrude.getSegCount();
             if (numSegShape < 2)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALID_STATE>(), "Shape must contain at least two points", "Procedural::Lathe::_latheBodyImpl(Procedural::TriangleBuffer&, const Procedural::Shape*)", __FILE__, __LINE__);
-                throw new Exception("Shape must contain at least two points");
-            ;
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALID_STATE", "Shape must contain at least two points", "Procedural::Lathe::_latheBodyImpl(Procedural::TriangleBuffer&, const Procedural::Shape*)");
+
             int offset = 0;
 
             //int numSeg = mClosed?mNumSeg+1:mNumSeg;
@@ -198,7 +191,7 @@ namespace Mogre_Procedural
         public Lathe()
             : this(null, 16) {
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+        //
         //ORIGINAL LINE: Lathe(Shape* shapeToExtrude = 0, uint numSeg = 16) : mShapeToExtrude(shapeToExtrude), mMultiShapeToExtrude(0), mNumSeg(numSeg), mAngleBegin(0), mAngleEnd((Ogre::Radian)Ogre::Math::TWO_PI), mClosed(true), mCapped(true)
         public Lathe(Shape shapeToExtrude, uint numSeg) {
             mShapeToExtrude = shapeToExtrude;
@@ -216,11 +209,7 @@ namespace Mogre_Procedural
         //	
         public Lathe setNumSeg(uint numSeg) {
             if (numSeg == 0)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "There must be more than 0 segments", "Procedural::Lathe::setNumSeg(unsigned int)", __FILE__, __LINE__);
-                throw new Exception("numSeg must be larger than 0!");
-            ;
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "There must be more than 0 segments", "Procedural::Lathe::setNumSeg(unsigned int)"); ;
             mNumSeg = numSeg;
             return this;
         }
@@ -289,11 +278,7 @@ namespace Mogre_Procedural
         //ORIGINAL LINE: void addToTriangleBuffer(TriangleBuffer& buffer) const
         public override void addToTriangleBuffer(ref TriangleBuffer buffer) {
             if (mShapeToExtrude == null && mMultiShapeToExtrude == null)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALID_STATE>(), "Either shape or multishape must be defined!", "Procedural::Lathe::addToTriangleBuffer(Procedural::TriangleBuffer)", __FILE__, __LINE__);
-                throw new Exception("Either shape or multishape must be defined!");
-            ;
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALID_STATE", "Either shape or multishape must be defined!", "Procedural::Lathe::addToTriangleBuffer(Procedural::TriangleBuffer)"); ;
 
             // Triangulate the begin and end caps
             if (!mClosed && mCapped)
