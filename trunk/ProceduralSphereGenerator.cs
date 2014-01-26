@@ -58,7 +58,7 @@ namespace Mogre_Procedural
         public SphereGenerator()
             : this(1.0f, 16, 16) {
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: SphereGenerator(Ogre::float radius = 1.0f, uint numRings = 16, uint numSegments = 16) : mRadius(radius),mNumRings(numRings), mNumSegments(numSegments)
         public SphereGenerator(float radius, uint numRings, uint numSegments) {
             mRadius = radius;

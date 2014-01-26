@@ -73,7 +73,7 @@ namespace Mogre_Procedural
         public CubicHermiteSpline2 addPoint(Vector2 p) {
             return addPoint(p, CubicHermiteSplineAutoTangentMode.AT_CATMULL);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: inline CubicHermiteSpline2& addPoint(const Ogre::Vector2& p, CubicHermiteSplineAutoTangentMode autoTangentMode = AT_CATMULL)
         public CubicHermiteSpline2 addPoint(Vector2 p, CubicHermiteSplineAutoTangentMode autoTangentMode) {
             CubicHermiteSplineControlPoint<Vector2> cp = new CubicHermiteSplineControlPoint<Vector2>();
@@ -90,7 +90,7 @@ namespace Mogre_Procedural
         public CubicHermiteSpline2 addPoint(float x, float y) {
             return addPoint(x, y, CubicHermiteSplineAutoTangentMode.AT_CATMULL);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: inline CubicHermiteSpline2& addPoint(Ogre::float x, Ogre::float y, CubicHermiteSplineAutoTangentMode autoTangentMode = AT_CATMULL)
         public CubicHermiteSpline2 addPoint(float x, float y, CubicHermiteSplineAutoTangentMode autoTangentMode) {
             CubicHermiteSplineControlPoint<Vector2> cp = new CubicHermiteSplineControlPoint<Vector2>();

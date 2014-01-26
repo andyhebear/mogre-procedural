@@ -402,7 +402,7 @@ namespace Mogre_Procedural
             private bool parseReal(ref float var) {
                 return parseReal(ref var, 0.0f);
             }
-            //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+           //
             //ORIGINAL LINE: inline bool parseReal(Ogre::Real* var, Ogre::float defaultReal = 0.0f)
             private bool parseReal(ref float var, float defaultReal) {
                 if (var == null)

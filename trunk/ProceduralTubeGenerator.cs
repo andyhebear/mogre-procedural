@@ -67,7 +67,7 @@ namespace Mogre_Procedural
         public TubeGenerator()
             : this(2.0f, 1.0f, 1.0f, 16, 1) {
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: TubeGenerator(Ogre::float outerRadius=2.0f, Ogre::float innerRadius=1.0f, Ogre::float height=1.0f, uint numSegBase=16, uint numSegHeight=1) : mNumSegBase(numSegBase), mNumSegHeight(numSegHeight), mOuterRadius(outerRadius), mInnerRadius(innerRadius), mHeight(height)
         public TubeGenerator(float outerRadius, float innerRadius, float height, uint numSegBase, uint numSegHeight) {
             mNumSegBase = numSegBase;

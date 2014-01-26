@@ -164,7 +164,7 @@ namespace Mogre_Procedural
         public SpringGenerator()
             : this(1.0f, 1.0f, 0.2f, 5.0f, 10, 8) {
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: SpringGenerator(Ogre::float height=1.0f, Ogre::float radiusHelix=1.0f, Ogre::float radiusCircle=0.2f, Ogre::float numRound=5.0, int numSegPath=10, int numSegCircle=8) : mHeight(height), mRadiusHelix(radiusHelix), mRadiusCircle(radiusCircle), mNumRound(numRound), mNumSegPath(numSegPath), mNumSegCircle(numSegCircle)
         public SpringGenerator(float height, float radiusHelix, float radiusCircle, float numRound, int numSegPath, int numSegCircle) {
             mHeight = height;

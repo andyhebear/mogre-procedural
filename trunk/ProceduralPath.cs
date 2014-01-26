@@ -311,7 +311,7 @@ namespace Mogre_Procedural
         }
         //
         //ORIGINAL LINE: Ogre::MeshPtr realizeMesh(const string& name = "") const
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         public MeshPtr realizeMesh(string name) {
             Mogre.SceneManager smgr = Root.Singleton.GetSceneManagerIterator().Current;
             Mogre.ManualObject manual = smgr.CreateManualObject(name);

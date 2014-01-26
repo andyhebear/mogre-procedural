@@ -176,7 +176,7 @@ namespace Mogre_Procedural
         public Abnormals setAxis(float x, float y) {
             return setAxis(x, y, 1.0f);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: Abnormals& setAxis(Ogre::float x, Ogre::float y, Ogre::float z = 1.0f)
         public Abnormals setAxis(float x, float y, float z) {
             mAxis = new Vector3(x, y, z);
@@ -325,7 +325,7 @@ namespace Mogre_Procedural
         public Alpha setExtractColour(float red, float green, float blue) {
             return setExtractColour(red, green, blue, 1.0f);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: Alpha& setExtractColour(Ogre::float red, Ogre::float green, Ogre::float blue, Ogre::float alpha = 1.0f)
         public Alpha setExtractColour(float red, float green, float blue, float alpha) {
             mExtractColour = new ColourValue(red, green, blue, alpha);
@@ -521,7 +521,7 @@ namespace Mogre_Procedural
         public Blit setInputRect(RealRect rect) {
             return setInputRect(rect, true);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: Blit& setInputRect(RealRect rect, bool relative = true)
         public Blit setInputRect(RealRect rect, bool relative) {
             if (mInputBuffer == null)
@@ -564,7 +564,7 @@ namespace Mogre_Procedural
         public Blit setInputRect(Vector2 pos1, Vector2 pos2) {
             return setInputRect(pos1, pos2, true);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: Blit& setInputRect(Ogre::Vector2 pos1, Ogre::Vector2 pos2, bool relative = true)
         public Blit setInputRect(Vector2 pos1, Vector2 pos2, bool relative) {
             if (mInputBuffer == null)
@@ -626,7 +626,7 @@ namespace Mogre_Procedural
         public Blit setOutputRect(RealRect rect) {
             return setOutputRect(rect, true);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: Blit& setOutputRect(RealRect rect, bool relative = true)
         public Blit setOutputRect(RealRect rect, bool relative) {
             if (relative) {
@@ -665,7 +665,7 @@ namespace Mogre_Procedural
         public Blit setOutputRect(Vector2 pos1, Vector2 pos2) {
             return setOutputRect(pos1, pos2, true);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: Blit& setOutputRect(Ogre::Vector2 pos1, Ogre::Vector2 pos2, bool relative = true)
         public Blit setOutputRect(Vector2 pos1, Vector2 pos2, bool relative) {
             if (relative) {
@@ -1003,7 +1003,7 @@ namespace Mogre_Procedural
         public CircleTexture setColour(float red, float green, float blue) {
             return setColour(red, green, blue, 1.0f);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: CircleTexture& setColour(Ogre::float red, Ogre::float green, Ogre::float blue, Ogre::float alpha = 1.0f)
         public CircleTexture setColour(float red, float green, float blue, float alpha) {
             mColour = new ColourValue(red, green, blue, alpha);
@@ -1072,7 +1072,7 @@ namespace Mogre_Procedural
         public CircleTexture setCenter(Vector2 pos) {
             return setCenter(pos, true);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: CircleTexture& setCenter(Ogre::Vector2 pos, bool relative = true)
         public CircleTexture setCenter(Vector2 pos, bool relative) {
             setCenter(pos.x, pos.y, relative);
@@ -1099,7 +1099,7 @@ namespace Mogre_Procedural
         public CircleTexture setCenter(float x, float y) {
             return setCenter(x, y, true);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: CircleTexture& setCenter(Ogre::float x, Ogre::float y, bool relative = true)
         public CircleTexture setCenter(float x, float y, bool relative) {
             if (relative) {
@@ -1209,7 +1209,7 @@ namespace Mogre_Procedural
         public Colours setColourBase(float red, float green, float blue) {
             return setColourBase(red, green, blue, 1.0f);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: Colours& setColourBase(Ogre::float red, Ogre::float green, Ogre::float blue, Ogre::float alpha = 1.0f)
         public Colours setColourBase(float red, float green, float blue, float alpha) {
             mColourBase = new ColourValue(red, green, blue, alpha);
@@ -1237,7 +1237,7 @@ namespace Mogre_Procedural
         public Colours setColourPercent(float red, float green, float blue) {
             return setColourPercent(red, green, blue, 1.0f);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: Colours& setColourPercent(Ogre::float red, Ogre::float green, Ogre::float blue, Ogre::float alpha = 1.0f)
         public Colours setColourPercent(float red, float green, float blue, float alpha) {
             mColourPercent = new ColourValue(red, green, blue, alpha);
@@ -1397,7 +1397,7 @@ namespace Mogre_Procedural
         public Combine addImage(TextureBuffer image) {
             return addImage(image, COMBINE_METHOD.METHOD_LAYER);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: Combine& addImage(TextureBuffer* image, COMBINE_METHOD method = METHOD_LAYER)
         public Combine addImage(TextureBuffer image, COMBINE_METHOD method) {
             if (image != null)
@@ -1431,7 +1431,7 @@ namespace Mogre_Procedural
         public Combine setColour(float red, float green, float blue) {
             return setColour(red, green, blue, 1.0f);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: Combine& setColour(Ogre::float red, Ogre::float green, Ogre::float blue, Ogre::float alpha = 1.0f)
         public Combine setColour(float red, float green, float blue, float alpha) {
             mColour = new ColourValue(red, green, blue, alpha);
@@ -1951,7 +1951,7 @@ namespace Mogre_Procedural
         public Crack setColour(float red, float green, float blue) {
             return setColour(red, green, blue, 1.0f);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: Crack& setColour(Ogre::float red, Ogre::float green, Ogre::float blue, Ogre::float alpha = 1.0f)
         public Crack setColour(float red, float green, float blue, float alpha) {
             mColour = new ColourValue(red, green, blue, alpha);
@@ -2293,7 +2293,7 @@ namespace Mogre_Procedural
         public Cycloid setColour(float red, float green, float blue) {
             return setColour(red, green, blue, 1.0f);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: Cycloid& setColour(Ogre::float red, Ogre::float green, Ogre::float blue, Ogre::float alpha = 1.0f)
         public Cycloid setColour(float red, float green, float blue, float alpha) {
             mColour = new ColourValue(red, green, blue, alpha);
@@ -3211,7 +3211,7 @@ namespace Mogre_Procedural
         public EllipseTexture setColour(float red, float green, float blue) {
             return setColour(red, green, blue, 1.0f);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: EllipseTexture& setColour(Ogre::float red, Ogre::float green, Ogre::float blue, Ogre::float alpha = 1.0f)
         public EllipseTexture setColour(float red, float green, float blue, float alpha) {
             mColour = new ColourValue(red, green, blue, alpha);
@@ -3320,7 +3320,7 @@ namespace Mogre_Procedural
         public EllipseTexture setCenter(Vector2 pos) {
             return setCenter(pos, true);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: EllipseTexture& setCenter(Ogre::Vector2 pos, bool relative = true)
         public EllipseTexture setCenter(Vector2 pos, bool relative) {
             setCenter(pos.x, pos.y, relative);
@@ -3347,7 +3347,7 @@ namespace Mogre_Procedural
         public EllipseTexture setCenter(float x, float y) {
             return setCenter(x, y, true);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: EllipseTexture& setCenter(Ogre::float x, Ogre::float y, bool relative = true)
         public EllipseTexture setCenter(float x, float y, bool relative) {
             if (relative) {
@@ -3569,7 +3569,7 @@ namespace Mogre_Procedural
         public Glow setColour(float red, float green, float blue) {
             return setColour(red, green, blue, 1.0f);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: Glow& setColour(Ogre::float red, Ogre::float green, Ogre::float blue, Ogre::float alpha = 1.0f)
         public Glow setColour(float red, float green, float blue, float alpha) {
             mColour = new ColourValue(red, green, blue, alpha);
@@ -3957,7 +3957,7 @@ namespace Mogre_Procedural
         public TextureLightBaker setColourAmbient(float red, float green, float blue) {
             return setColourAmbient(red, green, blue, 1.0f);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: TextureLightBaker& setColourAmbient(Ogre::float red, Ogre::float green, Ogre::float blue, Ogre::float alpha = 1.0f)
         public TextureLightBaker setColourAmbient(float red, float green, float blue, float alpha) {
             mColourAmbient = new ColourValue(red, green, blue, alpha);
@@ -3985,7 +3985,7 @@ namespace Mogre_Procedural
         public TextureLightBaker setColourDiffuse(float red, float green, float blue) {
             return setColourDiffuse(red, green, blue, 1.0f);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: TextureLightBaker& setColourDiffuse(Ogre::float red, Ogre::float green, Ogre::float blue, Ogre::float alpha = 1.0f)
         public TextureLightBaker setColourDiffuse(float red, float green, float blue, float alpha) {
             mColourDiffuse = new ColourValue(red, green, blue, alpha);
@@ -4013,7 +4013,7 @@ namespace Mogre_Procedural
         public TextureLightBaker setColourSpecular(float red, float green, float blue) {
             return setColourSpecular(red, green, blue, 1.0f);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: TextureLightBaker& setColourSpecular(Ogre::float red, Ogre::float green, Ogre::float blue, Ogre::float alpha = 1.0f)
         public TextureLightBaker setColourSpecular(float red, float green, float blue, float alpha) {
             mColourSpecular = new ColourValue(red, green, blue, alpha);
@@ -4508,7 +4508,7 @@ namespace Mogre_Procedural
         public RandomPixels setColour(float red, float green, float blue) {
             return setColour(red, green, blue, 1.0f);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: RandomPixels& setColour(Ogre::float red, Ogre::float green, Ogre::float blue, Ogre::float alpha = 1.0f)
         public RandomPixels setColour(float red, float green, float blue, float alpha) {
             mColour = new ColourValue(red, green, blue, alpha);
@@ -4632,7 +4632,7 @@ namespace Mogre_Procedural
         public RectangleTexture setColour(float red, float green, float blue) {
             return setColour(red, green, blue, 1.0f);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: RectangleTexture& setColour(Ogre::float red, Ogre::float green, Ogre::float blue, Ogre::float alpha = 1.0f)
         public RectangleTexture setColour(float red, float green, float blue, float alpha) {
             mColour = new ColourValue(red, green, blue, alpha);
@@ -4719,7 +4719,7 @@ namespace Mogre_Procedural
         public RectangleTexture setRectangle(RealRect rect) {
             return setRectangle(rect, true);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: RectangleTexture& setRectangle(RealRect rect, bool relative = true)
         public RectangleTexture setRectangle(RealRect rect, bool relative) {
             if (relative) {
@@ -4758,7 +4758,7 @@ namespace Mogre_Procedural
         public RectangleTexture setRectangle(Vector2 pos1, Vector2 pos2) {
             return setRectangle(pos1, pos2, true);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: RectangleTexture& setRectangle(Ogre::Vector2 pos1, Ogre::Vector2 pos2, bool relative = true)
         public RectangleTexture setRectangle(Vector2 pos1, Vector2 pos2, bool relative) {
             if (relative) {

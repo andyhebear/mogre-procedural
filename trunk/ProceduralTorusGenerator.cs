@@ -64,7 +64,7 @@ namespace Mogre_Procedural
         public TorusGenerator()
             : this(1.0f, 0.2f, 16, 16) {
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: TorusGenerator(Ogre::float radius=1.0f, Ogre::float sectionRadius=.2f, uint numSegSection=16, uint numSegCircle=16) : mNumSegSection(numSegSection), mNumSegCircle(numSegCircle), mRadius(radius), mSectionRadius(sectionRadius)
         public TorusGenerator(float radius, float sectionRadius, uint numSegSection, uint numSegCircle) {
             mNumSegSection = numSegSection;

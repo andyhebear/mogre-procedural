@@ -129,7 +129,7 @@ namespace Mogre_Procedural
         public Cell setColour(float red, float green, float blue) {
             return setColour(red, green, blue, 1.0f);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: Cell& setColour(Ogre::float red, Ogre::float green, Ogre::float blue, Ogre::float alpha = 1.0f)
         public Cell setColour(float red, float green, float blue, float alpha) {
             mColour = new ColourValue(red, green, blue, alpha);
@@ -351,7 +351,7 @@ namespace Mogre_Procedural
         public Cloud setColour(float red, float green, float blue) {
             return setColour(red, green, blue, 1.0f);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: Cloud& setColour(Ogre::float red, Ogre::float green, Ogre::float blue, Ogre::float alpha = 1.0f)
         public Cloud setColour(float red, float green, float blue, float alpha) {
             mColour = new ColourValue(red, green, blue, alpha);
@@ -449,7 +449,7 @@ namespace Mogre_Procedural
         public Gradient setColourA(float red, float green, float blue) {
             return setColourA(red, green, blue, 1.0f);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: Gradient& setColourA(Ogre::float red, Ogre::float green, Ogre::float blue, Ogre::float alpha = 1.0f)
         public Gradient setColourA(float red, float green, float blue, float alpha) {
             mColourA = new ColourValue(red, green, blue, alpha);
@@ -477,7 +477,7 @@ namespace Mogre_Procedural
         public Gradient setColourB(float red, float green, float blue) {
             return setColourB(red, green, blue, 1.0f);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: Gradient& setColourB(Ogre::float red, Ogre::float green, Ogre::float blue, Ogre::float alpha = 1.0f)
         public Gradient setColourB(float red, float green, float blue, float alpha) {
             mColourB = new ColourValue(red, green, blue, alpha);
@@ -505,7 +505,7 @@ namespace Mogre_Procedural
         public Gradient setColourC(float red, float green, float blue) {
             return setColourC(red, green, blue, 1.0f);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: Gradient& setColourC(Ogre::float red, Ogre::float green, Ogre::float blue, Ogre::float alpha = 1.0f)
         public Gradient setColourC(float red, float green, float blue, float alpha) {
             mColourC = new ColourValue(red, green, blue, alpha);
@@ -533,7 +533,7 @@ namespace Mogre_Procedural
         public Gradient setColourD(float red, float green, float blue) {
             return setColourD(red, green, blue, 1.0f);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: Gradient& setColourD(Ogre::float red, Ogre::float green, Ogre::float blue, Ogre::float alpha = 1.0f)
         public Gradient setColourD(float red, float green, float blue, float alpha) {
             mColourD = new ColourValue(red, green, blue, alpha);
@@ -625,7 +625,7 @@ namespace Mogre_Procedural
         public Image setFile(string filename) {
             return setFile(filename, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: Image& setFile(Ogre::String filename, Ogre::String groupname = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME)
         public Image setFile(string filename, string groupname) {
             mFile = filename;
@@ -706,7 +706,7 @@ namespace Mogre_Procedural
         public Labyrinth setColour(float red, float green, float blue) {
             return setColour(red, green, blue, 1.0f);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: Labyrinth& setColour(Ogre::float red, Ogre::float green, Ogre::float blue, Ogre::float alpha = 1.0f)
         public Labyrinth setColour(float red, float green, float blue, float alpha) {
             mColour = new ColourValue(red, green, blue, alpha);
@@ -800,7 +800,7 @@ namespace Mogre_Procedural
         public Marble setColour(float red, float green, float blue) {
             return setColour(red, green, blue, 1.0f);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: Marble& setColour(Ogre::float red, Ogre::float green, Ogre::float blue, Ogre::float alpha = 1.0f)
         public Marble setColour(float red, float green, float blue, float alpha) {
             mColour = new ColourValue(red, green, blue, alpha);
@@ -913,7 +913,7 @@ namespace Mogre_Procedural
         public Noise setColour(float red, float green, float blue) {
             return setColour(red, green, blue, 1.0f);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: Noise& setColour(Ogre::float red, Ogre::float green, Ogre::float blue, Ogre::float alpha = 1.0f)
         public Noise setColour(float red, float green, float blue, float alpha) {
             mColour = new ColourValue(red, green, blue, alpha);
@@ -1024,7 +1024,7 @@ namespace Mogre_Procedural
         public Solid setColour(float red, float green, float blue) {
             return setColour(red, green, blue, 1.0f);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: Solid& setColour(Ogre::float red, Ogre::float green, Ogre::float blue, Ogre::float alpha = 1.0f)
         public Solid setColour(float red, float green, float blue, float alpha) {
             mColour = new ColourValue(red, green, blue, alpha);
@@ -1099,7 +1099,7 @@ namespace Mogre_Procedural
         public Textile setColour(float red, float green, float blue) {
             return setColour(red, green, blue, 1.0f);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: Textile& setColour(Ogre::float red, Ogre::float green, Ogre::float blue, Ogre::float alpha = 1.0f)
         public Textile setColour(float red, float green, float blue, float alpha) {
             mColour = new ColourValue(red, green, blue, alpha);
@@ -1195,7 +1195,7 @@ namespace Mogre_Procedural
         public Wood setColour(float red, float green, float blue) {
             return setColour(red, green, blue, 1.0f);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: Wood& setColour(Ogre::float red, Ogre::float green, Ogre::float blue, Ogre::float alpha = 1.0f)
         public Wood setColour(float red, float green, float blue, float alpha) {
             mColour = new ColourValue(red, green, blue, alpha);
