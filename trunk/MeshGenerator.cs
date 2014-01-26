@@ -114,7 +114,7 @@ namespace Mogre_Procedural
         public MeshPtr realizeMesh() {
             return realizeMesh("", "General");
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: Ogre::MeshPtr realizeMesh(const string& name = "", const Ogre::String& group = "General")
         public MeshPtr realizeMesh(string name, string group) {
             TriangleBuffer tbuffer = new TriangleBuffer();
