@@ -94,7 +94,7 @@ namespace Mogre_Procedural
         public void setPixel(int x, int y, byte red, byte green, byte blue) {
             setPixel(x, y, red, green, blue, 255);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: void setPixel(int x, int y, Ogre::byte red, Ogre::byte green, Ogre::byte blue, Ogre::byte alpha = 255)
         public void setPixel(int x, int y, byte red, byte green, byte blue, byte alpha) {
             setRed(x, y, red);
@@ -117,7 +117,7 @@ namespace Mogre_Procedural
         public void setPixel(int x, int y, float red, float green, float blue) {
             setPixel(x, y, red, green, blue, 1.0f);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: void setPixel(int x, int y, Ogre::float red, Ogre::float green, Ogre::float blue, Ogre::float alpha = 1.0f)
         public void setPixel(int x, int y, float red, float green, float blue, float alpha) {
             setRed(x, y, red);
@@ -640,7 +640,7 @@ namespace Mogre_Procedural
         }
         //
         //ORIGINAL LINE: Ogre::TexturePtr createTexture(Ogre::String name, Ogre::String group = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME) const
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         public TexturePtr createTexture(string name, string group) {
             Mogre.TexturePtr texture = TextureManager.Singleton.CreateManual(name, group, TextureType.TEX_TYPE_2D, mWidth, mHeight, 0, PixelFormat.PF_R8G8B8A8, (int)TextureUsage.TU_DEFAULT);
 
@@ -703,7 +703,7 @@ namespace Mogre_Procedural
         public void setLog() {
             setLog(true);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: void setLog(bool enable = true)
         public void setLog(bool enable) {
             mLog = enable;

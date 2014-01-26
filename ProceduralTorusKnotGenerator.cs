@@ -69,7 +69,7 @@ namespace Mogre_Procedural
         public TorusKnotGenerator()
             : this(1.0f, 0.2f, 2, 3, 8, 16) {
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: TorusKnotGenerator(Ogre::float radius=1.0f, Ogre::float sectionRadius=.2f, int p=2, int q=3, uint numSegSection=8, uint numSegCircle=16) : mNumSegSection(numSegSection), mNumSegCircle(numSegCircle), mRadius(radius), mSectionRadius(sectionRadius), mP(p), mQ(q)
         public TorusKnotGenerator(float radius, float sectionRadius, int p, int q, uint numSegSection, uint numSegCircle) {
             mNumSegSection = numSegSection;

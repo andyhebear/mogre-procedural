@@ -138,7 +138,7 @@ namespace Mogre_Procedural
         public MeshPtr realizeMesh() {
             return realizeMesh("");
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: MeshPtr realizeMesh(const string& name ="")
         public MeshPtr realizeMesh(string name) {
             Mogre.SceneManager smgr = Root.Singleton.GetSceneManagerIterator().Current;

@@ -73,7 +73,7 @@ namespace Mogre_Procedural
         public Track()
             : this(AddressingMode.AM_RELATIVE_LINEIC, true) {
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: Track(AddressingMode addressingMode=AM_RELATIVE_LINEIC, bool insertPoint=true) : mAddressingMode(addressingMode), mInsertPoint(insertPoint)
         public Track(AddressingMode addressingMode, bool insertPoint) {
             mAddressingMode = addressingMode;

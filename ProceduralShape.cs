@@ -230,7 +230,7 @@ namespace Mogre_Procedural
         }
         //
         //ORIGINAL LINE: Track convertToTrack(Track::AddressingMode addressingMode =Track::AM_RELATIVE_LINEIC) const
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         public Track convertToTrack(Track.AddressingMode addressingMode) {
             Track t = new Track(addressingMode);
             //for (List<Vector2>.Enumerator it = mPoints.GetEnumerator(); it.MoveNext(); ++it)
@@ -404,7 +404,7 @@ namespace Mogre_Procedural
         }
         //
         //ORIGINAL LINE: MeshPtr realizeMesh(const string& name ="") const
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         public MeshPtr realizeMesh(string name) {
             if (string.IsNullOrEmpty(name)) {
                 name = Guid.NewGuid().ToString("N");
@@ -726,7 +726,7 @@ namespace Mogre_Procedural
         public Shape mirror() {
             return mirror(false);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: Shape& mirror(bool flip = false)
         public Shape mirror(bool flip) {
             return mirrorAroundPoint(new Vector2(0f, 0f), flip);
@@ -741,7 +741,7 @@ namespace Mogre_Procedural
         public Shape mirror(float x, float y) {
             return mirror(x, y, false);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: Shape& mirror(Ogre::float x, Ogre::float y, bool flip = false)
         public Shape mirror(float x, float y, bool flip) {
             return mirrorAroundPoint(new Vector2(x, y), flip);
@@ -755,7 +755,7 @@ namespace Mogre_Procedural
         public Shape mirrorAroundPoint(Vector2 point) {
             return mirrorAroundPoint(point, false);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: Shape& mirrorAroundPoint(Ogre::Vector2 point, bool flip = false)
         public Shape mirrorAroundPoint(Vector2 point, bool flip) {
             int l = (int)mPoints.Count;
@@ -780,7 +780,7 @@ namespace Mogre_Procedural
         public Shape mirrorAroundAxis(Vector2 axis) {
             return mirrorAroundAxis(axis, false);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: Shape& mirrorAroundAxis(const Ogre::Vector2& axis, bool flip = false)
         public Shape mirrorAroundAxis(Vector2 axis, bool flip) {
             int l = (int)mPoints.Count;

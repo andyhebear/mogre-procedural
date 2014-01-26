@@ -109,7 +109,7 @@ namespace Mogre_Procedural
         public WhiteNoise()
             : this(5120) {
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: WhiteNoise(Ogre::uint seed = 5120)
         public WhiteNoise(uint seed) {
             RandomNumbers.Seed((int)seed);
@@ -144,7 +144,7 @@ namespace Mogre_Procedural
         public PerlinNoise()
             : this(4, 0.65f, 1.0f, 1.0f) {
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: PerlinNoise(Ogre::uint octaves = 4, Ogre::float persistence = 0.65f, Ogre::float frequency = 1.0f, Ogre::float amplitude = 1.0f) : mFrequency(frequency), mAmplitude(amplitude), mPersistance(persistence), mOctaves(octaves)
         public PerlinNoise(uint octaves, float persistence, float frequency, float amplitude) {
             mFrequency = frequency;
