@@ -26,7 +26,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
+//#ifndef PROCEDURAL_GEOMETRYHELPERS_INCLUDED
+#define PROCEDURAL_GEOMETRYHELPERS_INCLUDED
 
+// write with new std...ok
 namespace Mogre_Procedural
 {
     using System;
@@ -37,7 +40,7 @@ namespace Mogre_Procedural
     using Math = Mogre.Math;
     using PlaneSide = Mogre.Plane.Side;
     using System.Runtime.InteropServices;
-    public static class GlobalMembersProceduralGeometryHelpers
+    public  static partial class GlobalMembers
     {
         //-----------------------------------------------------------------------
         //
@@ -89,7 +92,7 @@ namespace Mogre_Procedural
     //struct Line;
     //-----------------------------------------------------------------------
     /// Represents a 2D circle
-    //C++ TO C# CONVERTER WARNING: The original type declaration contained unconverted modifiers:
+    //
     //ORIGINAL LINE: class _ProceduralExport Circle
     [StructLayout(LayoutKind.Sequential)]
     public class Circle
@@ -100,7 +103,7 @@ namespace Mogre_Procedural
 
         public Circle() {
             mCenter = new Vector2(0f, 0f);
-            mRadius = 1;
+            mRadius = 1f;
         }
 
         /// Contructor with arguments
@@ -145,7 +148,7 @@ namespace Mogre_Procedural
     }
     //-----------------------------------------------------------------------
     /// Extends the Ogre::Plane class to be able to compute the intersection between 2 planes
-    //C++ TO C# CONVERTER WARNING: The original type declaration contained unconverted modifiers:
+    //
     //ORIGINAL LINE: class _ProceduralExport Plane : public Ogre::Plane
     [StructLayout(LayoutKind.Sequential)]
     public class Plane
@@ -176,6 +179,11 @@ namespace Mogre_Procedural
             this.Normal = plane.Normal;
             this.D = plane.D;
         }
+        public Plane(Mogre.Plane plane) {
+            this.Normal = plane.normal;
+            this.D = plane.d;
+        }
+
         /// <summary>
         /// Construct a plane through a normal, and a distance to move the plane along the normal.
         /// </summary>
@@ -345,6 +353,24 @@ namespace Mogre_Procedural
             return string.Format("Distance: {0} Normal: {1}", this.D, this.Normal);
         }
         #endregion
+        #region mogre plane Conversions
+        /// <summary>
+        /// Explicit conversion from Real to int
+        /// </summary>
+        /// <param name="real"></param>
+        /// <returns></returns>
+        public static explicit operator Mogre.Plane(Plane plane) {
+            return new Mogre.Plane(plane.Normal, plane.D);
+        }
+        /// <summary>
+        /// Implicit conversion from int to Real
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static implicit operator Plane(Mogre.Plane plane) {
+            return new Plane(plane);
+        }
+        #endregion
         #region Operator Overloads
         /// <summary>
         /// Compares 2 Planes for equality.
@@ -401,7 +427,7 @@ namespace Mogre_Procedural
     }
     //-----------------------------------------------------------------------
     // Represents a line in 3D
-    //C++ TO C# CONVERTER WARNING: The original type declaration contained unconverted modifiers:
+    //
     //ORIGINAL LINE: struct _ProceduralExport Line
     [StructLayout(LayoutKind.Sequential)]
     public class Line
@@ -443,7 +469,7 @@ namespace Mogre_Procedural
     }
     //-----------------------------------------------------------------------
     /// Represents a line in 2D
-    //C++ TO C# CONVERTER WARNING: The original type declaration contained unconverted modifiers:
+    //
     //ORIGINAL LINE: class _ProceduralExport Line2D
     [StructLayout(LayoutKind.Sequential)]
     public class Line2D
@@ -509,7 +535,7 @@ namespace Mogre_Procedural
     }
     //-----------------------------------------------------------------------
     /// Represents a 2D segment
-    //C++ TO C# CONVERTER WARNING: The original type declaration contained unconverted modifiers:
+    //
     //ORIGINAL LINE: struct _ProceduralExport Segment2D
     [StructLayout(LayoutKind.Sequential)]
     public class Segment2D
@@ -591,7 +617,7 @@ namespace Mogre_Procedural
     }
     //-----------------------------------------------------------------------
     // Compares 2 Vector2, with some tolerance
-    //C++ TO C# CONVERTER WARNING: The original type declaration contained unconverted modifiers:
+    //
     //ORIGINAL LINE: struct _ProceduralExport Vector2Comparator
     public class Vector2Comparator:IComparer<Vector2>
     {
@@ -623,7 +649,7 @@ namespace Mogre_Procedural
     }
     //-----------------------------------------------------------------------
     // Compares 2 Vector3, with some tolerance
-    //C++ TO C# CONVERTER WARNING: The original type declaration contained unconverted modifiers:
+    //
     //ORIGINAL LINE: struct _ProceduralExport Vector3Comparator
     public class Vector3Comparator : IComparer<Vector3>
     {
@@ -660,7 +686,7 @@ namespace Mogre_Procedural
     }
     //-----------------------------------------------------------------------
     /// Represents a 3D segment
-    //C++ TO C# CONVERTER WARNING: The original type declaration contained unconverted modifiers:
+    //
     //ORIGINAL LINE: struct _ProceduralExport Segment3D
     [StructLayout(LayoutKind.Sequential)]
     public class Segment3D
@@ -698,7 +724,7 @@ namespace Mogre_Procedural
     }
     //-----------------------------------------------------------------------
     /// Represents a 2D triangle
-    //C++ TO C# CONVERTER WARNING: The original type declaration contained unconverted modifiers:
+    //
     //ORIGINAL LINE: struct _ProceduralExport Triangle2D
     [StructLayout(LayoutKind.Sequential)]
     public class Triangle2D
@@ -713,7 +739,7 @@ namespace Mogre_Procedural
     }
     //-----------------------------------------------------------------------
     /// Represents a 3D triangle
-    //C++ TO C# CONVERTER WARNING: The original type declaration contained unconverted modifiers:
+    //
     //ORIGINAL LINE: struct _ProceduralExport Triangle3D
     [StructLayout(LayoutKind.Sequential)]
     public class Triangle3D
@@ -803,10 +829,10 @@ namespace Mogre_Procedural
             float[] isect1 = new float[2];
             float[] isect2 = new float[2];
             // compute interval for triangle 1
-            GlobalMembersProceduralGeometryHelpers.computeIntervals(vp0, vp1, vp2, dv[0], dv[1], dv[2], dv0dv1, dv0dv2, ref isect1[0], ref isect1[1]);
+            GlobalMembers.computeIntervals(vp0, vp1, vp2, dv[0], dv[1], dv[2], dv0dv1, dv0dv2, ref isect1[0], ref isect1[1]);
 
             // compute interval for triangle 2
-            GlobalMembersProceduralGeometryHelpers.computeIntervals(up0, up1, up2, du[0], du[1], du[2], du0du1, du0du2, ref isect2[0], ref isect2[1]);
+            GlobalMembers.computeIntervals(up0, up1, up2, du[0], du[1], du[2], du0du1, du0du2, ref isect2[0], ref isect2[1]);
 
             if (isect1[0] > isect1[1])
                 std_array_swap<float>(isect1, 0, 1);
@@ -836,16 +862,16 @@ namespace Mogre_Procedural
             return true;
         }
 
-        private void std_array_swap<T>(T[] array, int p, int p_3) {
-            T t = array[p];
-            array[p] = array[p_3];
-            array[p_3] = t;
+        private void std_array_swap<T>(T[] array, int pos1, int pos2) {
+            T t = array[pos1];
+            array[pos1] = array[pos2];
+            array[pos2] = t;
         }
 
 
     }
     //-----------------------------------------------------------------------
-    //C++ TO C# CONVERTER WARNING: The original type declaration contained unconverted modifiers:
+    //
     //ORIGINAL LINE: struct _ProceduralExport IntVector2
     [StructLayout(LayoutKind.Sequential)]
     public class IntVector2
