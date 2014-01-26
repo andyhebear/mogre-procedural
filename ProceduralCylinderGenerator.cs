@@ -69,7 +69,7 @@ namespace Mogre_Procedural
         public CylinderGenerator()
             : this(1.0f, 1.0f, 16, 1, true) {
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
+       //
         //ORIGINAL LINE: CylinderGenerator(Ogre::float radius = 1.0f, Ogre::float height = 1.0f, uint numSegBase = 16, uint numSegHeight = 1, bool capped = true) : mNumSegBase(numSegBase), mNumSegHeight(numSegHeight), mCapped(capped), mRadius(radius), mHeight(height)
         public CylinderGenerator(float radius, float height, uint numSegBase, uint numSegHeight, bool capped) {
             mNumSegBase = numSegBase;
