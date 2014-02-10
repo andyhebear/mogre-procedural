@@ -123,7 +123,11 @@ namespace Mogre_Procedural
         //ORIGINAL LINE: Ogre::MeshPtr transformToMesh(const string& name, const Ogre::String& group = "General") const
        //
         public MeshPtr transformToMesh(string name, string group) {
-            Mogre.SceneManager sceneMgr = Root.Singleton.GetSceneManagerIterator().Current;
+            //Mogre.SceneManager sceneMgr = Root.Singleton.GetSceneManagerIterator().Current;
+            Mogre.SceneManagerEnumerator.SceneManagerIterator item = Root.Singleton.GetSceneManagerIterator();
+            item.MoveNext();
+            Mogre.SceneManager  sceneMgr= item.Current;
+            item.Dispose();
             Mogre.ManualObject manual = sceneMgr.CreateManualObject(name);
             manual.Begin("BaseWhiteNoLighting", RenderOperation.OperationTypes.OT_TRIANGLE_LIST);
 

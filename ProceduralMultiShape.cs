@@ -141,7 +141,11 @@ namespace Mogre_Procedural
        //
         //ORIGINAL LINE: MeshPtr realizeMesh(const string& name ="")
         public MeshPtr realizeMesh(string name) {
-            Mogre.SceneManager smgr = Root.Singleton.GetSceneManagerIterator().Current;
+            //Mogre.SceneManager smgr = Root.Singleton.GetSceneManagerIterator().Current;
+            Mogre.SceneManagerEnumerator.SceneManagerIterator item = Root.Singleton.GetSceneManagerIterator();
+            item.MoveNext();
+            Mogre.SceneManager smgr = item.Current;
+            item.Dispose();
             ManualObject manual = smgr.CreateManualObject(name);
 
             //for (List<Shape>.Enumerator it = mShapes.GetEnumerator(); it.MoveNext(); ++it)
