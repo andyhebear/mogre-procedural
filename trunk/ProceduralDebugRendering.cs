@@ -90,7 +90,11 @@ namespace Mogre_Procedural
             if (mTriangleBuffer == null)
                 OGRE_EXCEPT("Ogre::Exception::ERR_INVALID_STATE", "The input triangle buffer must not be null", "Procedural::ShowNormalsGenerator::buildManualObject()");
             ;
-            SceneManager sceneMgr = Root.Singleton.GetSceneManagerIterator().Current;
+            //SceneManager sceneMgr = Root.Singleton.GetSceneManagerIterator().Current;
+            Mogre.SceneManagerEnumerator.SceneManagerIterator item = Root.Singleton.GetSceneManagerIterator();
+            item.MoveNext();
+            Mogre.SceneManager  sceneMgr= item.Current;
+            item.Dispose();
             if (sceneMgr == null)
                 OGRE_EXCEPT("Ogre::Exception::ERR_INVALID_STATE", "Scene Manager must be set in Root", "Procedural::ShowNormalsGenerator::buildManualObject()");
             ;
@@ -140,7 +144,11 @@ namespace Mogre_Procedural
             if (string.IsNullOrEmpty(name)) {
                 name = Utils.getName("debugrender_procedural");
             }
-            SceneManager sceneMgr = Root.Singleton.GetSceneManagerIterator().Current;
+            //SceneManager sceneMgr = Root.Singleton.GetSceneManagerIterator().Current;
+            Mogre.SceneManagerEnumerator.SceneManagerIterator item = Root.Singleton.GetSceneManagerIterator();
+            item.MoveNext();
+            Mogre.SceneManager  sceneMgr= item.Current;
+            item.Dispose();
             ManualObject mo = buildManualObject();
             MeshPtr mesh = mo.ConvertToMesh(name, group);
 
