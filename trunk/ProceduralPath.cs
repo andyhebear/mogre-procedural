@@ -307,8 +307,9 @@ namespace Mogre_Procedural
         //
         public MeshPtr realizeMesh(string name) {
             SceneManagerEnumerator.SceneManagerIterator item = Root.Singleton.GetSceneManagerIterator();
-            //item.MoveNext();//???need?
+            item.MoveNext();//
             Mogre.SceneManager smgr = item.Current;
+            item.Dispose();
             Mogre.ManualObject manual = smgr.CreateManualObject(name);
             manual.Begin("BaseWhiteNoLighting", RenderOperation.OperationTypes.OT_LINE_STRIP);
 
