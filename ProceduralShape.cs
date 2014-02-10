@@ -413,8 +413,9 @@ namespace Mogre_Procedural
                 name = Guid.NewGuid().ToString("N");
             }
             SceneManagerEnumerator.SceneManagerIterator item = Root.Singleton.GetSceneManagerIterator();
-            //item.MoveNext();//???need??
+            item.MoveNext();
             Mogre.SceneManager smgr = item.Current;
+            item.Dispose();
             ManualObject manual = smgr.CreateManualObject(name);
             manual.Begin("BaseWhiteNoLighting", RenderOperation.OperationTypes.OT_LINE_STRIP);
 
