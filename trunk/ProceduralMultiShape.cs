@@ -110,7 +110,7 @@ namespace Mogre_Procedural
             std_vector<Vector2> result = new std_vector<Vector2>();
             for (int i = 0; i < mShapes.Count; i++) {
                 Vector2[] points = mShapes[i].getPoints();
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent to the STL vector 'insert' method in C#:
+                //
                 //result.insert(result.end(), points.GetEnumerator(), points.end());
                 result.AddRange(points);
             }

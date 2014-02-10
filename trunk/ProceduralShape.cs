@@ -26,7 +26,7 @@
     THE SOFTWARE.
     -----------------------------------------------------------------------------
     */
-
+//#ifndef PROCEDURAL_SHAPE_INCLUDED
 #define PROCEDURAL_SHAPE_INCLUDED
 
 namespace Mogre_Procedural
@@ -37,6 +37,7 @@ namespace Mogre_Procedural
 
     using Mogre;
     using Math = Mogre.Math;
+    using Mogre_Procedural.std;
 
     public enum Side : int
     {
@@ -74,7 +75,7 @@ namespace Mogre_Procedural
             BOT_INTERSECTION,
             BOT_DIFFERENCE
         }
-        private List<Vector2> mPoints = new List<Vector2>();
+        private std_vector<Vector2> mPoints = new std_vector<Vector2>();
         private bool mClosed;
         private Side mOutSide;
 
@@ -86,13 +87,13 @@ namespace Mogre_Procedural
 
         /// Adds a point to the shape
         public Shape addPoint(Vector2 pt) {
-            mPoints.Add(pt);
+            mPoints.push_back(pt);
             return this;
         }
 
         /// Adds a point to the shape
         public Shape addPoint(float x, float y) {
-            mPoints.Add(new Vector2(x, y));
+            mPoints.push_back(new Vector2(x, y));
             return this;
         }
 
@@ -101,9 +102,9 @@ namespace Mogre_Procedural
         /// @param x new point's x coordinate
         /// @param y new point's y coordinate
         public Shape insertPoint(int index, float x, float y) {
-            //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent to the STL vector 'insert' method in C#:
+            //
             //mPoints.Insert(mPoints.GetEnumerator()+index, Vector2(x, y));
-            mPoints.Insert(index, new Vector2(x, y));
+            mPoints.insert(index, new Vector2(x, y));
             return this;
         }
 
@@ -111,20 +112,20 @@ namespace Mogre_Procedural
         /// @param index the index before the inserted point
         /// @param pt new point's position
         public Shape insertPoint(int index, Vector2 pt) {
-            //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent to the STL vector 'insert' method in C#:
+            //
             //mPoints.insert(mPoints.GetEnumerator()+index, pt);
-            mPoints.Insert(index, pt);
+            mPoints.insert(index, pt);
             return this;
         }
 
         /// Adds a point to the shape, relative to the last point added
         public Shape addPointRel(Vector2 pt) {
             if (mPoints.Count == 0) {
-                mPoints.Add(pt);
+                mPoints.push_back(pt);
             }
             else {
                 Vector2 end = mPoints[mPoints.Count - 1];
-                mPoints.Add(pt + end);
+                mPoints.push_back(pt + end);
             }
             return this;
         }
@@ -132,19 +133,19 @@ namespace Mogre_Procedural
         /// Adds a point to the shape, relative to the last point added
         public Shape addPointRel(float x, float y) {
             if (mPoints.Count == 0)
-                mPoints.Add(new Vector2(x, y));
+                mPoints.push_back(new Vector2(x, y));
             else {
                 Vector2 end = mPoints[mPoints.Count - 1];
-                mPoints.Add(new Vector2(x, y) + end);
+                mPoints.push_back(new Vector2(x, y) + end);
             }
             return this;
         }
-        public Shape addPointRel(List<Vector2> pointList) {
+        public Shape addPointRel(std_vector<Vector2> pointList) {
             if (mPoints.Count == 0) {
                 mPoints.AddRange(pointList.ToArray());
             }
             else {
-                Vector2 refVector = mPoints[mPoints.Count - 1];
+                Vector2 refVector = mPoints[mPoints.size() - 1];
                 foreach (var it in pointList) {
                     addPoint(it + refVector);
                 }
@@ -153,7 +154,7 @@ namespace Mogre_Procedural
         }
         /// Appends another shape at the end of this one
         public Shape appendShape(Shape other) {
-            //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent to the STL vector 'insert' method in C#:
+            //
             //mPoints.insert(mPoints.end(), STLAllocator<U, AllocPolicy>.mPoints.GetEnumerator(), STLAllocator<U, AllocPolicy>.mPoints.end());
             mPoints.AddRange(other.mPoints.ToArray());
             return this;
@@ -162,20 +163,20 @@ namespace Mogre_Procedural
         /// Appends another shape at the end of this one, relative to the last point of this shape
         public Shape appendShapeRel(Shape other) {
             return addPointRel(other.mPoints);
-            if (mPoints.Count == 0)
-                appendShape(other);
-            else {
-                Vector2 refVector = mPoints[mPoints.Count - 1];// *(mPoints.end()-1);
-                List<Vector2> pointList = other.mPoints;//new List<Vector2>(STLAllocator<U, AllocPolicy>.mPoints.GetEnumerator(), STLAllocator<U, AllocPolicy>.mPoints.end());
-                //            for (List<Vector2>.Enumerator it = pointList.GetEnumerator(); it.MoveNext(); ++it)
-                //                it.Current +=refVector;
-                ////C++ TO C# CONVERTER TODO TASK: There is no direct equivalent to the STL vector 'insert' method in C#:
-                //            mPoints.insert(mPoints.end(), pointList.GetEnumerator(), pointList.end());
-                foreach (var it in pointList) {
-                    addPoint(it + refVector);
-                }
-            }
-            return this;
+            //if (mPoints.Count == 0)
+            //    appendShape(other);
+            //else {
+            //    Vector2 refVector = mPoints[mPoints.Count - 1];// *(mPoints.end()-1);
+            //    List<Vector2> pointList = other.mPoints;//new List<Vector2>(STLAllocator<U, AllocPolicy>.mPoints.GetEnumerator(), STLAllocator<U, AllocPolicy>.mPoints.end());
+            //    //            for (List<Vector2>.Enumerator it = pointList.GetEnumerator(); it.MoveNext(); ++it)
+            //    //                it.Current +=refVector;
+            //    ////
+            //    //            mPoints.insert(mPoints.end(), pointList.GetEnumerator(), pointList.end());
+            //    foreach (var it in pointList) {
+            //        addPoint(it + refVector);
+            //    }
+            //}
+            //return this;
         }
 
         /// Extracts a part of the shape as a new shape
@@ -230,7 +231,7 @@ namespace Mogre_Procedural
         }
         //
         //ORIGINAL LINE: Track convertToTrack(Track::AddressingMode addressingMode =Track::AM_RELATIVE_LINEIC) const
-       //
+        //
         public Track convertToTrack(Track.AddressingMode addressingMode) {
             Track t = new Track(addressingMode);
             //for (List<Vector2>.Enumerator it = mPoints.GetEnumerator(); it.MoveNext(); ++it)
@@ -252,11 +253,13 @@ namespace Mogre_Procedural
         //{
         //    return mPoints;
         //}
-
+        public std_vector<Vector2> _getPoints() {
+            return mPoints;
+        }
         /// Gets raw vector data of this shape as a non-const reference
         //
         //ORIGINAL LINE: inline const List<Ogre::Vector2>& getPointsReference() const
-        public List<Vector2> getPointsReference() {
+        public std_vector<Vector2> getPointsReference() {
             return mPoints;
         }
 
@@ -273,15 +276,15 @@ namespace Mogre_Procedural
         //ORIGINAL LINE: inline uint getBoundedIndex(int i) const
         public int getBoundedIndex(int i) {
             if (mClosed)
-                return Utils.modulo(i, mPoints.Count);
-            return Utils.cap(i, 0, mPoints.Count - 1);
+                return Utils.modulo(i, mPoints.size());
+            return Utils.cap(i, 0, mPoints.size() - 1);
         }
 
         /// Gets number of points in current point list
         //
         //ORIGINAL LINE: inline const List<Ogre::Vector2>::size_type getPointCount() const
         public int getPointCount() {
-            return mPoints.Count;
+            return mPoints.size();
         }
 
         //    *
@@ -320,7 +323,7 @@ namespace Mogre_Procedural
         //
         //ORIGINAL LINE: inline int getSegCount() const
         public int getSegCount() {
-            return (mPoints.Count - 1) + (mClosed ? 1 : 0);
+            return (mPoints.size() - 1) + (mClosed ? 1 : 0);
         }
 
         /// Gets whether the shape is closed or not
@@ -404,12 +407,14 @@ namespace Mogre_Procedural
         }
         //
         //ORIGINAL LINE: MeshPtr realizeMesh(const string& name ="") const
-       //
+        //
         public MeshPtr realizeMesh(string name) {
             if (string.IsNullOrEmpty(name)) {
                 name = Guid.NewGuid().ToString("N");
             }
-            Mogre.SceneManager smgr = Root.Singleton.GetSceneManagerIterator().Current;
+            SceneManagerEnumerator.SceneManagerIterator item = Root.Singleton.GetSceneManagerIterator();
+            //item.MoveNext();//???need??
+            Mogre.SceneManager smgr = item.Current;
             ManualObject manual = smgr.CreateManualObject(name);
             manual.Begin("BaseWhiteNoLighting", RenderOperation.OperationTypes.OT_LINE_STRIP);
 
@@ -487,6 +492,11 @@ namespace Mogre_Procedural
             else
                 return true;
         }
+        //-----------------------------------------------------------------------
+        public bool _sortAngles(std_pair<Radian, uint> one, std_pair<Radian, uint> two) // waiting for lambda functions!
+         {
+            return one.first < two.first;
+        }
         /// <summary>
         /// one.KeyÐ¡ÓÚtwo.Key
         /// </summary>
@@ -497,6 +507,7 @@ namespace Mogre_Procedural
         {
             return one.Key < two.Key;
         }
+
         //    *
         //	 * Computes the intersection between this shape and another one.
         //	 * Both shapes must be closed.
@@ -605,8 +616,8 @@ namespace Mogre_Procedural
                 float nextLineicPos = shapeLineicPos + (mPoints[i] - mPoints[i - 1]).Length;
 
                 //std.map<Real,Real>.Enumerator it = track._getKeyValueAfter(lineicPos, lineicPos/totalLength, i-1);
-                KeyValuePair<float, float> it = track._getKeyValueAfter(lineicPos, lineicPos / totalLength, ((uint)i - 1));
-                float nextTrackPos = it.Key;
+                std_pair<float, float> it = track._getKeyValueAfter(lineicPos, lineicPos / totalLength, ((uint)i - 1));
+                float nextTrackPos = it.first;
                 if (track.getAddressingMode() == Track.AddressingMode.AM_RELATIVE_LINEIC)
                     nextTrackPos *= totalLength;
 
@@ -726,7 +737,7 @@ namespace Mogre_Procedural
         public Shape mirror() {
             return mirror(false);
         }
-       //
+        //
         //ORIGINAL LINE: Shape& mirror(bool flip = false)
         public Shape mirror(bool flip) {
             return mirrorAroundPoint(new Vector2(0f, 0f), flip);
@@ -741,7 +752,7 @@ namespace Mogre_Procedural
         public Shape mirror(float x, float y) {
             return mirror(x, y, false);
         }
-       //
+        //
         //ORIGINAL LINE: Shape& mirror(Ogre::float x, Ogre::float y, bool flip = false)
         public Shape mirror(float x, float y, bool flip) {
             return mirrorAroundPoint(new Vector2(x, y), flip);
@@ -755,7 +766,7 @@ namespace Mogre_Procedural
         public Shape mirrorAroundPoint(Vector2 point) {
             return mirrorAroundPoint(point, false);
         }
-       //
+        //
         //ORIGINAL LINE: Shape& mirrorAroundPoint(Ogre::Vector2 point, bool flip = false)
         public Shape mirrorAroundPoint(Vector2 point, bool flip) {
             int l = (int)mPoints.Count;
@@ -780,7 +791,7 @@ namespace Mogre_Procedural
         public Shape mirrorAroundAxis(Vector2 axis) {
             return mirrorAroundAxis(axis, false);
         }
-       //
+        //
         //ORIGINAL LINE: Shape& mirrorAroundAxis(const Ogre::Vector2& axis, bool flip = false)
         public Shape mirrorAroundAxis(Vector2 axis, bool flip) {
             int l = (int)mPoints.Count;
@@ -822,21 +833,17 @@ namespace Mogre_Procedural
         //
         //ORIGINAL LINE: inline Ogre::Vector2 getPosition(uint i, Ogre::float coord) const
         public Vector2 getPosition(uint i, float coord) {
-            if (!mClosed || i >= mPoints.Count)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Out of Bounds", "Procedural::Path::getPosition(unsigned int, Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("Out of Bounds");
-            ;
+            if (!mClosed || i >= mPoints.size())
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Out of Bounds", "Procedural::Path::getPosition(unsigned int, Ogre::Real)");
             if (coord < 0.0f || coord > 1.0f)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Coord must be comprised between 0 and 1", "Procedural::Path::getPosition(unsigned int, Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("Coord must be comprised between 0 and 1");
-            ;
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Coord must be comprised between 0 and 1", "Procedural::Path::getPosition(unsigned int, Ogre::Real)"); ;
             Vector2 A = getPoint((int)i);
             Vector2 B = getPoint((int)i + 1);
             return A + coord * (B - A);
+        }
+
+        private void OGRE_EXCEPT(string p, string p_2, string p_3) {
+            throw new Exception(p + "_" + p_2 + "_" + p_3);
         }
 
         /// Gets a position on the shape from lineic coordinate
@@ -845,11 +852,8 @@ namespace Mogre_Procedural
         //
         //ORIGINAL LINE: inline Ogre::Vector2 getPosition(Ogre::float coord) const
         public Vector2 getPosition(float coord) {
-            if (mPoints.Count < 2)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALID_STATE>(), "The shape must at least contain 2 points", "Procedural::Shape::getPosition(Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("shape must at least contain 2 points");
+            if (mPoints.size() < 2)
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALID_STATE", "The shape must at least contain 2 points", "Procedural::Shape::getPosition(Ogre::Real)");
             ;
             int i = 0;
             while (true) {
@@ -858,8 +862,8 @@ namespace Mogre_Procedural
                     coord -= nextLen;
                 else
                     return getPosition((uint)i, coord);
-                if (!mClosed && i >= mPoints.Count - 2)
-                    return mPoints[mPoints.Count - 1];
+                if (!mClosed && i >= mPoints.size() - 2)
+                    return mPoints[mPoints.size() - 1];
                 i++;
             }
         }
@@ -869,7 +873,7 @@ namespace Mogre_Procedural
         //ORIGINAL LINE: Ogre::float findBoundingRadius() const
         public float findBoundingRadius() {
             float sqRadius = 0.0f;
-            for (int i = 0; i < mPoints.Count; i++)
+            for (int i = 0; i < mPoints.size(); i++)
                 sqRadius = System.Math.Max(sqRadius, mPoints[i].SquaredLength);
             return Math.Sqrt(sqRadius);
         }
@@ -915,25 +919,18 @@ namespace Mogre_Procedural
         //
         //ORIGINAL LINE: MultiShape _booleanOperation(const Shape& STLAllocator<U, AllocPolicy>, BooleanOperationType opType) const
         private MultiShape _booleanOperation(Shape other, BooleanOperationType opType) {
-            if (!mClosed || mPoints.Count < 2)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALID_STATE>(), "Current shapes must be closed and has to contain at least 2 points!", "Procedural::Shape::_booleanOperation(const Procedural::Shape&, Procedural::BooleanOperationType)", __FILE__, __LINE__);
-                throw new Exception("shape must at least contain 2 points");
-            ;
-            if (!other.mClosed || other.mPoints.Count < 2)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Other shapes must be closed and has to contain at least 2 points!", "Procedural::Shape::_booleanOperation(const Procedural::Shape&, Procedural::BooleanOperationType)", __FILE__, __LINE__);
-                throw new Exception("Other shapes must be closed and has to contain at least 2 points!");
+            if (!mClosed || mPoints.size() < 2)
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALID_STATE", "Current shapes must be closed and has to contain at least 2 points!", "Procedural::Shape::_booleanOperation(const Procedural::Shape&, Procedural::BooleanOperationType)");
+            if (!other.mClosed || other.mPoints.size() < 2)
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Other shapes must be closed and has to contain at least 2 points!", "Procedural::Shape::_booleanOperation(const Procedural::Shape&, Procedural::BooleanOperationType)");
             ;
 
             // Compute the intersection between the 2 shapes
-            List<IntersectionInShape> intersections = new List<IntersectionInShape>();
+            std_vector<IntersectionInShape> intersections = new std_vector<IntersectionInShape>();
             _findAllIntersections(other, ref intersections);
 
             // Build the resulting shape
-            if (intersections.Count == 0) {
+            if (intersections.empty()) {
                 if (isPointInside(other.getPoint(0))) {
                     // Shape B is completely inside shape A
                     if (opType == BooleanOperationType.BOT_UNION) {
@@ -994,7 +991,7 @@ namespace Mogre_Procedural
             inputShapes[0] = this;
             inputShapes[1] = other;
 
-            while (intersections.Count != 0) {
+            while (!intersections.empty()) {
                 Shape outputShape = new Shape();
                 byte shapeSelector = 0; // 0 : first shape, 1 : second shape
 
@@ -1003,7 +1000,7 @@ namespace Mogre_Procedural
                 uint currentSegment = firstIntersection.index[shapeSelector];
                 //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent to the STL vector 'erase' method in C#:
                 //intersections.erase(intersections.GetEnumerator());//ÒÆ³ý
-                intersections.Remove(firstIntersection);
+                intersections.erase(firstIntersection, true);
                 outputShape.addPoint(currentPosition);
 
                 sbyte isIncreasing = 0; // +1 if increasing, -1 if decreasing, 0 if undefined
@@ -1017,6 +1014,7 @@ namespace Mogre_Procedural
                     // find the closest intersection on the same segment, in the correct direction
                     //List<IntersectionInShape>.Enumerator found_next_intersection = intersections.end();
                     IntersectionInShape found_next_intersection = intersections[intersections.Count - 1];
+                    int found_next_intersection_pos = -1;
                     float distanceToNextIntersection = float.MaxValue;// std.numeric_limits<Real>.max();
 
                     uint nextPoint = currentSegment + (uint)(isIncreasing == 1 ? 1 : 0);
@@ -1026,12 +1024,13 @@ namespace Mogre_Procedural
                     for (int i = 0; i < intersections.Count; i++) {
                         IntersectionInShape it = intersections[i];
                         if (currentSegment == it.index[shapeSelector]) {
-                            if (((it.position - currentPosition).DotProduct(it.position - inputShapes[shapeSelector].getPoint((int)nextPoint)) < 0) || (it.onVertex[shapeSelector] && nextPoint == it.index[shapeSelector])) {
+                            if (((it.position - currentPosition).DotProduct(it.position - inputShapes[shapeSelector].getPoint((int)nextPoint)) < 0f) || (it.onVertex[shapeSelector] && nextPoint == it.index[shapeSelector])) {
                                 // found an intersection between the current one and the next segment point
                                 float d = (it.position - currentPosition).Length;
                                 if (d < distanceToNextIntersection) {
                                     // check if we have the nearest intersection
                                     found_next_intersection = it;
+                                    found_next_intersection_pos = i;
                                     distanceToNextIntersection = d;
                                 }
                             }
@@ -1054,19 +1053,17 @@ namespace Mogre_Procedural
 
                     // We actually found the next intersection => change direction and add current intersection to the list
                     //if (found_next_intersection.MoveNext())
-                    if (intersections.Count > 1) {
+                    //if (intersections.Count > 1) {
+                    if (found_next_intersection_pos != -1) {
                         //IntersectionInShape currentIntersection = found_next_intersection.Current;
-                        //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent to the STL vector 'erase' method in C#:
-                        //intersections.erase(found_next_intersection);
-                        intersections.Remove(found_next_intersection);
-                        IntersectionInShape currentIntersection = intersections[intersections.Count - 1];
+                        IntersectionInShape currentIntersection = found_next_intersection;
+
+                        intersections.erase(found_next_intersection, true);
+                        //IntersectionInShape currentIntersection = intersections[intersections.Count - 1];
                         outputShape.addPoint(currentIntersection.position);
                         bool result = _findWhereToGo(inputShapes, opType, currentIntersection, ref shapeSelector, ref isIncreasing, ref currentSegment);
                         if (result == null) {
-                            //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                            //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                            //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INTERNAL_ERROR>(), "We should not be here!", "Procedural::Shape::_booleanOperation(const Procedural::Shape&, Procedural::BooleanOperationType)", __FILE__, __LINE__);
-                            throw new Exception("We should not be here!");
+                            OGRE_EXCEPT("Ogre::Exception::ERR_INTERNAL_ERROR", "We should not be here!", "Procedural::Shape::_booleanOperation(const Procedural::Shape&, Procedural::BooleanOperationType)");
                             ;
                         }
                     }
@@ -1180,6 +1177,7 @@ namespace Mogre_Procedural
                     return _sortAngles(X, Y) ? -1 : 1;
                 });
                 sortedDirections = sort_sortedDirections.ToArray();
+                //Array.Sort(sortedDirections);
                 //find which segments are outside
                 if (sides[0] != sides[sortedDirections[1].Value]) {
                     isOutside[0] = isOutside[sortedDirections[1].Value] = true;
@@ -1218,7 +1216,7 @@ namespace Mogre_Procedural
         //-----------------------------------------------------------------------
         //
         //ORIGINAL LINE: void _findAllIntersections(const Shape& STLAllocator<U, AllocPolicy>, List<IntersectionInShape>& intersections) const
-        private void _findAllIntersections(Shape other, ref List<IntersectionInShape> intersections) {
+        private void _findAllIntersections(Shape other, ref std_vector<IntersectionInShape> intersections) {
             for (ushort i = 0; i < getSegCount(); i++) {
                 Segment2D seg1 = new Segment2D(getPoint(i), getPoint(i + 1));
 
@@ -1244,7 +1242,7 @@ namespace Mogre_Procedural
                             inter.index[1]++;
                         }
 
-                        intersections.Add(inter);
+                        intersections.push_back(inter);
                     }
                 }
             }

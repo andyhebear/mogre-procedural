@@ -128,8 +128,8 @@ namespace Mogre_Procedural
             for (int i = 0; i < numPoints; ++i) {
                 ControlPoint pointBefore = mPoints[i];
                 ControlPoint pointAfter = safeGetPoint(i + 1);
-
-                GlobalMembers.computeCubicHermitePoints(pointBefore, pointAfter, (uint)mNumSeg, ref  shape.getPointsReference());
+               std_vector<Vector2>shape_getPointsReference =shape.getPointsReference();
+                GlobalMembers.computeCubicHermitePoints(pointBefore, pointAfter, (uint)mNumSeg, ref  shape_getPointsReference);
 
                 if (i == mPoints.size() - 2 && !mClosed) {
                     shape.addPoint(pointAfter.position);
@@ -188,8 +188,8 @@ namespace Mogre_Procedural
                 Vector2 P2 = safeGetPoint(i);
                 Vector2 P3 = safeGetPoint(i + 1);
                 Vector2 P4 = safeGetPoint(i + 2);
-
-                GlobalMembers.computeCatmullRomPoints(P1, P2, P3, P4, mNumSeg, ref shape.getPointsReference());
+                std_vector<Vector2>shape_getPointsReference =shape.getPointsReference();
+                GlobalMembers.computeCatmullRomPoints(P1, P2, P3, P4, mNumSeg, ref shape_getPointsReference);
 
                 if (i == mPoints.Count - 2 && !mClosed) {
                     shape.addPoint(P3);
@@ -264,8 +264,8 @@ namespace Mogre_Procedural
                 ControlPoint2 P2 = safeGetPoint(i);
                 ControlPoint2 P3 = safeGetPoint(i + 1);
                 ControlPoint2 P4 = safeGetPoint(i + 2);
-
-                GlobalMembers.computeKochanekBartelsPoints(P1, P2, P3, P4, mNumSeg, ref shape.getPointsReference());
+                std_vector<Vector2>shape_getPointsReference=shape.getPointsReference();
+                GlobalMembers.computeKochanekBartelsPoints(P1, P2, P3, P4, mNumSeg, ref shape_getPointsReference);
 
                 if (i == mPoints.size() - 2 && !mClosed) {
                     shape.addPoint(P3.position);
