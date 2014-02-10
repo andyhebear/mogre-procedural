@@ -114,7 +114,7 @@ namespace Mogre_Procedural
                 Vector3 P2 = safeGetPoint(i);
                 Vector3 P3 = safeGetPoint(i + 1);
                 Vector3 P4 = safeGetPoint(i + 2);
-                List<Vector3> lref = path.getPointsReference();
+                std_vector<Vector3> lref = path.getPointsReference();
                 GlobalMembers.computeCatmullRomPoints(P1, P2, P3, P4, mNumSeg, ref lref);
 
                 if (i == mPoints.size() - 2 && !mClosed)
@@ -200,8 +200,8 @@ namespace Mogre_Procedural
             for (int i = 0; i < numPoints; ++i) {
                 ControlPoint pointBefore = mPoints[i];
                 ControlPoint pointAfter = safeGetPoint((uint)i + 1);
-
-                GlobalMembers.computeCubicHermitePoints(pointBefore, pointAfter, mNumSeg, ref path.getPointsReference());
+                std_vector<Vector3>path_getPointsReference=path.getPointsReference();
+                GlobalMembers.computeCubicHermitePoints(pointBefore, pointAfter, mNumSeg, ref path_getPointsReference);
 
                 if (i == mPoints.size() - 2 && !mClosed)
                     path.addPoint(pointAfter.position);

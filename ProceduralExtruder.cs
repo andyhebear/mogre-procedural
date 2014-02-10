@@ -117,7 +117,7 @@ namespace Mogre_Procedural
                     extrusionPath = extrusionPath.mergeKeysWithTrack(mPathTextureTracks[j]);//(*mPathTextureTracks.find(j).second);
                 }
 
-                std_vector<std_pair<uint, uint>> segs = mMultiExtrusionPath.getNoIntersectionParts((int)j);
+                std_vector<std_pair<uint, uint>> segs = mMultiExtrusionPath.getNoIntersectionParts(j);
 
                 //for (List<std.pair<uint, uint>>.Enumerator it = segs.GetEnumerator(); it.MoveNext(); ++it) {
                 foreach (var it in segs) {

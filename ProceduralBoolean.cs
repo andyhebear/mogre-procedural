@@ -176,7 +176,7 @@ namespace Mogre_Procedural
                     if (mesh2seed1 == mesh2seed2)
                         mesh2seed2 = -1;
 
-                    Vector3 vMesh1, nMesh1, vMesh2, nMesh2;
+                    Vector3 vMesh1=new Vector3(0f,0f,0f), nMesh1=new Vector3(0f,0f,0f), vMesh2=new Vector3(0f,0f,0f), nMesh2=new Vector3(0f,0f,0f);
                     for (int i = 0; i < 3; i++) {
                         Vector3 pos = newMesh1.getVertices()[newMesh1.getIndices()[mesh1seed1 * 3 + i]].mPosition;
                         if ((pos - firstSeg.mA).SquaredLength > 1e-6 && (pos - firstSeg.mB).SquaredLength > 1e-6) {
