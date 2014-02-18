@@ -445,7 +445,7 @@ namespace Mogre_Procedural.std
 
 
 
-
+        //
 
         public void emplace(T value) {
             this.Enqueue(value, default(TPriority));
@@ -511,12 +511,468 @@ namespace Mogre_Procedural.std
         }
 
         public bool IsSynchronized {
-            get { throw new NotImplementedException(); }
+            get { return false; }
+            //get { throw new NotImplementedException(); }
         }
 
         public object SyncRoot {
-            get { throw new NotImplementedException(); }
+            get { return this; }
+            //get { throw new NotImplementedException(); }
         }
+
+        #endregion
+    }
+
+
+
+    /// <summary>Queue that dequeues items in order of their priority</summary>
+//    public class PriorityQueue<ItemType> : ICollection, IEnumerable<ItemType>
+//    {
+
+//        #region class Enumerator
+
+//        /// <summary>Enumerates all items contained in a priority queue</summary>
+//        private class Enumerator : IEnumerator<ItemType>
+//        {
+
+//            /// <summary>Initializes a new priority queue enumerator</summary>
+//            /// <param name="priorityQueue">Priority queue to be enumerated</param>
+//            public Enumerator(PriorityQueue<ItemType> priorityQueue) {
+//                this.priorityQueue = priorityQueue;
+//                Reset();
+//            }
+
+//            /// <summary>Resets the enumerator to its initial state</summary>
+//            public void Reset() {
+//                this.index = -1;
+//#if DEBUG
+//                this.expectedVersion = this.priorityQueue.version;
+//#endif
+//            }
+
+//            /// <summary>The current item being enumerated</summary>
+//            ItemType IEnumerator<ItemType>.Current {
+//                get {
+//#if DEBUG
+//                    checkVersion();
+//#endif
+//                    return this.priorityQueue.heap[index];
+//                }
+//            }
+
+//            /// <summary>Moves to the next item in the priority queue</summary>
+//            /// <returns>True if a next item was found, false if the end has been reached</returns>
+//            public bool MoveNext() {
+//#if DEBUG
+//                checkVersion();
+//#endif
+//                if (this.index + 1 == this.priorityQueue.count)
+//                    return false;
+
+//                ++this.index;
+
+//                return true;
+//            }
+
+//            /// <summary>Releases all resources used by the enumerator</summary>
+//            public void Dispose() { }
+
+//#if DEBUG
+//            /// <summary>Ensures that the priority queue has not changed</summary>
+//            private void checkVersion() {
+//                if (this.expectedVersion != this.priorityQueue.version)
+//                    throw new InvalidOperationException("Priority queue has been modified");
+//            }
+//#endif
+
+//            /// <summary>The current item being enumerated</summary>
+//            object IEnumerator.Current {
+//                get {
+//#if DEBUG
+//                    checkVersion();
+//#endif
+//                    return this.priorityQueue.heap[index];
+//                }
+//            }
+
+//            /// <summary>Index of the current item in the priority queue</summary>
+//            private int index;
+//            /// <summary>The priority queue whose items this instance enumerates</summary>
+//            private PriorityQueue<ItemType> priorityQueue;
+//#if DEBUG
+//            /// <summary>Expected version of the priority queue</summary>
+//            private int expectedVersion;
+//#endif
+
+//        }
+
+//        #endregion // class Enumerator
+
+//        /// <summary>
+//        ///   Initializes a new priority queue using IComparable for comparing items
+//        /// </summary>
+//        public PriorityQueue() : this(Comparer<ItemType>.Default) { }
+
+//        /// <summary>Initializes a new priority queue</summary>
+//        /// <param name="comparer">Comparer to use for ordering the items</param>
+//        public PriorityQueue(IComparer<ItemType> comparer) {
+//            this.comparer = comparer;
+//            this.capacity = 15; // 15 is equal to 4 complete levels
+//            this.heap = new ItemType[this.capacity];
+//        }
+
+//        /// <summary>Returns the topmost item in the queue without dequeueing it</summary>
+//        /// <returns>The topmost item in the queue</returns>
+//        public ItemType Peek() {
+//            if (this.count == 0) {
+//                throw new InvalidOperationException("No items queued");
+//            }
+
+//            return this.heap[0];
+//        }
+
+//        /// <summary>Takes the item with the highest priority off from the queue</summary>
+//        /// <returns>The item with the highest priority in the list</returns>
+//        /// <exception cref="InvalidOperationException">When the queue is empty</exception>
+//        public ItemType Dequeue() {
+//            if (this.count == 0) {
+//                throw new InvalidOperationException("No items available to dequeue");
+//            }
+
+//            ItemType result = this.heap[0];
+//            --this.count;
+//            trickleDown(0, this.heap[this.count]);
+//#if DEBUG
+//            ++this.version;
+//#endif
+//            return result;
+//        }
+
+//        /// <summary>Puts an item into the priority queue</summary>
+//        /// <param name="item">Item to be queued</param>
+//        public void Enqueue(ItemType item) {
+//            if (this.count == capacity)
+//                growHeap();
+
+//            ++this.count;
+//            bubbleUp(this.count - 1, item);
+//#if DEBUG
+//            ++this.version;
+//#endif
+//        }
+
+//        /// <summary>Removes all items from the priority queue</summary>
+//        public void Clear() {
+//            this.count = 0;
+//#if DEBUG
+//            ++this.version;
+//#endif
+//        }
+
+
+//        /// <summary>Total number of items in the priority queue</summary>
+//        public int Count {
+//            get { return this.count; }
+//        }
+
+//        /// <summary>Copies the contents of the priority queue into an array</summary>
+//        /// <param name="array">Array to copy the priority queue into</param>
+//        /// <param name="index">Starting index for the destination array</param>
+//        public void CopyTo(Array array, int index) {
+//            Array.Copy(this.heap, 0, array, index, this.count);
+//        }
+
+//        /// <summary>
+//        ///   Obtains an object that can be used to synchronize accesses to the priority queue
+//        ///   from different threads
+//        /// </summary>
+//        public object SyncRoot {
+//            get { return this; }
+//        }
+
+//        /// <summary>Whether operations performed on this priority queue are thread safe</summary>
+//        public bool IsSynchronized {
+//            get { return false; }
+//        }
+
+//        /// <summary>Returns a typesafe enumerator for the priority queue</summary>
+//        /// <returns>A new enumerator for the priority queue</returns>
+//        public IEnumerator<ItemType> GetEnumerator() {
+//            return new Enumerator(this);
+//        }
+
+//        /// <summary>Moves an item upwards in the heap tree</summary>
+//        /// <param name="index">Index of the item to be moved</param>
+//        /// <param name="item">Item to be moved</param>
+//        private void bubbleUp(int index, ItemType item) {
+//            int parent = getParent(index);
+
+//            // Note: (index > 0) means there is a parent
+//            while ((index > 0) && (this.comparer.Compare(this.heap[parent], item) < 0)) {
+//                this.heap[index] = this.heap[parent];
+//                index = parent;
+//                parent = getParent(index);
+//            }
+
+//            this.heap[index] = item;
+//        }
+
+//        /// <summary>Move the item downwards in the heap tree</summary>
+//        /// <param name="index">Index of the item to be moved</param>
+//        /// <param name="item">Item to be moved</param>
+//        private void trickleDown(int index, ItemType item) {
+//            int child = getLeftChild(index);
+
+//            while (child < this.count) {
+
+//                bool needsToBeMoved =
+//                  ((child + 1) < this.count) &&
+//                  (this.comparer.Compare(heap[child], this.heap[child + 1]) < 0);
+
+//                if (needsToBeMoved)
+//                    ++child;
+
+//                this.heap[index] = this.heap[child];
+//                index = child;
+//                child = getLeftChild(index);
+
+//            }
+           
+//            bubbleUp(index, item);
+//        }
+
+//        /// <summary>Obtains the left child item in the heap tree</summary>
+//        /// <param name="index">Index of the item whose left child to return</param>
+//        /// <returns>The left child item of the provided parent item</returns>
+//        private int getLeftChild(int index) {
+//            return (index * 2) + 1;
+//        }
+
+//        /// <summary>Calculates the parent entry of the item on the heap</summary>
+//        /// <param name="index">Index of the item whose parent to calculate</param>
+//        /// <returns>The index of the parent to the specified item</returns>
+//        private int getParent(int index) {
+//            return (index - 1) / 2;
+//        }
+
+//        /// <summary>Increases the size of the priority collection's heap</summary>
+//        private void growHeap() {
+//            this.capacity = (capacity * 2) + 1;
+
+//            ItemType[] newHeap = new ItemType[this.capacity];
+//            Array.Copy(this.heap, 0, newHeap, 0, this.count);
+//            this.heap = newHeap;
+//        }
+
+//        /// <summary>Returns an enumerator for the priority queue</summary>
+//        /// <returns>A new enumerator for the priority queue</returns>
+//        IEnumerator IEnumerable.GetEnumerator() {
+//            return new Enumerator(this);
+//        }
+
+//        /// <summary>Comparer used to order the items in the priority queue</summary>
+//        private IComparer<ItemType> comparer;
+//        /// <summary>Total number of items in the priority queue</summary>
+//        private int count;
+//        /// <summary>Available space in the priority queue</summary>
+//        private int capacity;
+//        /// <summary>Tree containing the items in the priority queue</summary>
+//        private ItemType[] heap;
+//#if DEBUG
+//        /// <summary>Incremented whenever the priority queue is modified</summary>
+//        private int version;
+//#endif
+
+//    }
+
+
+    //dotnet 4.0
+    /// <summary>
+    /// PriorityQueue provides a stack-like interface, except that objects
+    /// "pushed" in arbitrary order are "popped" in order of priority, i.e.,
+    /// from least to greatest as defined by the specified comparer.
+    /// </summary>
+    /// <remarks>
+    /// Push and Pop are each O(log N). Pushing N objects and them popping
+    /// them all is equivalent to performing a heap sort and is O(N log N).
+    /// </remarks>
+    internal class PriorityQueue<T> 
+    {
+        //
+        // The _heap array represents a binary tree with the "shape" property.
+        // If we number the nodes of a binary tree from left-to-right and top-
+        // to-bottom as shown,
+        //
+        //             0
+        //           /   \
+        //          /     \
+        //         1       2
+        //       /  \     / \
+        //      3    4   5   6
+        //     /\    /
+        //    7  8  9
+        //
+        // The shape property means that there are no gaps in the sequence of
+        // numbered nodes, i.e., for all N > 0, if node N exists then node N-1
+        // also exists. For example, the next node added to the above tree would
+        // be node 10, the right child of node 4.
+        //
+        // Because of this constraint, we can easily represent the "tree" as an
+        // array, where node number == array index, and parent/child relationships
+        // can be calculated instead of maintained explicitly. For example, for
+        // any node N > 0, the parent of N is at array index (N - 1) / 2.
+        //
+        // In addition to the above, the first _count members of the _heap array
+        // compose a "heap", meaning each child node is greater than or equal to
+        // its parent node; thus, the root node is always the minimum (i.e., the
+        // best match for the specified style, weight, and stretch) of the nodes
+        // in the heap.
+        //
+        // Initially _count < 0, which means we have not yet constructed the heap.
+        // On the first call to MoveNext, we construct the heap by "pushing" all
+        // the nodes into it. Each successive call "pops" a node off the heap
+        // until the heap is empty (_count == 0), at which time we've reached the
+        // end of the sequence.
+        //
+
+        #region constructors
+
+        internal PriorityQueue(int capacity, IComparer<T> comparer) {
+            _heap = new T[capacity > 0 ? capacity : DefaultCapacity];
+            _count = 0;
+            _comparer = comparer;
+        }
+
+        #endregion
+
+        #region internal members
+
+        /// <summary>
+        /// Gets the number of items in the priority queue.
+        /// </summary>
+        internal int Count {
+            get { return _count; }
+        }
+
+        /// <summary>
+        /// Gets the first or topmost object in the priority queue, which is the
+        /// object with the minimum value.
+        /// </summary>
+        internal T Top {
+            get {
+                Debug.Assert(_count > 0);
+                return _heap[0];
+            }
+        }
+
+        /// <summary>
+        /// Adds an object to the priority queue.
+        /// </summary>
+        internal void Push(T value) {
+            // Increase the size of the array if necessary.
+            if (_count == _heap.Length) {
+                T[] temp = new T[_count * 2];
+                for (int i = 0; i < _count; ++i) {
+                    temp[i] = _heap[i];
+                }
+                _heap = temp;
+            }
+
+            // Loop invariant:
+            //
+            //  1.  index is a gap where we might insert the new node; initially
+            //      it's the end of the array (bottom-right of the logical tree).
+            //
+            int index = _count;
+            while (index > 0) {
+                int parentIndex = HeapParent(index);
+                if (_comparer.Compare(value, _heap[parentIndex]) < 0) {
+                    // value is a better match than the parent node so exchange
+                    // places to preserve the "heap" property.
+                    _heap[index] = _heap[parentIndex];
+                    index = parentIndex;
+                }
+                else {
+                    // we can insert here.
+                    break;
+                }
+            }
+
+            _heap[index] = value;
+            _count++;
+        }
+
+        /// <summary>
+        /// Removes the first node (i.e., the logical root) from the heap.
+        /// </summary>
+        internal void Pop() {
+            Debug.Assert(_count != 0);
+            
+            if (_count > 1) {
+                // Loop invariants:
+                //
+                //  1.  parent is the index of a gap in the logical tree
+                //  2.  leftChild is
+                //      (a) the index of parent's left child if it has one, or
+                //      (b) a value >= _count if parent is a leaf node
+                //
+                int parent = 0;
+                int leftChild = HeapLeftChild(parent);
+
+                while (leftChild < _count) {
+                    int rightChild = HeapRightFromLeft(leftChild);
+                    int bestChild =
+                        (rightChild < _count && _comparer.Compare(_heap[rightChild], _heap[leftChild]) < 0) ?
+                        rightChild : leftChild;
+
+                    // Promote bestChild to fill the gap left by parent.
+                    _heap[parent] = _heap[bestChild];
+
+                    // Restore invariants, i.e., let parent point to the gap.
+                    parent = bestChild;
+                    leftChild = HeapLeftChild(parent);
+                }
+
+                // Fill the last gap by moving the last (i.e., bottom-rightmost) node.
+                _heap[parent] = _heap[_count - 1];
+            }
+
+            _count--;
+        }
+
+        #endregion
+
+        #region private members
+
+        /// <summary>
+        /// Calculate the parent node index given a child node's index, taking advantage
+        /// of the "shape" property.
+        /// </summary>
+        private static int HeapParent(int i) {
+            return (i - 1) / 2;
+        }
+
+        /// <summary>
+        /// Calculate the left child's index given the parent's index, taking advantage of
+        /// the "shape" property. If there is no left child, the return value is >= _count.
+        /// </summary>
+        private static int HeapLeftChild(int i) {
+            return (i * 2) + 1;
+        }
+
+        /// <summary>
+        /// Calculate the right child's index from the left child's index, taking advantage
+        /// of the "shape" property (i.e., sibling nodes are always adjacent). If there is
+        /// no right child, the return value >= _count.
+        /// </summary>
+        private static int HeapRightFromLeft(int i) {
+            return i + 1;
+        }
+
+        private T[] _heap;
+        private int _count;
+        private IComparer<T> _comparer;
+        private const int DefaultCapacity = 6;
 
         #endregion
     }

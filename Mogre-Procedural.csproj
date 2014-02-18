@@ -50,6 +50,8 @@
     <Compile Include="NET_35\MonoAttribute.cs" />
     <Compile Include="NET_35\RBTree .cs" />
     <Compile Include="NET_35\SortedSet.cs" />
+    <Compile Include="std\ReadOnlyDictionary.cs" />
+    <Compile Include="std\ReadOnlyList.cs" />
     <Compile Include="thirdlib\self-balancing-avl-tree\AvlTree.cs" />
     <Compile Include="thirdlib\self-balancing-avl-tree\map.cs" />
     <Compile Include="thirdlib\self-balancing-avl-tree\multimap.cs" />
