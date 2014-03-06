@@ -134,11 +134,9 @@ namespace Mogre_Procedural
         //	\exception Ogre::InvalidParametersException Minimum of numSegCircle is 1
         //	
         public TorusKnotGenerator setNumSegSection(uint numSegSection) {
-            if (numSegSection == 0)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "There must be more than 0 segments", "Procedural::TorusKnotGenerator::setNumSegSection(unsigned int)", __FILE__, __LINE__);
-                throw new Exception("numSegSection must more than 0");
+           if (numSegSection == 0)
+			OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "There must be more than 0 segments", "Procedural::TorusKnotGenerator::setNumSegSection(unsigned int)");
+
             ;
             mNumSegSection = numSegSection;
             return this;
@@ -149,11 +147,9 @@ namespace Mogre_Procedural
         //	\exception Ogre::InvalidParametersException Minimum of numSegCircle is 1
         //	
         public TorusKnotGenerator setNumSegCircle(uint numSegCircle) {
-            if (numSegCircle == 0)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "There must be more than 0 segments", "Procedural::TorusKnotGenerator::setNumSegCircle(unsigned int)", __FILE__, __LINE__);
-                throw new Exception("numSegCircle must more than 0");
+          if (numSegCircle == 0)
+			OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "There must be more than 0 segments", "Procedural::TorusKnotGenerator::setNumSegCircle(unsigned int)");
+
             ;
             mNumSegCircle = numSegCircle;
             return this;
@@ -164,11 +160,9 @@ namespace Mogre_Procedural
         //	\exception Ogre::InvalidParametersException Radius must be larger than 0!
         //	
         public TorusKnotGenerator setRadius(float radius) {
-            if (radius <= 0.0f)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Radius must be larger than 0!", "Procedural::TorusKnotGenerator::setRadius(Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("radius must more than 0");
+           if (radius <= 0.0f)
+			OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Radius must be larger than 0!", "Procedural::TorusKnotGenerator::setRadius(Ogre::Real)");
+
             ;
             mRadius = radius;
             return this;
@@ -179,11 +173,9 @@ namespace Mogre_Procedural
         //	\exception Ogre::InvalidParametersException Radius must be larger than 0!
         //	
         public TorusKnotGenerator setSectionRadius(float sectionRadius) {
-            if (sectionRadius <= 0.0f)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Radius must be larger than 0!", "Procedural::TorusKnotGenerator::setSectionRadius(Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("sectionRadius must more than 0");
+           if (sectionRadius <= 0.0f)
+			OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Radius must be larger than 0!", "Procedural::TorusKnotGenerator::setSectionRadius(Ogre::Real)");
+
             ;
             mSectionRadius = sectionRadius;
             return this;
@@ -194,11 +186,9 @@ namespace Mogre_Procedural
         //	\exception Ogre::InvalidParametersException Parameter p must be larger than 0!
         //	
         public TorusKnotGenerator setP(int p) {
-            if (p <= 0)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Parameter p must be larger than 0!", "Procedural::TorusKnotGenerator::setP(int)", __FILE__, __LINE__);
-                throw new Exception("parameter p must more than 0");
+            	if (p <= 0)
+			OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Parameter p must be larger than 0!", "Procedural::TorusKnotGenerator::setP(int)");
+
             ;
             mP = p;
             return this;
@@ -209,11 +199,9 @@ namespace Mogre_Procedural
         //	\exception Ogre::InvalidParametersException Parameter q must be larger than 0!
         //	
         public TorusKnotGenerator setQ(int q) {
-            if (q <= 0)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Parameter q must be larger than 0!", "Procedural::TorusKnotGenerator::setQ(int)", __FILE__, __LINE__);
-                throw new Exception("parameter q must more than 0");
+           if (q <= 0)
+			OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Parameter q must be larger than 0!", "Procedural::TorusKnotGenerator::setQ(int)");
+
             ;
             mQ = q;
             return this;
