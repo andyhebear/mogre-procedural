@@ -115,11 +115,9 @@ namespace Mogre_Procedural
         //	\exception Ogre::InvalidParametersException Minimum of numSegSection is 1
         //	
         public TorusGenerator setNumSegSection(uint numSegSection) {
-            if (mNumSegSection == 0)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "There must be more than 0 segments", "Procedural::TorusGenerator::setNumSegSection(unsigned int)", __FILE__, __LINE__);
-                throw new Exception("numSegSection must more than 0");
+          if (mNumSegSection == 0)
+			OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "There must be more than 0 segments", "Procedural::TorusGenerator::setNumSegSection(unsigned int)");
+
             ;
             mNumSegSection = numSegSection;
             return this;
@@ -130,11 +128,9 @@ namespace Mogre_Procedural
         //	\exception Ogre::InvalidParametersException Minimum of numSegCircle is 1
         //	
         public TorusGenerator setNumSegCircle(uint numSegCircle) {
-            if (numSegCircle == 0)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "There must be more than 0 segments", "Procedural::TorusGenerator::setNumSegCircle(unsigned int)", __FILE__, __LINE__);
-                throw new Exception("numSegCircle must more than 0");
+           	if (numSegCircle == 0)
+			OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "There must be more than 0 segments", "Procedural::TorusGenerator::setNumSegCircle(unsigned int)");
+
             ;
             mNumSegCircle = numSegCircle;
             return this;
@@ -145,11 +141,9 @@ namespace Mogre_Procedural
         //	\exception Ogre::InvalidParametersException Radius must be larger than 0!
         //	
         public TorusGenerator setRadius(float radius) {
-            if (radius <= 0.0f)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Radius must be larger than 0!", "Procedural::TorusGenerator::setRadius(Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("radius must more than 0");
+           	if (radius <= 0.0f)
+			OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Radius must be larger than 0!", "Procedural::TorusGenerator::setRadius(Ogre::Real)");
+
             ;
             mRadius = radius;
             return this;
@@ -160,11 +154,9 @@ namespace Mogre_Procedural
         //	\exception Ogre::InvalidParametersException Radius must be larger than 0!
         //	
         public TorusGenerator setSectionRadius(float sectionRadius) {
-            if (sectionRadius <= 0.0f)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Radius must be larger than 0!", "Procedural::TorusGenerator::setSectionRadius(Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("sectionRadius must more than 0");
+          if (sectionRadius <= 0.0f)
+			OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Radius must be larger than 0!", "Procedural::TorusGenerator::setSectionRadius(Ogre::Real)");
+
             ;
             mSectionRadius = sectionRadius;
             return this;

@@ -135,10 +135,8 @@ namespace Mogre_Procedural
         //	
         public void setRed(int x, int y, byte red) {
             if (x >= mWidth || y >= mHeight)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Pixel location is out of bounds!", "Procedural::TextureBuffer::setRed(int, int, Ogre::uchar)", __FILE__, __LINE__);
-                throw new Exception("Pixel location is out of bounds!");
+               OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Pixel location is out of bounds!", "Procedural::TextureBuffer::setRed(size_t, size_t, Ogre::uchar)");
+
             ;
 
             mPixels[y * mWidth * 4 + x * 4 + PROCEDURAL_RED] = red;
@@ -153,10 +151,7 @@ namespace Mogre_Procedural
         //	
         public void setGreen(int x, int y, byte green) {
             if (x >= mWidth || y >= mHeight)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Pixel location is out of bounds!", "Procedural::TextureBuffer::setGreen(int, int, Ogre::uchar)", __FILE__, __LINE__);
-                throw new Exception("Pixel location is out of bounds!");
+               OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Pixel location is out of bounds!", "Procedural::TextureBuffer::setGreen(size_t, size_t, Ogre::uchar)");
             ;
 
             mPixels[y * mWidth * 4 + x * 4 + PROCEDURAL_GREEN] = green;
@@ -171,10 +166,8 @@ namespace Mogre_Procedural
         //	
         public void setBlue(int x, int y, byte blue) {
             if (x >= mWidth || y >= mHeight)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Pixel location is out of bounds!", "Procedural::TextureBuffer::setBlue(int, int, Ogre::uchar)", __FILE__, __LINE__);
-                throw new Exception("Pixel location is out of bounds!");
+              OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Pixel location is out of bounds!", "Procedural::TextureBuffer::setBlue(size_t, size_t, Ogre::uchar)");
+
             ;
 
             mPixels[y * mWidth * 4 + x * 4 + PROCEDURAL_BLUE] = blue;
@@ -189,10 +182,8 @@ namespace Mogre_Procedural
         //	
         public void setAlpha(int x, int y, byte alpha) {
             if (x >= mWidth || y >= mHeight)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Pixel location is out of bounds!", "Procedural::TextureBuffer::setAlpha(int, int, Ogre::uchar)", __FILE__, __LINE__);
-                throw new Exception("Pixel location is out of bounds!");
+               OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Pixel location is out of bounds!", "Procedural::TextureBuffer::setAlpha(size_t, size_t, Ogre::uchar)");
+
             ;
 
             mPixels[y * mWidth * 4 + x * 4 + PROCEDURAL_ALPHA] = alpha;
@@ -208,10 +199,8 @@ namespace Mogre_Procedural
         //	
         public void setRed(int x, int y, float red) {
             if (x >= mWidth || y >= mHeight)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Pixel location is out of bounds!", "Procedural::TextureBuffer::setRed(int, int, Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("Pixel location is out of bounds!");
+               OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Pixel location is out of bounds!", "Procedural::TextureBuffer::setRed(size_t, size_t, Ogre::Real)");
+
             ;
 
             mPixels[y * mWidth * 4 + x * 4 + PROCEDURAL_RED] = (byte)(System.Math.Min(System.Math.Max(red * 255.0f, 0.0f), 255.0f));
@@ -226,10 +215,8 @@ namespace Mogre_Procedural
         //	
         public void setGreen(int x, int y, float green) {
             if (x >= mWidth || y >= mHeight)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Pixel location is out of bounds!", "Procedural::TextureBuffer::setGreen(int, int, Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("Pixel location is out of bounds!");
+               OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Pixel location is out of bounds!", "Procedural::TextureBuffer::setGreen(size_t, size_t, Ogre::Real)");
+
             ;
 
             mPixels[y * mWidth * 4 + x * 4 + PROCEDURAL_GREEN] = (byte)(System.Math.Min(System.Math.Max(green * 255.0f, 0.0f), 255.0f));
@@ -244,10 +231,8 @@ namespace Mogre_Procedural
         //	
         public void setBlue(int x, int y, float blue) {
             if (x >= mWidth || y >= mHeight)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Pixel location is out of bounds!", "Procedural::TextureBuffer::setBlue(int, int, Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("Pixel location is out of bounds!");
+               OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Pixel location is out of bounds!", "Procedural::TextureBuffer::setBlue(size_t, size_t, Ogre::Real)");
+
             ;
 
             mPixels[y * mWidth * 4 + x * 4 + PROCEDURAL_BLUE] = (byte)(System.Math.Min(System.Math.Max(blue * 255.0f, 0.0f), 255.0f));
@@ -262,10 +247,8 @@ namespace Mogre_Procedural
         //	
         public void setAlpha(int x, int y, float alpha) {
             if (x >= mWidth || y >= mHeight)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Pixel location is out of bounds!", "Procedural::TextureBuffer::setAlpha(int, int, Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("Pixel location is out of bounds!");
+               OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Pixel location is out of bounds!", "Procedural::TextureBuffer::setAlpha(size_t, size_t, Ogre::Real)");
+
             ;
 
             mPixels[y * mWidth * 4 + x * 4 + PROCEDURAL_ALPHA] = (byte)(System.Math.Min(System.Math.Max(alpha * 255.0f, 0.0f), 255.0f));
@@ -327,10 +310,8 @@ namespace Mogre_Procedural
         //ORIGINAL LINE: Ogre::ColourValue getPixel(int x, int y) const
         public ColourValue getPixel(int x, int y) {
             if (x >= mWidth || y >= mHeight)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Pixel location is out of bounds!", "Procedural::TextureBuffer::getPixel(int, int)", __FILE__, __LINE__);
-                throw new Exception("Pixel location is out of bounds!");
+               OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Pixel location is out of bounds!", "Procedural::TextureBuffer::getPixel(size_t, size_t)");
+
             ;
 
             return new ColourValue(getPixelRedReal(x, y), getPixelGreenReal(x, y), getPixelBlueReal(x, y), getPixelAlphaReal(x, y));
@@ -347,10 +328,8 @@ namespace Mogre_Procedural
         //ORIGINAL LINE: Ogre::byte getPixelRedByte(int x, int y) const
         public byte getPixelRedByte(int x, int y) {
             if (x >= mWidth || y >= mHeight)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Pixel location is out of bounds!", "Procedural::TextureBuffer::getPixelRedByte(int, int)", __FILE__, __LINE__);
-                throw new Exception("Pixel location is out of bounds!");
+               OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Pixel location is out of bounds!", "Procedural::TextureBuffer::getPixelRedByte(size_t, size_t)");
+
             ;
 
             return mPixels[y * mWidth * 4 + x * 4 + PROCEDURAL_RED];
@@ -367,10 +346,8 @@ namespace Mogre_Procedural
         //ORIGINAL LINE: Ogre::byte getPixelGreenByte(int x, int y) const
         public byte getPixelGreenByte(int x, int y) {
             if (x >= mWidth || y >= mHeight)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Pixel location is out of bounds!", "Procedural::TextureBuffer::getPixelGreenByte(int, int)", __FILE__, __LINE__);
-                throw new Exception("Pixel location is out of bounds!");
+               OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Pixel location is out of bounds!", "Procedural::TextureBuffer::getPixelGreenByte(size_t, size_t)");
+
             ;
 
             return mPixels[y * mWidth * 4 + x * 4 + PROCEDURAL_GREEN];
@@ -387,10 +364,8 @@ namespace Mogre_Procedural
         //ORIGINAL LINE: Ogre::byte getPixelBlueByte(int x, int y) const
         public byte getPixelBlueByte(int x, int y) {
             if (x >= mWidth || y >= mHeight)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Pixel location is out of bounds!", "Procedural::TextureBuffer::getPixelBlueByte(int, int)", __FILE__, __LINE__);
-                throw new Exception("Pixel location is out of bounds!");
+               OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Pixel location is out of bounds!", "Procedural::TextureBuffer::getPixelBlueByte(size_t, size_t)");
+
             ;
 
             return mPixels[y * mWidth * 4 + x * 4 + PROCEDURAL_BLUE];
@@ -407,10 +382,8 @@ namespace Mogre_Procedural
         //ORIGINAL LINE: Ogre::byte getPixelAlphaByte(int x, int y) const
         public byte getPixelAlphaByte(int x, int y) {
             if (x >= mWidth || y >= mHeight)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Pixel location is out of bounds!", "Procedural::TextureBuffer::getPixelAlphaByte(int, int)", __FILE__, __LINE__);
-                throw new Exception("Pixel location is out of bounds!");
+               OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Pixel location is out of bounds!", "Procedural::TextureBuffer::getPixelAlphaByte(size_t, size_t)");
+
             ;
 
             return mPixels[y * mWidth * 4 + x * 4 + PROCEDURAL_ALPHA];
@@ -427,10 +400,8 @@ namespace Mogre_Procedural
         //ORIGINAL LINE: Ogre::float getPixelRedReal(int x, int y) const
         public float getPixelRedReal(int x, int y) {
             if (x >= mWidth || y >= mHeight)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Pixel location is out of bounds!", "Procedural::TextureBuffer::getPixelRedReal(int, int)", __FILE__, __LINE__);
-                throw new Exception("Pixel location is out of bounds!");
+               OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Pixel location is out of bounds!", "Procedural::TextureBuffer::getPixelRedReal(size_t, size_t)");
+
             ;
 
             return ((float)mPixels[y * mWidth * 4 + x * 4 + PROCEDURAL_RED]) / 255.0f;
@@ -447,10 +418,8 @@ namespace Mogre_Procedural
         //ORIGINAL LINE: Ogre::float getPixelGreenReal(int x, int y) const
         public float getPixelGreenReal(int x, int y) {
             if (x >= mWidth || y >= mHeight)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Pixel location is out of bounds!", "Procedural::TextureBuffer::getPixelGreenReal(int, int)", __FILE__, __LINE__);
-                throw new Exception("Pixel location is out of bounds!");
+               OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Pixel location is out of bounds!", "Procedural::TextureBuffer::getPixelGreenReal(size_t, size_t)");
+
             ;
 
             return ((float)mPixels[y * mWidth * 4 + x * 4 + PROCEDURAL_GREEN]) / 255.0f;
@@ -467,10 +436,8 @@ namespace Mogre_Procedural
         //ORIGINAL LINE: Ogre::float getPixelBlueReal(int x, int y) const
         public float getPixelBlueReal(int x, int y) {
             if (x >= mWidth || y >= mHeight)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Pixel location is out of bounds!", "Procedural::TextureBuffer::getPixelBlueReal(int, int)", __FILE__, __LINE__);
-                throw new Exception("Pixel location is out of bounds!");
+               OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Pixel location is out of bounds!", "Procedural::TextureBuffer::getPixelBlueReal(size_t, size_t)");
+
             ;
 
             return ((float)mPixels[y * mWidth * 4 + x * 4 + PROCEDURAL_BLUE]) / 255.0f;
@@ -487,10 +454,8 @@ namespace Mogre_Procedural
         //ORIGINAL LINE: Ogre::float getPixelAlphaReal(int x, int y) const
         public float getPixelAlphaReal(int x, int y) {
             if (x >= mWidth || y >= mHeight)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Pixel location is out of bounds!", "Procedural::TextureBuffer::getPixelAlphaReal(int, int)", __FILE__, __LINE__);
-                throw new Exception("Pixel location is out of bounds!");
+               OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Pixel location is out of bounds!", "Procedural::TextureBuffer::getPixelAlphaReal(size_t, size_t)");
+
             ;
 
             return ((float)mPixels[y * mWidth * 4 + x * 4 + PROCEDURAL_ALPHA]) / 255.0f;
@@ -516,10 +481,7 @@ namespace Mogre_Procedural
         //	
         public TextureBuffer(TextureBuffer tocopy) {
             if (tocopy == null)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Pointer to source image must not be NULL!", "Procedural::TextureBuffer::TextureBuffer(Procedural::TextureBufferPtr)", __FILE__, __LINE__);
-                throw new Exception("Pixel location is out of bounds!");
+             OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Pointer to source image must not be NULL!", "Procedural::TextureBuffer::TextureBuffer(Procedural::TextureBufferPtr)");
             ;
             mWidth = (uint)tocopy.getWidth();
             mHeight = (uint)tocopy.getHeight();
@@ -527,6 +489,10 @@ namespace Mogre_Procedural
             mPixels = new byte[mWidth * mHeight * 4];
             //C++ TO C# CONVERTER TODO TASK: The memory management function 'memcpy' has no equivalent in C#:
             memcpy(mPixels, tocopy.mPixels, mWidth * mHeight * 4 * sizeof(byte));
+        }
+
+        protected static void OGRE_EXCEPT(string p, string p_2, string p_3) {
+            throw new Exception(p + "_" + p_2 + "_" + p_3);
         }
 
         //    *
@@ -538,10 +504,7 @@ namespace Mogre_Procedural
             mWidth = width_height;
             mHeight = width_height;
             if (width_height < 8)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Minimum edge size is 8!", "Procedural::TextureBuffer::TextureBuffer(Procedural::TextureBufferPtr)", __FILE__, __LINE__);
-                throw new Exception("Pixel location is out of bounds!");
+             OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Minimum edge size is 8!", "Procedural::TextureBuffer::TextureBuffer(Procedural::TextureBufferPtr)");
             ;
             mPixels = new byte[mWidth * mHeight * 4];
             //C++ TO C# CONVERTER TODO TASK: The memory management function 'memset' has no equivalent in C#:
@@ -674,10 +637,8 @@ namespace Mogre_Procedural
 
         public TextureProcessing(TextureBuffer pBuffer, string name) {
             if (pBuffer == null)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Texture buffer is not set!", "Procedural::TextureProcessing::TextureProcessing(TextureBufferPtr, Ogre::String)", __FILE__, __LINE__);
-                throw new Exception("texture buffer is not set!");
+              OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Texture buffer is not set!", "Procedural::TextureProcessing::TextureProcessing(TextureBufferPtr, Ogre::String)");
+
             ;
             mBuffer = pBuffer;
             mName = name;
@@ -687,7 +648,9 @@ namespace Mogre_Procedural
             mLog = false;
 #endif
         }
-
+        protected static void OGRE_EXCEPT(string p, string p_2, string p_3) {
+            throw new Exception(p + "_" + p_2 + "_" + p_3);
+        }
         //* Run processing algorithmus 
         public abstract TextureBuffer process();
 
