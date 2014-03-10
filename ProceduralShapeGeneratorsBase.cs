@@ -75,10 +75,13 @@ namespace Mogre_Procedural
         /// \exception Ogre::InvalidParametersException Minimum of numSeg is 1
         public BaseSpline2<T> setNumSeg(uint numSeg) {
             if (numSeg == 0)
-                //OGRE_EXCEPT(Mogre.Exception.ERR_INVALIDPARAMS, "There must be more than 0 segments", "Procedural::BaseSpline2::setNumSeg(unsigned int)");
-                throw new Exception("There must be more than 0 segments   Procedural::BaseSpline2::setNumSeg(unsigned int)");
+               OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "There must be more than 0 segments", "Procedural::BaseSpline2::setNumSeg(unsigned int)");
             mNumSeg = numSeg;
             return this;
+        }
+
+        protected static void OGRE_EXCEPT(string p, string p_2, string p_3) {
+            throw new Exception(p+"_"+p_2+"_"+p_3);
         }
 
         /// Closes the spline

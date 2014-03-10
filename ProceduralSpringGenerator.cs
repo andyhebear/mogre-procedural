@@ -63,23 +63,21 @@ namespace Mogre_Procedural
         /// \exception Ogre::InvalidParametersException Height must be larger than 0!
         public HelixPath setHeight(float height) {
             if (height <= 0.0f)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Height must be larger than 0!", "Procedural::HelixPath::setHeight(Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("height count must more than 0");
+              OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Height must be larger than 0!", "Procedural::HelixPath::setHeight(Ogre::Real)");
             ;
             mHeight = height;
             return this;
+        }
+
+        private void OGRE_EXCEPT(string p, string p_2, string p_3) {
+            throw new Exception(p+"_"+p_2+"_"+p_3);
         }
 
         /// Sets the radius of the helix (default = 1.0)
         /// \exception Ogre::InvalidParametersException Radius must be larger than 0!
         public HelixPath setRadius(float radius) {
             if (radius <= 0.0f)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Radius must be larger than 0!", "Procedural::HelixPath::setRadius(Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("radius count must more than 0");
+             OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Radius must be larger than 0!", "Procedural::HelixPath::setRadius(Ogre::Real)");
             ;
             mRadius = radius;
             return this;
@@ -89,10 +87,7 @@ namespace Mogre_Procedural
         /// \exception Ogre::InvalidParametersException You have to rotate more then 0 times!
         public HelixPath setNumRound(float numRound) {
             if (numRound <= 0.0f)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "You have to rotate more then 0 times!", "Procedural::HelixPath::setNumRound(Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("numRound count must more than 0");
+               OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "You have to rotate more then 0 times!", "Procedural::HelixPath::setNumRound(Ogre::Real)");
             ;
             mNumRound = numRound;
             return this;
@@ -102,10 +97,7 @@ namespace Mogre_Procedural
         /// \exception Ogre::InvalidParametersException Minimum of numSeg is 1
         public HelixPath setNumSegPath(uint numSeg) {
             if (numSeg == 0)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "There must be more than 0 segments", "Procedural::HelixPath::setNumSegPath(unsigned int)", __FILE__, __LINE__);
-                throw new Exception("numSeg count must more than 0");
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "There must be more than 0 segments", "Procedural::HelixPath::setNumSegPath(unsigned int)");
             ;
             mNumSegPath = numSeg;
             return this;
@@ -179,10 +171,7 @@ namespace Mogre_Procedural
         /// \exception Ogre::InvalidParametersException Height must be larger than 0!
         public SpringGenerator setHeight(float height) {
             if (height <= 0.0f)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Height must be larger than 0!", "Procedural::SpringGenerator::setHeight(Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("height count must more than 0");
+              OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Height must be larger than 0!", "Procedural::SpringGenerator::setHeight(Ogre::Real)");
             ;
             mHeight = height;
             return this;
@@ -192,10 +181,7 @@ namespace Mogre_Procedural
         /// \exception Ogre::InvalidParametersException Radius must be larger than 0!
         public SpringGenerator setRadiusHelix(float radiusHelix) {
             if (radiusHelix <= 0.0f)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Radius must be larger than 0!", "Procedural::SpringGenerator::setRadiusHelix(Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("radiusHelix count must more than 0");
+               OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Radius must be larger than 0!", "Procedural::SpringGenerator::setRadiusHelix(Ogre::Real)");
             ;
             mRadiusHelix = radiusHelix;
             return this;
@@ -205,10 +191,7 @@ namespace Mogre_Procedural
         /// \exception Ogre::InvalidParametersException Radius must be larger than 0!
         public SpringGenerator setRadiusCircle(float radiusCircle) {
             if (radiusCircle <= 0.0f)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Radius must be larger than 0!", "Procedural::SpringGenerator::setRadiusCircle(Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("radiusCirCle count must more than 0");
+               OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Radius must be larger than 0!", "Procedural::SpringGenerator::setRadiusCircle(Ogre::Real)");
             ;
             mRadiusCircle = radiusCircle;
             return this;
@@ -218,10 +201,7 @@ namespace Mogre_Procedural
         /// \exception Ogre::InvalidParametersException You have to rotate more then 0 times!
         public SpringGenerator setNumRound(float numRound) {
             if (numRound <= 0.0f)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "You have to rotate more then 0 times!", "Procedural::SpringGenerator::setNumRound(Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("numRound count must more than 0");
+               OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "You have to rotate more then 0 times!", "Procedural::SpringGenerator::setNumRound(Ogre::Real)");
             ;
             mNumRound = numRound;
             return this;
@@ -231,10 +211,7 @@ namespace Mogre_Procedural
         /// \exception Ogre::InvalidParametersException Minimum of numSegPath is 1
         public SpringGenerator setNumSegPath(int numSegPath) {
             if (numSegPath == 0)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "There must be more than 0 segments", "Procedural::SpringGenerator::setNumSegPath(unsigned int)", __FILE__, __LINE__);
-                throw new Exception("numSegPath count must more than 0");
+               OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "There must be more than 0 segments", "Procedural::SpringGenerator::setNumSegPath(unsigned int)");
             ;
             mNumSegPath = numSegPath;
             return this;
@@ -244,10 +221,7 @@ namespace Mogre_Procedural
         /// \exception Ogre::InvalidParametersException Minimum of numSegCircle is 1
         public SpringGenerator setNumSegCircle(int numSegCircle) {
             if (numSegCircle == 0)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "There must be more than 0 segments", "Procedural::SpringGenerator::setNumSegCircle(unsigned int)", __FILE__, __LINE__);
-                throw new Exception("numSegCircle count must more than 0");
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "There must be more than 0 segments", "Procedural::SpringGenerator::setNumSegCircle(unsigned int)");
             ;
             mNumSegCircle = numSegCircle;
             return this;
