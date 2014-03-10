@@ -72,10 +72,7 @@ namespace Mogre_Procedural
         //	
         public SphereGenerator setRadius(float radius) {
             if (radius <= 0.0f)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Radius must be larger than 0!", "Procedural::SphereGenerator::setRadius(Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("radius count must more than 0");
+              OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Radius must be larger than 0!", "Procedural::SphereGenerator::setRadius(Ogre::Real)");
             ;
             mRadius = radius;
             return this;
@@ -87,10 +84,7 @@ namespace Mogre_Procedural
         //	
         public SphereGenerator setNumRings(uint numRings) {
             if (numRings == 0)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "There must be more than 0 rings", "Procedural::SphereGenerator::setNumRings(unsigned int)", __FILE__, __LINE__);
-                throw new Exception("numRings count must more than 0");
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "There must be more than 0 rings", "Procedural::SphereGenerator::setNumRings(unsigned int)");
             ;
             mNumRings = numRings;
             return this;
@@ -102,10 +96,7 @@ namespace Mogre_Procedural
         //	
         public SphereGenerator setNumSegments(uint numSegments) {
             if (numSegments == 0)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "There must be more than 0 segments", "Procedural::SphereGenerator::setNumSegments(unsigned int)", __FILE__, __LINE__);
-                throw new Exception("numSegments count must more than 0");
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "There must be more than 0 segments", "Procedural::SphereGenerator::setNumSegments(unsigned int)");
             ;
             mNumSegments = numSegments;
             return this;

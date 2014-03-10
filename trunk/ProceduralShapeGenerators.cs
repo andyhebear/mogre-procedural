@@ -73,7 +73,7 @@ namespace Mogre_Procedural
         public CubicHermiteSpline2 addPoint(Vector2 p) {
             return addPoint(p, CubicHermiteSplineAutoTangentMode.AT_CATMULL);
         }
-       //
+        //
         //ORIGINAL LINE: inline CubicHermiteSpline2& addPoint(const Ogre::Vector2& p, CubicHermiteSplineAutoTangentMode autoTangentMode = AT_CATMULL)
         public CubicHermiteSpline2 addPoint(Vector2 p, CubicHermiteSplineAutoTangentMode autoTangentMode) {
             CubicHermiteSplineControlPoint<Vector2> cp = new CubicHermiteSplineControlPoint<Vector2>();
@@ -90,7 +90,7 @@ namespace Mogre_Procedural
         public CubicHermiteSpline2 addPoint(float x, float y) {
             return addPoint(x, y, CubicHermiteSplineAutoTangentMode.AT_CATMULL);
         }
-       //
+        //
         //ORIGINAL LINE: inline CubicHermiteSpline2& addPoint(Ogre::float x, Ogre::float y, CubicHermiteSplineAutoTangentMode autoTangentMode = AT_CATMULL)
         public CubicHermiteSpline2 addPoint(float x, float y, CubicHermiteSplineAutoTangentMode autoTangentMode) {
             CubicHermiteSplineControlPoint<Vector2> cp = new CubicHermiteSplineControlPoint<Vector2>();
@@ -128,7 +128,7 @@ namespace Mogre_Procedural
             for (int i = 0; i < numPoints; ++i) {
                 ControlPoint pointBefore = mPoints[i];
                 ControlPoint pointAfter = safeGetPoint(i + 1);
-               std_vector<Vector2>shape_getPointsReference =shape.getPointsReference();
+                std_vector<Vector2> shape_getPointsReference = shape.getPointsReference();
                 GlobalMembers.computeCubicHermitePoints(pointBefore, pointAfter, (uint)mNumSeg, ref  shape_getPointsReference);
 
                 if (i == mPoints.size() - 2 && !mClosed) {
@@ -188,7 +188,7 @@ namespace Mogre_Procedural
                 Vector2 P2 = safeGetPoint(i);
                 Vector2 P3 = safeGetPoint(i + 1);
                 Vector2 P4 = safeGetPoint(i + 2);
-                std_vector<Vector2>shape_getPointsReference =shape.getPointsReference();
+                std_vector<Vector2> shape_getPointsReference = shape.getPointsReference();
                 GlobalMembers.computeCatmullRomPoints(P1, P2, P3, P4, mNumSeg, ref shape_getPointsReference);
 
                 if (i == mPoints.Count - 2 && !mClosed) {
@@ -264,7 +264,7 @@ namespace Mogre_Procedural
                 ControlPoint2 P2 = safeGetPoint(i);
                 ControlPoint2 P3 = safeGetPoint(i + 1);
                 ControlPoint2 P4 = safeGetPoint(i + 2);
-                std_vector<Vector2>shape_getPointsReference=shape.getPointsReference();
+                std_vector<Vector2> shape_getPointsReference = shape.getPointsReference();
                 GlobalMembers.computeKochanekBartelsPoints(P1, P2, P3, P4, mNumSeg, ref shape_getPointsReference);
 
                 if (i == mPoints.size() - 2 && !mClosed) {
@@ -301,23 +301,21 @@ namespace Mogre_Procedural
         /// \exception Ogre::InvalidParametersException Width must be larger than 0!
         public RectangleShape setWidth(float width) {
             if (width <= 0.0f)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Width must be larger than 0!", "Procedural::RectangleShape::setWidth(Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("width must at more than 0");
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Width must be larger than 0!", "Procedural::RectangleShape::setWidth(Ogre::Real)");
             ;
             mWidth = width;
             return this;
+        }
+
+        private void OGRE_EXCEPT(string p, string p_2, string p_3) {
+            throw new Exception(p + "_" + p_2 + "_" + p_3);
         }
 
         /// Sets height
         /// \exception Ogre::InvalidParametersException Height must be larger than 0!
         public RectangleShape setHeight(float height) {
             if (height <= 0.0f)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Height must be larger than 0!", "Procedural::RectangleShape::setHeight(Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("height must more than 0");
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Height must be larger than 0!", "Procedural::RectangleShape::setHeight(Ogre::Real)");
             ;
             mHeight = height;
             return this;
@@ -357,23 +355,19 @@ namespace Mogre_Procedural
         /// \exception Ogre::InvalidParametersException Radius must be larger than 0!
         public CircleShape setRadius(float radius) {
             if (radius <= 0.0f)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Radius must be larger than 0!", "Procedural::CircleShape::setRadius(Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("radius must more than 0");
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Radius must be larger than 0!", "Procedural::CircleShape::setRadius(Ogre::Real)");
             ;
             mRadius = radius;
             return this;
         }
-
+        private void OGRE_EXCEPT(string p, string p_2, string p_3) {
+            throw new Exception(p + "_" + p_2 + "_" + p_3);
+        }
         /// Sets number of segments
         /// \exception Ogre::InvalidParametersException Minimum of numSeg is 1
         public CircleShape setNumSeg(uint numSeg) {
             if (numSeg == 0)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "There must be more than 0 segments", "Procedural::CircleShape::setNumSeg(unsigned int)", __FILE__, __LINE__);
-                throw new Exception("numSeg must more than 0");
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "There must be more than 0 segments", "Procedural::CircleShape::setNumSeg(unsigned int)");
             ;
             mNumSeg = numSeg;
             return this;
@@ -425,23 +419,19 @@ namespace Mogre_Procedural
         /// \exception Ogre::InvalidParametersException Radius must be larger than 0!
         public EllipseShape setRadiusX(float radius) {
             if (radius <= 0.0f)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Radius must be larger than 0!", "Procedural::EllipseShape::setRadiusX(Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("radiusX must more than 0");
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Radius must be larger than 0!", "Procedural::EllipseShape::setRadiusX(Ogre::Real)");
             ;
             mRadiusX = radius;
             return this;
         }
-
+        private void OGRE_EXCEPT(string p, string p_2, string p_3) {
+            throw new Exception(p + "_" + p_2 + "_" + p_3);
+        }
         /// Sets radius in y direction
         /// \exception Ogre::InvalidParametersException Radius must be larger than 0!
         public EllipseShape setRadiusY(float radius) {
             if (radius <= 0.0f)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Radius must be larger than 0!", "Procedural::EllipseShape::setRadiusY(Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("radiusY must more than 0");
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Radius must be larger than 0!", "Procedural::EllipseShape::setRadiusY(Ogre::Real)");
             ;
             mRadiusY = radius;
             return this;
@@ -451,10 +441,7 @@ namespace Mogre_Procedural
         /// \exception Ogre::InvalidParametersException Minimum of numSeg is 1
         public EllipseShape setNumSeg(uint numSeg) {
             if (numSeg == 0)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "There must be more than 0 segments", "Procedural::EllipseShape::setNumSeg(unsigned int)", __FILE__, __LINE__);
-                throw new Exception("numSeg must more than 0");
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "There must be more than 0 segments", "Procedural::EllipseShape::setNumSeg(unsigned int)");
             ;
             mNumSeg = numSeg;
             return this;
@@ -506,33 +493,24 @@ namespace Mogre_Procedural
         /// \exception Ogre::InvalidStateException Length of triangle edges must be longer than 0!
         public TriangleShape setLength(float length) {
             if (length <= 0.0f)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALID_STATE>(), "Length of triangle edge must be longer than 0!", "Procedural::TriangleShape::setLengthA(Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("length must more than 0");
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALID_STATE", "Length of triangle edge must be longer than 0!", "Procedural::TriangleShape::setLengthA(Ogre::Real)");
             ;
             mLengthA = length;
             mLengthB = length;
             mLengthC = length;
             return this;
         }
-
+        private void OGRE_EXCEPT(string p, string p_2, string p_3) {
+            throw new Exception(p + "_" + p_2 + "_" + p_3);
+        }
         /// Sets length of edge A
         /// \exception Ogre::InvalidStateException Length of triangle edge must be longer than 0!
         /// \exception Ogre::InvalidStateException Length of triangle edge A must be shorter or equal than B+C!
         public TriangleShape setLengthA(float length) {
             if (length <= 0.0f)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALID_STATE>(), "Length of triangle edge must be longer than 0!", "Procedural::TriangleShape::setLengthA(Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("length must more than 0");
-            ;
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALID_STATE", "Length of triangle edge must be longer than 0!", "Procedural::TriangleShape::setLengthA(Ogre::Real)");
             if (length > (mLengthB + mLengthC))
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALID_STATE>(), "Length of triangle edge A must be shorter or equal than B+C!", "Procedural::TriangleShape::setLengthA(Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("Length of triangle edge A must be shorter or equal than B+C!");
-            ;
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALID_STATE", "Length of triangle edge A must be shorter or equal than B+C!", "Procedural::TriangleShape::setLengthA(Ogre::Real)");
             mLengthA = length;
             return this;
         }
@@ -542,18 +520,11 @@ namespace Mogre_Procedural
         /// \exception Ogre::InvalidStateException Length of triangle edge A must be shorter or equal than B+C!
         public TriangleShape setLengthB(float length) {
             if (length <= 0.0f)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALID_STATE>(), "Length of triangle edge must be longer than 0!", "Procedural::TriangleShape::setLengthB(Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("length must more than 0");
-            ;
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALID_STATE", "Length of triangle edge must be longer than 0!", "Procedural::TriangleShape::setLengthB(Ogre::Real)");
             if (mLengthA > (length + mLengthC))
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALID_STATE>(), "Length of triangle edge A must be shorter or equal than B+C!", "Procedural::TriangleShape::setLengthB(Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("Length of triangle edge A must be shorter or equal than B+C!");
-            ;
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALID_STATE", "Length of triangle edge A must be shorter or equal than B+C!", "Procedural::TriangleShape::setLengthB(Ogre::Real)");
             mLengthB = length;
+
             return this;
         }
 
@@ -562,17 +533,9 @@ namespace Mogre_Procedural
         /// \exception Ogre::InvalidStateException Length of triangle edge A must be shorter or equal than B+C!
         public TriangleShape setLengthC(float length) {
             if (length <= 0.0f)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALID_STATE>(), "Length of triangle edge must be longer than 0!", "Procedural::TriangleShape::setLengthC(Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("Length must more than 0!");
-            ;
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALID_STATE", "Length of triangle edge must be longer than 0!", "Procedural::TriangleShape::setLengthC(Ogre::Real)");
             if (mLengthA > (mLengthB + length))
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALID_STATE>(), "Length of triangle edge A must be shorter or equal than B+C!", "Procedural::TriangleShape::setLengthC(Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("Length of triangle edge A must be shorter or equal than B+C!");
-            ;
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALID_STATE", "Length of triangle edge A must be shorter or equal than B+C!", "Procedural::TriangleShape::setLengthC(Ogre::Real)");
             mLengthC = length;
             return this;
         }
@@ -643,10 +606,7 @@ namespace Mogre_Procedural
         //-----------------------------------------------------------------------
         public Shape realizeShape() {
             if (mPoints.empty())
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALID_STATE>(), "The shape contains no points", "Procedural::RoundedCornerSpline2::realizePath()", __FILE__, __LINE__);
-                throw new Exception("mPoints count must more than 0");
+              OGRE_EXCEPT("Ogre::Exception::ERR_INVALID_STATE", "The shape contains no points", "Procedural::RoundedCornerSpline2::realizePath()");
             ;
 
             Shape shape = new Shape();
@@ -718,10 +678,7 @@ namespace Mogre_Procedural
         /// \exception Ogre::InvalidParametersException Minimum of numSeg is 1
         public BezierCurve2 setNumSeg(uint numSeg) {
             if (numSeg == 0)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "There must be more than 0 segments", "Procedural::BezierCurve2::setNumSeg(unsigned int)", __FILE__, __LINE__);
-                throw new Exception("numSeg count must more than 0");
+               OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "There must be more than 0 segments", "Procedural::BezierCurve2::setNumSeg(unsigned int)");
             ;
             mNumSeg = numSeg;
             return this;
@@ -756,10 +713,7 @@ namespace Mogre_Procedural
         //-----------------------------------------------------------------------
         public Shape realizeShape() {
             if (mPoints.size() < 2)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALID_STATE>(), "The curve must at least contain 2 points", "Procedural::BezierCurve2::realizePath()", __FILE__, __LINE__);
-                throw new Exception("mPoints count must more than 0");
+               OGRE_EXCEPT("Ogre::Exception::ERR_INVALID_STATE", "The curve must at least contain 2 points", "Procedural::BezierCurve2::realizePath()");
             ;
 
             uint[] coef = new uint[mPoints.size()];
