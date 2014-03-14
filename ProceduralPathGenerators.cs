@@ -251,13 +251,14 @@ namespace Mogre_Procedural
         /// \exception Ogre::InvalidParametersException Minimum of numSeg is 1
         public LinePath setNumSeg(uint numSeg) {
             if (numSeg == 0)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "There must be more than 0 segments", "Procedural::LinePath::setNumSeg(unsigned int)", __FILE__, __LINE__);
-                throw new Exception("There must be more than 0 segments");
+               OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "There must be more than 0 segments", "Procedural::LinePath::setNumSeg(unsigned int)");
             ;
             mNumSeg = numSeg;
             return this;
+        }
+
+        private void OGRE_EXCEPT(string p, string p_2, string p_3) {
+            throw new Exception(p+"_"+p_2+"_"+p_3);
         }
 
         /// Builds a linepath between 2 points
@@ -333,10 +334,7 @@ namespace Mogre_Procedural
         //-----------------------------------------------------------------------
         public Path realizePath() {
             if (mPoints.empty())
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALID_STATE>(), "The path contains no points", "Procedural::RoundedCornerSpline3::realizePath()", __FILE__, __LINE__);
-                throw new Exception("There must be more than 0 count mPoints");
+              OGRE_EXCEPT("Ogre::Exception::ERR_INVALID_STATE", "The path contains no points", "Procedural::RoundedCornerSpline3::realizePath()");
             ;
 
             Path path = new Path();
@@ -409,10 +407,7 @@ namespace Mogre_Procedural
         /// \exception Ogre::InvalidParametersException Minimum of numSeg is 1
         public BezierCurve3 setNumSeg(uint numSeg) {
             if (numSeg == 0)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "There must be more than 0 segments", "Procedural::BezierCurve3::setNumSeg(unsigned int)", __FILE__, __LINE__);
-                throw new Exception("There must be more than 0 segments");
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "There must be more than 0 segments", "Procedural::BezierCurve3::setNumSeg(unsigned int)");
             ;
             mNumSeg = numSeg;
             return this;
@@ -447,10 +442,7 @@ namespace Mogre_Procedural
         //-----------------------------------------------------------------------
         public Path realizePath() {
             if (mPoints.size() < 2)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALID_STATE>(), "The curve must at least contain 2 points", "Procedural::BezierCurve3::realizePath()", __FILE__, __LINE__);
-                throw new Exception("There must be more than 0 mPoints count");
+              OGRE_EXCEPT("Ogre::Exception::ERR_INVALID_STATE", "The curve must at least contain 2 points", "Procedural::BezierCurve3::realizePath()");
             ;
 
             uint[] coef = new uint[mPoints.size()];
