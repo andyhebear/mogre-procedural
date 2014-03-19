@@ -119,10 +119,7 @@ namespace Mogre_Procedural
         //	
         public PlaneGenerator setNumSegX(uint numSegX) {
             if (numSegX == 0)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "There must be more than 0 segments", "Procedural::PlaneGenerator::setNumSegX(unsigned int)", __FILE__, __LINE__);
-                throw new Exception("There must be more than 0 numSegX");
+              OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "There must be more than 0 segments", "Procedural::PlaneGenerator::setNumSegX(unsigned int)");
             ;
             mNumSegX = numSegX;
             return this;
@@ -134,10 +131,7 @@ namespace Mogre_Procedural
         //	
         public PlaneGenerator setNumSegY(uint numSegY) {
             if (numSegY == 0)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "There must be more than 0 segments", "Procedural::PlaneGenerator::setNumSegY(unsigned int)", __FILE__, __LINE__);
-                throw new Exception("There must be more than 0 numSegY");
+               OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "There must be more than 0 segments", "Procedural::PlaneGenerator::setNumSegY(unsigned int)");
             ;
             mNumSegY = numSegY;
             return this;
@@ -149,10 +143,7 @@ namespace Mogre_Procedural
         //	
         public PlaneGenerator setNormal(Vector3 normal) {
             if (mNormal.IsZeroLength)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Normal must not be null", "Procedural::PlaneGenerator::setNormal(unsigned int)", __FILE__, __LINE__);
-                throw new Exception("normal must not zero");
+               OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Normal must not be null", "Procedural::PlaneGenerator::setNormal(unsigned int)");
             ;
             //
             //ORIGINAL LINE: mNormal = normal;
@@ -166,10 +157,7 @@ namespace Mogre_Procedural
         //	
         public PlaneGenerator setSizeX(float sizeX) {
             if (sizeX <= 0.0f)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "X size must be larger than 0!", "Procedural::BoxGenerator::setSizeX(Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("sizex must be more than 0 ");
+              OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "X size must be larger than 0!", "Procedural::BoxGenerator::setSizeX(Ogre::Real)");
             ;
             mSizeX = sizeX;
             return this;
@@ -181,10 +169,7 @@ namespace Mogre_Procedural
         //	
         public PlaneGenerator setSizeY(float sizeY) {
             if (sizeY <= 0.0f)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Y size must be larger than 0!", "Procedural::BoxGenerator::setSizeY(Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("sizeY must be more than 0 ");
+            OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Y size must be larger than 0!", "Procedural::BoxGenerator::setSizeY(Ogre::Real)");
             ;
             mSizeY = sizeY;
             return this;

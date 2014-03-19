@@ -71,10 +71,7 @@ namespace Mogre_Procedural
         //	
         public RoundedBoxGenerator setSizeX(float sizeX) {
             if (sizeX <= 0.0f)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "X size must be larger than 0!", "Procedural::RoundedBoxGenerator::setSizeX(Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("sizeX must be more than 0 ");
+              OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "X size must be larger than 0!", "Procedural::RoundedBoxGenerator::setSizeX(Ogre::Real)");
             ;
             mSizeX = sizeX;
             return this;
@@ -86,10 +83,7 @@ namespace Mogre_Procedural
         //	
         public RoundedBoxGenerator setSizeY(float sizeY) {
             if (sizeY <= 0.0f)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "X size must be larger than 0!", "Procedural::RoundedBoxGenerator::setSizeY(Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("sizeY must be more than 0 ");
+               OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "X size must be larger than 0!", "Procedural::RoundedBoxGenerator::setSizeY(Ogre::Real)");
             ;
             mSizeY = sizeY;
             return this;
@@ -101,10 +95,7 @@ namespace Mogre_Procedural
         //	
         public RoundedBoxGenerator setSizeZ(float sizeZ) {
             if (sizeZ <= 0.0f)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Z size must be larger than 0!", "Procedural::RoundedBoxGenerator::setSizeZ(Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("sizeZ must be more than 0 ");
+              OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Z size must be larger than 0!", "Procedural::RoundedBoxGenerator::setSizeZ(Ogre::Real)");
             ;
             mSizeZ = sizeZ;
             return this;
@@ -124,10 +115,7 @@ namespace Mogre_Procedural
         //	
         public RoundedBoxGenerator setNumSegX(ushort numSegX) {
             if (numSegX == 0)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "There must be more than 0 segments", "Procedural::RoundedBoxGenerator::setNumSegX(unsigned int)", __FILE__, __LINE__);
-                throw new Exception("numSegY must be more than 0 ");
+              OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "There must be more than 0 segments", "Procedural::RoundedBoxGenerator::setNumSegX(unsigned int)");
             ;
             mNumSegX = numSegX;
             return this;
@@ -139,10 +127,7 @@ namespace Mogre_Procedural
         //	
         public RoundedBoxGenerator setNumSegY(ushort numSegY) {
             if (numSegY == 0)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "There must be more than 0 segments", "Procedural::RoundedBoxGenerator::setNumSegY(unsigned int)", __FILE__, __LINE__);
-                throw new Exception("numSegY must be more than 0 ");
+              OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "There must be more than 0 segments", "Procedural::RoundedBoxGenerator::setNumSegY(unsigned int)");
             ;
             mNumSegY = numSegY;
             return this;
@@ -154,10 +139,7 @@ namespace Mogre_Procedural
         //	
         public RoundedBoxGenerator setNumSegZ(ushort numSegZ) {
             if (numSegZ == 0)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "There must be more than 0 segments", "Procedural::RoundedBoxGenerator::setNumSegZ(unsigned int)", __FILE__, __LINE__);
-                throw new Exception("numSegZ must be more than 0 ");
+               OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "There must be more than 0 segments", "Procedural::RoundedBoxGenerator::setNumSegZ(unsigned int)");
             ;
             mNumSegZ = numSegZ;
             return this;
@@ -169,10 +151,7 @@ namespace Mogre_Procedural
         //	
         public RoundedBoxGenerator setChamferSize(float chamferSize) {
             if (chamferSize <= 0.0f)
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __LINE__ macro:
-                //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the C++ __FILE__ macro:
-                //throw ExceptionFactory.create(Mogre.ExceptionCodeType<Mogre.Exception.ExceptionCodes.ERR_INVALIDPARAMS>(), "Chamfer size must be larger than 0!", "Procedural::RoundedBoxGenerator::setChamferSize(Ogre::Real)", __FILE__, __LINE__);
-                throw new Exception("chamferSize must be more than 0 ");
+              OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Chamfer size must be larger than 0!", "Procedural::RoundedBoxGenerator::setChamferSize(Ogre::Real)");
             ;
             mChamferSize = chamferSize;
             return this;
