@@ -28,6 +28,8 @@ namespace Mogre_Procedural.std
         }
         public std_vector(IEnumerable<T> collection)
             : base() {
+            base.Clear();
+            base.AddRange(collection);
         }
         public std_vector(int capacity)
             : base() {

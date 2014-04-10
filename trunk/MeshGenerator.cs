@@ -119,7 +119,7 @@ namespace Mogre_Procedural
         public MeshPtr realizeMesh(string name, string group) {
             TriangleBuffer tbuffer = new TriangleBuffer();
             addToTriangleBuffer(ref tbuffer);
-            MeshPtr mesh = MeshManager.Singleton.CreateManual(name, group); //new  MeshPtr();
+            MeshPtr mesh = null;// MeshManager.Singleton.CreateManual(name, group); //new  MeshPtr();
             if (name == "")
                 mesh = tbuffer.transformToMesh(Utils.getName("mesh_procedural_"), group);
             else

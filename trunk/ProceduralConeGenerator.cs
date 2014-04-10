@@ -63,7 +63,7 @@ namespace Mogre_Procedural
         public ConeGenerator()
             : this(1.0f, 1.0f, 16, 1) {
         }
-       //
+        //
         //ORIGINAL LINE: ConeGenerator(Ogre::float radius = 1.0f, Ogre::float height = 1.0f, uint numSegBase = 16, uint numSegHeight = 1) : mNumSegBase(numSegBase), mNumSegHeight(numSegHeight), mRadius(radius), mHeight(height)
         public ConeGenerator(float radius, float height, uint numSegBase, uint numSegHeight) {
             mNumSegBase = numSegBase;
@@ -78,65 +78,59 @@ namespace Mogre_Procedural
         //	 
         //
         //ORIGINAL LINE: void addToTriangleBuffer(TriangleBuffer& buffer) const
-        public override void addToTriangleBuffer(ref TriangleBuffer buffer)
-	{
-		buffer.rebaseOffset();
-		buffer.estimateVertexCount((mNumSegHeight+1)*(mNumSegBase+1)+mNumSegBase+2);
-		buffer.estimateIndexCount(mNumSegHeight *mNumSegBase *6+3 *mNumSegBase);
-	
-		float deltaAngle = (Math.TWO_PI / mNumSegBase);
-		float deltaHeight = mHeight/(float)mNumSegHeight;
-		int offset = 0;
-	
-		Vector3 refNormal = new Vector3(mRadius, mHeight, 0.0f);
-		Quaternion q = new Quaternion();
-	
-		for (uint i = 0; i <=mNumSegHeight; i++)
-		{
-			float r0 = mRadius * (1 - i / (float)mNumSegHeight);
-			for (uint j = 0; j<=mNumSegBase; j++)
-			{
-				float x0 = r0* cosf(j *deltaAngle);
-				float z0 = r0 * sinf(j *deltaAngle);
-	
-				q.FromAngleAxis(new Radian(-deltaAngle *j), Vector3.UNIT_Y);
-	
-				addPoint(ref buffer, new Vector3(x0, i *deltaHeight, z0), q *refNormal, new Vector2(j/(float)mNumSegBase, i/(float)mNumSegHeight));
-	
-				if (i != mNumSegHeight&& j != mNumSegBase)
-				{
-					buffer.index(offset + (int)mNumSegBase + 2);
-					buffer.index(offset);
-					buffer.index(offset + (int)mNumSegBase+1);
-					buffer.index(offset + (int)mNumSegBase + +2);
-					buffer.index(offset + 1);
-					buffer.index(offset);
-				}
-	
-				offset ++;
-			}
-		}
-	
-		//low cap
-		int centerIndex = offset;
-		addPoint(ref buffer, Vector3.ZERO, Vector3.NEGATIVE_UNIT_Y, Vector2.UNIT_Y);
-		offset++;
-		for (uint j =0; j<=mNumSegBase; j++)
-		{
-			float x0 = mRadius * cosf(j *deltaAngle);
-            float z0 = mRadius * sinf(j * deltaAngle);
-	
-			addPoint(ref buffer, new Vector3(x0, 0.0f, z0), Vector3.NEGATIVE_UNIT_Y, new Vector2(j/(float)mNumSegBase, 0.0f));
-	
-			if (j!=mNumSegBase)
-			{
-				buffer.index(centerIndex);
-				buffer.index(offset);
-				buffer.index(offset+1);
-			}
-			offset++;
-		}
-	}
+        public override void addToTriangleBuffer(ref TriangleBuffer buffer) {
+            buffer.rebaseOffset();
+            buffer.estimateVertexCount((mNumSegHeight + 1) * (mNumSegBase + 1) + mNumSegBase + 2);
+            buffer.estimateIndexCount(mNumSegHeight * mNumSegBase * 6 + 3 * mNumSegBase);
+
+            float deltaAngle = (Math.TWO_PI / mNumSegBase);
+            float deltaHeight = mHeight / (float)mNumSegHeight;
+            int offset = 0;
+
+            Vector3 refNormal = new Vector3(mRadius, mHeight, 0.0f);
+            Quaternion q = new Quaternion();
+
+            for (uint i = 0; i <= mNumSegHeight; i++) {
+                float r0 = mRadius * (1 - i / (float)mNumSegHeight);
+                for (uint j = 0; j <= mNumSegBase; j++) {
+                    float x0 = r0 * cosf(j * deltaAngle);
+                    float z0 = r0 * sinf(j * deltaAngle);
+
+                    q.FromAngleAxis(new Radian(-deltaAngle * j), Vector3.UNIT_Y);
+
+                    addPoint(ref buffer, new Vector3(x0, i * deltaHeight, z0), q * refNormal, new Vector2(j / (float)mNumSegBase, i / (float)mNumSegHeight));
+
+                    if (i != mNumSegHeight && j != mNumSegBase) {
+                        buffer.index(offset + (int)mNumSegBase + 2);
+                        buffer.index(offset);
+                        buffer.index(offset + (int)mNumSegBase + 1);
+                        buffer.index(offset + (int)mNumSegBase + +2);
+                        buffer.index(offset + 1);
+                        buffer.index(offset);
+                    }
+
+                    offset++;
+                }
+            }
+
+            //low cap
+            int centerIndex = offset;
+            addPoint(ref buffer, Vector3.ZERO, Vector3.NEGATIVE_UNIT_Y, Vector2.UNIT_Y);
+            offset++;
+            for (uint j = 0; j <= mNumSegBase; j++) {
+                float x0 = mRadius * cosf(j * deltaAngle);
+                float z0 = mRadius * sinf(j * deltaAngle);
+
+                addPoint(ref buffer, new Vector3(x0, 0.0f, z0), Vector3.NEGATIVE_UNIT_Y, new Vector2(j / (float)mNumSegBase, 0.0f));
+
+                if (j != mNumSegBase) {
+                    buffer.index(centerIndex);
+                    buffer.index(offset);
+                    buffer.index(offset + 1);
+                }
+                offset++;
+            }
+        }
 
         //    *
         //	Sets the number of segments on the side of the base (default=16)
@@ -144,7 +138,7 @@ namespace Mogre_Procedural
         //	
         public ConeGenerator setNumSegBase(uint numSegBase) {
             if (numSegBase == 0)
-               OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "There must be more than 0 segments", "Procedural::ConeGenerator::setNumSegBase(unsigned int)");
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "There must be more than 0 segments", "Procedural::ConeGenerator::setNumSegBase(unsigned int)");
             ;
             mNumSegBase = numSegBase;
             return this;
@@ -168,7 +162,7 @@ namespace Mogre_Procedural
         //	
         public ConeGenerator setRadius(float radius) {
             if (radius <= 0.0f)
-             OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Radius must be larger than 0!", "Procedural::ConeGenerator::setRadius(Ogre::Real)");
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Radius must be larger than 0!", "Procedural::ConeGenerator::setRadius(Ogre::Real)");
             ;
             mRadius = radius;
             return this;
@@ -180,7 +174,7 @@ namespace Mogre_Procedural
         //	
         public ConeGenerator setHeight(float height) {
             if (height <= 0.0f)
-              	OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Height must be larger than 0!", "Procedural::ConeGenerator::setHeight(Ogre::Real)");
+                OGRE_EXCEPT("Ogre::Exception::ERR_INVALIDPARAMS", "Height must be larger than 0!", "Procedural::ConeGenerator::setHeight(Ogre::Real)");
             ;
             mHeight = height;
             return this;
