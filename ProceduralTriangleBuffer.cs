@@ -140,13 +140,37 @@ namespace Mogre_Procedural
                 manual.Index((ushort)it);
             }
             manual.End();
+           
             Mogre.MeshPtr mesh = manual.ConvertToMesh(name, group);
 
             sceneMgr.DestroyManualObject(manual);
 
             return mesh;
         }
+        MeshPtr CreateMesh(string Name, string Group, IndexData IndexDataArg, VertexData VertexDataArg, AxisAlignedBox BoundingBox) {
+            Mogre.MeshPtr mMesh = Mogre.MeshManager.Singleton.CreateManual(Name, Group);
+            SubMesh SubMesh = mMesh.CreateSubMesh();
 
+            //Shallow copy the IndexBuffer argument into the SubMesh's indexData property
+            SubMesh.indexData.indexBuffer = IndexDataArg.indexBuffer;
+            SubMesh.indexData.indexCount = IndexDataArg.indexCount;
+
+            //Deep copy the VertexData argument into the Mesh's sharedVertexData
+            SubMesh.useSharedVertices = true;
+            mMesh.sharedVertexData = new VertexData();
+            mMesh.sharedVertexData.vertexBufferBinding.SetBinding(0, VertexDataArg.vertexBufferBinding.GetBuffer(0));
+            VertexDeclaration vdc = new VertexDeclaration();
+            VertexDataArg.vertexDeclaration.CopyTo(vdc);
+            mMesh.sharedVertexData.vertexDeclaration = vdc;
+            mMesh.sharedVertexData.vertexCount = VertexDataArg.vertexCount;
+
+            mMesh._setBounds(BoundingBox);
+
+            mMesh.Load();
+
+            return mMesh;
+
+        }
         //* Adds a new vertex to the buffer 
         public TriangleBuffer vertex(Vertex v) {
             mVertices.push_back(v);
